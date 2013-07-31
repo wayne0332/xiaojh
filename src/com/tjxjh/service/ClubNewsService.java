@@ -81,12 +81,9 @@ public class ClubNewsService extends BaseService{
 	}
 	@Transactional (propagation = Propagation.REQUIRED) 
 	public void delete(ClubNews clubnews){
-		try {
-			DeleteSource.deleteImg(clubnews.getText());
-		} catch (IOException e) {
-			System.out.println("删除文本编辑器上传的图片");
-			e.printStackTrace();
-		}
+		 DeleteSource.deleteVideo(clubnews.getVideoUrl());
+		 DeleteSource.delete(clubnews.getTitleImgPath());
+		 DeleteSource.deleteImg(clubnews.getText());
 		 dao.delete(clubnews);
 	}
 	

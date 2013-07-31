@@ -142,12 +142,9 @@ public class ActivityService extends BaseService{
 	@Transactional (propagation = Propagation.REQUIRED) 
 	public void delete(Activity activity){
 		if(activity!=null){
-			try {
+				DeleteSource.deleteVideo(activity.getVideoUrl());
+				DeleteSource.delete(activity.getTitleImgPath());
 				DeleteSource.deleteImg(activity.getText());
-			} catch (IOException e) {
-				System.out.println("删除文本编辑器上传的图片");
-				e.printStackTrace();
-			}
 		}
 		dao.delete(activity);
 	}

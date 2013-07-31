@@ -1,27 +1,19 @@
 package com.tjxjh.service;
 
-import java.io.File;
 import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.struts2.ServletActionContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.tjxjh.enumeration.TalkingStatus;
-import com.tjxjh.enumeration.TalkingUrlType;
-import com.tjxjh.po.MerchantNews;
 import com.tjxjh.po.ShareDetails;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
-import com.tjxjh.util.FileUtil;
+import com.tjxjh.util.DeleteSource;
 import com.tjxjh.util.GetRequsetResponse;
-import com.tjxjh.util.ImageCutAndZoom;
-
 import cn.cafebabe.autodao.pojo.Page;
 import cn.cafebabe.websupport.service.BaseService;
 
@@ -42,6 +34,8 @@ public class TalkingService extends BaseService{
 	@Transactional (propagation = Propagation.REQUIRED) 
 	public Talking delete(Talking tak){
 		 tak.setStatus(TalkingStatus.DELETE);
+		 DeleteSource.deleteVideo(tak.getUrl());
+		 DeleteSource.delete(tak.getUrl());
 		 return dao.merge(tak);
 	}
 	@Transactional (propagation = Propagation.REQUIRED) 

@@ -128,12 +128,9 @@ public class OnlineActivityService extends BaseService{
 	@Transactional (propagation = Propagation.REQUIRED) 
 	public void delete(OnlineActivity activity){
 		activity=dao.findById(OnlineActivity.class, activity.getId());
-		try {
-			DeleteSource.deleteImg(activity.getText());
-		} catch (IOException e) {
-			System.out.println("删除文本编辑器上传的图片");
-			e.printStackTrace();
-		}
+		DeleteSource.deleteVideo(activity.getVideoUrl());
+		DeleteSource.delete(activity.getTitleImgPath());
+		DeleteSource.deleteImg(activity.getText());
 		dao.delete(activity);
 	}
 	
