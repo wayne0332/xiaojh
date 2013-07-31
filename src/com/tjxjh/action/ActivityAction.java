@@ -91,6 +91,7 @@ public class ActivityAction extends BaseAction{
 			return SUCCESS;
 		}else{
 			message="图片上传失败,图片不允许为空";
+			message="图片上传失败,图片不允许为空";
 			return ERROR;
 		}
 	}
