@@ -1,6 +1,7 @@
 package com.tjxjh.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -22,6 +23,7 @@ import com.tjxjh.po.ClubNews;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
+import com.tjxjh.util.DeleteSource;
 import com.tjxjh.util.FileUtil;
 import com.tjxjh.util.ImageCutAndZoom;
 
@@ -126,6 +128,9 @@ public class OnlineActivityService extends BaseService{
 	@Transactional (propagation = Propagation.REQUIRED) 
 	public void delete(OnlineActivity activity){
 		activity=dao.findById(OnlineActivity.class, activity.getId());
+		DeleteSource.deleteVideo(activity.getVideoUrl());
+		DeleteSource.delete(activity.getTitleImgPath());
+		DeleteSource.deleteImg(activity.getText());
 		dao.delete(activity);
 	}
 	
