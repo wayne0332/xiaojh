@@ -31,26 +31,30 @@ public class CheckUserServlet extends HttpServlet
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException
 	{
-		response.setContentType("application/x-json");
-		PrintWriter out = response.getWriter();
+//		request.setCharacterEncoding("gbk");
+//		response.setCharacterEncoding("gbk");;
+		 response.setContentType("application/x-json");
+//		response.setContentType("text/html;charset=gbk");
 		String name = request.getParameter("name");
+		PrintWriter out = response.getWriter();
 		JSONObject json = new JSONObject();
 		if(name != null)
 		{
 			json.accumulate("error", false);
+			name = new String(name.getBytes("ISO8859-1"), "utf-8");
+			if(!(name = name.trim()).equals("")
+					&& name != UserService.DEFAULT_PORTRAIT.split("\\.")[0])
+			{
+				json.accumulate("hadRegister", userService.isRegister(name));
+			}
+			else
+			{
+				json.accumulate("hadRegister", false);
+			}
 		}
 		else
 		{
 			json.accumulate("error", true);
-		}
-		if(!(name = name.trim()).equals("")
-				&& name != UserService.DEFAULT_PORTRAIT.split("\\.")[0])
-		{
-			json.accumulate("hadRegister", userService.isRegister(name));
-		}
-		else
-		{
-			json.accumulate("hadRegister", false);
 		}
 		out.println(json.toString());
 		out.flush();

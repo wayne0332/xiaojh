@@ -8,32 +8,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Deprecated
 public class ShowImg extends HttpServlet
 {
-	/**
-	 * The doGet method of the servlet. <br>
-	 * 
-	 * This method is called when a form has its tag value method equals to get.
-	 * 
-	 * @param request
-	 *            the request send by the client to the server
-	 * @param response
-	 *            the response send by the server to the client
-	 * @throws ServletException
-	 *             if an error occurred
-	 * @throws IOException
-	 *             if an error occurred
-	 */
+	private static final long serialVersionUID = -4589767962478862713L;
+	
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException
 	{
 		String imgPath = null;
-		if((imgPath = request.getParameter("img")) != null)
+		if((imgPath = request.getParameter("img")) != null
+				&& !(imgPath = imgPath.trim()).equals(""))
 		{
 			imgPath = new String(imgPath.getBytes("ISO8859-1"), "UTF-8");
 			response.setContentType("text/html; charset=UTF-8");
-			// response.setContentType("image/jpeg"); // 设置图片格式格式，这里可以忽略
+			response.setContentType("image/jpeg"); // 设置图片格式格式，这里可以忽略
 			FileInputStream fis = new FileInputStream(request.getSession()
 					.getServletContext().getRealPath(imgPath));
 			OutputStream os = response.getOutputStream();

@@ -14,6 +14,7 @@ import net.sf.json.JSONObject;
 import com.tjxjh.service.ClubService;
 import com.tjxjh.util.SpringUtil;
 
+@Deprecated
 public class CheckClubServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 326251827157536656L;

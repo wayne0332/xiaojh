@@ -33,17 +33,7 @@ body {margin: 0 auto;padding: 0 0;}
 
 <body>
 	<div class="container">
-		<div class="header">
-			<div class="header">
-				<span> <a href="registerInput">注册</a>&nbsp;&nbsp;<a
-					href="logout">登出</a> </span> <span><a href="myAnnouncements">通知(<s:property value="#session.user.announcementCount"/>)</a> <a href="receivedLetters">飞鸽传书(<s:property
-							value="#session.user.receiveLetterCount" />)</a>&nbsp;&nbsp;<a
-					href="myClubs">我的社团</a>
-				<s:if test="#request.clubInviteCount != 0">
-						<a href="myInvited">(<s:property value="#request.clubInviteCount" />)</a>
-					</s:if>&nbsp;&nbsp;</span>
-			</div>
-		</div>
+		<jsp:include page="head.jsp"/>
 		<div class="clearfloat"></div>
 		<div class="main">
 			<div class="top" >
@@ -52,7 +42,7 @@ body {margin: 0 auto;padding: 0 0;}
 					等待确认
 					</s:if>
 					<s:else>
-					<a href="clubPostList?clubId=<s:property value="#request.club.id" />&pageNum=1">进入贴吧</a>
+					<a href="clubPostList?clubId=<s:property value="club.id" />&pageNum=1">进入贴吧</a>
 					<s:a href="clubMembers">社团成员<s:if
 							test="#session.clubMember.role.name() != 'NORMAL' && #request.userRequestCount != 0">
 							(<s:property value="#request.userRequestCount" />)
@@ -62,16 +52,16 @@ body {margin: 0 auto;padding: 0 0;}
 					</s:else>
 				</s:if>
 			<s:else>
-				<s:a href="userAddClub?club.id=%{#request.club.id}">申请加入</s:a>
+				<s:a href="userAddClub?club.id=%{club.id}">申请加入</s:a>
 			</s:else>
 			</div>
 			<div class="clearfloat"></div>
 			<div class="left">
 				<div class="rectRow">
 					<div class="rectBlock">
-						<div><s:property value="#request.club.name" /></div>
+						<div><s:property value="club.name" /></div>
 						<img src="showImg?img=<s:property value="club.logoPath" />">
-						<div><s:property value="#request.club.introduction" /></div>
+						<div><s:property value="club.introduction" /></div>
 					</div>
 					<div class="rectBlock">
 						<div>活动展示</div>

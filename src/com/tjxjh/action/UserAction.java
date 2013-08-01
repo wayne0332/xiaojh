@@ -14,6 +14,7 @@ import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
+import com.tjxjh.enumeration.OnlineActivityStatus;
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
@@ -24,6 +25,7 @@ import com.tjxjh.service.ClubService;
 import com.tjxjh.service.PictureService;
 import com.tjxjh.service.TalkingService;
 import com.tjxjh.service.UserService;
+import com.tjxjh.util.CodeUtil;
 
 @ParentPackage("struts-default")
 @Namespace("/")
@@ -118,7 +120,7 @@ public class UserAction extends BaseAction
 	
 	private void fillPortraitPathToUser(String userName)
 	{
-		user.setPortraitPath(PORTRAIT_FOLDER + userName
+		user.setPortraitPath(PORTRAIT_FOLDER + CodeUtil.md5(userName)
 				+ portraitFileName.substring(portraitFileName.indexOf('.')));
 	}
 	
@@ -223,20 +225,31 @@ public class UserAction extends BaseAction
 		}
 		return SUCCESS;
 	}
+	
 	@Action(value = "manageIndex", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/index.jsp")})
-	public String managerPage(){
+	public String managerPage()
+	{
 		return SUCCESS;
 	}
+	
 	@Action(value = "manageTop", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/admin_top.jsp")})
-	public String managerTop(){
-		return SUCCESS;
-	}@Action(value = "manageLeft", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/left.jsp")})
-	public String managerLeft(){
-		return SUCCESS;
-	}@Action(value = "manageRight", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/right.jsp")})
-	public String managerRight(){
+	public String managerTop()
+	{
 		return SUCCESS;
 	}
+	
+	@Action(value = "manageLeft", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/left.jsp")})
+	public String managerLeft()
+	{
+		return SUCCESS;
+	}
+	
+	@Action(value = "manageRight", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/right.jsp")})
+	public String managerRight()
+	{
+		return SUCCESS;
+	}
+	
 	@Actions({
 			@Action(value = LOGIN_INPUT, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 					+ "login.jsp")}),

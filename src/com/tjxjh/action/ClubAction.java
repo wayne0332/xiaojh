@@ -26,6 +26,7 @@ import com.tjxjh.service.ActivityService;
 import com.tjxjh.service.ClubPostService;
 import com.tjxjh.service.ClubService;
 import com.tjxjh.service.SearchService;
+import com.tjxjh.util.CodeUtil;
 
 @ParentPackage("struts-default")
 @Namespace("/")
@@ -66,6 +67,7 @@ public class ClubAction extends BaseAction
 	private User user = null;
 	private int type;
 	private List<Activity> acs = null;
+	
 	@Actions({@Action(value = APPLY_CLUB_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
 			+ APPLY_CLUB + JSP)})})
 	public String page()
@@ -79,7 +81,7 @@ public class ClubAction extends BaseAction
 	{
 		club.setLogoPath(new StringBuilder("upload/clubLogo/school_")
 				.append(club.getSchool().getId()).append("_")
-				.append(club.getName())
+				.append(CodeUtil.md5(club.getName()))
 				.append(logoFileName.substring(logoFileName.indexOf('.')))
 				.toString());
 		clubService.applyClub(club, super.currentUser(), logo);
@@ -116,39 +118,40 @@ public class ClubAction extends BaseAction
 			return INPUT;
 		}
 		super.saveClubMember(clubService.userClub(super.currentUser(), club));
-		Club c = clubService.clubById(club);
-		/**********************fineTu***********************/
-		c.getClubsForTargetClubId();
-		List<Club> focusClubList = clubService.getFocusList(Club.class,c);
+		club = clubService.clubById(club);
+		/********************** fineTu ***********************/
+		club.getClubsForTargetClubId();
+		List<Club> focusClubList = clubService.getFocusList(Club.class, club);
 		if(focusClubList.size() > 9)
 		{
 			focusClubList = focusClubList.subList(0, 9);
 		}
 		getRequestMap().put("focusClubList", focusClubList);
-		
-		List<Club> focusMerchantList = clubService.getFocusList(Merchant.class,c);
+		List<Club> focusMerchantList = clubService.getFocusList(Merchant.class,
+				club);
 		if(focusMerchantList.size() > 9)
 		{
 			focusMerchantList = focusMerchantList.subList(0, 9);
 		}
 		getRequestMap().put("focusMerchantList", focusMerchantList);
-		
-		Page page = new Page(1*7+1);
+		Page page = new Page(1 * 7 + 1);
 		page.setCurrentPage(1);
 		ClubPostList clubPostList = new ClubPostList();
-		List<ClubPost> list = clubPostService.clubPostList(c.getId(), page);
-		for(ClubPost p:list){
-			if(p.getTittle().length()>15){
+		List<ClubPost> list = clubPostService.clubPostList(club.getId(), page);
+		for(ClubPost p : list)
+		{
+			if(p.getTittle().length() > 15)
+			{
 				p.setTittle(p.getTittle().substring(0, 15));
 			}
 		}
 		clubPostList.setClubPostList(list);
 		getRequestMap().put("clubPostList", clubPostList);
-		page=activityService.adminGetOneClubPageByHql(6,1,0,club,null);
-		acs=activityService.adminFindOneClubActivityByHql(page,club,null);
+		page = activityService.adminGetOneClubPageByHql(6, 1, 0, club, null);
+		acs = activityService.adminFindOneClubActivityByHql(page, club, null);
 		getRequestMap().put("acs", acs);
 		/****************************************************/
-		super.getRequestMap().put("club",c);
+		super.getRequestMap().put("club", club);
 		if(super.currentClubMember() != null
 				&& super.currentClubMember().getRole() != ClubMemberRole.NORMAL)
 		{
@@ -159,7 +162,7 @@ public class ClubAction extends BaseAction
 		}
 		return SUCCESS;
 	}
-
+	
 	private boolean isClubEmpty()
 	{
 		return club == null || club.getId() == null;
@@ -283,11 +286,13 @@ public class ClubAction extends BaseAction
 		switch(type)
 		{
 			case (1):
-				List<Club> clubList = clubService.getFocusList(Club.class,club);
+				List<Club> clubList = clubService
+						.getFocusList(Club.class, club);
 				getRequestMap().put("focusList", clubList);
 				break;
 			case (2):
-				List<Merchant> merchantList = clubService.getFocusList(Merchant.class, club);
+				List<Merchant> merchantList = clubService.getFocusList(
+						Merchant.class, club);
 				getRequestMap().put("focusList", merchantList);
 				break;
 		}
@@ -402,29 +407,34 @@ public class ClubAction extends BaseAction
 	{
 		this.user = user;
 	}
-
-	public int getType() {
+	
+	public int getType()
+	{
 		return type;
 	}
-
-	public void setType(int type) {
+	
+	public void setType(int type)
+	{
 		this.type = type;
 	}
 	
-	public List<Activity> getAcs() {
+	public List<Activity> getAcs()
+	{
 		return acs;
 	}
-
-	public void setAcs(List<Activity> acs) {
+	
+	public void setAcs(List<Activity> acs)
+	{
 		this.acs = acs;
 	}
-
-	public void setClubPostService(ClubPostService clubPostService) {
+	
+	public void setClubPostService(ClubPostService clubPostService)
+	{
 		this.clubPostService = clubPostService;
 	}
-
-	public void setActivityService(ActivityService activityService) {
+	
+	public void setActivityService(ActivityService activityService)
+	{
 		this.activityService = activityService;
 	}
-	
 }

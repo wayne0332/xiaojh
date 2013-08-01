@@ -19,49 +19,13 @@
 <meta http-equiv="expires" content="0" />
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3" />
 <meta http-equiv="description" content="This is my page" />
-
-<link rel="stylesheet" type="text/css" href="css/base-min.css" />
-<link rel="stylesheet" type="text/css" href="css/common.css" />
 <link rel="stylesheet" type="text/css" href="css/page-user.css" />
-
 
 </head>
 
 <body>
 	<div class="container cf zoom">
-		<div class="header">
-			<div class="logo w240 h fl">
-				<img id="logo_img" />
-			</div>
-			<ul class="top_bar w760 fl">
-				<li><a href="registerInput" class="a_bt">注册</a>
-				</li>
-				<li><a href="myAnnouncements" class="a_bt">通知(<s:property
-							value="#session.user.announcementCount" />)</a>
-				</li>
-			</ul>
-			<ul class="nav_bar w760 fl">
-				<li><a href="#" class="a_bt">主页</a>
-				</li>
-				<li><a href="myClubs" class="a_bt">我的社团</a> <s:if
-						test="#request.clubInviteCount != 0">
-						<a href="myInvited" class="a_bt">(<s:property
-								value="#request.clubInviteCount" />)</a>
-					</s:if>
-				</li>
-				<li><a href="#" class="a_bt">店铺</a>
-				</li>
-				<li><a href="#" class="a_bt">活动</a>
-				</li>
-				<li><a href="#" class="a_bt">好友</a>
-				</li>
-				<li><a href="#" class="a_bt">个人主页</a>
-				</li>
-				<li><a href="receivedLetters" class="a_bt">飞鸽传书 (<s:property
-							value="#session.user.receiveLetterCount" />)</a>
-				</li>
-			</ul>
-		</div>
+		<jsp:include page="head.jsp" />
 		<div class="left_bar w270 cf">
 			<div class="my_info w240 h90 p10 m5">
 				<img
@@ -210,8 +174,7 @@
 							</s:else>
 							<a href="<%=path %>/preShareTalking?talking.id=${id}">分享<s:if
 									test="shareDetails!=null">(${shareDetails.shareCount})</s:if> <s:else>(${talking.shareDetails.shareCount})</s:else>
-							</a><a href="#">评论</a>
-							from：${user.name} <label>${datetime}</label>
+							</a><a href="#">评论</a> from：${user.name} <label>${datetime}</label>
 						</div>
 						<!-- like end -->
 					</div>
@@ -268,7 +231,7 @@
 
 
 
-				
+
 			</div>
 			<!-- END：说说 -->
 		</div>

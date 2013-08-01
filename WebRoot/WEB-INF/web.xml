@@ -48,6 +48,7 @@
 		<servlet-name>CheckUserServlet</servlet-name>
 		<servlet-class>com.tjxjh.servlet.CheckUserServlet</servlet-class>
 	</servlet>
+	<!-- 这两个东西不用了   
   <servlet>
     <servlet-name>CheckClubServlet</servlet-name>
     <servlet-class>com.tjxjh.servlet.CheckClubServlet</servlet-class>
@@ -55,7 +56,7 @@
   <servlet>
     <servlet-name>ShowImg</servlet-name>
     <servlet-class>com.tjxjh.servlet.ShowImg</servlet-class>
-  </servlet>
+  </servlet>-->
 
 
 
@@ -63,12 +64,13 @@
 		<servlet-name>CheckUserServlet</servlet-name>
 		<url-pattern>/hadRegister.html</url-pattern>
 	</servlet-mapping>
-  <servlet-mapping>
+<!-- 这两个东西不用了   
+<servlet-mapping>
     <servlet-name>CheckClubServlet</servlet-name>
     <url-pattern>/hadClub.html</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>ShowImg</servlet-name>
     <url-pattern>/showImg.html</url-pattern>
-  </servlet-mapping>
+  </servlet-mapping> -->
 </web-app>

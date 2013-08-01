@@ -16,6 +16,7 @@
 </head>
 
 <body>
+	<jsp:include page="head.jsp" />
 	<a href="applyClubInput">申请社团</a>
 	<table>
 		<tr>
@@ -28,14 +29,11 @@
 			<tr>
 				<td><img src="showImg?img=<s:property value="club.logoPath" />">
 				</td>
-				<td><s:property value="club.name" />
-				</td>
-				<td><s:property value="role.name" />
-					<s:if test="status.name() == 'NO_CHECK'">(<s:property
-							value="status.name" />)</s:if>
-				</td>
-				<td><s:a href="clubMain?club.id=%{club.id}">进入社团</s:a>
-				</td>
+				<td><s:property value="club.name" /></td>
+				<td><s:property value="role.name" /> <s:if
+						test="status.name() == 'NO_CHECK'">(<s:property
+							value="status.name" />)</s:if></td>
+				<td><s:a href="clubMain?club.id=%{club.id}">进入社团</s:a></td>
 			</tr>
 		</s:iterator>
 	</table>
