@@ -1,0 +1,24 @@
+/* left_bar_userHome
+ * ---------------------------------------------------------------------------------------- */	
+
+	.my_info,
+	.l_search,
+	.l_box					{ background-color: #fff; }
+	.l_box img:hover		{ cursor: pointer; }
+	
+
+	
+/* userHome
+ * ---------------------------------------------------------------------------------------- */	
+ 
+ 	.w630					{ width: 630px; }
+
+	.userHome_box			{ background-color: #f8f8f8; }
+	
+	.userHome_box textarea	{ width: 697px; resize: none; }
+	.userHome_box button	{  }
+
+	.user_dongtai_div		{ border-top: 1px solid #fff; }
+	.user_dongtai_div img	{  }
+	.user_dongtai_div label	{  }
+	.user_dongtai_div a		{ width: 80px; display: inline-block; text-align: right; float: right; }

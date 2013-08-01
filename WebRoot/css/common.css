@@ -1,0 +1,39 @@
+/* common
+ * ------------------------------------------------------------------------------------------ */
+
+	.a_bt				{ display: block; padding: 13px 13px 14px 13px; color: #f8f8f8; background-color: #333; }
+	.a_bt:hover			{ text-decoration: none; color: #eee; background-color: #444; }
+
+	.w730				{ width: 730px; }
+	.w270				{ width: 270px; }
+	
+	.w760				{ width: 760px; }
+	.w240				{ width: 240px; }
+	
+	.bg_fff				{ background-color: #fff; }
+
+/* layout
+ * ------------------------------------------------------------------------------------------ */
+
+	.container			{ width: 1000px; height: auto; margin: 0 auto; }
+
+	.header				{ width: 100%; height: 100px; background-color: #ddd; }
+	.left_bar			{ height: auto; background-color: #e8e8e8; float: left; }
+	.main				{ height: auto; background-color: #eee; float: left; }
+	
+/* header
+ * ------------------------------------------------------------------------------------------ */	
+ 
+	.logo				{ background-color: #f2f2f2; }
+	.top_bar			{ height: 55px; background-color: #f6f6f6; }
+	.top_bar li			{ float: right; }
+	.nav_bar			{ height: 45px; background-color: #f9f9f9; }
+	.nav_bar li			{ float: left; }
+	
+
+	
+	
+	
+	
+	
+	

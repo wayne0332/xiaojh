@@ -7,222 +7,169 @@
 			+ path + "/";
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
-<base href="<%=basePath%>">
+<base href="<%=basePath%>" />
 
-<title>My JSP 'userHome.jsp' starting page</title>
+<title>校江湖 - 个人主页</title>
 
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-<style type="text/css">
-body {
-	margin: 0 auto;
-	padding: 0 0;
-}
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="cache-control" content="no-cache" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3" />
+<meta http-equiv="description" content="This is my page" />
 
-.header span {
-	float: right;
-}
+<link rel="stylesheet" type="text/css" href="css/base-min.css" />
+<link rel="stylesheet" type="text/css" href="css/common.css" />
+<link rel="stylesheet" type="text/css" href="css/page-user.css" />
 
-.clearfloat {
-	clear: both
-}
 
-.container {
-	margin: 0 auto;
-	padding: 0 0;
-	width: 920px;
-}
-
-.main {
-	
-}
-
-.header {
-	
-}
-
-.left {
-	float: left;
-	width: 250px;
-}
-
-.right {
-	float: right;
-	width: 650px;
-}
-
-.people {
-	width: 140px;
-	margin-top: 20px;
-	margin-bottom: 20px;
-}
-
-.club {
-	width: 140px;
-	margin-top: 20px;
-	margin-bottom: 20px;
-}
-
-.merchant {
-	width: 140px;
-	margin-top: 20px;
-	margin-bottom: 20px;
-}
-
-.portrait {
-	width: 44px;
-	float: left;
-	margin-top: 20px;
-}
-
-.portraitImg {
-	padding-top: 5px;
-}
-</style>
 </head>
 
 <body>
-	<div class="container">
+	<div class="container cf zoom">
 		<div class="header">
-			<span> <a href="registerInput">注册</a>&nbsp;&nbsp;<a
-				href="logout">登出</a> </span> <span><a href="myAnnouncements">通知(<s:property value="#session.user.announcementCount"/>)</a> <a href="receivedLetters">飞鸽传书(<s:property
-						value="#session.user.receiveLetterCount" />)</a>&nbsp;&nbsp;<a
-				href="myClubs">我的社团</a>
-			<s:if test="#request.clubInviteCount != 0">
-					<a href="myInvited">(<s:property value="#request.clubInviteCount" />)</a>
-				</s:if>&nbsp;&nbsp;</span>
+			<div class="logo w240 h fl">
+				<img id="logo_img" />
+			</div>
+			<ul class="top_bar w760 fl">
+				<li><a href="registerInput" class="a_bt">注册</a>
+				</li>
+				<li><a href="myAnnouncements" class="a_bt">通知(<s:property
+							value="#session.user.announcementCount" />)</a>
+				</li>
+			</ul>
+			<ul class="nav_bar w760 fl">
+				<li><a href="#" class="a_bt">主页</a>
+				</li>
+				<li><a href="myClubs" class="a_bt">我的社团</a> <s:if
+						test="#request.clubInviteCount != 0">
+						<a href="myInvited" class="a_bt">(<s:property
+								value="#request.clubInviteCount" />)</a>
+					</s:if>
+				</li>
+				<li><a href="#" class="a_bt">店铺</a>
+				</li>
+				<li><a href="#" class="a_bt">活动</a>
+				</li>
+				<li><a href="#" class="a_bt">好友</a>
+				</li>
+				<li><a href="#" class="a_bt">个人主页</a>
+				</li>
+				<li><a href="receivedLetters" class="a_bt">飞鸽传书 (<s:property
+							value="#session.user.receiveLetterCount" />)</a>
+				</li>
+			</ul>
 		</div>
-		<div class="clearfloat"></div>
-		<div class="main">
-			<div class="left">
-				<div class="userInfo">
-					<img height="100px" width="80px" alt="头像" title="头像"
-						src="showImg?img=<s:property value="#session.user.portraitPath"/>">
-					姓名: <a href="updateUserInput"><s:property
-							value="#session.user.name" /> </a> <br> 年级:
-					<s:property value="#session.user.grade" />
-					<br> 学校:
-					<s:property
-						value="#application.schools[#session.user.school.id].name" />
-					<br>
-				</div>
-				<div class="clearfloat"></div>
-				<div class="people">
-					<form action="searchAll" method="post">
-						<input name="searchText" type="text" /> <input type="submit"
-							value="搜索" />
-					</form>
-				</div>
-				<div class="clearfloat"></div>
-				<div class="people">
-					<div>
-						我的门客：<a href="myFocus?type=0">更多</a>
+		<div class="left_bar w270 cf">
+			<div class="my_info w240 h90 p10 m5">
+				<img
+					src="showImg?img=<s:property value="#session.user.portraitPath"/>"
+					class="fl w80 f80" />
+				<ul class="fl w150 p5">
+					<li><a href="updateUserInput"><s:property
+								value="#session.user.name" /> </a>
+					</li>
+					<li><s:property value="#session.user.grade" /></li>
+					<li><s:property
+							value="#application.schools[#session.user.school.id].name" /></li>
+					<li>凤凰社</li>
+				</ul>
+			</div>
+			<form action="searchAll" method="post" class="l_search w240 p10 m5">
+				<input name="searchText" type="text" class="w200" />
+				<button type="submit">搜索</button>
+			</form>
+
+			<label class="Clearfix w250 ml5">我的门客<a href="myFocus?type=0"
+				class="fr">更多</a> </label>
+			<div class="l_box w240 p10 m5 cf">
+				<s:iterator value="#request.focusUserList">
+					<div class="fl">
+						<s:if test="portrait==''">
+							<img src="<s:property value="portraitPath" />"
+								class="w50 h50 mr10 Clearfix" />
+						</s:if>
+						<s:else>
+							<img src="upload/portrait/auto_photo.png"
+								class="w50 h50 mr10 Clearfix" />
+						</s:else>
+						<label class="Clearfix mb10"> <s:property value="name" />
+						</label>
 					</div>
-					<s:iterator value="#request.focusUserList">
-						<div class="portrait">
-							<div class="portraitImg">
-								<s:if test="portrait==''">
-									<img src="<s:property value="portraitPath" />" width="40px" />
-								</s:if>
-								<s:else>
-									<img src="upload/portrait/auto_photo.png" width="40px" />
-								</s:else>
-							</div>
-							<div class="userName">
-								<s:property value="name" />
-							</div>
-						</div>
-					</s:iterator>
-					<div class="clearfloat"></div>
-				</div>
-				<div class="clearfloat"></div>
-				<div class="club">
-					<div>
-						我的社团： <a href="myFocus?type=1">更多</a>
+				</s:iterator>
+			</div>
+			<label class="Clearfix w250 ml5">我的社团 <a
+				href="myFocus?type=1" class="fr">更多</a> </label>
+			<div class="l_box w240 p10 m5 cf">
+				<s:iterator value="#request.focusClubList">
+					<div class="fl">
+						<s:if test="logoPath==''">
+							<img src="<s:property value="portraitPath" />"
+								class="w50 h50 mr10 Clearfix" />
+						</s:if>
+						<s:else>
+							<img src="upload/portrait/auto_photo.png"
+								class="w50 h50 mr10 Clearfix" />
+						</s:else>
+						<label class="Clearfix mb10"> <s:property value="name" />
+						</label>
 					</div>
-					<s:iterator value="#request.focusClubList">
-						<div class="portrait">
-							<div class="portraitImg">
-								<s:if test="logoPath==''">
-									<img src="<s:property value="portraitPath" />" width="40px" />
-								</s:if>
-								<s:else>
-									<img src="upload/portrait/auto_photo.png" width="40px" />
-								</s:else>
-							</div>
-							<div class="userName">
-								<s:property value="name" />
-							</div>
-						</div>
-					</s:iterator>
-					<div class="clearfloat"></div>
-				</div>
-				<div class="clearfloat"></div>
-				<div class="merchant">
-					<div>
-						关注商家： <a href="myFocus?type=2">更多</a>
-					</div>
-					<s:iterator value="#request.focusMerchantList">
-						<div class="portrait">
-							<div class="portraitImg">
-								<%-- <s:if test="portrait==''">
+				</s:iterator>
+			</div>
+			<label class="Clearfix w250 ml5">关注商家 <a
+				href="myFocus?type=2" class="fr">更多</a> </label>
+			<div class="l_box w240 p10 m5 cf">
+				<s:iterator value="#request.focusMerchantList">
+					<div class="fl">
+						<%-- <s:if test="portrait==''">
 									<img src="<s:property value="portraitPath" />" width="40px" />
 								</s:if>
 								<s:else>
 									<img src="upload/portrait/auto_photo.png" width="40px" />
 								</s:else> --%>
-							</div>
-							<div class="userName">
-								<s:property value="name" />
-							</div>
-						</div>
-					</s:iterator>
-					<div class="clearfloat"></div>
-				</div>
-				<div class="clearfloat"></div>
+						<label class="Clearfix mb10"> <s:property value="name" />
+						</label>
+					</div>
+				</s:iterator>
 			</div>
-			<div class="right">
-				<!-- 发布说说-->
-				<div class="talk" style="background:#EEE;padding:20px;">
-					<form action="addTalking" method="post"
-						enctype="multipart/form-data">
-						说说内容：<br>
-						<textarea name="talking.text" cols="70" rows="5"></textarea>
-						<br> 媒体链接:<input type="text" name="talking.url" /><br>
-						图片:<input type="file" name="uploadImage" /><br> <br> <input
-							type="submit" value="发表" />
-					</form>
-				</div>
-				<!--END： 发布说说-->
-				<!-- 相册-->
-				<div class="photo" style="background:#ffffdd;padding:20px;">
-					<s:iterator value="pics">
-						<span style="display: inline-block;"> <a
-							href="<%=path%><s:property  value="path.replace('st_', '')" />"
-							target="_blank"><img src="<%=path%>/${path}" width="190px">
-						</a> <br> ${name}&nbsp; From:<a href="#">${user.name}</a> </span>
-					</s:iterator>
-					<br> <a href="<%=path%>/findAllPicture" target="_self">更多</a>
-				</div>
-				<!-- END:相册-->
-				<!-- 说说 -->
-				<div class="talking" style="background:#ddffdd;padding:20px;">
-					<s:iterator value="taks" id="tak">
-						<div
-							style="display: inline-block; border:1px solid;width:80%;margin:20px;"
-							id="${id}">
-							<s:if test="talking==null">
-								<s:property value="text" />
-								<br>
+		</div>
+
+		<div class="main w730 cf">
+			<!-- 发布说说-->
+			<form action="addTalking" method="post" enctype="multipart/form-data"
+				class="userHome_box w700 m5 p10 cf">
+				<label>说说内容：</label>
+				<textarea class="h100 mb5"></textarea>
+				媒体链接：<input type="text" name="talking.url" /><br /> 图片：<input
+					type="file" name="uploadImage" />
+				<button type="submit" class="fr">发布</button>
+			</form>
+			<!--END： 发布说说-->
+			<!-- 相册-->
+			<div class="userHome_box w700 m5 p10 cf">
+				<label>最新相册</label>
+				<s:iterator value="pics">
+					<span style="display: inline-block;"> <a
+						href="<%=path%><s:property  value="path.replace('st_', '')" />"
+						target="_blank"><img src="<%=path%>/${path}" width="190px" />
+					</a> <br /> ${name}&nbsp; From:<a href="#">${user.name}</a> </span>
+				</s:iterator>
+				<a href="<%=path%>/findAllPicture" target="_self" class="fr">更多</a>
+			</div>
+			<!-- END:相册-->
+			<!-- 说说 -->
+			<div class="userHome_box w700 m5 p10 cf">
+				<label>江湖动态</label>
+				<s:iterator value="taks" id="tak">
+					<div id="${id}" class="user_dongtai_div cf w700 mt10 pt10">
+						<div class="w60 h fl">
+							<img class="w60 h60 fl" />
+						</div>
+						<s:if test="talking==null">
+							<label class="fr w630"><s:property value="text" /> </label>
+							<div class="cf w630 mt5 fr bg_fff">
 								<s:if
 									test="url!=null&&!url.trim().equals('')&&urlType.toString()=='PICTURE'">
 									<img src="${url}" />
@@ -232,47 +179,98 @@ body {
 									test="url!=null&&!url.trim().equals('')&&urlType.toString()=='VIDEO'">
 								     			${url}
 										     </s:elseif>
-							</s:if>
-							<s:elseif test="talking!=null">
-								      	分享：<s:property value="text" />
-								<br>
-								<div
-									style="background:#dddddd; border:1px; width:80%;margin:0 auto;">
-									<s:property value="talking.text" />
-									<s:if
-										test="talking.turl!=null&&talking.urlType.toString()=='PICTURE'">
-										<img src="${takling.url}" width="200px" />
-									</s:if>
-									<!-- 说说 -->
-									<s:elseif
-										test="talking.url!=null&&talking.urlType.toString()=='VIDEO'">
-										<s:property
-											value="talking.url.replace('400', '260').replace('480', '280')"
-											escape="false" />
-									</s:elseif>
-									<br>来自：${talking.user.name}
-								</div>
-							</s:elseif>
-							<br>${datetime}
+							</div>
+						</s:if>
+						<s:elseif test="talking!=null">
+							<label><a>${talking.user.name}</a>分享：<s:property
+									value="text" /> </label>
+							<div class="cf">
+								<s:property value="talking.text" />
+								<s:if
+									test="talking.turl!=null&&talking.urlType.toString()=='PICTURE'">
+									<img src="${takling.url}" width="200px" />
+								</s:if>
+								<!-- 说说 -->
+								<s:elseif
+									test="talking.url!=null&&talking.urlType.toString()=='VIDEO'">
+									<s:property
+										value="talking.url.replace('400', '260').replace('480', '280')"
+										escape="false" />
+								</s:elseif>
+							</div>
+						</s:elseif>
+
+						<div id="zan${id}" class="fr w630">
 							<s:if test="shareDetails!=null">
-							     			&nbsp;分享次数：${shareDetails.shareCount}
-							     </s:if>
+								<!-- like -->
+								<a href="javascript:void(0);" onclick="zanTalking(${id});">赞(${shareDetails.praiseCount})</a>
+							</s:if>
 							<s:else>
-							     			&nbsp;分享次数：${talking.shareDetails.shareCount}
-							     </s:else>
-							&nbsp;来自:${user.name} &nbsp;<a
-								href="<%=path %>/preShareTalking?talking.id=${id}">分享</a> &nbsp;
-							<span id="zan${id}"> <s:if test="shareDetails!=null">
-									<a href="javascript:void(0);" onclick="zanTalking(${id});">赞(${shareDetails.praiseCount})</a>
-								</s:if> <s:else>
-									<a href="javascript:void(0);" onclick="zanTalking(${id});">赞(${talking.shareDetails.praiseCount})</a>
-								</s:else> </span>
+								<a href="javascript:void(0);" onclick="zanTalking(${id});">赞(${talking.shareDetails.praiseCount})</a>
+							</s:else>
+							<a href="<%=path %>/preShareTalking?talking.id=${id}">分享<s:if
+									test="shareDetails!=null">(${shareDetails.shareCount})</s:if> <s:else>(${talking.shareDetails.shareCount})</s:else>
+							</a><a href="#">评论</a>
+							from：${user.name} <label>${datetime}</label>
 						</div>
-					</s:iterator>
-					<br> <a href="<%=path%>/allTalking" target="_self">更多</a>&nbsp;
-				</div>
-				<!-- END：说说 -->
+						<!-- like end -->
+					</div>
+				</s:iterator>
+				<br> <a href="<%=path%>/allTalking" target="_self">更多</a>&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
 			</div>
+			<!-- END：说说 -->
 		</div>
 		<div class="clearfloat"></div>
 		<div class="footer"></div>
