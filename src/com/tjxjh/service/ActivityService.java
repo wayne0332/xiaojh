@@ -1,23 +1,19 @@
 package com.tjxjh.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Set;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.tjxjh.enumeration.ActivityStatus;
 import com.tjxjh.enumeration.TalkingUrlType;
 import com.tjxjh.po.Activity;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubMember;
-import com.tjxjh.po.ClubNews;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
