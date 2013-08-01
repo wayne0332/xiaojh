@@ -3,23 +3,21 @@ package com.tjxjh.service;
 import java.io.File;
 import java.util.List;
 import java.util.Set;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.tjxjh.enumeration.ActivityStatus;
 import com.tjxjh.enumeration.TalkingUrlType;
 import com.tjxjh.po.Activity;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubMember;
-import com.tjxjh.po.ClubNews;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
+import com.tjxjh.util.DeleteSource;
 import com.tjxjh.util.FileUtil;
 import com.tjxjh.util.ImageCutAndZoom;
 
@@ -139,7 +137,12 @@ public class ActivityService extends BaseService{
 	}
 	@Transactional (propagation = Propagation.REQUIRED) 
 	public void delete(Activity activity){
-		 dao.delete(activity);
+		if(activity!=null){
+				DeleteSource.deleteVideo(activity.getVideoUrl());
+				DeleteSource.delete(activity.getTitleImgPath());
+				DeleteSource.deleteImg(activity.getText());
+		}
+		dao.delete(activity);
 	}
 	
 	@Transactional(readOnly = true, propagation=Propagation.SUPPORTS)   

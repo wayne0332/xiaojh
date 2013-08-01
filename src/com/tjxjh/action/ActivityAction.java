@@ -27,6 +27,7 @@ import com.tjxjh.service.ActivityService;
 import com.tjxjh.service.ClubNewsService;
 import com.tjxjh.service.TalkingService;
 import com.tjxjh.util.Auth;
+import com.tjxjh.util.DeleteSource;
 
 
 @ParentPackage("struts-default")
@@ -155,10 +156,7 @@ public class ActivityAction extends BaseAction{
 			user=Auth.getUserFromSession();
 			merchant=Auth.getMerchantFromSession();
 			activity=activityService.findByHql(user,merchant, activity);
-			if(activity!=null){
-				activityService.delete(activity);
-			}
-			actionName="adminFindOneActivity";
+			activityService.delete(activity);
 			return SUCCESS;
 	}	
 	//管理员、商家 、社团 修改社团发布的Activity
