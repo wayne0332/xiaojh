@@ -16,18 +16,14 @@ import org.apache.struts2.convention.annotation.Result;
 import cn.cafebabe.autodao.pojo.Page;
 
 import com.tjxjh.enumeration.ActivityStatus;
-import com.tjxjh.enumeration.TalkingUrlType;
 import com.tjxjh.po.Activity;
 import com.tjxjh.po.Club;
-import com.tjxjh.po.ClubNews;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
 import com.tjxjh.service.ActivityService;
-import com.tjxjh.service.ClubNewsService;
 import com.tjxjh.service.TalkingService;
 import com.tjxjh.util.Auth;
-import com.tjxjh.util.DeleteSource;
 
 
 @ParentPackage("struts-default")

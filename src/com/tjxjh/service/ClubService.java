@@ -280,7 +280,7 @@ public class ClubService extends BaseService
 		{
 			list.add(it.next());
 		}
-		return (List<T>) list;
+		return list;
 	}
 	private PersonalLetter sendLetter(User target, User source, String text)
 	{

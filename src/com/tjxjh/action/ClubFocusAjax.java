@@ -15,7 +15,6 @@ import org.apache.struts2.convention.annotation.Result;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubMember;
 import com.tjxjh.po.Merchant;
-import com.tjxjh.po.User;
 import com.tjxjh.service.ClubService;
 
 @ParentPackage("struts-default")

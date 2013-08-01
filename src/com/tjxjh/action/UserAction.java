@@ -165,7 +165,7 @@ public class UserAction extends BaseAction
 		/************************** 相册 *******************************************/
 		/************************** 说说 *******************************************/
 		page = talkingService.getAllPageByHql(eachPageNumber, currentPage, 1);
-		taks = (List<Talking>) talkingService.findAllTalkingByHql(page);
+		taks = talkingService.findAllTalkingByHql(page);
 		/*************************************************************************/
 		return SUCCESS;
 	}

@@ -24,10 +24,8 @@ import com.tjxjh.enumeration.TalkingUrlType;
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Activity;
 import com.tjxjh.po.Club;
-import com.tjxjh.po.ClubMember;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.MerchantNews;
-import com.tjxjh.po.OnlineActivity;
 import com.tjxjh.po.User;
 import com.tjxjh.util.CodeUtil;
 import com.tjxjh.util.FileUtil;
@@ -273,7 +271,7 @@ public class MerchantService extends BaseService
 		{
 			list.add(it.next());
 		}
-		return (List<T>) list;
+		return list;
 	}
 	
 	static Merchant md5Password(Merchant merchant)

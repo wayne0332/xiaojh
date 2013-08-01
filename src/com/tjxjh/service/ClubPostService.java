@@ -35,7 +35,7 @@ public class ClubPostService extends BaseService{
 		String hql = "select count(*) from ClubPost p where p.club.id=?";
 		List<Long> countL = (List<Long>)dao.executeHql(hql,clubId);
 		int itemNum = countL.get(0).intValue();
-		return new Page(page.getCurrentPage(),page.getDefaultPageNumber(),itemNum);
+		return new Page(page.getCurrentPage(),Page.getDefaultPageNumber(),itemNum);
 	}
 	
 	public ClubPostContent clubPostContent(int postId,Page page){
@@ -66,6 +66,7 @@ public class ClubPostService extends BaseService{
 		}
 	}
 	
+	@Override
 	public void setDao(BaseDao dao) {
 		this.dao = dao;
 	}

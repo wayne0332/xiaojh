@@ -2,8 +2,6 @@ package com.tjxjh.util;
 
 import java.util.Map;
 
-import org.apache.struts2.ServletActionContext;
-
 import com.opensymphony.xwork2.ActionContext;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;

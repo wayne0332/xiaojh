@@ -16,15 +16,12 @@ import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
-import com.tjxjh.enumeration.TalkingUrlType;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
 import com.tjxjh.service.TaklingAndMerchantNewsUpload;
 import com.tjxjh.service.TalkingService;
 import com.tjxjh.util.Auth;
 import com.tjxjh.util.GetRequsetResponse;
-import com.tjxjh.util.FileUtil;
-import com.tjxjh.util.ImageCutAndZoom;
 
 
 @ParentPackage("struts-default")

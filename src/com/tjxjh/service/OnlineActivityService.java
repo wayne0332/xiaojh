@@ -1,7 +1,6 @@
 package com.tjxjh.service;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -14,12 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.tjxjh.enumeration.OnlineActivityStatus;
 import com.tjxjh.enumeration.TalkingUrlType;
-import com.tjxjh.po.Activity;
-import com.tjxjh.po.ActivityPost;
 import com.tjxjh.po.OnlineActivity;
 import com.tjxjh.po.Club;
-import com.tjxjh.po.ClubMember;
-import com.tjxjh.po.ClubNews;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;

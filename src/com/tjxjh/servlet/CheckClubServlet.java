@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 
 import com.tjxjh.service.ClubService;
-import com.tjxjh.service.UserService;
 import com.tjxjh.util.SpringUtil;
 
 public class CheckClubServlet extends HttpServlet
@@ -28,6 +27,7 @@ public class CheckClubServlet extends HttpServlet
 				.getBean(ClubService.class);
 	}
 	
+	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException
 	{

@@ -172,7 +172,7 @@ public class UserService extends BaseService
 		{
 			list.add(it.next());
 		}
-		return (List<T>) list;
+		return list;
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)

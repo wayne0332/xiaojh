@@ -36,7 +36,7 @@ public class ActivityPostService extends BaseService{
 		String hql = "select count(*) from ActivityPost p where p.onlineActivity.id=?";
 		List<Long> countL = (List<Long>)dao.executeHql(hql,activityId);
 		int itemNum = countL.get(0).intValue();
-		return new Page(page.getCurrentPage(),page.getDefaultPageNumber(),itemNum);
+		return new Page(page.getCurrentPage(),Page.getDefaultPageNumber(),itemNum);
 	}
 	
 	public ActivityPostContent activityPostContent(int postId,Page page){
@@ -67,6 +67,7 @@ public class ActivityPostService extends BaseService{
 		}
 	}
 	
+	@Override
 	public void setDao(BaseDao dao) {
 		this.dao = dao;
 	}
