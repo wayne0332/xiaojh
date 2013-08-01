@@ -1,6 +1,7 @@
 package com.tjxjh.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -16,6 +17,7 @@ import com.tjxjh.po.ClubNews;
 import com.tjxjh.po.Picture;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
+import com.tjxjh.util.DeleteSource;
 import com.tjxjh.util.FileUtil;
 import com.tjxjh.util.ImageCutAndZoom;
 
@@ -79,6 +81,9 @@ public class ClubNewsService extends BaseService{
 	}
 	@Transactional (propagation = Propagation.REQUIRED) 
 	public void delete(ClubNews clubnews){
+		 DeleteSource.deleteVideo(clubnews.getVideoUrl());
+		 DeleteSource.delete(clubnews.getTitleImgPath());
+		 DeleteSource.deleteImg(clubnews.getText());
 		 dao.delete(clubnews);
 	}
 	

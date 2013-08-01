@@ -11,10 +11,10 @@
 			org.hibernate.dialect.MySQLDialect
 		</property>
 		<property name="connection.url">
-			jdbc:mysql://localhost:3306/xiaojh
+			jdbc:mysql://localhost:3307/xiaojh
 		</property>
 		<property name="connection.username">root</property>
-		<property name="connection.password">root</property>
+		<property name="connection.password">torry</property>
 		<property name="connection.driver_class">
 			com.mysql.jdbc.Driver
 		</property>
