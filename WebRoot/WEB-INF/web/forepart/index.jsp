@@ -1,8 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -13,36 +15,63 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<script type="text/javascript" src="<%=path %>/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="<%=path%>/js/jquery-1.8.1.min.js"></script>
 <style type="text/css">
-	.main{
-		width:980px;
-		min-height:500px;
-		margin:0 auto;
-		border:1px solid #DDDDDD;
-	}
-	.main .left{
-		width:200px;
-		min-height:500px;
-		background:#DDDDDD;
-		float:left;
-	}
-	.main .center{
-		width:580px;
-		min-height:500px;
-		background:#F6F6FF;
-		float:left;
-	}
-	.main .right{
-		width:200px;
-		min-height:500px;
-		background:#DDDDDD;
-		float:right;
-	}
-	.main .left img{width:80px; height:80px; float:left;margin:10px;}
-	.main .right img{width:80px; height:80px; float:left;margin:10px;}
-	.oneactiviyts{width:100%: height:60px;padding:10px; border:1px dotted #DDDDDD; background:#EEEEEE; overflow:hidden;}
-	.oneactivitys img{width:60px; height:60px;};
+.main {
+	width: 980px;
+	min-height: 500px;
+	margin: 0 auto;
+	border: 1px solid #DDDDDD;
+}
+
+.main .left {
+	width: 200px;
+	min-height: 500px;
+	background: #DDDDDD;
+	float: left;
+}
+
+.main .center {
+	width: 580px;
+	min-height: 500px;
+	background: #F6F6FF;
+	float: left;
+}
+
+.main .right {
+	width: 200px;
+	min-height: 500px;
+	background: #DDDDDD;
+	float: right;
+}
+
+.main .left img {
+	width: 80px;
+	height: 80px;
+	float: left;
+	margin: 10px;
+}
+
+.main .right img {
+	width: 80px;
+	height: 80px;
+	float: left;
+	margin: 10px;
+}
+
+.oneactiviyts {
+	width: 100%:  height:60px;
+	padding: 10px;
+	border: 1px dotted #DDDDDD;
+	background: #EEEEEE;
+	overflow: hidden;
+}
+
+.oneactivitys img {
+	width: 60px;
+	height: 60px;
+}
+;
 </style>
 <script type="text/javascript">
 	function displayClubActivity(id){
@@ -54,32 +83,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 
 <body>
+	<jsp:include page="head.jsp" />
 	<div class="main">
 		<div class="left">
 			<s:iterator value="ics" id="cs">
-				<a href="${club.id}" onmouseover="displayClubActivity(${club.id})"><img src="showImg?img=${club.logoPath}" title="${club.name}"/></a>
+				<a href="${club.id}" onmouseover="displayClubActivity(${club.id})"><img
+					src="${club.logoPath}" title="${club.name}" />
+				</a>
 			</s:iterator>
-		
+
 		</div>
 		<div class="center">
-		
-			<s:iterator value="ics" status="cs"><!-- 循环社团 -->
-				<div id="clubactivity${club.id}" class="clubactivity" style="<s:if test="#cs.getIndex()!=0">display:none;</s:if>"><!-- 默认显示第一个社团的活动，其他不显示 -->
-					 <s:iterator value="acs" status="child"><!--显示 社团对应的activity -->
+
+			<s:iterator value="ics" status="cs">
+				<!-- 循环社团 -->
+				<div id="clubactivity${club.id}" class="clubactivity"
+					style="<s:if test="#cs.getIndex()!=0">display:none;</s:if>">
+					<!-- 默认显示第一个社团的活动，其他不显示 -->
+					<s:iterator value="acs" status="child">
+						<!--显示 社团对应的activity -->
 						<div class="oneactivitys">
-							<div style="float:left;"><img src="${titleImgPath}"/></div>
-							<div style="float:left">标题：<a href="activity?activity.id=${id}">${tittle}</a><br>发布时间：${datetime}&nbsp;参与人数：${participantCount}</div>
+							<div style="float:left;">
+								<img src="${titleImgPath}" />
+							</div>
+							<div style="float:left">
+								标题：<a href="activity?activity.id=${id}">${tittle}</a><br>发布时间：${datetime}&nbsp;参与人数：${participantCount}
+							</div>
 							<div style="clear:both;"></div>
 						</div>
 					</s:iterator>
 				</div>
 			</s:iterator>
-			
+
 		</div>
 		<div class="right">
 			<s:iterator value="ims" id="im">
-				<img src="666" title="${merchant.name}"/>
-			</s:iterator>	
+				<img src="666" title="${merchant.name}" />
+			</s:iterator>
 		</div>
 	</div>
 </body>
