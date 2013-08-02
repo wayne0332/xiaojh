@@ -79,6 +79,11 @@
 		$(".clubactivity").fadeOut(100);
 		$(caid).delay(100).fadeIn(300);
 	}
+	function displayMerchantActivity(id){
+		var caid='#merchantactivity'+id;
+		$(".merchantactivity").fadeOut(100);
+		$(caid).delay(100).fadeIn(300);
+	}
 </script>
 </head>
 
@@ -87,9 +92,7 @@
 	<div class="main">
 		<div class="left">
 			<s:iterator value="ics" id="cs">
-				<a href="${club.id}" onmouseover="displayClubActivity(${club.id})">
-				<img src="${club.logoPath}" title="${club.name}" />
-				</a>
+				<img src="${club.logoPath}" title="${club.name}" onclick="displayClubActivity(${club.id})" />
 			</s:iterator>
 
 		</div>
@@ -119,10 +122,10 @@
 		<!-- End:社团活动 -->
 		<!-- 商家活动 -->
 			<div style="background:#9999FF;height:250px; overflow:hidden;">
-				<s:iterator value="ics" status="cs">
+				<s:iterator value="ims" status="ms">
 					<!-- 循环社团 -->
-					<div id="clubactivity${club.id}" class="clubactivity"
-						style="<s:if test="#cs.getIndex()!=0">display:none;</s:if>">
+					<div id="merchantactivity${merchant.id}" class="merchantactivity"
+						style="<s:if test="#ms.getIndex()!=0">display:none;</s:if>">
 						<!-- 默认显示第一个社团的活动，其他不显示 -->
 						<s:iterator value="acs" status="child">
 							<!--显示 社团对应的activity -->
@@ -144,7 +147,7 @@
 		</div>
 		<div class="right">
 			<s:iterator value="ims" id="im">
-				<img src="666" title="${merchant.name}" />
+				<img src="666" onclick="displayMerchantActivity(${merchant.id})" title="${merchant.name}" />
 			</s:iterator>
 		</div>
 	</div>
