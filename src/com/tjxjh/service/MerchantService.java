@@ -279,4 +279,10 @@ public class MerchantService extends BaseService
 		merchant.setPassword(CodeUtil.md5(merchant.getPassword()));
 		return merchant;
 	}
+	@SuppressWarnings("unchecked")
+	public List<Merchant> findHeatMerchantByHql()
+	{
+		Page page=Page.getPage(1, 12, 1);
+		return (List<Merchant>) dao.executeHql(page,"from Merchant cl where cl.status='PASSED' order by popularity desc");
+	}
 }

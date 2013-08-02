@@ -362,7 +362,24 @@ public class ActivityService extends BaseService{
 		}
 	}
 	/********************************************************END：查看某个社团的活动***************************************************/
-
+	/********************************************************首页查询社团商家的活动***************************************************/
+	@SuppressWarnings("unchecked")
+	public List<Activity> findOneActivityByHql(Club club,Merchant merchant)
+	{
+		Page page=Page.getPage(1, 12, 1);
+		try{
+			if(club.getId()!=null){
+				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in('UNDERWAY','END') and cl.club.id=? order by datetime desc",club.getId());
+			}else if(merchant.getId()!=null){
+				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in('UNDERWAY','END') and cl.merchant.id=? order by datetime desc",merchant.getId());
+			}else{
+				return null;
+			}
+		}catch(Exception e){
+			System.out.println(e);
+			return null;
+		}
+	}
 	public TalkingService getTalkingService() {
 		return talkingService;
 	}

@@ -23,6 +23,7 @@ import com.tjxjh.enumeration.ClubStatus;
 import com.tjxjh.enumeration.PersonalLetterStatus;
 import com.tjxjh.enumeration.Sex;
 import com.tjxjh.enumeration.UserStatus;
+import com.tjxjh.po.Activity;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubMember;
 import com.tjxjh.po.ClubMemberId;
@@ -392,5 +393,11 @@ public class ClubService extends BaseService
 				CLUBMEMBERS_WITHOUT_PROPRIETER_HQL, proprieter.getClub()
 						.getId(), ClubStatus.PASSED, proprieter.getUser()
 						.getId());
+	}
+	@SuppressWarnings("unchecked")
+	public List<Club> findHeatClubByHql()
+	{
+		Page page=Page.getPage(1, 12, 1);
+		return (List<Club>) dao.executeHql(page,"from Club cl where cl.status=PASSED order by popularity desc");
 	}
 }
