@@ -37,6 +37,7 @@
 </head>
 
 <body>
+	<jsp:include page="head.jsp" />
 	<div>
 		<table>
 			<tr>
@@ -61,15 +62,14 @@
 				listKey="name()" listValue="name" />
 			<br>入学年份:<select name="user.grade"></select><br>
 			<hr>
-			真实姓名:<input type="text" name="user.realName"><br>
-			学院:<input type="text" name="user.subject"><br>
-			专业:<input type="text" name="user.profession"><br>
-			生日:<input type="text" name="user.birthday" readonly="readonly"
-				class="Wdate" onClick="WdatePicker()"><br> 电话:<input
-				type="text" name="user.phone"><br> qq:<input
-				type="text" name="user.qq"><br> 头像:<input
-				type="file" name="portrait"><br> <input type="submit"
-				value="注册">
+			真实姓名:<input type="text" name="user.realName"><br> 学院:<input
+				type="text" name="user.subject"><br> 专业:<input
+				type="text" name="user.profession"><br> 生日:<input
+				type="text" name="user.birthday" readonly="readonly" class="Wdate"
+				onClick="WdatePicker()"><br> 电话:<input type="text"
+				name="user.phone"><br> qq:<input type="text"
+				name="user.qq"><br> 头像:<input type="file"
+				name="portrait"><br> <input type="submit" value="注册">
 		</form>
 	</div>
 	<div id="merchant">

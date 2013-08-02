@@ -16,6 +16,7 @@
 </head>
 
 <body>
+	<jsp:include page="head.jsp" />
 	<a href="initSearch">写私信</a>
 	<table>
 		<tr>
@@ -35,24 +36,19 @@
 				</td>
 				<td><s:a href="personalLetter?letter.id=%{id}">
 						<s:property value="title" />
-					</s:a>
-				</td>
+					</s:a></td>
 				<td><img alt="头像" title="头像"
 					src="<s:property value="userBySourceUserId.portraitPath"/>">
 				</td>
 				<td><s:date name="datetime" format="yyyy-MM-dd" /> <br> <s:date
-						name="datetime" format="HH:mm:ss" />
-				</td>
-				<td><s:property value="userBySourceUserId.name" />
-				</td>
-				<td><s:property value="text" />
-				</td>
-				<td><s:property value="status.name" />
-				</td>
+						name="datetime" format="HH:mm:ss" /></td>
+				<td><s:property value="userBySourceUserId.name" /></td>
+				<td><s:property value="text" /></td>
+				<td><s:property value="status.name" /></td>
 				<td><s:a href="deleteLetter?letter.id=%{id}">
 						删除
-					</s:a>
-					<s:a href="personalLetterInput?targetUser.id=%{userBySourceUserId.id}&targetUser.name=%{userBySourceUserId.name}">回复</s:a>
+					</s:a> <s:a
+						href="personalLetterInput?targetUser.id=%{userBySourceUserId.id}&targetUser.name=%{userBySourceUserId.name}">回复</s:a>
 				</td>
 			</tr>
 		</s:iterator>
