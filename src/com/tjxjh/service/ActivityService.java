@@ -368,9 +368,9 @@ public class ActivityService extends BaseService{
 	{
 		Page page=Page.getPage(1, 12, 1);
 		try{
-			if(club.getId()!=null){
+			if(club!=null&&club.getId()!=null){
 				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in('UNDERWAY','END') and cl.club.id=? order by datetime desc",club.getId());
-			}else if(merchant.getId()!=null){
+			}else if(merchant!=null&&merchant.getId()!=null){
 				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in('UNDERWAY','END') and cl.merchant.id=? order by datetime desc",merchant.getId());
 			}else{
 				return null;
