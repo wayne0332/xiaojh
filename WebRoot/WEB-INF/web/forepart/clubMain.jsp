@@ -60,7 +60,7 @@ body {margin: 0 auto;padding: 0 0;}
 				<div class="rectRow">
 					<div class="rectBlock">
 						<div><s:property value="club.name" /></div>
-						<img src="showImg?img=<s:property value="club.logoPath" />">
+						<img src="<s:property value="club.logoPath" />">
 						<div><s:property value="club.introduction" /></div>
 					</div>
 					<div class="rectBlock">
