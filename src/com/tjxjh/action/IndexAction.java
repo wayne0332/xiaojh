@@ -20,6 +20,7 @@ import com.tjxjh.service.UserService;
 @ParentPackage("struts-default")
 @Namespace("/")
 public class IndexAction extends BaseAction{
+	static final String INDEX = "index";
 	private static final long serialVersionUID = 1L;
 	@Resource
 	private UserService userService = null;
@@ -34,7 +35,7 @@ public class IndexAction extends BaseAction{
 	List<IndexMerchant> ims=new ArrayList<IndexMerchant>();
 	List<Merchant> merchants=null;
 	
-	@Action(value = "index", results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
+	@Action(value = INDEX, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 			+ "index.jsp")})
 	public String index(){
 		clubs=clubService.findHeatClubByHql();

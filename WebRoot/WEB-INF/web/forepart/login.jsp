@@ -32,7 +32,8 @@
 		<table>
 			<tr>
 				<td>用户名:</td>
-				<td><input id="name" type="text" name="user.name" /></td>
+				<td><input id="name" type="text" name="user.name" />
+				</td>
 			</tr>
 			<tr>
 				<td>密码:</td>
@@ -45,7 +46,8 @@
 				<td><input type="radio" name="role" value="merchant">商家用户</td>
 			</tr>
 			<tr>
-				<td><input type="submit" value="submit"></td>
+				<td><input type="submit" value="登陆">
+				</td>
 			</tr>
 		</table>
 	</form>
