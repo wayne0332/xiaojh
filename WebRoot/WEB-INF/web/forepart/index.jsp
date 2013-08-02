@@ -147,7 +147,7 @@
 		</div>
 		<div class="right">
 			<s:iterator value="ims" id="im">
-				<img src="666" onclick="displayMerchantActivity(${merchant.id})" title="${merchant.name}" />
+				<img src="${merchant.logoPath}" onclick="displayMerchantActivity(${merchant.id})" title="${merchant.name}" />
 			</s:iterator>
 		</div>
 	</div>
