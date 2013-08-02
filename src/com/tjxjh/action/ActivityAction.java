@@ -90,6 +90,14 @@ public class ActivityAction extends BaseAction{
 			return ERROR;
 		}
 	}
+	//activityid 查找一个activity
+			@Action(value = "activity", results = {
+					@Result(name = SUCCESS, location = BaseAction.FOREPART + "activity.jsp")})
+			public String activity(){
+				activity=activityService.findById(activity.getId());
+				return SUCCESS;
+				
+			}
 	/**
 	 * 校江湖管理人员发布的活动
 	 * @return
