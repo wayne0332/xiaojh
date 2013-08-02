@@ -23,13 +23,11 @@
 		</div>
 		<s:if test="#session.user == null">
 			<ul class="top_bar w760 fl">
-				<li><a href="registerInput" class="a_bt">注册</a><jsp:include
-						page="login.jsp" /></li>
-			</ul>
-			<ul class="nav_bar w760 fl">
+				<li><a href="registerInput" class="a_bt">注册</a>
 				<li><a href="index" class="a_bt">主页</a>
 				</li>
 			</ul>
+			<jsp:include page="login.jsp" />
 		</s:if>
 		<s:else>
 			<ul class="top_bar w760 fl">
@@ -40,15 +38,14 @@
 				<li><a href="myAnnouncements" class="a_bt">通知(<s:property
 							value="#session.user.announcementCount" />)</a>
 				</li>
-			</ul>
-			<ul class="nav_bar w760 fl">
 				<li><a href="index" class="a_bt">主页</a>
 				</li>
-				<li><a href="myClubs" class="a_bt">我的社团</a> <s:if
-						test="#request.clubInviteCount != null && #request.clubInviteCount != 0">
-						<a href="myInvited" class="a_bt">(<s:property
-								value="#request.clubInviteCount" />)</a>
-					</s:if>
+				<li><a href="myClubs" class="a_bt">我的社团</a> 
+				  <s:if test="#request.clubInviteCount != null && #request.clubInviteCount != 0">
+						<a href="myInvited" class="a_bt">
+							(<s:property value="#request.clubInviteCount" />)
+						</a>
+				</s:if>
 				</li>
 				<li><a href="#" class="a_bt">店铺</a>
 				</li>
