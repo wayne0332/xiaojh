@@ -23,8 +23,8 @@
 			gradeAddOption(select, currentYear - i);
 		}
 		checkUserName("input[name='user.name']", "label", "用户");
-		$("#merchant").css("display", "none");
-		$("input:radio").click(function() {
+		$("#user").css("display", "none");
+		$("input:radio[name='registerType']").click(function() {
 			$("div").css("display", "inline");
 			$("#" + $(this).val()).css("display", "none");
 		});
@@ -42,13 +42,13 @@
 		<table>
 			<tr>
 				<td>注册类型:</td>
-				<td><input type="radio" name="registerType" value="merchant"
+				<td><input type="radio" name="registerType" value="user"
 					checked="checked">普通用户</td>
-				<td><input type="radio" name="registerType" value="user">商家用户</td>
+				<td><input type="radio" name="registerType" value="merchant">商家用户</td>
 			</tr>
 		</table>
 	</div>
-	<div id="user">
+	<div id="merchant">
 		<wst:parameter value="msg" />
 		<form action="register" method="post" enctype="multipart/form-data">
 			用户名:<input type="text" name="user.name"><label
@@ -72,7 +72,7 @@
 				name="portrait"><br> <input type="submit" value="注册">
 		</form>
 	</div>
-	<div id="merchant">
+	<div id="user">
 		<jsp:include page="applyMerchant.jsp" />
 	</div>
 </body>

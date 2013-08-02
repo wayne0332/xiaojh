@@ -16,10 +16,10 @@
 <script type="text/javascript" src="js/userMsg.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("input:radio").click(function() {
+		$("input:radio[name='role']").click(function() {
 			$("#name").attr("name", $(this).val() + ".name");
 			$("#password").attr("name", $(this).val() + ".password");
-			$("form").attr("action", $(this).val() + "Login");
+			$("#login").attr("action", $(this).val() + "Login");
 		});
 	});
 </script>
@@ -28,7 +28,7 @@
 
 <body>
 	<wst:parameter value="msg" />
-	<form action="userLogin" method="post">
+	<form id="login" action="userLogin" method="post">
 		<table>
 			<tr>
 				<td>用户名:</td>

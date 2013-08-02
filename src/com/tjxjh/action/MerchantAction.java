@@ -15,6 +15,7 @@ import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.MerchantNews;
 import com.tjxjh.service.MerchantService;
+import com.tjxjh.util.CodeUtil;
 import com.tjxjh.util.MerchantPurposeUtil;
 
 public class MerchantAction extends BaseAction
@@ -39,6 +40,8 @@ public class MerchantAction extends BaseAction
 	private String mediaFileName = null;
 	private MerchantNews merchantNews = null;
 	private int type;
+	protected File logo = null;
+	protected String logoFileName = null;
 	
 	@Actions({
 			@Action(value = APPLY_MERCHANT_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
@@ -56,8 +59,12 @@ public class MerchantAction extends BaseAction
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = APPLY_MERCHANT_INPUT)})
 	public String applyMerchant()
 	{
+		merchant.setLogoPath(new StringBuilder("upload/merchantLogo/")
+				.append(CodeUtil.md5(merchant.getName()))
+				.append(logoFileName.substring(logoFileName.indexOf('.')))
+				.toString());
 		merchant.setPurpose(MerchantPurposeUtil.transformPurpose(purpose));
-		return super.successOrInput(merchantService.applyMerchant(merchant));
+		return super.successOrInput(merchantService.applyMerchant(merchant, logo));
 	}
 	
 	@Action(value = CHECK_MERCHANT, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = UserAction.LOGIN_INPUT)})
@@ -151,16 +158,19 @@ public class MerchantAction extends BaseAction
 		switch(type)
 		{
 			case (1):
-				List<Club> clubList = merchantService.getFocusList(Club.class,merchant);
+				List<Club> clubList = merchantService.getFocusList(Club.class,
+						merchant);
 				getRequestMap().put("focusList", clubList);
 				break;
 			case (2):
-				List<Merchant> merchantList = merchantService.getFocusList(Merchant.class, merchant);
+				List<Merchant> merchantList = merchantService.getFocusList(
+						Merchant.class, merchant);
 				getRequestMap().put("focusList", merchantList);
 				break;
 		}
 		return SUCCESS;
 	}
+	
 	private boolean isMerchantNewsEmpty()
 	{
 		return merchantNews == null || merchantNews.getId() == null;
@@ -206,11 +216,13 @@ public class MerchantAction extends BaseAction
 		this.page = page;
 	}
 	
-	public File getMedia() {
+	public File getMedia()
+	{
 		return media;
 	}
-
-	public void setMedia(File media) {
+	
+	public void setMedia(File media)
+	{
 		this.media = media;
 	}
 	
@@ -223,19 +235,44 @@ public class MerchantAction extends BaseAction
 	{
 		this.merchantNews = merchantNews;
 	}
-
-	public int getType() {
+	
+	public int getType()
+	{
 		return type;
 	}
-
-	public void setType(int type) {
+	
+	public void setType(int type)
+	{
 		this.type = type;
 	}
-	public String getMediaFileName() {
+	
+	public String getMediaFileName()
+	{
 		return mediaFileName;
 	}
-
-	public void setMediaFileName(String mediaFileName) {
+	
+	public void setMediaFileName(String mediaFileName)
+	{
 		this.mediaFileName = mediaFileName;
+	}
+	
+	public File getLogo()
+	{
+		return logo;
+	}
+	
+	public void setLogo(File logo)
+	{
+		this.logo = logo;
+	}
+	
+	public String getLogoFileName()
+	{
+		return logoFileName;
+	}
+	
+	public void setLogoFileName(String logoFileName)
+	{
+		this.logoFileName = logoFileName;
 	}
 }
