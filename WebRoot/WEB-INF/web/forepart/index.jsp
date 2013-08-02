@@ -123,12 +123,12 @@
 		<!-- 商家活动 -->
 			<div style="background:#9999FF;height:250px; overflow:hidden;">
 				<s:iterator value="ims" status="ms">
-					<!-- 循环社团 -->
+					<!-- 循环商家 -->
 					<div id="merchantactivity${merchant.id}" class="merchantactivity"
 						style="<s:if test="#ms.getIndex()!=0">display:none;</s:if>">
-						<!-- 默认显示第一个社团的活动，其他不显示 -->
+						<!-- 默认显示第一个商家的活动，其他不显示 -->
 						<s:iterator value="acs" status="child">
-							<!--显示 社团对应的activity -->
+							<!--显示 商家对应的activity -->
 							<div class="oneactivitys">
 								<div style="float:left;">
 									<img src="${titleImgPath}" />
