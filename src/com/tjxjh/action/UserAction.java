@@ -67,7 +67,7 @@ public class UserAction extends BaseAction
 	private Integer type;
 	
 	@Action(value = USER_LOGIN, results = {
-			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = MAIN),
+			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = IndexAction.INDEX),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = LOGIN_INPUT, params = {
 					"msg", "用户名或密码错误!"})})
 	public String userLogin()
