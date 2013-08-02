@@ -20,7 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      	<s:property value="message"/><br/>
      	<s:iterator value="acs" id="ac">
      	<div style="display: inline-block; border:1px solid;width:80%;margin:20px; overflow:hidden;">
-     			 活动标题：<s:property value="tittle"/><br>
+     			 活动标题：<a href="activity?activity.id=${id}"><s:property value="tittle"/></a><br>
      			 活动 封面：<br>
 			     <img src="${titleImgPath}" /><br>
 			     ${text}<br>
