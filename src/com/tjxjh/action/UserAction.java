@@ -124,7 +124,7 @@ public class UserAction extends BaseAction
 				+ portraitFileName.substring(portraitFileName.indexOf('.')));
 	}
 	
-	@Action(value = LOGOUT, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = LOGIN_INPUT)})
+	@Action(value = LOGOUT, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = IndexAction.INDEX)})
 	public String logout()
 	{
 		super.clearSession();
