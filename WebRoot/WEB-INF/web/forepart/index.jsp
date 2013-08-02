@@ -88,7 +88,7 @@
 		<div class="left">
 			<s:iterator value="ics" id="cs">
 				<a href="${club.id}" onmouseover="displayClubActivity(${club.id})"><img
-					src="showImg?img=${club.logoPath}" title="${club.name}" />
+					src="${club.logoPath}" title="${club.name}" />
 				</a>
 			</s:iterator>
 
