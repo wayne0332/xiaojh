@@ -29,7 +29,7 @@
 		<div class="left_bar w270 cf">
 			<div class="my_info w240 h90 p10 m5">
 				<img
-					src="showImg?img=<s:property value="#session.user.portraitPath"/>"
+					src="<s:property value="#session.user.portraitPath"/>"
 					class="fl w80 f80" />
 				<ul class="fl w150 p5">
 					<li><a href="updateUserInput"><s:property

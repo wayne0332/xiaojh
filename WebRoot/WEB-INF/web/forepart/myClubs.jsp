@@ -27,7 +27,7 @@
 		</tr>
 		<s:iterator value="#request.myClubs">
 			<tr>
-				<td><img src="showImg?img=<s:property value="club.logoPath" />">
+				<td><img src="<s:property value="club.logoPath" />">
 				</td>
 				<td><s:property value="club.name" /></td>
 				<td><s:property value="role.name" /> <s:if
