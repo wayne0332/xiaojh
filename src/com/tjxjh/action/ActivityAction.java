@@ -133,8 +133,8 @@ public class ActivityAction extends BaseAction{
 	@Action(value = "oneActivity", results = {
 				@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
 		public String findOneActivity(){
-			//club.setId(1);
-			merchant.setId(1);
+			club.setId(1);
+			//merchant.setId(1);
 			page=activityService.getOneClubPageByHql(eachPageNumber,currentPage,totalPageNumber,club,merchant);
 			acs=activityService.findOneClubActivityByHql(page,club,merchant);
 			actionName="oneActivity";

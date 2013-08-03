@@ -15,7 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <script type="text/javascript" src="<%=path%>/js/ajax.js"></script>
    <style type="text/css">
 		 .left {
-			width: 750px;
+			width: 720px;
 			min-height: 500px;
 			background: #DDDDDD;
 			float: left;
@@ -23,7 +23,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		
 		 .right {
-			width: 250px;
+			width: 280px;
+			text-align:center;
 			min-height: 500px;
 			background: #999999;
 			float: right;
@@ -67,6 +68,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      	<a href="<%=path%>/${actionName}?currentPage=${page.currentPage+1}&totalPageNumber=${page.pageNumber}" target="_self">下一页</a>
      </div>
      <div class="right">
+     	随机广告:
      	<ads:adver adsId="1" contentId="0"></ads:adver>
      </div>
   </div>
