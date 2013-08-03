@@ -15,4 +15,8 @@ public class CommonService extends BaseService
 	{
 		return dao.findAll(School.class);
 	}
+	public School school(Integer id)
+	{
+		return dao.findById(School.class,id);
+	}
 }
