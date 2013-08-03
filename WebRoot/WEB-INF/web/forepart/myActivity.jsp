@@ -4,17 +4,35 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <%@taglib prefix="s" uri="/struts-tags" %>
- 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<%@taglib prefix="ads" uri="fineTu/ads" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <base href="<%=basePath%>">
     <title>My JSP 'success.jsp' starting page</title>
-   <link href="<%=path%>/css/main.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="css/base-min.css" />
+   <link rel="stylesheet" type="text/css" href="css/common.css" />
    <script type="text/javascript" src="<%=path%>/js/ajax.js"></script>
+   <style type="text/css">
+		 .left {
+			width: 750px;
+			min-height: 500px;
+			background: #DDDDDD;
+			float: left;
+			text-align: center;
+		}
+		
+		 .right {
+			width: 250px;
+			min-height: 500px;
+			background: #999999;
+			float: right;
+		}
+	</style>
   </head>
   <body>
-     <div class="div">
+  <div class="container">
+     <div class="left">
      	<!-- 提示信息 -->
      	<a href="<%=path %>/addActivityJsp">发表活动</a>
      	<s:property value="message"/><br/>
@@ -48,5 +66,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      	<a href="<%=path%>/${actionName}?currentPage=${page.currentPage-1}&totalPageNumber=${page.pageNumber}" target="_self">上一页</a>&nbsp; 
      	<a href="<%=path%>/${actionName}?currentPage=${page.currentPage+1}&totalPageNumber=${page.pageNumber}" target="_self">下一页</a>
      </div>
+     <div class="right">
+     	<ads:adver adsId="1" contentId="0"></ads:adver>
+     </div>
+  </div>
   </body>
 </html>
