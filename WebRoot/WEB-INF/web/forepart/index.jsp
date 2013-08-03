@@ -16,6 +16,7 @@
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 <script type="text/javascript" src="<%=path%>/js/jquery-1.8.1.min.js"></script>
+<script type="text/javascript" src="js/index2.js"></script>
 <style type="text/css">
 .main {
 	width: 980px;
@@ -89,6 +90,7 @@
 
 <body>
 	<jsp:include page="head.jsp" />
+	
 	<div class="main">
 		<div class="left">
 			<s:iterator value="ics" id="cs">

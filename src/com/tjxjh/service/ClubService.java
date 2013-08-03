@@ -20,6 +20,7 @@ import com.tjxjh.enumeration.ClubMemberRole;
 import com.tjxjh.enumeration.ClubMemberSource;
 import com.tjxjh.enumeration.ClubMemberStatus;
 import com.tjxjh.enumeration.ClubStatus;
+import com.tjxjh.enumeration.ClubType;
 import com.tjxjh.enumeration.PersonalLetterStatus;
 import com.tjxjh.enumeration.Sex;
 import com.tjxjh.enumeration.UserStatus;
@@ -29,6 +30,7 @@ import com.tjxjh.po.ClubMember;
 import com.tjxjh.po.ClubMemberId;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.PersonalLetter;
+import com.tjxjh.po.School;
 import com.tjxjh.po.User;
 
 @Service
@@ -400,4 +402,66 @@ public class ClubService extends BaseService
 		Page page=Page.getPage(1, 12, 1);
 		return (List<Club>) dao.executeHql(page,"from Club cl where cl.status='PASSED' order by popularity desc");
 	}
+	/**********************************************************查看某个学校的社团的，按热度排序*****************************************************/
+	@Transactional (propagation = Propagation.REQUIRED) 
+	public Page findSchoolClubPageByHet(Integer eachPageNumber,Integer currentPage,Integer totalPageNumber,School school)
+	{
+		if(currentPage<=0){
+			currentPage=1;
+		}
+		if(totalPageNumber!=0){
+			return Page.getPage(currentPage, eachPageNumber, totalPageNumber);
+		}
+		try{
+			Page page=null;
+			if(school!=null&&school.getId()!=null){
+				page=dao.getPageByHql(eachPageNumber,"select count(*) from Club cl  where cl.status='PASSED' and cl.school.id=?",
+						school.getId());
+			}else{
+				return null;
+			}
+			page.setCurrentPage(currentPage);
+			return page;
+		}catch (Exception e){
+			System.out.println("---------findSchoolClubPageByHet---------"+e);
+			return null;
+		}
+	}
+	@SuppressWarnings("unchecked")
+	public List<Club> findSchoolHeatClubByHql(School school,Page page)
+	{
+		return (List<Club>) dao.executeHql(page,"from Club cl where cl.status='PASSED' and cl.school.id=? order by popularity desc",school.getId());
+	}
+	/**********************************************************查看某个学校的某个类型的社团*****************************************************/
+	@Transactional (propagation = Propagation.REQUIRED) 
+	public Page findSchoolClubPageByType(Integer eachPageNumber,Integer currentPage,Integer totalPageNumber,School school,String type)
+	{
+		if(currentPage<=0){
+			currentPage=1;
+		}
+		if(totalPageNumber!=0){
+			return Page.getPage(currentPage, eachPageNumber, totalPageNumber);
+		}
+		try{
+			Page page=null;
+			if(school!=null&&school.getId()!=null){
+				page=dao.getPageByHql(eachPageNumber,"select count(*) from Club cl  where cl.status='PASSED' and cl.type=? and cl.school.id=?",
+						ClubType.valueOf(type),school.getId());
+			}else{
+				return null;
+			}
+			page.setCurrentPage(currentPage);
+			return page;
+		}catch (Exception e){
+			System.out.println("---------findSchoolClubPageByType---------"+e);
+			return null;
+		}
+	}
+	@SuppressWarnings("unchecked")
+	public List<Club> findSchoolClubByType(School school,String type,Page page)
+	{
+		return (List<Club>) dao.executeHql(page,"from Club cl where cl.status='PASSED' and cl.type=? and cl.school.id=? order by popularity desc",
+				ClubType.valueOf(type),school.getId());
+	}
+	/**********************************************************查看某个学校的某个类型的社团*****************************************************/
 }

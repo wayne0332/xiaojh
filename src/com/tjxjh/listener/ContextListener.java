@@ -14,6 +14,7 @@ import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.interceptor.AuthInterceptor;
 import com.tjxjh.po.School;
 import com.tjxjh.po.User;
+import com.tjxjh.service.AdService;
 import com.tjxjh.service.ClubService;
 import com.tjxjh.service.CommonService;
 import com.tjxjh.service.UserService;
@@ -62,6 +63,9 @@ public class ContextListener implements ServletContextListener
 				// + UserService.DEFAULT_PORTRAIT)));
 			}
 		}
+		/*初始化广告位信息*/
+		AdService adService = SpringUtil.springContext(context.getServletContext()).getBean(AdService.class);
+		context.getServletContext().setAttribute("adsList", adService.allAdsMap());
 	}
 	
 	private Map<Integer, School> schoolsMap(List<School> schools)
