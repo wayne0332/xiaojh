@@ -27,12 +27,15 @@
 		</tr>
 		<s:iterator value="#request.clubMembers">
 			<tr>
-				<td><s:property value="user.name" /></td>
+				<td><s:property value="user.name" /> <s:if
+						test="user.id == #session.user.id">
+						(我)
+					</s:if></td>
 				<td><s:property value="role.name" /> <s:if
 						test="status.name() == 'NO_CHECK'">(<s:property
-							value="status.name" />)</s:if>
+							value="status.name" />)</s:if></td>
+				<td><s:date name="datetime" format="yyyy-MM-dd hh:mm:ss" />
 				</td>
-				<td><s:date name="datetime" format="yyyy-MM-dd hh:mm:ss" /></td>
 
 				<td><s:if test="#request.clubMember.role.name() == 'NORMAL'">
 						无
@@ -73,7 +76,8 @@
 								</s:else>
 							</s:else>
 						</s:else>
-					</s:else></td>
+					</s:else>
+				</td>
 			</tr>
 
 		</s:iterator>

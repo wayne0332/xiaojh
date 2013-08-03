@@ -41,11 +41,6 @@
 				<li><a href="index" class="a_bt">主页</a>
 				</li>
 				<li><a href="myClubs" class="a_bt">我的社团</a> 
-				  <s:if test="#request.clubInviteCount != null && #request.clubInviteCount != 0">
-						<a href="myInvited" class="a_bt">
-							(<s:property value="#request.clubInviteCount" />)
-						</a>
-				</s:if>
 				</li>
 				<li><a href="#" class="a_bt">店铺</a>
 				</li>

@@ -18,6 +18,11 @@
 <body>
 	<jsp:include page="head.jsp" />
 	<a href="applyClubInput">申请社团</a>
+	<s:if
+		test="#request.clubInviteCount != null && #request.clubInviteCount != 0">
+		<a href="myInvited" class="a_bt"> 我的邀请(<s:property
+				value="#request.clubInviteCount" />) </a>
+	</s:if>
 	<table>
 		<tr>
 			<td>Logo</td>

@@ -31,14 +31,19 @@
 
 		<s:iterator value="#request.users.userList">
 			<tr>
-				<td><s:property value="name" /></td>
+				<td><s:property value="name" />
+					<s:if test="id == #session.user.id">
+						(我)
+					</s:if>
+				</td>
 				<td><s:if test="#request.clubMembers[id] != null">
 						<s:property value="#request.clubMembers[id].role.name" />
 						<s:if test="#request.clubMembers[id].status.name() == 'NO_CHECK'">(<s:property
 								value="#request.clubMembers[id].status.name" />)</s:if>
 					</s:if> <s:else>
 						非社员
-					</s:else></td>
+					</s:else>
+				</td>
 				<td><s:if test="#request.clubMember.role.name() == 'NORMAL'">
 						无
 					</s:if> <s:else>
@@ -81,7 +86,8 @@
 								</s:else>
 							</s:else>
 						</s:else>
-					</s:else></td>
+					</s:else>
+				</td>
 			</tr>
 		</s:iterator>
 	</table>

@@ -99,6 +99,8 @@ public class ClubAction extends BaseAction
 			+ MY_CLUBS + JSP)})
 	public String myClubs()
 	{
+		super.getRequestMap().put("clubInviteCount",
+				clubService.clubInvitedCount(super.currentUser()));
 		if(page == null)
 		{
 			page = clubService.userClubsPage(currentUser());
@@ -252,21 +254,24 @@ public class ClubAction extends BaseAction
 		return SUCCESS;
 	}
 	
-	@Action(value = CLUB_ACCEPT_INVITED, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS)})
+	@Action(value = CLUB_ACCEPT_INVITED, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS, params = {
+			"club.id", "${club.id}"})})
 	public String clubAcceptInvited()
 	{
 		clubService.acceptInvited(user, club);
 		return SUCCESS;
 	}
 	
-	@Action(value = CLUB_REFUSE_INVITED, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS)})
+	@Action(value = CLUB_REFUSE_INVITED, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS, params = {
+			"club.id", "${club.id}"})})
 	public String clubRefuseInvited()
 	{
 		clubService.refuseInvited(user, club);
 		return SUCCESS;
 	}
 	
-	@Action(value = FIRE_CLUB_MEMBER, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS)})
+	@Action(value = FIRE_CLUB_MEMBER, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS, params = {
+			"club.id", "${club.id}"})})
 	public String fireClubMember()
 	{
 		clubService.deleteClubMember(user, club, currentClubMember());
@@ -297,7 +302,8 @@ public class ClubAction extends BaseAction
 		return SUCCESS;
 	}
 	
-	@Action(value = UPDATE_MEMBER_TO_MANAGER, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS)})
+	@Action(value = UPDATE_MEMBER_TO_MANAGER, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS, params = {
+			"club.id", "${club.id}"})})
 	public String updateMemberToManager()
 	{
 		clubService.changeMemberRole(user, currentClubMember(),
@@ -305,7 +311,8 @@ public class ClubAction extends BaseAction
 		return SUCCESS;
 	}
 	
-	@Action(value = UPDATE_MEMBER_TO_NORMAL, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS)})
+	@Action(value = UPDATE_MEMBER_TO_NORMAL, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS, params = {
+			"club.id", "${club.id}"})})
 	public String updateMemberToNormal()
 	{
 		clubService.changeMemberRole(user, currentClubMember(),
@@ -329,7 +336,8 @@ public class ClubAction extends BaseAction
 		return SUCCESS;
 	}
 	
-	@Action(value = CHANGE_PROPRIETER, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS)})
+	@Action(value = CHANGE_PROPRIETER, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS, params = {
+			"club.id", "${club.id}"})})
 	public String changeProprieter()
 	{
 		clubService.changeProprieter(user, currentClubMember());

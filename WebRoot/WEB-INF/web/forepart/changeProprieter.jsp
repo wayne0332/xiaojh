@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<%@ taglib prefix="wst" uri="/webSupportTag" %>
+<%@ taglib prefix="wst" uri="/webSupportTag"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -16,6 +16,7 @@
 </head>
 
 <body>
+	<jsp:include page="head.jsp" />
 	<table>
 		<tr>
 			<td>名字</td>
@@ -25,14 +26,16 @@
 		</tr>
 		<s:iterator value="#request.changeProprieter">
 			<tr>
-				<td><s:property value="user.name" /></td>
-				<td><s:property value="role.name" />
+				<td><s:property value="user.name" />
 				</td>
-				<td><s:date name="datetime" format="yyyy-MM-dd hh:mm:ss" /></td>
-				<td><s:a href="changeProprieter?user.id=%{user.id}">成为新社长</s:a></td>
+				<td><s:property value="role.name" /></td>
+				<td><s:date name="datetime" format="yyyy-MM-dd hh:mm:ss" />
+				</td>
+				<td><s:a href="changeProprieter?user.id=%{user.id}&club.id=%{club.id}">成为新社长</s:a>
+				</td>
 			</tr>
 		</s:iterator>
 	</table>
-	<wst:page url="changeProprieterInput"/>
+	<wst:page url="changeProprieterInput" />
 </body>
 </html>

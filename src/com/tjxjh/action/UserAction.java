@@ -136,8 +136,6 @@ public class UserAction extends BaseAction
 	public String main()
 	{
 		/************************** CAFEBABE *******************************************/
-		super.getRequestMap().put("clubInviteCount",
-				clubService.clubInvitedCount(super.currentUser()));
 		/************************** CAFEBABE *******************************************/
 		List<User> focusUserList = userService.getFocusList(User.class,
 				(User) getSessionMap().get("user"));
