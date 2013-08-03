@@ -7,13 +7,16 @@ import java.util.Map;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import cn.cafebabe.websupport.util.SpringUtil;
+
 import com.tjxjh.enumeration.Sex;
 import com.tjxjh.enumeration.UserStatus;
+import com.tjxjh.interceptor.AuthInterceptor;
 import com.tjxjh.po.School;
 import com.tjxjh.po.User;
+import com.tjxjh.service.ClubService;
 import com.tjxjh.service.CommonService;
 import com.tjxjh.service.UserService;
-import com.tjxjh.util.SpringUtil;
 
 public class ContextListener implements ServletContextListener
 {
@@ -33,8 +36,8 @@ public class ContextListener implements ServletContextListener
 		school.setId(1);
 		UserService userService = SpringUtil.springContext(
 				context.getServletContext()).getBean(UserService.class);
-//		ClubService clubService = SpringUtil.springContext(
-//				context.getServletContext()).getBean(ClubService.class);
+		AuthInterceptor.setClubService(SpringUtil.springContext(
+				context.getServletContext()).getBean(ClubService.class));
 		if(!userService.exist(new User(school, "test0", null, null, null, null,
 				null, null, null, null, null, null, null, null, null, null,
 				null, null, null, null)))
@@ -46,17 +49,17 @@ public class ContextListener implements ServletContextListener
 						null, null, null, null, null, null, null,
 						UserStatus.NO_VALIDATE, null);
 				userService.register(user, null);
-//				clubService.applyClub(
-//						new Club(school, user, "test", "test" + i,
-//								new StringBuilder(
-//										"upload/clubLogo/school_1_test" + i
-//												+ ".png").toString(), null,
-//								ClubType.Music, ClubStatus.PASSED, null,
-//								"test", null),
-//						user,
-//						new File(context.getServletContext().getRealPath(
-//								"/" + UserAction.PORTRAIT_FOLDER
-//										+ UserService.DEFAULT_PORTRAIT)));
+				// clubService.applyClub(
+				// new Club(school, user, "test", "test" + i,
+				// new StringBuilder(
+				// "upload/clubLogo/school_1_test" + i
+				// + ".png").toString(), null,
+				// ClubType.Music, ClubStatus.PASSED, null,
+				// "test", null),
+				// user,
+				// new File(context.getServletContext().getRealPath(
+				// "/" + UserAction.PORTRAIT_FOLDER
+				// + UserService.DEFAULT_PORTRAIT)));
 			}
 		}
 	}
