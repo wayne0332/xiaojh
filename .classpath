@@ -16,7 +16,7 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/com.springsource.org.aopalliance-1.0.0.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/com.springsource.org.apache.commons.fileupload-1.2.0.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/com.springsource.org.apache.commons.httpclient-3.1.0.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/com.springsource.org.apache.commons.lang-2.4.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/com.springsource.org.apache.commons.lang-2.4.0.jar" sourcepath="G:/包/struts-2.3.1.2-all.zip"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/com.springsource.org.apache.commons.logging-1.1.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/com.springsource.org.apache.commons.pool-1.5.3.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/com.springsource.org.apache.log4j-1.2.15.jar"/>
@@ -81,6 +81,6 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/wstx-asl-3.2.7.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xapool.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xmlunit-1.2.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xwork-core-2.2.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xwork-core-2.2.1.jar" sourcepath="G:/Maven/org/apache/struts/xwork/xwork-core/2.2.1/xwork-core-2.2.1-sources.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>

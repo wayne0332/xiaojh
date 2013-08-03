@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
+import cn.cafebabe.websupport.util.SpringUtil;
 
 import com.tjxjh.service.UserService;
-import com.tjxjh.util.SpringUtil;
 
 public class CheckUserServlet extends HttpServlet
 {

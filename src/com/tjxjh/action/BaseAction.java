@@ -9,7 +9,7 @@ import com.tjxjh.po.User;
 public class BaseAction extends BaseStruts2Action
 {
 	private static final long serialVersionUID = 7843015707793846122L;
-	final static String FOREPART = SECRET_PAGE_PATH + "forepart/",
+	public final static String FOREPART = SECRET_PAGE_PATH + "forepart/",
 			MANAGE = SECRET_PAGE_PATH + "manage/", CLUB_MEMBER = "clubMember",
 			ERROR_PAGE = "error_500.jsp", USER = "user", MERCHANT = "merchant";
 	
@@ -42,5 +42,10 @@ public class BaseAction extends BaseStruts2Action
 	protected Merchant currentMerchant()
 	{
 		return (Merchant) super.getSessionMap().get(MERCHANT);
+	}
+	
+	protected ClubMember currentClubMember()
+	{
+		return (ClubMember) super.getRequestMap().get(CLUB_MEMBER);
 	}
 }
