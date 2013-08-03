@@ -36,14 +36,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <div class="left">
      	<!-- 提示信息 -->
      	<a href="<%=path %>/addActivityJsp">发表活动</a>
+     	<a href="<%=path %>/${actionName}?condition=datetime">时间排序</a>
+     	<a href="<%=path %>/${actionName}?condition=heat">热度排序</a>
      	<s:property value="message"/><br/>
      	<s:iterator value="acs" id="ac">
      	<div style="display: inline-block; border:1px solid;width:80%;margin:20px; overflow:hidden;">
      			 活动标题：<a href="activity?activity.id=${id}"><s:property value="tittle"/></a><br>
      			 活动 封面：<br>
-			     <img src="${titleImgPath}" /><br>
-			     ${text}<br>
-			     ${videoUrl}<br>
+			     <img src="${titleImgPath}" width="100px" height="100px"/><br>
 			         活动预算资金：${budget}元<br>
 	     		活动组织者：${organizer}<br>
 	     		活动举办地点：${place}<br>
@@ -64,8 +64,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      	</s:iterator>
      	<br>
      	当前第${page.currentPage}页&nbsp;共${page.pageNumber}页
-     	<a href="<%=path%>/${actionName}?currentPage=${page.currentPage-1}&totalPageNumber=${page.pageNumber}" target="_self">上一页</a>&nbsp; 
-     	<a href="<%=path%>/${actionName}?currentPage=${page.currentPage+1}&totalPageNumber=${page.pageNumber}" target="_self">下一页</a>
+     	<a href="<%=path%>/${actionName}?condition=${condition}&currentPage=${page.currentPage-1}&totalPageNumber=${page.pageNumber}" target="_self">上一页</a>&nbsp; 
+     	<a href="<%=path%>/${actionName}?condition=${condition}&currentPage=${page.currentPage+1}&totalPageNumber=${page.pageNumber}" target="_self">下一页</a>
      </div>
      <div class="right">
      	随机广告:
