@@ -67,32 +67,29 @@
 </head>
 
 <body>
+	<jsp:include page="head.jsp" />
 	<form action="applyClub" method="post" enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td>名称:</td>
 				<td><input type="text" name="club.name"><label
-					style="display:none;color:red;"></label>
-				</td>
+					style="display:none;color:red;"></label></td>
 			</tr>
 			<tr>
 				<td>学校:</td>
 				<td><s:property
 						value="#application.schools[#session.user.school.id].name" /> <s:hidden
-						name="club.school.id" value="%{#session.user.school.id}" />
-				</td>
+						name="club.school.id" value="%{#session.user.school.id}" /></td>
 			</tr>
 			<tr>
 				<td>类型:</td>
 				<td><s:select name="club.type"
 						list="@com.tjxjh.enumeration.ClubType@values()" listKey="name()"
-						listValue="name" />
-				</td>
+						listValue="name" /></td>
 			</tr>
 			<tr>
 				<td>Logo:</td>
-				<td><input type="file" name="logo">
-				</td>
+				<td><input type="file" name="logo"></td>
 			</tr>
 			<tr>
 				<td>简介:</td>
@@ -105,8 +102,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td><input type="submit" value="提交">
-				</td>
+				<td><input type="submit" value="提交"></td>
 			</tr>
 		</table>
 	</form>
