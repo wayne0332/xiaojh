@@ -16,6 +16,7 @@
 </head>
 
 <body>
+	<jsp:include page="head.jsp" />
 	<s:if test="#session.clubMember.role.name() != 'NORMAL'">
 		<a href="addAnnouncementInput?path=clubAnnouncements">社团通告</a>
 	</s:if>
@@ -27,12 +28,9 @@
 		</tr>
 		<s:iterator value="#request.myAnnouncements">
 			<tr>
-				<td><s:property value="title" />
-				</td>
-				<td><s:date name="datetime" format="yyyy-MM-dd hh:mm:ss" />
-				</td>
-				<td><s:property value="text" />
-				</td>
+				<td><s:property value="title" /></td>
+				<td><s:date name="datetime" format="yyyy-MM-dd hh:mm:ss" /></td>
+				<td><s:property value="text" /></td>
 			</tr>
 		</s:iterator>
 	</table>

@@ -37,7 +37,7 @@ public class MerchantService extends BaseService
 	private static final String MERCHANT_NEWS_HQL = "from MerchantNews where merchant.id=? order by datetime desc";
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public boolean applyMerchant(Merchant merchant)
+	public boolean applyMerchant(Merchant merchant, File logo)
 	{
 		md5Password(merchant);
 		User user = new User(null, merchant.getName(), merchant.getPassword(),
@@ -47,6 +47,7 @@ public class MerchantService extends BaseService
 		dao.persist(user);
 		merchant.setUser(user);
 		merchant.setStatus(MerchantStatus.NO_CHECK);
+		UserService.savePortrait(merchant.getLogoPath(), logo, 280);
 		return super.save(merchant);
 	}
 	

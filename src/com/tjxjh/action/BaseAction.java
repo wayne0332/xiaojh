@@ -26,18 +26,12 @@ public class BaseAction extends BaseStruts2Action
 	protected void clearSession()
 	{
 		super.getSessionMap().remove(USER);
-		super.getSessionMap().remove(CLUB_MEMBER);
 		super.getSessionMap().remove(MERCHANT);
 	}
 	
 	protected void saveClubMember(ClubMember clubMember)
 	{
-		super.getSessionMap().put(CLUB_MEMBER, clubMember);
-	}
-	
-	protected ClubMember currentClubMember()
-	{
-		return (ClubMember) super.getSessionMap().get(CLUB_MEMBER);
+		super.getRequestMap().put(CLUB_MEMBER, clubMember);
 	}
 	
 	protected void saveMerchant(Merchant merchant)

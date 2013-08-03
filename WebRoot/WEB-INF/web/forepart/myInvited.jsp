@@ -15,6 +15,7 @@
 </head>
 
 <body>
+	<jsp:include page="head.jsp" />
 	<table>
 		<tr>
 			<td>社团名</td>
@@ -24,17 +25,17 @@
 		</tr>
 		<s:iterator value="#request.myInvited">
 			<tr>
-				<td><s:property value="club.name" />
+				<td><s:property value="club.name" /></td>
+				<td><s:date name="datetime" format="yyyy-MM-dd hh:mm:ss" />
 				</td>
-				<td><s:date name="datetime" format="yyyy-MM-dd hh:mm:ss" /></td>
-				<td><s:property value="source.name" /></td>
+				<td><s:property value="source.name" />
+				</td>
 				<td><s:if test="source.name() == 'USER_TO_CLUB'">
 						等待通过
 					</s:if> <s:else>
 						<s:a href="userAcceptInvited?club.id=%{club.id}">接受</s:a>
 						<s:a href="userRefuseInvited?club.id=%{club.id}">拒绝</s:a>
-					</s:else>
-				</td>
+					</s:else></td>
 			</tr>
 		</s:iterator>
 	</table>

@@ -398,6 +398,6 @@ public class ClubService extends BaseService
 	public List<Club> findHeatClubByHql()
 	{
 		Page page=Page.getPage(1, 12, 1);
-		return (List<Club>) dao.executeHql(page,"from Club cl where cl.status=PASSED order by popularity desc");
+		return (List<Club>) dao.executeHql(page,"from Club cl where cl.status='PASSED' order by popularity desc");
 	}
 }

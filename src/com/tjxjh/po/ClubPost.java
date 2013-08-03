@@ -145,7 +145,7 @@ public class ClubPost implements java.io.Serializable
 		this.clubPostComments = clubPostComments;
 	}
 	
-	@Column(name = "tittle", nullable = false, length = 200)
+	@Column(name = "title", nullable = false, length = 200)
 	public String getTittle()
 	{
 		return this.tittle;

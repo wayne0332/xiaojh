@@ -23,6 +23,11 @@
 			gradeAddOption(select, currentYear - i);
 		}
 		checkUserName("input[name='user.name']", "label", "用户");
+		$("#user").css("display", "none");
+		$("input:radio[name='registerType']").click(function() {
+			$("div").css("display", "inline");
+			$("#" + $(this).val()).css("display", "none");
+		});
 	});
 
 	function gradeAddOption(select, year) {
@@ -32,27 +37,43 @@
 </head>
 
 <body>
-	<wst:parameter value="msg" />
-	<form action="register" method="post" enctype="multipart/form-data">
-		name:<input type="text" name="user.name"><label
-			style="display:none;color:red;"></label><br> password:<input
-			type="text" name="user.password"><br> school:
-		<s:select name="user.school.id" list="#application.schools"
-			listKey="key" listValue="value.name" />
-		<br> email(这个要填好 不然注册不了- -):<input type="text" name="user.email"><br>
-		sex:
-		<s:select name="user.sex" list="@com.tjxjh.enumeration.Sex@values()"
-			listKey="name()" listValue="name" />
-		<br>grade:<select name="user.grade"></select><br>
-		<hr>
-		real_name:<input type="text" name="user.realName"><br>
-		subject:<input type="text" name="user.subject"><br>
-		profession:<input type="text" name="user.profession"><br>
-		birthday:<input type="text" name="user.birthday" readonly="readonly"
-			class="Wdate" onClick="WdatePicker()"><br> phone:<input
-			type="text" name="user.phone"><br> qq:<input type="text"
-			name="user.qq"><br> portrait:<input type="file"
-			name="portrait"><br> <input type="submit" value="submit">
-	</form>
+	<jsp:include page="head.jsp" />
+	<div>
+		<table>
+			<tr>
+				<td>注册类型:</td>
+				<td><input type="radio" name="registerType" value="user"
+					checked="checked">普通用户</td>
+				<td><input type="radio" name="registerType" value="merchant">商家用户</td>
+			</tr>
+		</table>
+	</div>
+	<div id="merchant">
+		<wst:parameter value="msg" />
+		<form action="register" method="post" enctype="multipart/form-data">
+			用户名:<input type="text" name="user.name"><label
+				style="display:none;color:red;"></label><br> 密码:<input
+				type="text" name="user.password"><br> 学校:
+			<s:select name="user.school.id" list="#application.schools"
+				listKey="key" listValue="value.name" />
+			<br> 邮箱(这个要填好 不然注册不了- -):<input type="text" name="user.email"><br>
+			性别:
+			<s:select name="user.sex" list="@com.tjxjh.enumeration.Sex@values()"
+				listKey="name()" listValue="name" />
+			<br>入学年份:<select name="user.grade"></select><br>
+			<hr>
+			真实姓名:<input type="text" name="user.realName"><br> 学院:<input
+				type="text" name="user.subject"><br> 专业:<input
+				type="text" name="user.profession"><br> 生日:<input
+				type="text" name="user.birthday" readonly="readonly" class="Wdate"
+				onClick="WdatePicker()"><br> 电话:<input type="text"
+				name="user.phone"><br> qq:<input type="text"
+				name="user.qq"><br> 头像:<input type="file"
+				name="portrait"><br> <input type="submit" value="注册">
+		</form>
+	</div>
+	<div id="user">
+		<jsp:include page="applyMerchant.jsp" />
+	</div>
 </body>
 </html>

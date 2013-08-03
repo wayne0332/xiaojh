@@ -32,6 +32,8 @@ public class Merchant implements java.io.Serializable
 	// Fields
 	private Integer id;
 	private String name;
+	private String merchantName;
+	private String logoPath;
 	private String password;
 	private String template;
 	private MerchantStatus status;
@@ -61,13 +63,16 @@ public class Merchant implements java.io.Serializable
 	{}
 	
 	/** minimal constructor */
-	public Merchant(String name, String password, MerchantStatus status,
-			MerchantType type, MerchantBusiness business, String purpose,
-			String address, String phone, String connectorName,
-			String connectorPhone, String connectorQq, String connectorEmail,
-			Integer liveness, Integer popularity, User user)
+	public Merchant(String name, String merchantName, String password,
+			String logoPath, MerchantStatus status, MerchantType type,
+			MerchantBusiness business, String purpose, String address,
+			String phone, String connectorName, String connectorPhone,
+			String connectorQq, String connectorEmail, Integer liveness,
+			Integer popularity, User user)
 	{
 		this.name = name;
+		this.merchantName = merchantName;
+		this.logoPath = logoPath;
 		this.password = password;
 		this.status = status;
 		this.type = type;
@@ -85,18 +90,20 @@ public class Merchant implements java.io.Serializable
 	}
 	
 	/** full constructor */
-	public Merchant(String name, String password, String template,
-			MerchantStatus status, MerchantType type,
-			MerchantBusiness business, String purpose, String address,
-			String phone, String connectorName, String connectorPhone,
-			String connectorQq, String connectorEmail, Integer liveness,
-			Integer popularity, User user, Set<User> users,
+	public Merchant(String name, String merchantName, String password,
+			String logoPath, String template, MerchantStatus status,
+			MerchantType type, MerchantBusiness business, String purpose,
+			String address, String phone, String connectorName,
+			String connectorPhone, String connectorQq, String connectorEmail,
+			Integer liveness, Integer popularity, User user, Set<User> users,
 			Set<Merchant> merchantsForMerchantId1,
 			Set<Merchant> merchantsForMerchantId,
 			Set<MerchantNews> merchantNewses, Set<Activity> activities,
 			Set<Club> focusClubs, Set<Club> beFocusClubs)
 	{
 		this.name = name;
+		this.merchantName = merchantName;
+		this.logoPath = logoPath;
 		this.password = password;
 		this.template = template;
 		this.status = status;
@@ -135,7 +142,7 @@ public class Merchant implements java.io.Serializable
 		this.id = id;
 	}
 	
-	@Column(name = "name", nullable = false, length = 150)
+	@Column(name = "name", nullable = false, length = 45)
 	public String getName()
 	{
 		return this.name;
@@ -338,7 +345,7 @@ public class Merchant implements java.io.Serializable
 		this.merchantsForMerchantId1 = merchantsForMerchantId1;
 	}
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "merchantsForMerchantId1")
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "merchantsForMerchantId1")
 	public Set<Merchant> getMerchantsForMerchantId()
 	{
 		return this.merchantsForMerchantId;
@@ -392,5 +399,27 @@ public class Merchant implements java.io.Serializable
 	public void setBeFocusClubs(Set<Club> beFocusClubs)
 	{
 		this.beFocusClubs = beFocusClubs;
+	}
+	
+	@Column(name = "logo_path", nullable = false, length = 250)
+	public String getLogoPath()
+	{
+		return this.logoPath;
+	}
+	
+	public void setLogoPath(String logoPath)
+	{
+		this.logoPath = logoPath;
+	}
+	
+	@Column(name = "merchantName", nullable = false, length = 100)
+	public String getMerchantName()
+	{
+		return merchantName;
+	}
+	
+	public void setMerchantName(String merchantName)
+	{
+		this.merchantName = merchantName;
 	}
 }

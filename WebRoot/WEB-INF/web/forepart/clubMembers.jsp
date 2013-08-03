@@ -16,7 +16,8 @@
 </head>
 
 <body>
-	<s:a href="searchUserToManage">搜索人员</s:a>
+	<jsp:include page="head.jsp" />
+	<s:a href="searchUserToManage?club.id=%{club.id}">搜索人员</s:a>
 	<table>
 		<tr>
 			<td>名字</td>
@@ -26,15 +27,17 @@
 		</tr>
 		<s:iterator value="#request.clubMembers">
 			<tr>
-				<td><s:property value="user.name" />
-				</td>
+				<td><s:property value="user.name" /> <s:if
+						test="user.id == #session.user.id">
+						(我)
+					</s:if></td>
 				<td><s:property value="role.name" /> <s:if
 						test="status.name() == 'NO_CHECK'">(<s:property
 							value="status.name" />)</s:if></td>
 				<td><s:date name="datetime" format="yyyy-MM-dd hh:mm:ss" />
 				</td>
 
-				<td><s:if test="#session.clubMember.role.name() == 'NORMAL'">
+				<td><s:if test="#request.clubMember.role.name() == 'NORMAL'">
 						无
 					</s:if> <s:else>
 						<s:if test="role.name() == 'NORMAL'">
@@ -43,28 +46,33 @@
 									已发出邀请
 								</s:if>
 								<s:else>
-									<s:a href="clubAcceptInvited?user.id=%{user.id}">接受申请</s:a>
-									<s:a href="clubRefuseInvited?user.id=%{user.id}">拒绝</s:a>
+									<s:a
+										href="clubAcceptInvited?user.id=%{user.id}&club.id=%{club.id}">接受申请</s:a>
+									<s:a
+										href="clubRefuseInvited?user.id=%{user.id}&club.id=%{club.id}">拒绝</s:a>
 								</s:else>
 							</s:if>
 							<s:else>
-								<s:if test="#session.clubMember.role.name() == 'PROPRIETER'">
-									<s:a href="updateMemberToManager?user.id=%{user.id}">变为管理员</s:a>
+								<s:if test="#request.clubMember.role.name() == 'PROPRIETER'">
+									<s:a
+										href="updateMemberToManager?user.id=%{user.id}&club.id=%{club.id}">变为管理员</s:a>
 								</s:if>
-								<s:a href="fireClubMember?user.id=%{user.id}">开除</s:a>
+								<s:a href="fireClubMember?user.id=%{user.id}&club.id=%{club.id}">开除</s:a>
 							</s:else>
 						</s:if>
 						<s:else>
-							<s:if test="#session.clubMember.role.name() != 'PROPRIETER'">
+							<s:if test="#request.clubMember.role.name() != 'PROPRIETER'">
 								无
 							</s:if>
 							<s:else>
 								<s:if test="role.name() == 'PROPRIETER'">
-									<a href="changeProprieterInput">换社长</a>
+									<a href="changeProprieterInput?club.id=${club.id }">换社长</a>
 								</s:if>
 								<s:else>
-									<s:a href="updateMemberToNormal?user.id=%{user.id}">取消管理权限</s:a>
-									<s:a href="fireClubMember?user.id=%{user.id}">开除</s:a>
+									<s:a
+										href="updateMemberToNormal?user.id=%{user.id}&club.id=%{club.id}">取消管理权限</s:a>
+									<s:a
+										href="fireClubMember?user.id=%{user.id}&club.id=%{club.id}">开除</s:a>
 								</s:else>
 							</s:else>
 						</s:else>
@@ -74,6 +82,6 @@
 
 		</s:iterator>
 	</table>
-	<wst:page url="clubMembers" />
+	<wst:page url="clubMembers?club.id=%{club.id}" />
 </body>
 </html>

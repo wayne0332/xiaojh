@@ -67,7 +67,7 @@ public class UserAction extends BaseAction
 	private Integer type;
 	
 	@Action(value = USER_LOGIN, results = {
-			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = MAIN),
+			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = IndexAction.INDEX),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = LOGIN_INPUT, params = {
 					"msg", "用户名或密码错误!"})})
 	public String userLogin()
@@ -124,7 +124,7 @@ public class UserAction extends BaseAction
 				+ portraitFileName.substring(portraitFileName.indexOf('.')));
 	}
 	
-	@Action(value = LOGOUT, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = LOGIN_INPUT)})
+	@Action(value = LOGOUT, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = IndexAction.INDEX)})
 	public String logout()
 	{
 		super.clearSession();
@@ -136,8 +136,6 @@ public class UserAction extends BaseAction
 	public String main()
 	{
 		/************************** CAFEBABE *******************************************/
-		super.getRequestMap().put("clubInviteCount",
-				clubService.clubInvitedCount(super.currentUser()));
 		/************************** CAFEBABE *******************************************/
 		List<User> focusUserList = userService.getFocusList(User.class,
 				(User) getSessionMap().get("user"));

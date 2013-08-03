@@ -10,16 +10,20 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
+import com.tjxjh.po.School;
 import com.tjxjh.pojo.IndexClub;
 import com.tjxjh.pojo.IndexMerchant;
 import com.tjxjh.service.ActivityService;
 import com.tjxjh.service.ClubService;
+import com.tjxjh.service.CommonService;
 import com.tjxjh.service.MerchantService;
 import com.tjxjh.service.UserService;
 
 @ParentPackage("struts-default")
 @Namespace("/")
 public class IndexAction extends BaseAction{
+	static final String INDEX = "index";
+	static final String SCHOOL = "school";
 	private static final long serialVersionUID = 1L;
 	@Resource
 	private UserService userService = null;
@@ -29,12 +33,14 @@ public class IndexAction extends BaseAction{
 	private	ActivityService activityService = null;
 	@Resource
 	private ClubService clubService = null;
+	@Resource
+	private	CommonService commonService = null;
 	List<Club> clubs=null;
 	List<IndexClub> ics=new ArrayList<IndexClub>();
 	List<IndexMerchant> ims=new ArrayList<IndexMerchant>();
 	List<Merchant> merchants=null;
-	
-	@Action(value = "index", results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
+	private School school=null;
+	@Action(value = INDEX, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 			+ "index.jsp")})
 	public String index(){
 		clubs=clubService.findHeatClubByHql();
@@ -51,6 +57,13 @@ public class IndexAction extends BaseAction{
 			im.setAcs(activityService.findOneActivityByHql(null, m));
 			ims.add(im);
 		}
+		return SUCCESS;
+	}
+	
+	@Action(value = SCHOOL, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
+			+ "school.jsp")})
+	public String school(){
+		school=commonService.school(school.getId());
 		return SUCCESS;
 	}
 
@@ -100,6 +113,22 @@ public class IndexAction extends BaseAction{
 
 	public void setIms(List<IndexMerchant> ims) {
 		this.ims = ims;
+	}
+
+	public CommonService getCommonService() {
+		return commonService;
+	}
+
+	public void setCommonService(CommonService commonService) {
+		this.commonService = commonService;
+	}
+
+	public School getSchool() {
+		return school;
+	}
+
+	public void setSchool(School school) {
+		this.school = school;
 	}
 	
 	

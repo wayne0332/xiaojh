@@ -99,6 +99,8 @@ public class ClubAction extends BaseAction
 			+ MY_CLUBS + JSP)})
 	public String myClubs()
 	{
+		super.getRequestMap().put("clubInviteCount",
+				clubService.clubInvitedCount(super.currentUser()));
 		if(page == null)
 		{
 			page = clubService.userClubsPage(currentUser());
@@ -113,11 +115,12 @@ public class ClubAction extends BaseAction
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = UserAction.MAIN)})
 	public String clubMain()
 	{
+		ClubMember currentClubMember = null;
 		if(isClubEmpty())
 		{
 			return INPUT;
 		}
-		super.saveClubMember(clubService.userClub(super.currentUser(), club));
+		super.saveClubMember(currentClubMember = currentClubMember());
 		club = clubService.clubById(club);
 		/********************** fineTu ***********************/
 		club.getClubsForTargetClubId();
@@ -152,15 +155,18 @@ public class ClubAction extends BaseAction
 		getRequestMap().put("acs", acs);
 		/****************************************************/
 		super.getRequestMap().put("club", club);
-		if(super.currentClubMember() != null
-				&& super.currentClubMember().getRole() != ClubMemberRole.NORMAL)
+		if(currentClubMember != null
+				&& currentClubMember.getRole() != ClubMemberRole.NORMAL)
 		{
-			super.getRequestMap().put(
-					"userRequestCount",
-					clubService.userRequestCount(super.currentClubMember()
-							.getClub()));
+			super.getRequestMap().put("userRequestCount",
+					clubService.userRequestCount(currentClubMember.getClub()));
 		}
 		return SUCCESS;
+	}
+	
+	private ClubMember currentClubMember()
+	{
+		return clubService.userClub(super.currentUser(), club);
 	}
 	
 	private boolean isClubEmpty()
@@ -172,8 +178,7 @@ public class ClubAction extends BaseAction
 			+ CLUB_REQUEST + JSP)})
 	public String myInvited()
 	{
-		super.getRequestMap().put(CLUB_REQUEST,
-				clubService.clubRequest(super.currentClubMember().getClub()));
+		super.getRequestMap().put(CLUB_REQUEST, clubService.clubRequest(club));
 		return SUCCESS;
 	}
 	
@@ -181,15 +186,13 @@ public class ClubAction extends BaseAction
 			+ CLUB_MEMBERS + JSP)})
 	public String clubMembers()
 	{
+		super.saveClubMember(currentClubMember());
 		if(page == null)
 		{
-			page = clubService.clubMembersPage(super.currentClubMember()
-					.getClub());
+			page = clubService.clubMembersPage(club);
 		}
-		super.getRequestMap().put(
-				CLUB_MEMBERS,
-				clubService.clubMembers(super.currentClubMember().getClub(),
-						page));
+		super.getRequestMap().put(CLUB_MEMBERS,
+				clubService.clubMembers(club, page));
 		return SUCCESS;
 	}
 	
@@ -197,22 +200,21 @@ public class ClubAction extends BaseAction
 			+ SEARCH_USER_TO_MANAGE + JSP)})
 	public String searchUserToManage()
 	{
+		super.saveClubMember(currentClubMember());
 		if(page == null)
 		{
 			page = new Page(Page.getDefaultPageNumber());
 		}
 		super.getRequestMap()
 				.put("users", searchService.searchUser(text, page));
-		super.getRequestMap()
-				.put(CLUB_MEMBERS,
-						clubService.clubMembersMap(super.currentClubMember()
-								.getClub()));
+		super.getRequestMap().put(CLUB_MEMBERS,
+				clubService.clubMembersMap(club));
 		return SUCCESS;
 	}
 	
 	@Action(value = CLUB_ADD_USER, results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = SEARCH_USER_TO_MANAGE, params = {
-					"text", "${text}"}),
+					"text", "${text}", "club.id", "${club.id}"}),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = SEARCH_USER_TO_MANAGE)})
 	public String clubAddUser()
 	{
@@ -220,8 +222,7 @@ public class ClubAction extends BaseAction
 		{
 			return INPUT;
 		}
-		clubService.addMember(super.currentClubMember().getClub(), user,
-				ClubMemberSource.CLUB_TO_USER);
+		clubService.addMember(club, user, ClubMemberSource.CLUB_TO_USER);
 		return SUCCESS;
 	}
 	
@@ -253,25 +254,27 @@ public class ClubAction extends BaseAction
 		return SUCCESS;
 	}
 	
-	@Action(value = CLUB_ACCEPT_INVITED, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS)})
+	@Action(value = CLUB_ACCEPT_INVITED, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS, params = {
+			"club.id", "${club.id}"})})
 	public String clubAcceptInvited()
 	{
-		clubService.acceptInvited(user, super.currentClubMember().getClub());
+		clubService.acceptInvited(user, club);
 		return SUCCESS;
 	}
 	
-	@Action(value = CLUB_REFUSE_INVITED, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS)})
+	@Action(value = CLUB_REFUSE_INVITED, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS, params = {
+			"club.id", "${club.id}"})})
 	public String clubRefuseInvited()
 	{
-		clubService.refuseInvited(user, super.currentClubMember().getClub());
+		clubService.refuseInvited(user, club);
 		return SUCCESS;
 	}
 	
-	@Action(value = FIRE_CLUB_MEMBER, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS)})
+	@Action(value = FIRE_CLUB_MEMBER, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS, params = {
+			"club.id", "${club.id}"})})
 	public String fireClubMember()
 	{
-		clubService.deleteClubMember(user, super.currentClubMember().getClub(),
-				super.currentClubMember());
+		clubService.deleteClubMember(user, club, currentClubMember());
 		return SUCCESS;
 	}
 	
@@ -299,18 +302,20 @@ public class ClubAction extends BaseAction
 		return SUCCESS;
 	}
 	
-	@Action(value = UPDATE_MEMBER_TO_MANAGER, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS)})
+	@Action(value = UPDATE_MEMBER_TO_MANAGER, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS, params = {
+			"club.id", "${club.id}"})})
 	public String updateMemberToManager()
 	{
-		clubService.changeMemberRole(user, super.currentClubMember(),
+		clubService.changeMemberRole(user, currentClubMember(),
 				ClubMemberRole.NORMAL, ClubMemberRole.MANAGER);
 		return SUCCESS;
 	}
 	
-	@Action(value = UPDATE_MEMBER_TO_NORMAL, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS)})
+	@Action(value = UPDATE_MEMBER_TO_NORMAL, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS, params = {
+			"club.id", "${club.id}"})})
 	public String updateMemberToNormal()
 	{
-		clubService.changeMemberRole(user, super.currentClubMember(),
+		clubService.changeMemberRole(user, currentClubMember(),
 				ClubMemberRole.MANAGER, ClubMemberRole.NORMAL);
 		return SUCCESS;
 	}
@@ -321,20 +326,21 @@ public class ClubAction extends BaseAction
 	{
 		if(page == null)
 		{
-			page = clubService.clubMembersWithoutProprieterpage(super
-					.currentClubMember());
+			page = clubService
+					.clubMembersWithoutProprieterpage(currentClubMember());
 		}
 		super.getRequestMap().put(
 				CHANGE_PROPRIETER,
-				clubService.clubMembersWithoutProprieter(
-						super.currentClubMember(), page));
+				clubService.clubMembersWithoutProprieter(currentClubMember(),
+						page));
 		return SUCCESS;
 	}
 	
-	@Action(value = CHANGE_PROPRIETER, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS)})
+	@Action(value = CHANGE_PROPRIETER, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MEMBERS, params = {
+			"club.id", "${club.id}"})})
 	public String changeProprieter()
 	{
-		clubService.changeProprieter(user, super.currentClubMember());
+		clubService.changeProprieter(user, currentClubMember());
 		return SUCCESS;
 	}
 	
