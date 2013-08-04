@@ -16,4 +16,18 @@
 			<result>{1}.html</result>
 		</action>
 	</package>
+	<package name="authController" extends="struts-default">
+		<interceptors>
+			<interceptor name="authInterceptor" class="com.tjxjh.interceptor.AuthInterceptor" />
+			<interceptor-stack name="myInterceptors">
+				<interceptor-ref name="authInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="myInterceptors" />
+		<global-results>
+			<result name="login" type="redirectAction">index</result>
+			<result name="main" type="redirectAction">index</result>
+		</global-results>
+	</package>
 </struts>

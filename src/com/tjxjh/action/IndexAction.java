@@ -8,6 +8,9 @@ import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+
+import cn.cafebabe.autodao.pojo.Page;
+
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.School;
@@ -35,11 +38,18 @@ public class IndexAction extends BaseAction{
 	private ClubService clubService = null;
 	@Resource
 	private	CommonService commonService = null;
+	//分页
+	Page page=null;
+	private Integer eachPageNumber=4;
+	private Integer currentPage=1;
+	private Integer totalPageNumber=0;
+	
 	List<Club> clubs=null;
 	List<IndexClub> ics=new ArrayList<IndexClub>();
 	List<IndexMerchant> ims=new ArrayList<IndexMerchant>();
 	List<Merchant> merchants=null;
 	private School school=null;
+	private String clubType=null;
 	@Action(value = INDEX, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 			+ "index.jsp")})
 	public String index(){
@@ -64,6 +74,14 @@ public class IndexAction extends BaseAction{
 			+ "school.jsp")})
 	public String school(){
 		school=commonService.school(school.getId());
+		if(clubType!=null&&!clubType.trim().equals("")){
+			page=clubService.findSchoolClubPageByType(eachPageNumber, currentPage, totalPageNumber, school, clubType);
+			clubs=clubService.findSchoolClubByType(school,clubType,page);
+		}else{
+			page=clubService.findSchoolClubPageByHet(eachPageNumber, currentPage, totalPageNumber, school);
+			clubs=clubService.findSchoolHeatClubByHql(school,page);
+		}
+		
 		return SUCCESS;
 	}
 
@@ -129,6 +147,62 @@ public class IndexAction extends BaseAction{
 
 	public void setSchool(School school) {
 		this.school = school;
+	}
+
+	public List<Club> getClubs() {
+		return clubs;
+	}
+
+	public void setClubs(List<Club> clubs) {
+		this.clubs = clubs;
+	}
+
+	public List<Merchant> getMerchants() {
+		return merchants;
+	}
+
+	public void setMerchants(List<Merchant> merchants) {
+		this.merchants = merchants;
+	}
+
+	public String getClubType() {
+		return clubType;
+	}
+
+	public void setClubType(String clubType) {
+		this.clubType = clubType;
+	}
+
+	public Page getPage() {
+		return page;
+	}
+
+	public void setPage(Page page) {
+		this.page = page;
+	}
+
+	public Integer getEachPageNumber() {
+		return eachPageNumber;
+	}
+
+	public void setEachPageNumber(Integer eachPageNumber) {
+		this.eachPageNumber = eachPageNumber;
+	}
+
+	public Integer getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(Integer currentPage) {
+		this.currentPage = currentPage;
+	}
+
+	public Integer getTotalPageNumber() {
+		return totalPageNumber;
+	}
+
+	public void setTotalPageNumber(Integer totalPageNumber) {
+		this.totalPageNumber = totalPageNumber;
 	}
 	
 	

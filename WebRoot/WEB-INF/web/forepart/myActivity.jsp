@@ -4,27 +4,46 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <%@taglib prefix="s" uri="/struts-tags" %>
- 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<%@taglib prefix="ads" uri="fineTu/ads" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <base href="<%=basePath%>">
     <title>My JSP 'success.jsp' starting page</title>
-   <link href="<%=path%>/css/main.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="css/base-min.css" />
+   <link rel="stylesheet" type="text/css" href="css/common.css" />
    <script type="text/javascript" src="<%=path%>/js/ajax.js"></script>
+   <style type="text/css">
+		 .left {
+			width: 720px;
+			min-height: 500px;
+			background: #DDDDDD;
+			float: left;
+			text-align: center;
+		}
+		
+		 .right {
+			width: 280px;
+			text-align:center;
+			min-height: 500px;
+			background: #999999;
+			float: right;
+		}
+	</style>
   </head>
   <body>
-     <div class="div">
+  <div class="container">
+     <div class="left">
      	<!-- 提示信息 -->
      	<a href="<%=path %>/addActivityJsp">发表活动</a>
+     	<a href="<%=path %>/${actionName}?condition=datetime">时间排序</a>
+     	<a href="<%=path %>/${actionName}?condition=heat">热度排序</a>
      	<s:property value="message"/><br/>
      	<s:iterator value="acs" id="ac">
      	<div style="display: inline-block; border:1px solid;width:80%;margin:20px; overflow:hidden;">
      			 活动标题：<a href="activity?activity.id=${id}"><s:property value="tittle"/></a><br>
      			 活动 封面：<br>
-			     <img src="${titleImgPath}" /><br>
-			     ${text}<br>
-			     ${videoUrl}<br>
+			     <img src="${titleImgPath}" width="100px" height="100px"/><br>
 			         活动预算资金：${budget}元<br>
 	     		活动组织者：${organizer}<br>
 	     		活动举办地点：${place}<br>
@@ -45,8 +64,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      	</s:iterator>
      	<br>
      	当前第${page.currentPage}页&nbsp;共${page.pageNumber}页
-     	<a href="<%=path%>/${actionName}?currentPage=${page.currentPage-1}&totalPageNumber=${page.pageNumber}" target="_self">上一页</a>&nbsp; 
-     	<a href="<%=path%>/${actionName}?currentPage=${page.currentPage+1}&totalPageNumber=${page.pageNumber}" target="_self">下一页</a>
+     	<a href="<%=path%>/${actionName}?condition=${condition}&currentPage=${page.currentPage-1}&totalPageNumber=${page.pageNumber}" target="_self">上一页</a>&nbsp; 
+     	<a href="<%=path%>/${actionName}?condition=${condition}&currentPage=${page.currentPage+1}&totalPageNumber=${page.pageNumber}" target="_self">下一页</a>
      </div>
+     <div class="right">
+     	随机广告:
+     	<ads:adver adsId="1" contentId="0"></ads:adver>
+     </div>
+  </div>
   </body>
 </html>
