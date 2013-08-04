@@ -71,7 +71,7 @@ public class ClubAction extends BaseAction
 	private User user = null;
 	private int type;
 	private List<Activity> acs = null;
-	
+	//排序方式
 	@Actions({@Action(value = APPLY_CLUB_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
 			+ APPLY_CLUB + JSP)})})
 	@Auth
@@ -159,7 +159,7 @@ public class ClubAction extends BaseAction
 		clubPostList.setClubPostList(list);
 		getRequestMap().put("clubPostList", clubPostList);
 		page = activityService.adminGetOneClubPageByHql(6, 1, 0, club, null);
-		acs = activityService.adminFindOneClubActivityByHql(page, club, null);
+		acs = activityService.adminFindOneClubActivityByHql(page, club, null,"datetime");
 		getRequestMap().put("acs", acs);
 		/****************************************************/
 		super.getRequestMap().put("club", club);
@@ -460,4 +460,5 @@ public class ClubAction extends BaseAction
 	{
 		this.activityService = activityService;
 	}
+	
 }

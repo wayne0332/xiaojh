@@ -116,6 +116,9 @@ public class ActivityService extends BaseService{
 	public Activity findByHql(User user,Merchant merchant,Activity activity){
 			List<ClubMember> list=null;
 			activity=findById(activity.getId());
+			if(1==1){//管理员登录
+				return activity;
+			}
 			Club club=activity.getClub();
 			Merchant oldmerchant=activity.getMerchant();
 			if(club!=null){
@@ -234,7 +237,7 @@ public class ActivityService extends BaseService{
 		}
 	}
 	@SuppressWarnings("unchecked")
-	public List<Activity> findMyActivityByHql(Page page,User  user)
+	public List<Activity> findMyActivityByHql(Page page,User  user,String condition)
 	{
 		if(page==null){
 			return null;
@@ -260,10 +263,10 @@ public class ActivityService extends BaseService{
 			sql=sql+" or c.merchant.id in ("+str2.substring(0, str2.length()-1)+")";
 		}
 		
-		sql=sql+") order by datetime desc";
+		sql=sql+") order by ? desc";
 		
 		try{
-			return (List<Activity>) dao.executeHql(page,sql,user.getId()); 
+			return (List<Activity>) dao.executeHql(page,sql,user.getId(),condition); 
 		}catch(Exception e){
 			System.out.println(e);
 			return null;
@@ -297,16 +300,16 @@ public class ActivityService extends BaseService{
 		}
 	}
 	@SuppressWarnings("unchecked")
-	public List<Activity> findOneClubActivityByHql(Page page,Club club,Merchant merchant)
+	public List<Activity> findOneClubActivityByHql(Page page,Club club,Merchant merchant,String condition)
 	{
 		if(page==null){
 			return null;
 		}
 		try{
 			if(club.getId()!=null){
-				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in('UNDERWAY','END') and cl.club.id=? order by datetime desc",club.getId());
+				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in('UNDERWAY','END') and cl.club.id=? order by ? desc",club.getId(),condition);
 			}else if(merchant.getId()!=null){
-				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in('UNDERWAY','END') and cl.merchant.id=? order by datetime desc",merchant.getId());
+				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in('UNDERWAY','END') and cl.merchant.id=? order by ? desc",merchant.getId(),condition);
 			}else{
 				return null;
 			}
@@ -343,16 +346,16 @@ public class ActivityService extends BaseService{
 		}
 	}
 	@SuppressWarnings("unchecked")
-	public List<Activity> adminFindOneClubActivityByHql(Page page,Club club,Merchant merchant)
+	public List<Activity> adminFindOneClubActivityByHql(Page page,Club club,Merchant merchant,String condition)
 	{
 		if(page==null){
 			return null;
 		}
 		try{
 			if(club.getId()!=null){
-				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.club.id=? order by datetime desc",club.getId());
+				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.club.id=? order by ? desc",club.getId(),condition);
 			}else if(merchant.getId()!=null){
-				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.merchant.id=? order by datetime desc",merchant.getId());
+				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.merchant.id=? order by ? desc",merchant.getId(),condition);
 			}else{
 				return null;
 			}

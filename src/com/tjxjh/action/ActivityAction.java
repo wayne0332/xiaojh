@@ -48,7 +48,8 @@ public class ActivityAction extends BaseAction{
 	@Resource
 	private TalkingService talkingService = null;
 	private String message;//提示信息
-	
+	 //活动排序条件
+	private String condition="datetime";
 	private Page page;
 	private Integer eachPageNumber=4;
 	private Integer currentPage=1;
@@ -124,7 +125,7 @@ public class ActivityAction extends BaseAction{
 	public String findMyActivity(){
 		user=Auth.getUserFromSession();
 		page=activityService.getMyActivityPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
-		acs=activityService.findMyActivityByHql(page,user);
+		acs=activityService.findMyActivityByHql(page,user,condition);
 		actionName="myActivity";
 		return SUCCESS;
 		
@@ -134,9 +135,9 @@ public class ActivityAction extends BaseAction{
 				@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
 		public String findOneActivity(){
 			//club.setId(1);
-			merchant.setId(1);
+			//merchant.setId(1);
 			page=activityService.getOneClubPageByHql(eachPageNumber,currentPage,totalPageNumber,club,merchant);
-			acs=activityService.findOneClubActivityByHql(page,club,merchant);
+			acs=activityService.findOneClubActivityByHql(page,club,merchant,condition);
 			actionName="oneActivity";
 			return SUCCESS;
 			
@@ -145,10 +146,10 @@ public class ActivityAction extends BaseAction{
 	@Action(value = "adminFindOneActivity", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
 		public String adminFindOneClubActivity(){
-			club=Auth.getClubFromSession();
-			merchant=Auth.getMerchantFromSession();
+			//club=Auth.getClubFromSession();
+			//merchant=Auth.getMerchantFromSession();
 			page=activityService.adminGetOneClubPageByHql(eachPageNumber,currentPage,totalPageNumber,club,merchant);
-			acs=activityService.adminFindOneClubActivityByHql(page,club,merchant);
+			acs=activityService.adminFindOneClubActivityByHql(page,club,merchant,condition);
 			actionName="adminFindOneActivity";
 			return SUCCESS;
 				
@@ -343,6 +344,12 @@ public class ActivityAction extends BaseAction{
 	}
 	public void setActionName(String actionName) {
 		this.actionName = actionName;
+	}
+	public String getCondition() {
+		return condition;
+	}
+	public void setCondition(String condition) {
+		this.condition = condition;
 	}
 	
 
