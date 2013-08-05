@@ -45,12 +45,13 @@ public class AdsAction extends BaseAction{
 	@Action(value = "addAds", results = {
 			@Result(name = SUCCESS,type = REDIRECT_ACTION, location = "adsList",params = {"pageNum","1"})})
 	public String addAds(){
-		if(service.addAds(ads)){
-			refreshApplication();
-			return SUCCESS;
-		}else{
-			return INPUT;
+		if(ads!=null&&ads.getName()!=null&&ads.getType()!=null&&ads.getHeight()!=null&&ads.getWidth()!=null){
+			if(service.addAds(ads)){
+				refreshApplication();
+				return SUCCESS;
+			}
 		}
+		return INPUT;
 	}
 	
 	@Action(value = "removeAds", results = {
@@ -77,6 +78,8 @@ public class AdsAction extends BaseAction{
 		String fileType = null;
 		if(uploadFile != null){
 			fileType = FileUtil.allowfile(uploadFileFileName);
+		}else{
+			return INPUT;
 		}
 		if(fileType==null||(type.equals("SWF")&&!fileType.equals("VIDEO"))||((type.equals("JS")||type.equals("IMG"))&&fileType.equals("VIDEO"))){
 			return INPUT;
@@ -94,12 +97,13 @@ public class AdsAction extends BaseAction{
 	@Action(value = "removeContent", results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "contentList",params={"adsId","${adsId}","type","${type}"})})
 	public String removeContent(){
-		if(service.removeContent(contentId)){
-			refreshApplication();
-			return SUCCESS;
-		}else{
-			return INPUT;
+		if(adsId != 0&&(type.equals("SWF")||type.equals("IMG")||type.equals("JS"))){
+			if(service.removeContent(contentId)){
+				refreshApplication();
+				return SUCCESS;
+			}
 		}
+		return INPUT;
 	}
 	
 	

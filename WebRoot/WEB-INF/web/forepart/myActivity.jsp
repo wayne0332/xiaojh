@@ -36,8 +36,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <div class="left">
      	<!-- 提示信息 -->
      	<a href="<%=path %>/addActivityJsp">发表活动</a>
-     	<a href="<%=path %>/${actionName}?condition=datetime">时间排序</a>
-     	<a href="<%=path %>/${actionName}?condition=heat">热度排序</a>
+     	<a href="<%=path %>/${actionName}?condition=datetime&club.id=${club.id}&merchant.id=${merchant.id}">时间排序</a>
+     	<a href="<%=path %>/${actionName}?condition=heat&club.id=${club.id}&merchant.id=${merchant.id}">热度排序</a>
      	<s:property value="message"/><br/>
      	<s:iterator value="acs" id="ac">
      	<div style="display: inline-block; border:1px solid;width:80%;margin:20px; overflow:hidden;">
@@ -50,8 +50,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	     		参与人数：${participantCount}<br>
 	     		活动状态：<s:property value="status.name"/><br>
 	     		活动主办方：${club.name}${merchant.name}<br>
-				  来自：${ac.club.name}${ac.merchant.name}&nbsp;
+				 来自：${ac.club.name}${ac.merchant.name}&nbsp;
 		     	 ${datetime}&nbsp;
+		     	 活动热度：${heat}<br>
 		   		 分享次数：${talking.shareDetails.shareCount}
 		        &nbsp;<a href="<%=path %>/preShareTalking?talking.id=${talking.id}">分享</a>
 		     	<span id="zan${talking.id}">
@@ -64,12 +65,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      	</s:iterator>
      	<br>
      	当前第${page.currentPage}页&nbsp;共${page.pageNumber}页
-     	<a href="<%=path%>/${actionName}?condition=${condition}&currentPage=${page.currentPage-1}&totalPageNumber=${page.pageNumber}" target="_self">上一页</a>&nbsp; 
-     	<a href="<%=path%>/${actionName}?condition=${condition}&currentPage=${page.currentPage+1}&totalPageNumber=${page.pageNumber}" target="_self">下一页</a>
+     	<a href="<%=path%>/${actionName}?condition=${condition}&currentPage=${page.currentPage-1}&totalPageNumber=${page.pageNumber}&club.id=${club.id}&merchant.id=${merchant.id}" target="_self">上一页</a>&nbsp; 
+     	<a href="<%=path%>/${actionName}?condition=${condition}&currentPage=${page.currentPage+1}&totalPageNumber=${page.pageNumber}&club.id=${club.id}&merchant.id=${merchant.id}" target="_self">下一页</a>
      </div>
      <div class="right">
      	随机广告:
-     	<ads:adver adsId="1" contentId="0"></ads:adver>
+     	<ads:adver adsId="2" contentId="0"></ads:adver>
      </div>
   </div>
   </body>

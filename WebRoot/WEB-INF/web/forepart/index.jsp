@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="ads" uri="fineTu/ads"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -17,6 +18,7 @@
 <meta http-equiv="description" content="This is my page">
 <script type="text/javascript" src="<%=path%>/js/jquery-1.8.1.min.js"></script>
 <script type="text/javascript" src="js/index2.js"></script>
+<link  rel="stylesheet" type="text/css" href="css/index_black.css"  />
 <style type="text/css">
 .main {
 	width: 980px;
@@ -90,7 +92,7 @@
 
 <body>
 	<jsp:include page="head.jsp" />
-	
+	<ads:adver contentId="0" adsId="1"></ads:adver>
 	<div class="main">
 		<div class="left">
 			<s:iterator value="ics" id="cs">
@@ -99,6 +101,7 @@
 
 		</div>
 		<div class="center">
+		
 		<!-- 社团活动 -->
 			<div style="background:#999999;height:250px; overflow:hidden;">
 				<s:iterator value="ics" status="cs">

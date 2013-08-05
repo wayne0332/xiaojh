@@ -61,6 +61,7 @@ public class AuthInterceptor extends AbstractInterceptor
 		AuthInterceptor.clubService = clubService;
 	}
 	
+	/** 登陆了才能能访问 */
 	public static class UserAuth
 	{
 		private UserAuth()
@@ -76,6 +77,10 @@ public class AuthInterceptor extends AbstractInterceptor
 		}
 	}
 	
+	/**
+	 * 登陆了才能能访问,如果有club.id,就查一下ClubMember,如果有身份,就放到request和session里,
+	 * key是BaseAction.CLUB_MEMBER的引用
+	 */
 	public static class UserWithClubMemberAuth extends UserAuth
 	{
 		private UserWithClubMemberAuth()
@@ -86,7 +91,8 @@ public class AuthInterceptor extends AbstractInterceptor
 			Map<String, Object> params = ai.getInvocationContext()
 					.getParameters();
 			String[] clubId = (String[]) params.get("club.id");
-			if(!StringUtil.isEmpty(clubId[0]))
+			if(clubId != null && clubId.length > 0
+					&& !StringUtil.isEmpty(clubId[0]))
 			{
 				Integer _clubId = null;
 				try
@@ -109,6 +115,7 @@ public class AuthInterceptor extends AbstractInterceptor
 		}
 	}
 	
+	/** 登陆了并且是社团的成员才能访问 */
 	public static class ClubMemberAuth extends UserWithClubMemberAuth
 	{
 		private ClubMemberAuth()
@@ -129,6 +136,7 @@ public class AuthInterceptor extends AbstractInterceptor
 		}
 	}
 	
+	/** 登陆了并且是社团的管理员(包括社长)才能访问 */
 	public static class ClubManagerAuth extends ClubMemberAuth
 	{
 		private ClubManagerAuth()
@@ -150,6 +158,7 @@ public class AuthInterceptor extends AbstractInterceptor
 		}
 	}
 	
+	/** 登陆了并且是社团的社长才能访问 */
 	public static class ClubProprieterAuth extends UserWithClubMemberAuth
 	{
 		private ClubProprieterAuth()
