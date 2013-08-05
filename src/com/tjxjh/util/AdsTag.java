@@ -65,7 +65,6 @@ public class AdsTag extends TagSupport{
 			sb.append("<div id=slideshow_footbar></div>\n");
 			sb.append("</div>\n");
 			sb.append("</div>\n");
-			sb.append("</div>\n");
 			sb.append("<div class=survey_block_index>\n" +
 					"<div class=title_survey_block_index>\n" +
 					"<UL class=scrollUl>\n" +
