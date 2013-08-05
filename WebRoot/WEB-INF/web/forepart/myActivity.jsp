@@ -50,8 +50,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	     		参与人数：${participantCount}<br>
 	     		活动状态：<s:property value="status.name"/><br>
 	     		活动主办方：${club.name}${merchant.name}<br>
-				  来自：${ac.club.name}${ac.merchant.name}&nbsp;
+				 来自：${ac.club.name}${ac.merchant.name}&nbsp;
 		     	 ${datetime}&nbsp;
+		     	 活动热度：${heat}<br>
 		   		 分享次数：${talking.shareDetails.shareCount}
 		        &nbsp;<a href="<%=path %>/preShareTalking?talking.id=${talking.id}">分享</a>
 		     	<span id="zan${talking.id}">

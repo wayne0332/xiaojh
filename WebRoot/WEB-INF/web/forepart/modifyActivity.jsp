@@ -47,7 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	 		活动标题:<input type="text" name="activity.tittle" value="${activity.tittle}"/><br>
 	     	新闻内容：<textarea id="editor" name="activity.text" id="ncontent" style="width:100%;height:400px;">${activity.text}</textarea><br>
 	     	活动封面图片链接:<input type="text" name="activity.titleImgPath" value="${activity.titleImgPath}"/><br>
-	     	活动视频连接:<input type="text" name="activity.videoUrl" value="${activity.videoUrl}"/><br>
+	     	活动视频连接:<input type="text" name="activity.videoUrl" value="<s:property value="activity.videoUrl"/>"/><br>
 	     	活动预算资金：<input type="text" name="activity.budget" value="${activity.budget}"/>元<br>
 	     	活动组织：<input type="text" name="activity.organizer" value="${activity.organizer}"/><br>
 	     	活动举办地点：<input type="text" name="activity.place" value="${activity.place}"/><br>
