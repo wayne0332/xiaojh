@@ -263,10 +263,10 @@ public class ActivityService extends BaseService{
 			sql=sql+" or c.merchant.id in ("+str2.substring(0, str2.length()-1)+")";
 		}
 		
-		sql=sql+") order by ? desc";
+		sql=sql+") order by "+condition+" desc";
 		
 		try{
-			return (List<Activity>) dao.executeHql(page,sql,user.getId(),condition); 
+			return (List<Activity>) dao.executeHql(page,sql,user.getId()); 
 		}catch(Exception e){
 			System.out.println(e);
 			return null;
@@ -307,9 +307,9 @@ public class ActivityService extends BaseService{
 		}
 		try{
 			if(club.getId()!=null){
-				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in('UNDERWAY','END') and cl.club.id=? order by ? desc",club.getId(),condition);
+				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in('UNDERWAY','END') and cl.club.id=? order by "+condition+" desc",club.getId());
 			}else if(merchant.getId()!=null){
-				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in('UNDERWAY','END') and cl.merchant.id=? order by ? desc",merchant.getId(),condition);
+				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in('UNDERWAY','END') and cl.merchant.id=? order by "+condition+" desc",merchant.getId());
 			}else{
 				return null;
 			}
@@ -353,9 +353,9 @@ public class ActivityService extends BaseService{
 		}
 		try{
 			if(club.getId()!=null){
-				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.club.id=? order by ? desc",club.getId(),condition);
+				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.club.id=? order by "+condition+" desc",club.getId());
 			}else if(merchant.getId()!=null){
-				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.merchant.id=? order by ? desc",merchant.getId(),condition);
+				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.merchant.id=? order by "+condition+" desc",merchant.getId());
 			}else{
 				return null;
 			}
