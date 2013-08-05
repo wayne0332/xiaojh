@@ -935,6 +935,22 @@ INSERT INTO `xiaojh`.`user` (`id`, `name`, `password`, `signature`, `school_id`,
 COMMIT;
 
 -- -----------------------------------------------------
+-- Data for table `xiaojh`.`user_focus_user`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `xiaojh`;
+INSERT INTO `xiaojh`.`user_focus_user` (`source_user_id`, `target_user_id`) VALUES (2, 3);
+INSERT INTO `xiaojh`.`user_focus_user` (`source_user_id`, `target_user_id`) VALUES (3, 2);
+INSERT INTO `xiaojh`.`user_focus_user` (`source_user_id`, `target_user_id`) VALUES (2, 4);
+INSERT INTO `xiaojh`.`user_focus_user` (`source_user_id`, `target_user_id`) VALUES (4, 2);
+INSERT INTO `xiaojh`.`user_focus_user` (`source_user_id`, `target_user_id`) VALUES (2, 5);
+INSERT INTO `xiaojh`.`user_focus_user` (`source_user_id`, `target_user_id`) VALUES (2, 6);
+INSERT INTO `xiaojh`.`user_focus_user` (`source_user_id`, `target_user_id`) VALUES (6, 2);
+INSERT INTO `xiaojh`.`user_focus_user` (`source_user_id`, `target_user_id`) VALUES (5, 2);
+
+COMMIT;
+
+-- -----------------------------------------------------
 -- Data for table `xiaojh`.`talking`
 -- -----------------------------------------------------
 START TRANSACTION;
@@ -943,15 +959,15 @@ INSERT INTO `xiaojh`.`talking` (`id`, `text`, `datetime`, `user_id`, `url`, `url
 INSERT INTO `xiaojh`.`talking` (`id`, `text`, `datetime`, `user_id`, `url`, `url_type`, `share_talking_id`, `status`) VALUES (2, '测试用户1的说说(上传的视频)', '2013-08-05 11:57:11', 2, '<embed src=\'/xiaojh/video/ckplayer/ckplayer.swf?p=0&c=1&i=/xiaojh/video/ckplayer/xiaojh.png\' flashvars=\'f=/xiaojh/video/ckplayer/mandy.flv\' quality=\'high\' width=\'480\' height=\'400\' align=\'middle\' allowScriptAccess=\'always\' allowFullscreen=\'true\' type=\'application/x-shockwave-flash\'></embed>', 'VIDEO', NULL, 'SHARE');
 INSERT INTO `xiaojh`.`talking` (`id`, `text`, `datetime`, `user_id`, `url`, `url_type`, `share_talking_id`, `status`) VALUES (3, '测试用户1的说说(土豆的视频)', '2013-08-05 11:57:11', 2, '<embed src=\"http://www.tudou.com/l/mvZlZmwpB2Y/&resourceId=0_05_05_99&iid=173717345&bid=05/v.swf\" type=\"application/x-shockwave-flash\" allowscriptaccess=\"always\" allowfullscreen=\"true\" wmode=\"opaque\" width=\"480\" height=\"400\"></embed>', 'VIDEO', NULL, 'SHARE');
 INSERT INTO `xiaojh`.`talking` (`id`, `text`, `datetime`, `user_id`, `url`, `url_type`, `share_talking_id`, `status`) VALUES (4, '测试用户1的说说(优酷的视频)', '2013-08-05 11:57:11', 2, '<embed src=\"http://player.youku.com/player.php/sid/XMzIzNDk5MjAw/v.swf\" allowFullScreen=\"true\" quality=\"high\" width=\"480\" height=\"400\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>', 'VIDEO', NULL, 'SHARE');
-INSERT INTO `xiaojh`.`talking` (`id`, `text`, `datetime`, `user_id`, `url`, `url_type`, `share_talking_id`, `status`) VALUES (5, '测试用户1的说说(网上图片)', '2013-08-05 11:57:11', 2, 'http://c.hiphotos.baidu.com/album/w%3D2048/sign=55b94cf79f2f07085f052d00dd1cb999/472309f790529822a061677bd6ca7bcb0a46d43c.jpg', 'PICTURE', NULL, 'SHARE');
+INSERT INTO `xiaojh`.`talking` (`id`, `text`, `datetime`, `user_id`, `url`, `url_type`, `share_talking_id`, `status`) VALUES (5, '测试用户1的说说(网上图片)', '2013-08-05 11:57:11', 2, 'http://y3.ifengimg.com/2013/0805/wm_9783f21b46072d9503a7bd2f8017f4b7.jpg', 'PICTURE', NULL, 'SHARE');
 INSERT INTO `xiaojh`.`talking` (`id`, `text`, `datetime`, `user_id`, `url`, `url_type`, `share_talking_id`, `status`) VALUES (6, '商家1对应的用户的说说(上传的视频)', '2013-08-05 11:57:11', 11, '<embed src=\'/xiaojh/video/ckplayer/ckplayer.swf?p=0&c=1&i=/xiaojh/video/ckplayer/xiaojh.png\' flashvars=\'f=/xiaojh/video/ckplayer/mandy.flv\' quality=\'high\' width=\'480\' height=\'400\' align=\'middle\' allowScriptAccess=\'always\' allowFullscreen=\'true\' type=\'application/x-shockwave-flash\'></embed>', 'VIDEO', NULL, 'SHARE');
 INSERT INTO `xiaojh`.`talking` (`id`, `text`, `datetime`, `user_id`, `url`, `url_type`, `share_talking_id`, `status`) VALUES (7, '商家1对应的用户的说说(土豆的视频)', '2013-08-05 11:57:11', 11, '<embed src=\"http://www.tudou.com/l/mvZlZmwpB2Y/&resourceId=0_05_05_99&iid=173717345&bid=05/v.swf\" type=\"application/x-shockwave-flash\" allowscriptaccess=\"always\" allowfullscreen=\"true\" wmode=\"opaque\" width=\"480\" height=\"400\"></embed>', 'VIDEO', NULL, 'SHARE');
 INSERT INTO `xiaojh`.`talking` (`id`, `text`, `datetime`, `user_id`, `url`, `url_type`, `share_talking_id`, `status`) VALUES (8, '商家1对应的用户的说说(优酷的视频)', '2013-08-05 11:57:11', 11, '<embed src=\"http://player.youku.com/player.php/sid/XMzIzNDk5MjAw/v.swf\" allowFullScreen=\"true\" quality=\"high\" width=\"480\" height=\"400\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>', 'VIDEO', NULL, 'SHARE');
-INSERT INTO `xiaojh`.`talking` (`id`, `text`, `datetime`, `user_id`, `url`, `url_type`, `share_talking_id`, `status`) VALUES (9, '商家1对应的用户的说说(网上图片)', '2013-08-05 11:57:11', 11, 'http://c.hiphotos.baidu.com/album/w%3D2048/sign=55b94cf79f2f07085f052d00dd1cb999/472309f790529822a061677bd6ca7bcb0a46d43c.jpg', 'PICTURE', NULL, 'SHARE');
+INSERT INTO `xiaojh`.`talking` (`id`, `text`, `datetime`, `user_id`, `url`, `url_type`, `share_talking_id`, `status`) VALUES (9, '商家1对应的用户的说说(网上图片)', '2013-08-05 11:57:11', 11, 'http://y3.ifengimg.com/2013/0805/wm_9783f21b46072d9503a7bd2f8017f4b7.jpg', 'PICTURE', NULL, 'SHARE');
 INSERT INTO `xiaojh`.`talking` (`id`, `text`, `datetime`, `user_id`, `url`, `url_type`, `share_talking_id`, `status`) VALUES (10, '社团1对应的用户的说说(上传的视频)', '2013-08-05 11:57:11', 21, '<embed src=\'/xiaojh/video/ckplayer/ckplayer.swf?p=0&c=1&i=/xiaojh/video/ckplayer/xiaojh.png\' flashvars=\'f=/xiaojh/video/ckplayer/mandy.flv\' quality=\'high\' width=\'480\' height=\'400\' align=\'middle\' allowScriptAccess=\'always\' allowFullscreen=\'true\' type=\'application/x-shockwave-flash\'></embed>', 'VIDEO', NULL, 'SHARE');
 INSERT INTO `xiaojh`.`talking` (`id`, `text`, `datetime`, `user_id`, `url`, `url_type`, `share_talking_id`, `status`) VALUES (11, '社团1对应的用户的说说(土豆的视频)', '2013-08-05 11:57:11', 21, '<embed src=\'/xiaojh/video/ckplayer/ckplayer.swf?p=0&c=1&i=/xiaojh/video/ckplayer/xiaojh.png\' flashvars=\'f=/xiaojh/video/ckplayer/mandy.flv\' quality=\'high\' width=\'480\' height=\'400\' align=\'middle\' allowScriptAccess=\'always\' allowFullscreen=\'true\' type=\'application/x-shockwave-flash\'></embed>', 'VIDEO', NULL, 'SHARE');
 INSERT INTO `xiaojh`.`talking` (`id`, `text`, `datetime`, `user_id`, `url`, `url_type`, `share_talking_id`, `status`) VALUES (12, '社团1对应的用户的说说(优酷的视频)', '2013-08-05 11:57:11', 21, '<embed src=\'/xiaojh/video/ckplayer/ckplayer.swf?p=0&c=1&i=/xiaojh/video/ckplayer/xiaojh.png\' flashvars=\'f=/xiaojh/video/ckplayer/mandy.flv\' quality=\'high\' width=\'480\' height=\'400\' align=\'middle\' allowScriptAccess=\'always\' allowFullscreen=\'true\' type=\'application/x-shockwave-flash\'></embed>', 'VIDEO', NULL, 'SHARE');
-INSERT INTO `xiaojh`.`talking` (`id`, `text`, `datetime`, `user_id`, `url`, `url_type`, `share_talking_id`, `status`) VALUES (13, '社团1对应的用户的说说(网上图片)', '2013-08-05 11:57:11', 21, 'http://c.hiphotos.baidu.com/album/w%3D2048/sign=55b94cf79f2f07085f052d00dd1cb999/472309f790529822a061677bd6ca7bcb0a46d43c.jpg', 'PICTURE', NULL, 'SHARE');
+INSERT INTO `xiaojh`.`talking` (`id`, `text`, `datetime`, `user_id`, `url`, `url_type`, `share_talking_id`, `status`) VALUES (13, '社团1对应的用户的说说(网上图片)', '2013-08-05 11:57:11', 21, 'http://y3.ifengimg.com/2013/0805/wm_9783f21b46072d9503a7bd2f8017f4b7.jpg', 'PICTURE', NULL, 'SHARE');
 
 COMMIT;
 
@@ -960,9 +976,9 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `xiaojh`;
-INSERT INTO `xiaojh`.`club` (`id`, `introduction`, `name`, `logo_path`, `liveness`, `proprieter_user_id`, `school_id`, `type`, `status`, `member_number`, `brief_introduction`, `popularity`, `user_id`) VALUES (1, '测试社团1', '测试社团1', 'upload/portrait/auto_photo.png', 0, 2, 1, 'SPORT', 'PASSED', 2, '社团简介', 89, 21);
-INSERT INTO `xiaojh`.`club` (`id`, `introduction`, `name`, `logo_path`, `liveness`, `proprieter_user_id`, `school_id`, `type`, `status`, `member_number`, `brief_introduction`, `popularity`, `user_id`) VALUES (2, '测试社团2', '测试社团2', 'upload/portrait/auto_photo.png', 0, 2, 2, 'SPORT', 'PASSED', 5, '社团简介', 56, 22);
-INSERT INTO `xiaojh`.`club` (`id`, `introduction`, `name`, `logo_path`, `liveness`, `proprieter_user_id`, `school_id`, `type`, `status`, `member_number`, `brief_introduction`, `popularity`, `user_id`) VALUES (3, '测试社团3', '测试社团3', 'upload/portrait/auto_photo.png', 0, 3, 1, 'SPORT', 'PASSED', 6, '社团简介', 89, 23);
+INSERT INTO `xiaojh`.`club` (`id`, `introduction`, `name`, `logo_path`, `liveness`, `proprieter_user_id`, `school_id`, `type`, `status`, `member_number`, `brief_introduction`, `popularity`, `user_id`) VALUES (1, '测试社团1', '测试社团1', 'upload/portrait/auto_photo.png', 0, 2, 1, 'SPORT', 'PASSED', 2, '社团简介', 88889, 21);
+INSERT INTO `xiaojh`.`club` (`id`, `introduction`, `name`, `logo_path`, `liveness`, `proprieter_user_id`, `school_id`, `type`, `status`, `member_number`, `brief_introduction`, `popularity`, `user_id`) VALUES (2, '测试社团2', '测试社团2', 'upload/portrait/auto_photo.png', 0, 2, 2, 'SPORT', 'PASSED', 5, '社团简介', 888888, 22);
+INSERT INTO `xiaojh`.`club` (`id`, `introduction`, `name`, `logo_path`, `liveness`, `proprieter_user_id`, `school_id`, `type`, `status`, `member_number`, `brief_introduction`, `popularity`, `user_id`) VALUES (3, '测试社团3', '测试社团3', 'upload/portrait/auto_photo.png', 0, 3, 1, 'SPORT', 'PASSED', 6, '社团简介', 8988, 23);
 INSERT INTO `xiaojh`.`club` (`id`, `introduction`, `name`, `logo_path`, `liveness`, `proprieter_user_id`, `school_id`, `type`, `status`, `member_number`, `brief_introduction`, `popularity`, `user_id`) VALUES (4, '测试社团4', '测试社团4', 'upload/portrait/auto_photo.png', 0, 4, 1, 'SPORT', 'PASSED', 9, '社团简介', 63, 24);
 INSERT INTO `xiaojh`.`club` (`id`, `introduction`, `name`, `logo_path`, `liveness`, `proprieter_user_id`, `school_id`, `type`, `status`, `member_number`, `brief_introduction`, `popularity`, `user_id`) VALUES (5, '测试社团5', '测试社团5', 'upload/portrait/auto_photo.png', 0, 5, 2, 'SPORT', 'PASSED', 9, '社团简介', 25, 25);
 INSERT INTO `xiaojh`.`club` (`id`, `introduction`, `name`, `logo_path`, `liveness`, `proprieter_user_id`, `school_id`, `type`, `status`, `member_number`, `brief_introduction`, `popularity`, `user_id`) VALUES (6, '测试社团6', '测试社团6', 'upload/portrait/auto_photo.png', 0, 6, 2, 'MUSIC', 'PASSED', 5, '社团简介', 10, 26);
@@ -993,8 +1009,8 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `xiaojh`;
-INSERT INTO `xiaojh`.`merchant` (`id`, `name`, `password`, `template`, `status`, `type`, `business`, `purpose`, `address`, `phone`, `connector_name`, `connector_phone`, `connector_qq`, `connector_email`, `liveness`, `popularity`, `user_id`, `merchantName`, `logo_path`) VALUES (1, 'merchant1', 'feea6340d7192d5e5b3095dc7d1b683e', '55', 'PASSED', 'STATE_OWNED', 'ELECTRON', '66', '6666', '666', '666', '66', '666', '66', 6, 64, 11, '5446', 'upload/portrait/auto_photo.png');
-INSERT INTO `xiaojh`.`merchant` (`id`, `name`, `password`, `template`, `status`, `type`, `business`, `purpose`, `address`, `phone`, `connector_name`, `connector_phone`, `connector_qq`, `connector_email`, `liveness`, `popularity`, `user_id`, `merchantName`, `logo_path`) VALUES (2, 'merchant2', 'feea6340d7192d5e5b3095dc7d1b683e', '5', 'PASSED', 'STATE_OWNED', 'ELECTRON', '6', '6', '66', '66', '66', '666', '66', 66, 46, 12, '576', 'upload/portrait/auto_photo.png');
+INSERT INTO `xiaojh`.`merchant` (`id`, `name`, `password`, `template`, `status`, `type`, `business`, `purpose`, `address`, `phone`, `connector_name`, `connector_phone`, `connector_qq`, `connector_email`, `liveness`, `popularity`, `user_id`, `merchantName`, `logo_path`) VALUES (1, 'merchant1', 'feea6340d7192d5e5b3095dc7d1b683e', '55', 'PASSED', 'STATE_OWNED', 'ELECTRON', '66', '6666', '666', '666', '66', '666', '66', 6, 64888, 11, '5446', 'upload/portrait/auto_photo.png');
+INSERT INTO `xiaojh`.`merchant` (`id`, `name`, `password`, `template`, `status`, `type`, `business`, `purpose`, `address`, `phone`, `connector_name`, `connector_phone`, `connector_qq`, `connector_email`, `liveness`, `popularity`, `user_id`, `merchantName`, `logo_path`) VALUES (2, 'merchant2', 'feea6340d7192d5e5b3095dc7d1b683e', '5', 'PASSED', 'STATE_OWNED', 'ELECTRON', '6', '6', '66', '66', '66', '666', '66', 66, 468888, 12, '576', 'upload/portrait/auto_photo.png');
 INSERT INTO `xiaojh`.`merchant` (`id`, `name`, `password`, `template`, `status`, `type`, `business`, `purpose`, `address`, `phone`, `connector_name`, `connector_phone`, `connector_qq`, `connector_email`, `liveness`, `popularity`, `user_id`, `merchantName`, `logo_path`) VALUES (3, 'merchant3', 'feea6340d7192d5e5b3095dc7d1b683e', '5', 'PASSED', 'STATE_OWNED', 'ELECTRON', '6', '666', '666', '66', '666666', '66', '66', 66, 54, 13, '89887', 'upload/portrait/auto_photo.png');
 INSERT INTO `xiaojh`.`merchant` (`id`, `name`, `password`, `template`, `status`, `type`, `business`, `purpose`, `address`, `phone`, `connector_name`, `connector_phone`, `connector_qq`, `connector_email`, `liveness`, `popularity`, `user_id`, `merchantName`, `logo_path`) VALUES (4, 'merchant4', 'feea6340d7192d5e5b3095dc7d1b683e', '5', 'PASSED', 'STATE_OWNED', 'ELECTRON', '6', '666', '666', '666', '66', '66', '66666', 6, 6, 14, '6878', 'upload/portrait/auto_photo.png');
 INSERT INTO `xiaojh`.`merchant` (`id`, `name`, `password`, `template`, `status`, `type`, `business`, `purpose`, `address`, `phone`, `connector_name`, `connector_phone`, `connector_qq`, `connector_email`, `liveness`, `popularity`, `user_id`, `merchantName`, `logo_path`) VALUES (5, 'merchant5', 'feea6340d7192d5e5b3095dc7d1b683e', '5', 'PASSED', 'STATE_OWNED', 'ELECTRON', '6', '66', '666', '666', '666', '66', '66', 66, 46, 15, '9909', 'upload/portrait/auto_photo.png');
@@ -1003,5 +1019,105 @@ INSERT INTO `xiaojh`.`merchant` (`id`, `name`, `password`, `template`, `status`,
 INSERT INTO `xiaojh`.`merchant` (`id`, `name`, `password`, `template`, `status`, `type`, `business`, `purpose`, `address`, `phone`, `connector_name`, `connector_phone`, `connector_qq`, `connector_email`, `liveness`, `popularity`, `user_id`, `merchantName`, `logo_path`) VALUES (8, 'merchant8', 'feea6340d7192d5e5b3095dc7d1b683e', '5', 'PASSED', 'STATE_OWNED', 'ELECTRON', '6', '666', '666', '666', '666', '666', '66', 6, 46, 18, '876', 'upload/portrait/auto_photo.png');
 INSERT INTO `xiaojh`.`merchant` (`id`, `name`, `password`, `template`, `status`, `type`, `business`, `purpose`, `address`, `phone`, `connector_name`, `connector_phone`, `connector_qq`, `connector_email`, `liveness`, `popularity`, `user_id`, `merchantName`, `logo_path`) VALUES (9, 'merchant9', 'feea6340d7192d5e5b3095dc7d1b683e', '5', 'PASSED', 'STATE_OWNED', 'ELECTRON', '6', '666', '666', '666', '666', '6666', '666', 6, 74, 19, '57ddte', 'upload/portrait/auto_photo.png');
 INSERT INTO `xiaojh`.`merchant` (`id`, `name`, `password`, `template`, `status`, `type`, `business`, `purpose`, `address`, `phone`, `connector_name`, `connector_phone`, `connector_qq`, `connector_email`, `liveness`, `popularity`, `user_id`, `merchantName`, `logo_path`) VALUES (10, 'merchant10', 'feea6340d7192d5e5b3095dc7d1b683e', '5', 'PASSED', 'STATE_OWNED', 'ELECTRON', '6', '66', '666', '66', '66666', '666', '66', 6, 24, 20, 'e54', 'upload/portrait/auto_photo.png');
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `xiaojh`.`user_focus_club`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `xiaojh`;
+INSERT INTO `xiaojh`.`user_focus_club` (`user_id`, `club_id`) VALUES (2, 1);
+INSERT INTO `xiaojh`.`user_focus_club` (`user_id`, `club_id`) VALUES (2, 2);
+INSERT INTO `xiaojh`.`user_focus_club` (`user_id`, `club_id`) VALUES (2, 3);
+INSERT INTO `xiaojh`.`user_focus_club` (`user_id`, `club_id`) VALUES (2, 4);
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `xiaojh`.`club_focus_club`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `xiaojh`;
+INSERT INTO `xiaojh`.`club_focus_club` (`source_club_id`, `target_club_id`) VALUES (1, 2);
+INSERT INTO `xiaojh`.`club_focus_club` (`source_club_id`, `target_club_id`) VALUES (2, 1);
+INSERT INTO `xiaojh`.`club_focus_club` (`source_club_id`, `target_club_id`) VALUES (1, 3);
+INSERT INTO `xiaojh`.`club_focus_club` (`source_club_id`, `target_club_id`) VALUES (3, 1);
+INSERT INTO `xiaojh`.`club_focus_club` (`source_club_id`, `target_club_id`) VALUES (2, 3);
+INSERT INTO `xiaojh`.`club_focus_club` (`source_club_id`, `target_club_id`) VALUES (3, 2);
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `xiaojh`.`merchant_focus_club`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `xiaojh`;
+INSERT INTO `xiaojh`.`merchant_focus_club` (`merchant_id`, `club_id`) VALUES (1, 2);
+INSERT INTO `xiaojh`.`merchant_focus_club` (`merchant_id`, `club_id`) VALUES (1, 1);
+INSERT INTO `xiaojh`.`merchant_focus_club` (`merchant_id`, `club_id`) VALUES (2, 1);
+INSERT INTO `xiaojh`.`merchant_focus_club` (`merchant_id`, `club_id`) VALUES (2, 2);
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `xiaojh`.`activity`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `xiaojh`;
+INSERT INTO `xiaojh`.`activity` (`id`, `tittle`, `text`, `datetime`, `video_url`, `title_img_path`, `place`, `hold_club_id`, `hold_merchant_id`, `organizer`, `heat`, `budget`, `status`, `talking_id`, `participant_count`) VALUES (1, '商家活动一', '商家活动一商家活动一', '2013-08-05 11:57:11', '<embed src=\'/xiaojh/video/ckplayer/ckplayer.swf?p=0&c=1&i=/xiaojh/video/ckplayer/xiaojh.png\' flashvars=\'f=/xiaojh/video/ckplayer/mandy.flv\' quality=\'high\' width=\'480\' height=\'400\' align=\'middle\' allowScriptAccess=\'always\' allowFullscreen=\'true\' type=\'application/x-shockwave-flash\'></embed>', 'http://y3.ifengimg.com/2013/0805/wm_9783f21b46072d9503a7bd2f8017f4b7.jpg', '天津工业大学', 2, 1, '商家1社团2', 44, '200', 'UNDERWAY', 6, 56);
+INSERT INTO `xiaojh`.`activity` (`id`, `tittle`, `text`, `datetime`, `video_url`, `title_img_path`, `place`, `hold_club_id`, `hold_merchant_id`, `organizer`, `heat`, `budget`, `status`, `talking_id`, `participant_count`) VALUES (2, '商家活动二', '商家活动二商家活动二商家活动二商家活动二商家活动二', '2013-08-05 11:57:11', '<embed src=\"http://www.tudou.com/l/mvZlZmwpB2Y/&resourceId=0_05_05_99&iid=173717345&bid=05/v.swf\" type=\"application/x-shockwave-flash\" allowscriptaccess=\"always\" allowfullscreen=\"true\" wmode=\"opaque\" width=\"480\" height=\"400\"></embed>', 'http://y3.ifengimg.com/2013/0805/wm_9783f21b46072d9503a7bd2f8017f4b7.jpg', '天津', 2, 1, '商家1社团2', 75, '556', 'UNDERWAY', 7, 78);
+INSERT INTO `xiaojh`.`activity` (`id`, `tittle`, `text`, `datetime`, `video_url`, `title_img_path`, `place`, `hold_club_id`, `hold_merchant_id`, `organizer`, `heat`, `budget`, `status`, `talking_id`, `participant_count`) VALUES (3, '商家活动三', '商家活动三商家活动三商家活动三商家活动三商家活动三商家活动三', '2013-08-05 11:57:11', '<embed src=\"http://player.youku.com/player.php/sid/XMzIzNDk5MjAw/v.swf\" allowFullScreen=\"true\" quality=\"high\" width=\"480\" height=\"400\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>', 'http://y3.ifengimg.com/2013/0805/wm_9783f21b46072d9503a7bd2f8017f4b7.jpg', '天津', 2, 1, '商家1社团2', 55, '555', 'UNDERWAY', 8, 67);
+INSERT INTO `xiaojh`.`activity` (`id`, `tittle`, `text`, `datetime`, `video_url`, `title_img_path`, `place`, `hold_club_id`, `hold_merchant_id`, `organizer`, `heat`, `budget`, `status`, `talking_id`, `participant_count`) VALUES (4, '商家活动四', '商家活动四商家活动四商家活动四商家活动四商家活动四商家活动四', '2013-08-05 11:57:11', 'http://y3.ifengimg.com/2013/0805/wm_9783f21b46072d9503a7bd2f8017f4b7.jpg', 'http://y3.ifengimg.com/2013/0805/wm_9783f21b46072d9503a7bd2f8017f4b7.jpg', '天津天津', 2, 1, '商家1社团2', 65, '545', 'UNDERWAY', 9, 67);
+INSERT INTO `xiaojh`.`activity` (`id`, `tittle`, `text`, `datetime`, `video_url`, `title_img_path`, `place`, `hold_club_id`, `hold_merchant_id`, `organizer`, `heat`, `budget`, `status`, `talking_id`, `participant_count`) VALUES (5, '社团活动1', '社团活动1社团活动1社团活动1社团活动1社团活动1社团活动1', '2013-08-05 11:57:11', '<embed src=\"http://player.youku.com/player.php/sid/XMzIzNDk5MjAw/v.swf\" allowFullScreen=\"true\" quality=\"high\" width=\"480\" height=\"400\" align=\"middle\" allowScriptAccess=\"always\" type=\"application/x-shockwave-flash\"></embed>', 'http://y3.ifengimg.com/2013/0805/wm_9783f21b46072d9503a7bd2f8017f4b7.jpg', '65767', 1, 2, '社团1商家2', 66, '545', 'UNDERWAY', 10, 67);
+INSERT INTO `xiaojh`.`activity` (`id`, `tittle`, `text`, `datetime`, `video_url`, `title_img_path`, `place`, `hold_club_id`, `hold_merchant_id`, `organizer`, `heat`, `budget`, `status`, `talking_id`, `participant_count`) VALUES (6, '社团活动2', '社团活动2社团活动2社团活动2社团活动2', '2013-08-05 11:57:11', '<embed src=\'/xiaojh/video/ckplayer/ckplayer.swf?p=0&c=1&i=/xiaojh/video/ckplayer/xiaojh.png\' flashvars=\'f=/xiaojh/video/ckplayer/mandy.flv\' quality=\'high\' width=\'480\' height=\'400\' align=\'middle\' allowScriptAccess=\'always\' allowFullscreen=\'true\' type=\'application/x-shockwave-flash\'></embed>', 'http://y3.ifengimg.com/2013/0805/wm_9783f21b46072d9503a7bd2f8017f4b7.jpg', '4657', 1, 2, '社团1商家2', 777, '545', 'UNDERWAY', 11, 55);
+INSERT INTO `xiaojh`.`activity` (`id`, `tittle`, `text`, `datetime`, `video_url`, `title_img_path`, `place`, `hold_club_id`, `hold_merchant_id`, `organizer`, `heat`, `budget`, `status`, `talking_id`, `participant_count`) VALUES (7, '社团活动3', '社团活动3社团活动3社团活动3社团活动3社团活动3', '2013-08-05 11:57:11', '<embed src=\"http://www.tudou.com/l/mvZlZmwpB2Y/&resourceId=0_05_05_99&iid=173717345&bid=05/v.swf\" type=\"application/x-shockwave-flash\" allowscriptaccess=\"always\" allowfullscreen=\"true\" wmode=\"opaque\" width=\"480\" height=\"400\"></embed>', 'http://y3.ifengimg.com/2013/0805/wm_9783f21b46072d9503a7bd2f8017f4b7.jpg', 'rgfff', 1, 2, '社团1商家2', 777, '545', 'UNDERWAY', 12, 87);
+INSERT INTO `xiaojh`.`activity` (`id`, `tittle`, `text`, `datetime`, `video_url`, `title_img_path`, `place`, `hold_club_id`, `hold_merchant_id`, `organizer`, `heat`, `budget`, `status`, `talking_id`, `participant_count`) VALUES (8, '社团活动4', '社团活动4社团活动4社团活动4社团活动4社团活动4', '2013-08-05 11:57:11', 'http://y3.ifengimg.com/2013/0805/wm_9783f21b46072d9503a7bd2f8017f4b7.jpg', 'http://y3.ifengimg.com/2013/0805/wm_9783f21b46072d9503a7bd2f8017f4b7.jpg', '54646', 1, 2, '社团1商家2', 444, '444', 'UNDERWAY', 13, 54);
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `xiaojh`.`user_focus_merchant`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `xiaojh`;
+INSERT INTO `xiaojh`.`user_focus_merchant` (`user_id`, `merchant_id`) VALUES (2, 1);
+INSERT INTO `xiaojh`.`user_focus_merchant` (`user_id`, `merchant_id`) VALUES (2, 2);
+INSERT INTO `xiaojh`.`user_focus_merchant` (`user_id`, `merchant_id`) VALUES (3, 1);
+INSERT INTO `xiaojh`.`user_focus_merchant` (`user_id`, `merchant_id`) VALUES (3, 2);
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `xiaojh`.`advertisement`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `xiaojh`;
+INSERT INTO `xiaojh`.`advertisement` (`id`, `type`, `name`, `height`, `width`) VALUES (1, 'JS', '活动页广告1', 200, 800);
+INSERT INTO `xiaojh`.`advertisement` (`id`, `type`, `name`, `height`, `width`) VALUES (2, 'IMG', '活动页广告2', 100, 230);
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `xiaojh`.`club_focus_merchant`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `xiaojh`;
+INSERT INTO `xiaojh`.`club_focus_merchant` (`club_id`, `merchant_id`) VALUES (1, 2);
+INSERT INTO `xiaojh`.`club_focus_merchant` (`club_id`, `merchant_id`) VALUES (1, 1);
+INSERT INTO `xiaojh`.`club_focus_merchant` (`club_id`, `merchant_id`) VALUES (2, 1);
+INSERT INTO `xiaojh`.`club_focus_merchant` (`club_id`, `merchant_id`) VALUES (2, 2);
+
+COMMIT;
+
+-- -----------------------------------------------------
+-- Data for table `xiaojh`.`advertisement_content`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `xiaojh`;
+INSERT INTO `xiaojh`.`advertisement_content` (`id`, `advertisement_id`, `content_path`, `description`, `code`) VALUES (1, 1, '/upload/ads/20130805/153532856.jpg', '活动广告1', 'http://www.baidu.com/');
+INSERT INTO `xiaojh`.`advertisement_content` (`id`, `advertisement_id`, `content_path`, `description`, `code`) VALUES (2, 1, '/upload/ads/20130805/153603187.png', '活动广告2', 'http://www.ifeng.com/');
+INSERT INTO `xiaojh`.`advertisement_content` (`id`, `advertisement_id`, `content_path`, `description`, `code`) VALUES (3, 1, '/upload/ads/20130805/153630819.jpg', '活动广告3', 'http://www.taobao.com/');
+INSERT INTO `xiaojh`.`advertisement_content` (`id`, `advertisement_id`, `content_path`, `description`, `code`) VALUES (4, 2, '/upload/ads/20130805/153826469.jpg', '活动广告', 'http://www.baidu.com/');
 
 COMMIT;
