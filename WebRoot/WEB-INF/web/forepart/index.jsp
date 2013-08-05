@@ -92,7 +92,7 @@
 
 <body>
 	<jsp:include page="head.jsp" />
-	
+	<ads:adver contentId="0" adsId="1"></ads:adver>
 	<div class="main">
 		<div class="left">
 			<s:iterator value="ics" id="cs">
@@ -101,7 +101,7 @@
 
 		</div>
 		<div class="center">
-		<ads:adver contentId="0" adsId="2"></ads:adver>
+		
 		<!-- 社团活动 -->
 			<div style="background:#999999;height:250px; overflow:hidden;">
 				<s:iterator value="ics" status="cs">
