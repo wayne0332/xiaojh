@@ -7,6 +7,13 @@
 	.l_box img:hover		{ cursor: pointer; }
 	
 
+/* index
+ * ---------------------------------------------------------------------------------------- */	
+ 
+ 	.index_update_box		{ height: 400px; overflow-y: scroll; background-color: #eee; }
+ 	.index_sideCol			{ background-color: #e8e8e8; }
+ 	.index_sideCol img		{ width: 58px; height: 58px; }
+ 
 	
 /* userHome
  * ---------------------------------------------------------------------------------------- */	

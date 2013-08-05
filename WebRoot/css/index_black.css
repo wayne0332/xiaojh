@@ -3,26 +3,30 @@
 	PADDING-BOTTOM: 0px;
 	BACKGROUND-COLOR: #121212;
 	PADDING-LEFT: 0px;
-	WIDTH: 978px;
+	WIDTH: 1000px;
 	PADDING-RIGHT: 0px;
 	HEIGHT: 286px;
 	OVERFLOW: hidden;
 	PADDING-TOP: 0px
 }
+
 #slideshow_footbar {
 	Z-INDEX: 5;
 	POSITION: absolute;
-FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#32000000, endColorstr=#32000000);
+	FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#32000000,
+		endColorstr=#32000000 );
 	WIDTH: 100%;
 	BOTTOM: 0px;
 	HEIGHT: 30px
 }
+
 #slideshow_photo {
 	POSITION: absolute;
 	WIDTH: 100%;
 	HEIGHT: 100%;
 	CURSOR: pointer
 }
+
 #slideshow_photo A {
 	Z-INDEX: 1;
 	BORDER-BOTTOM: 0px;
@@ -35,6 +39,7 @@ FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#32000000, endC
 	BORDER-RIGHT: 0px;
 	LEFT: 0px
 }
+
 #slideshow_footbar .slideshow-bt {
 	BACKGROUND-COLOR: #d2d3d4;
 	MARGIN: 10px 10px 0px 0px;
@@ -44,6 +49,7 @@ FILTER: progid:DXImageTransform.Microsoft.gradient(startColorstr=#32000000, endC
 	HEIGHT: 10px;
 	FONT-SIZE: 0px
 }
+
 #slideshow_footbar .bt-on {
 	BACKGROUND-COLOR: #30b1eb
 }
