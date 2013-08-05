@@ -399,7 +399,7 @@ public class ClubService extends BaseService
 	@SuppressWarnings("unchecked")
 	public List<Club> findHeatClubByHql()
 	{
-		Page page=Page.getPage(1, 12, 1);
+		Page page=Page.getPage(1, 10, 1);
 		return (List<Club>) dao.executeHql(page,"from Club cl where cl.status='PASSED' order by popularity desc");
 	}
 	/**********************************************************查看某个学校的社团的，按热度排序*****************************************************/

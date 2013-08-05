@@ -13,7 +13,7 @@ public class Auth {
 	    Map<String, Object> session = context.getSession();
 	    User user=new User();
 	    //user=(User) session.get("user");
-	    user.setId(1);
+	    user.setId(2);
 	    return user;
 	}
 	public static Club getClubFromSession (){
