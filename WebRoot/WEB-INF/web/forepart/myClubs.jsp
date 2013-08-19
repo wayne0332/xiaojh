@@ -6,7 +6,7 @@
 <html>
 <head>
 
-<title>校江湖 - 社团主页</title>
+<title>校江湖 - 社团</title>
 
 <link rel="stylesheet" type="text/css" href="css/base-min.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
@@ -18,31 +18,77 @@
 
 	<div class="container cf zoom">
 		<jsp:include page="head.jsp" />
-		<a href="applyClubInput">申请社团</a>
-		<s:if
-			test="#request.clubInviteCount != null && #request.clubInviteCount != 0">
-			<a href="myInvited" class="a_bt"> 我的邀请(<s:property
-					value="#request.clubInviteCount" />) </a>
-		</s:if>
-		<table>
-			<tr>
-				<td>Logo</td>
-				<td>社团名字</td>
-				<td>身份</td>
-				<td>操作</td>
-			</tr>
-			<s:iterator value="#request.myClubs">
-				<tr>
-					<td><img src="<s:property value="club.logoPath"/>" class="logoImg" /></td>
-					<td><s:property value="club.name" /></td>
-					<td><s:property value="role.name" /> <s:if
-							test="status.name() == 'NO_CHECK'">(<s:property
-								value="status.name" />)</s:if></td>
-					<td><s:a href="clubMain?club.id=%{club.id}">进入社团</s:a></td>
-				</tr>
-			</s:iterator>
-		</table>
-		<wst:page url="myClubs" />
+
+		<div class="left_bar mt75">
+			<div class="my_info w240 h90 p5 m5 shadow_l_10 bg_box">
+				<img src="images/head/head1.jpg"
+					class="fl mt5 ml10 circle_80 shadow_l_5" />
+				<ul class="fl w135 p5 pl10 text_r">
+					<li class="w135 text_l f14"><a href="updateUserInput"><s:property
+								value="#session.user.name" /> </a></li>
+					<li><s:property value="#session.user.grade" />
+					</li>
+					<li><s:property
+							value="#application.schools[#session.user.school.id].name" />
+					</li>
+					<li>凤凰社</li>
+				</ul>
+			</div>
+			<div class="w240 h300 p5 m5 shadow_l_10 bg_box cf">
+				<div class="mt30 ml5">
+					按热度排序：<a href="school?school.id=${school.id}">查看</a>
+				</div>
+				<div class="club_category cf ml5">
+					<span>按类型查看：</span><br />
+					<s:iterator value="@com.tjxjh.enumeration.ClubType@values()"
+						id="ac">
+						<a class="shadow_l_5"
+							href="school?school.id=${school.id}&clubType=<s:property value="name()"/>">${name}</a>
+					</s:iterator>
+				</div>
+			</div>
+		</div>
+
+		<div class="main mt75">
+			<div class="cf">
+				<a href="applyClubInput"
+					class="single_bt1 w100 mt5 ml5 fl shadow_l_5">申请社团</a>
+				<s:if
+					test="#request.clubInviteCount != null && #request.clubInviteCount != 0">
+					<a href="myInvited" class=""> 我的邀请(<s:property
+							value="#request.clubInviteCount" />) </a>
+				</s:if>
+			</div>
+			<div class="bg_fff shadow_l_5 ml5 mr10 mt30">
+				<table class="w">
+					<thead class="clubList_thead">
+						<tr>
+							<th>Logo</th>
+							<th>社团名字</th>
+							<th>身份</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody class="clubList_tbody">
+						<s:iterator value="#request.myClubs">
+							<tr>
+								<td class="tl"><img src="images/head/head1.jpg" class="" />
+								</td>
+								<td><s:property value="club.name" />
+								</td>
+								<td><s:property value="role.name" /> <s:if
+										test="status.name() == 'NO_CHECK'">(<s:property
+											value="status.name" />)</s:if>
+								</td>
+								<td><s:a href="clubMain?club.id=%{club.id}">进入社团</s:a>
+								</td>
+							</tr>
+						</s:iterator>
+					</tbody>
+				</table>
+			</div>
+			<wst:page url="myClubs" />
+		</div>
 	</div>
 </body>
 </html>
