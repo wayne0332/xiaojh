@@ -191,9 +191,9 @@
 				<s:iterator value="ics" status="cs">
 					<div id="clubactivity${club.id}" style="<s:if test="#cs.getIndex()!=0">display:none;</s:if>">
 						<s:iterator value="acs" status="child">
-							<div class="index_activityBox cf m10 bg_fff shadow_l_5 radius_6">
+							<div class="index_activityBox cf m5 ml10 mr10 bg_fff shadow_l_5 radius_6">
 								<div class="fl">
-									<img src="${titleImgPath}"  class="w50 h70" />
+									<img src="${titleImgPath}"  class="w40 h50" />
 								</div>
 								<div class="fl">
 									标题：<a href="activity?activity.id=${id}">${tittle}</a><br />发布时间：${datetime}&nbsp;参与人数：${participantCount}
@@ -210,9 +210,9 @@
 				<s:iterator value="ims" status="ms">
 					<div id="merchantactivity${merchant.id}" style="<s:if test="#ms.getIndex()!=0">display:none;</s:if>">
 						<s:iterator value="acs" status="child">
-							<div class="index_activityBox cf m10 bg_fff shadow_l_5 radius_6">
+							<div class="index_activityBox cf m5 ml10 mr10 bg_fff shadow_l_5 radius_6">
 								<div class="fr">
-									<img src="${titleImgPath}" class="w50 h70" />
+									<img src="${titleImgPath}" class="w40 h50" />
 								</div>
 								<div class="fl  ml5">
 									标题：<a href="activity?activity.id=${id}">${tittle}</a><br />发布时间：${datetime}&nbsp;参与人数：${participantCount}
