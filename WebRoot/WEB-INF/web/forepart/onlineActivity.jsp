@@ -16,7 +16,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
      <div class="div">
      	<!-- 提示信息 -->
-     	<a href="<%=path %>/addOnlineActivityJsp">发表活动</a>
+     	<a href="<%=path %>/addOnlineActivityJsp">发表线上活动</a>
      	<h2>在线活动显示页</h2>
      	<s:property value="message"/><br/>
      	<div style="display: inline-block; border:1px solid;width:80%;margin:20px; overflow:hidden;">

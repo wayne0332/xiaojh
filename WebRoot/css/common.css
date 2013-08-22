@@ -3,18 +3,28 @@
 
 	body				{ background: #f8f8f8 url("../images/bg/bg_index1.jpg") no-repeat top; }
 	
+	h2					{ font: 15px/1.5 Tahoma,Verdana,"Microsoft Yahei"; }
+	
 	.input_radio		{ vertical-align: middle; }
 
 	.a_bt				{ display: block; padding: 0 13px; line-height: 40px; color: #f8f8f8; background-color: #444; }
 	.a_bt:hover			{ text-decoration: none; color: #eee; background-color: #555; }
+	.a_no				{ color: #333; }
+	.a_no:hover,
+	.a_no:visited		{ text-decoration: none; }
+	
+	.single_bt1			{ display: block; line-height: 35px; background-color: #c99700; text-align: center; color: #fff; }
+	.single_bt2			{ display: block; line-height: 30px; background-color: #eee; text-align: center; color: #555; }
 	
 	.w730				{ width: 730px; }
 	.w270				{ width: 270px; }
 	
 	.w240				{ width: 240px; }
 	.w135				{ width: 135px; }
+	.w335				{ width: 345px; }
 	
 	.bg_fff				{ background-color: #fff; }
+	.bg_box				{ background-color: rgba(245,245,245,0.7); }
 	
 	.text_r				{ text-align: right; }
 	.text_l				{ text-align: left; }
@@ -26,9 +36,9 @@
 	
 	.circle_80			{ width: 80px; height: 80px; line-height: 80px; -moz-border-radius: 40px; -webkit-border-radius: 40px; border-radius: 40px; } 
 	.circle_100			{ width: 100px; height: 100px; line-height: 100px; -moz-border-radius: 50px; -webkit-border-radius: 50px; border-radius: 50px; } 
-	.circle_120			{ width: 120px; height: 120px; line-height: 120px; -moz-border-radius: 60px; -webkit-border-radius: 60px; border-radius: 60px; } 
-	.circle_150			{ width: 150px; height: 150px; line-height: 150px; -moz-border-radius: 75px; -webkit-border-radius: 75px; border-radius: 75px; } 
-	.circle_200			{ width: 200px; height: 200px; line-height: 200px; -moz-border-radius: 100px; -webkit-border-radius: 100px; border-radius: 100px; } 
+	.circle_120			{ width: 130px; height: 130px; line-height: 130px; -moz-border-radius: 65px; -webkit-border-radius: 65px; border-radius: 65px; } 
+	.circle_150			{ width: 160px; height: 160px; line-height: 160px; -moz-border-radius: 80px; -webkit-border-radius: 80px; border-radius: 80px; } 
+	.circle_200			{ width: 220px; height: 220px; line-height: 220px; -moz-border-radius: 110px; -webkit-border-radius: 110px; border-radius: 110px; } 
 
 	
 	.radius_6			{ -moz-border-radius: 6px; -webkit-border-radius: 6px; border-radius: 6px; } 
