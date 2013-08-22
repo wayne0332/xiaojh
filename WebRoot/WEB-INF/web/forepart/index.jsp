@@ -185,21 +185,36 @@
 		</div>
 
 		<div class="w730 fl mt75">
-			<!-- 商家活动 -->
+			<!-- 社团活动 -->
 			<label class="activity_title mt5 ml10 pl5 fl shadow_n_5b">社团动向</label>
 			<div class="index_update_panel">
-				<s:iterator value="ims" status="ms">
-					<!-- 循环商家 -->
-					<div id="merchantactivity${merchant.id}"
-						style="<s:if test="#ms.getIndex()!=0">display:none;</s:if>">
-						<!-- 默认显示第一个商家的活动，其他不显示 -->
+				<s:iterator value="ics" status="cs">
+					<div id="clubactivity${club.id}" style="<s:if test="#cs.getIndex()!=0">display:none;</s:if>">
 						<s:iterator value="acs" status="child">
-							<!--显示 商家对应的activity -->
 							<div class="index_activityBox cf m10 bg_fff shadow_l_5 radius_6">
 								<div class="fl">
-									<img src="${titleImgPath}" class="w100" />
+									<img src="${titleImgPath}"  class="w50 h70" />
 								</div>
 								<div class="fl">
+									标题：<a href="activity?activity.id=${id}">${tittle}</a><br />发布时间：${datetime}&nbsp;参与人数：${participantCount}
+								</div>
+							</div>
+						</s:iterator>
+					</div>
+				</s:iterator>
+			</div>
+			<!-- End:社团活动 -->
+			<!-- 商家活动 -->
+			<label class="activity_title mt10 ml10 pr5 fl shadow_n_5b text_r">商家动向</label>
+			<div  class="index_update_panel">
+				<s:iterator value="ims" status="ms">
+					<div id="merchantactivity${merchant.id}" style="<s:if test="#ms.getIndex()!=0">display:none;</s:if>">
+						<s:iterator value="acs" status="child">
+							<div class="index_activityBox cf m10 bg_fff shadow_l_5 radius_6">
+								<div class="fr">
+									<img src="${titleImgPath}" class="w50 h70" />
+								</div>
+								<div class="fl  ml5">
 									标题：<a href="activity?activity.id=${id}">${tittle}</a><br />发布时间：${datetime}&nbsp;参与人数：${participantCount}
 								</div>
 							</div>
@@ -209,29 +224,7 @@
 			</div>
 			<!-- End:商家活动 -->
 
-			<!-- 社团活动 -->
-			<label class="activity_title mt10 ml10 pr5 fl shadow_n_5b text_r">商家动向</label>
-			<div class="index_update_panel">
-				<s:iterator value="ics" status="cs">
-					<!-- 循环社团 -->
-					<div id="clubactivity${club.id}"
-						style="<s:if test="#cs.getIndex()!=0">display:none;</s:if>">
-						<!-- 默认显示第一个社团的活动，其他不显示 -->
-						<s:iterator value="acs" status="child">
-							<!--显示 社团对应的activity -->
-							<div class="index_activityBox cf m10 bg_fff shadow_l_5 radius_6">
-								<div class="fr">
-									<img src="${titleImgPath}" class="w100" />
-								</div>
-								<div class="fl ml5">
-									标题：<a href="activity?activity.id=${id}">${tittle}</a><br />发布时间：${datetime}&nbsp;参与人数：${participantCount}
-								</div>
-							</div>
-						</s:iterator>
-					</div>
-				</s:iterator>
-			</div>
-			<!-- End:社团活动 -->
+			
 		</div>
 
 		<div class="index_sideCol w135 mt5 cf fr">
@@ -247,17 +240,25 @@
 	</div>
 
 	<script type="text/javascript">
+		var coid=${ics[0].club.id};
 		function displayClubActivity(id){
 			var caid='#clubactivity'+id;
-			$("
-					.clubactivity").fadeOut(100);
-			$(caid).delay(100).fadeIn(300);
+			var coaid='#clubactivity'+coid;
+			if(caid!=coaid){
+				$(coaid).fadeOut(300);
+				$(caid).delay(400).fadeIn(600);
+				coid=id;
+			}
 		}
-		function
-					displayMerchantActivity(id){
+		var moid=${ims[0].merchant.id};
+		function displayMerchantActivity(id){
 			var caid='#merchantactivity'+id;
-			$(".merchantactivity").fadeOut(100);
-			$(caid).delay(100).fadeIn(300);
+			var coaid='#merchantactivity'+moid;
+			if(caid!=coaid){
+				$(coaid).fadeOut(300);
+				$(caid).delay(400).fadeIn(600);
+				moid=id;
+			}
 		}
 	
 					</script>

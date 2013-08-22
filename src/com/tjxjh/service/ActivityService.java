@@ -369,7 +369,7 @@ public class ActivityService extends BaseService{
 	@SuppressWarnings("unchecked")
 	public List<Activity> findOneActivityByHql(Club club,Merchant merchant)
 	{
-		Page page=Page.getPage(1, 12, 1);
+		Page page=Page.getPage(1,4, 1);
 		try{
 			if(club!=null&&club.getId()!=null){
 				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in('UNDERWAY','END') and cl.club.id=? order by datetime desc",club.getId());
