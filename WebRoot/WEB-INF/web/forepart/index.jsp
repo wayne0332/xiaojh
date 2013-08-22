@@ -180,7 +180,7 @@
 			<s:iterator value="ics" id="cs">
 				<img src="${club.logoPath}" title="${club.name}"
 					onclick="displayClubActivity(${club.id})"
-					class="logoImg mt5 ml5 shadow_l_10 radius_6" />
+					class="logoImg mt10 ml5 shadow_l_10 radius_6" />
 			</s:iterator>
 		</div>
 
@@ -191,7 +191,7 @@
 				<s:iterator value="ics" status="cs">
 					<div id="clubactivity${club.id}" style="<s:if test="#cs.getIndex()!=0">display:none;</s:if>">
 						<s:iterator value="acs" status="child">
-							<div class="index_activityBox cf m5 ml10 mr10 bg_fff shadow_l_5 radius_6">
+							<div class="index_activityBox cf m7 ml10 mr10 bg_fff shadow_l_5 radius_6">
 								<div class="fl">
 									<img src="${titleImgPath}"  class="w40 h50" />
 								</div>
@@ -205,12 +205,12 @@
 			</div>
 			<!-- End:社团活动 -->
 			<!-- 商家活动 -->
-			<label class="activity_title mt10 ml10 pr5 fl shadow_n_5b text_r">商家动向</label>
+			<label class="activity_title mt5 ml10 pr5 fl shadow_n_5b text_r">商家动向</label>
 			<div  class="index_update_panel">
 				<s:iterator value="ims" status="ms">
 					<div id="merchantactivity${merchant.id}" style="<s:if test="#ms.getIndex()!=0">display:none;</s:if>">
 						<s:iterator value="acs" status="child">
-							<div class="index_activityBox cf m5 ml10 mr10 bg_fff shadow_l_5 radius_6">
+							<div class="index_activityBox cf m7 ml10 mr10 bg_fff shadow_l_5 radius_6">
 								<div class="fr">
 									<img src="${titleImgPath}" class="w40 h50" />
 								</div>
@@ -233,7 +233,7 @@
 				<img src="${merchant.logoPath}"
 					onclick="displayMerchantActivity(${merchant.id})"
 					title="${merchant.name}"
-					class="logoImg mt5 ml5 shadow_l_10 radius_6" />
+					class="logoImg mt10 ml5 shadow_l_10 radius_6" />
 			</s:iterator>
 		</div>
 

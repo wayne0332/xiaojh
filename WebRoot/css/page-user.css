@@ -4,7 +4,7 @@
  	
  	.index_Abt				{ position: absolute; top: 300px; border: none; left: 0; background: rgba(233,233,233,0.5); color: #666; }
  
- 	.index_update_panel		{ width: 730px; height: 230px; overflow-y: hidden; }
+ 	.index_update_panel		{ width: 730px; height: 180px; overflow-y: hidden; }
  	.activity_title			{ width: 705px; display: block; line-height: 30px; background-color: rgba(40,100,40,0.3); color: #eee; z- }
  	.index_activityBox		{  }
  	.index_sideCol			{  }
