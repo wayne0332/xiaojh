@@ -18,73 +18,52 @@
 <link rel="stylesheet" type="text/css" href="css/common.css" />
 <link rel="stylesheet" type="text/css" href="css/page-user.css" />
 
-<style type="text/css">
-.list {
-	float: left;
-	width: 610px;
-}
-
-.right {
-	float: right;
-	width: 270px;
-}
-
-.portrait_big {
-	width: 60px;
-	float: left;
-}
-
-.userItem {
-	width: 540px;
-}
-
-.infoItem {
-	margin-top: 5px;
-	width: 200px;
-}
-</style>
-
 </head>
 <body>
 
 	<div class="container cf zoom">
 		<jsp:include page="head.jsp" />
-		<div class="main fl cf">
-			<div class="list">
+
+		<div class="left_bar mt75">
+			<div class="my_info w240 h90 p5 m5 shadow_l_10 bg_box">
+				<img src="images/head/head1.jpg"
+					class="fl mt5 ml10 circle_80 shadow_l_5" />
+				<ul class="fl w135 p5 pl10 text_r">
+					<li class="w135 text_l f14"><a href="updateUserInput"><s:property
+								value="#session.user.name" /> </a></li>
+					<li><s:property value="#session.user.grade" />
+					</li>
+					<li><s:property
+							value="#application.schools[#session.user.school.id].name" />
+					</li>
+					<li>凤凰社</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="main cf mt75">
+			<div class="friendList cf shadow_l_10 m10 mt5 bg_fff">
+				<!-- 
 				<s:property value="#request.focusList" />
-				<s:property value="type" />
+				<s:property value="type" /> -->
 
 				<s:if test="type==0">
 					<s:iterator value="#request.focusList">
-						<div class="listItem">
-							<div class="portrait_big">
-								<s:if test="portrait==''">
-									<img src="<s:property value="portraitPath" />" width="40px" />
-								</s:if>
-								<s:else>
-									<img src="upload/portrait/auto_photo.png" width="40px" />
-								</s:else>
-							</div>
-							<div class="userItem">
-								<div class="infoItem">
-									<s:property value="name" />
-								</div>
-								<div>
-									<s:property value="sex" />
-								</div>
-								<div>
-									<s:property value="school.name" />
-								</div>
-								<div>
-									<s:property value="profession" />
-								</div>
-								<div>
-									<s:property value="grade" />
-								</div>
-								<div>
-									<s:property value="signature" />
-								</div>
-							</div>
+						<div class="friendBox">
+							<s:if test="portrait==''">
+								<img src="images/head/head1.jpg" class="fl logoImg" />
+							</s:if>
+							<s:else>
+								<img src="images/head/head1.jpg"  class="fl logoImg" />
+							</s:else>
+							<ul class="fl">
+								<li class="infoItem"><s:property value="name" /></li>
+								<li><s:property value="sex" /></li>
+								<li><s:property value="school.name" /></li>
+								<li><s:property value="profession" /></li>
+								<li><s:property value="grade" /></li>
+								<li><s:property value="signature" /></li>
+							</ul>
 							<input id="<s:property value="id" />" type="button" value="取消关注"
 								onclick="cancelFocus(<s:property value="id" />,0)" />
 						</div>
