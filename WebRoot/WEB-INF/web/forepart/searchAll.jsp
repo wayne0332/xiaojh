@@ -29,7 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<table>
     				<tr>
     					<td colspan="5">找人：</td>
-    					<td><a href="searchUser?searchText=<s:property value="#request.searchText" />&pageNum=1">更多结果</a></td>
+    					<td><a href="searchUser?searchText=<s:property value="#request.searchText" />&pageNum=1&club.id=<s:property value="club.id" />">更多结果</a></td>
     				</tr>
     				<s:iterator value="#request.searchResult.userList">
     				<tr>	
@@ -64,7 +64,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<table>
     				<tr>
     					<td colspan="5">找社团：</td>
-    					<td><a href="searchClub?searchText=<s:property value="searchText" />&pageNum=1">更多结果</a></td>
+    					<td><a href="searchClub?searchText=<s:property value="searchText" />&pageNum=1&club.id=<s:property value="club.id" />">更多结果</a></td>
     				</tr>
     				<s:iterator value="#request.searchResult.clubList" >
     				<tr>	

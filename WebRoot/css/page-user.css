@@ -2,36 +2,36 @@
 /* index
  * ---------------------------------------------------------------------------------------- */	
  	
- 	.index_Abt				{ position: absolute; top: 300px; border: none; background: rgba(233,233,233,0.5); color: #666; }
+ 	.index_Abt				{ position: absolute; top: 300px; border: none; left: 0; background: rgba(233,233,233,0.5); color: #666; }
  
- 	.index_update_panel		{ width: 730px; height: 165px; overflow-y: hidden; }
+ 	.index_update_panel		{ width: 730px; height: 330px; overflow-y: hidden; }
  	.activity_title			{ width: 705px; display: block; line-height: 30px; background-color: rgba(40,100,40,0.3); color: #eee; z- }
  	.index_activityBox		{  }
  	.index_sideCol			{  }
- 	.index_sideCol img,
  	.logoImg				{ width: 58px; height: 58px; }
  	
- 	.cityMap				{ height: 430px; position: relative; margin-bottom: 85px; }
+ 	.cityMap				{ height: 430px; position: relative; }
  	.cityMap li				{ position: absolute; text-align: center; vertical-align: middle; }
- 	.cityMap li:hover		{ cursor: pointer; }
- 	.cityMap_nankai			{ top: 140px; left: 310px; z-index: 2000; color: #7a7256; background-color: #f1eb9c; }
- 	.cityMap_hexi			{ top: 300px; left: 400px; z-index: 1500; color: #7a7256; background-color: rgba(213,255,195,0.9); }
- 	.cityMap_xiqing			{ top: 208px; left: 163px; z-index: 1800; color: #eee; background-color: #d2d755; }
- 	.cityMap_hebei			{ top: 40px; left: 410px; z-index: 1500; color: #7a7256; background-color: #a3e4b8; }
- 	.cityMap_beicheng		{ top: 100px; left: 190px; z-index: 1300; color: rgba(213,255,195,1); background-color: #7a7256; }
- 	.cityMap_wuqing			{ top: 0px; left: 155px; z-index: 1100; color: rgba(213,255,195,1); background-color: #00573f; }
- 	.cityMap_dongli			{ top: 129px; left: 498px; z-index: 1100; color: #7a7256; background-color: rgba(241,235,156,0.7); }
+ 	.cityMapUl li:hover		{ cursor: pointer; -webkit-box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.2); -moz-box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.2); box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.2);  }
+ 	.cityMap_nankai			{ top: 140px; left: 320px; z-index: 2000; color: #7a7256; background-color: #f1eb9c; }
+ 	.cityMap_hexi			{ top: 315px; left: 415px; z-index: 1500; color: #7a7256; background-color: rgba(213,255,195,0.9); }
+ 	.cityMap_xiqing			{ top: 218px; left: 165px; z-index: 1800; color: #eee; background-color: #d2d755; }
+ 	.cityMap_hebei			{ top: 40px; left: 425px; z-index: 1500; color: #7a7256; background-color: #a3e4b8; }
+ 	.cityMap_beicheng		{ top: 100px; left: 200px; z-index: 1300; color: rgba(213,255,195,1); background-color: #7a7256; }
+ 	.cityMap_wuqing			{ top: 0px; left: 165px; z-index: 1100; color: rgba(213,255,195,1); background-color: #00573f; }
+ 	.cityMap_dongli			{ top: 134px; left: 526px; z-index: 1100; color: #7a7256; background-color: rgba(241,235,156,0.7); }
  	
 	.mapBar					{ height: 430px; margin-bottom: 85px; }
 	
 	.loginForm_li			{ border-bottom: 1px solid #ddd; background-color: #fafafa; }
+	.loginForm li			{ position: relative; }
 	.loginForm label		{ display: inline-block; line-height: 30px; text-align: right; }
 	.loginForm_text			{ border: none; width: 185px; background-color: #fafafa; }
 	.loginForm_submit		{ background-color: #666; border: none; width: 88px; color: #eee; }
 	.loginForm_submit:hover	{ background-color: #777; cursor: pointer; }
 	
 	.campusList				{ background-color: #f5f5f5; }
-	.campusList li			{ border-bottom: 1px solid #f2f2f2; line-height: 30px; }
+	.campusList li			{ border-bottom: 1px solid #f2f2f2; line-height: 30px; position: relative; text-align: left; }
 	.campusList li a		{ text-decoration: none; display: block; }
 	.campusList li a:hover	{ background-color: #f8f8f8; }
 	.campusList_li1			{ background-color: #bbb; color: #f8f8f8; width: 230px; }
@@ -54,9 +54,9 @@
  
  	.w630					{ width: 630px; }
 
-	.userHome_box			{ background-color: #f8f8f8; }
+	.userHome_box			{ background-color: #fff; }
 	
-	.userBox_title			{ display: block; line-height: 30px; background-color: rgba(80,160,110,0.9); color: #fff; margin: -10px 0 0 -10px; }
+	.userBox_title			{ display: block; line-height: 30px; background-color: rgba(40,100,40,0.3); color: #fff; margin: -10px 0 0 -10px; }
 	.userHome_box textarea	{ width: 687px; resize: none; }
 	.userHome_box button	{  }
 
@@ -64,9 +64,29 @@
 	.user_dongtai_div img	{  }
 	.user_dongtai_div label	{  }
 	.user_dongtai_div a		{ width: 80px; display: inline-block; text-align: right; float: right; }
-	
+
+/* myActivity
+ * ---------------------------------------------------------------------------------------- */	
+ 
+ 	.myActivity_box	li		{  }
+ 	.myActivity_box	li label{ display: inline-block; color: #777; }
+ 	.myActivity_img			{ overflow: hidden; height: 215px; }
+
 /* club
  * ---------------------------------------------------------------------------------------- */	
  
  	.club_secNav			{ background-color: #f8f8f8; line-height: 30px; }
  	.club_panel				{ width: 330px; height: 250px; overflow-y: scroll; }
+ 	
+ 	.clubList_thead			{ background-color: #f3f3f3; line-height: 35px; }
+ 	.clubList_tbody	tr		{ height: 80px; border-top: 1px solid #f3f3f3; text-align: center; }
+ 	.clubList_tbody	img		{ height: 80px; }
+ 	.club_category a		{ line-height: 35px; display: block; float: left; padding: 0 10px; margin: 4px 0 2px 3px; background-color: #fff; }
+ 	
+ 
+/* frienfBox
+ * ---------------------------------------------------------------------------------------- */	
+ 
+ 	.friendList				{ }
+ 	.friendBox				{ width: 220px; height: 160px; float: left; }
+ 
