@@ -330,7 +330,8 @@ public class Club implements java.io.Serializable
 		this.announcements = announcements;
 	}
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "clubsForSourceClubId")
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "club_focus_club", catalog = "xiaojh", joinColumns = {@JoinColumn(name = "source_club_id", nullable = false, updatable = false)}, inverseJoinColumns = {@JoinColumn(name = "target_club_id", nullable = false, updatable = false)})
 	public Set<Club> getClubsForTargetClubId()
 	{
 		return this.clubsForTargetClubId;
@@ -341,8 +342,7 @@ public class Club implements java.io.Serializable
 		this.clubsForTargetClubId = clubsForTargetClubId;
 	}
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "club_focus_club", catalog = "xiaojh", joinColumns = {@JoinColumn(name = "target_club_id", nullable = false, updatable = false)}, inverseJoinColumns = {@JoinColumn(name = "source_club_id", nullable = false, updatable = false)})
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "clubsForTargetClubId")
 	public Set<Club> getClubsForSourceClubId()
 	{
 		return this.clubsForSourceClubId;

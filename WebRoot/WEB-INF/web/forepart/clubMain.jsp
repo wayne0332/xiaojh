@@ -60,7 +60,7 @@
 
 <body>
 	<div class="container">
-		<jsp:include page="head.jsp" />
+		<!-- <jsp:include page="head.jsp" /> -->
 
 		<div class="main fl cf">
 			<div class="club_secNav w pl5 pr5">
