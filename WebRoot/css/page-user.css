@@ -35,7 +35,7 @@
 	.campusList li a		{ text-decoration: none; display: block; }
 	.campusList li a:hover	{ background-color: #f8f8f8; }
 	.campusList_li1			{ background-color: #bbb; color: #f8f8f8; width: 230px; }
-
+	.logoImgcursor			{cursor:pointer;}
 
 /* left_bar_userHome
  * ---------------------------------------------------------------------------------------- */	

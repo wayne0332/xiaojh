@@ -179,8 +179,9 @@
 			<img src="images/icon/shetuan_icon.png" class="w70 ml5" /><br />
 			<s:iterator value="ics" id="cs">
 				<img src="${club.logoPath}" title="${club.name}"
-					onclick="displayClubActivity(${club.id})"
-					class="logoImg mt10 ml5 shadow_l_10 radius_6" />
+					onmouseover="clubmouseOver(${club.id})"
+					onmouseout="mouseOut();"
+					class="logoImg logoImgcursor mt10 ml5 shadow_l_10 radius_6" />
 			</s:iterator>
 		</div>
 
@@ -231,9 +232,10 @@
 			<img src="images/icon/dianpu_icon.png" class="w70 fr mr5" /><br />
 			<s:iterator value="ims" id="im">
 				<img src="${merchant.logoPath}"
-					onclick="displayMerchantActivity(${merchant.id})"
+					onmouseover="merchantmouseOver(${merchant.id})"
+					onmouseout="mouseOut();"
 					title="${merchant.name}"
-					class="logoImg mt10 ml5 shadow_l_10 radius_6" />
+					class="logoImg logoImgcursor mt10 ml5 shadow_l_10 radius_6" />
 			</s:iterator>
 		</div>
 
@@ -246,7 +248,7 @@
 			var coaid='#clubactivity'+coid;
 			if(caid!=coaid){
 				$(coaid).fadeOut(300);
-				$(caid).delay(400).fadeIn(600);
+				$(caid).delay(300).fadeIn(500);
 				coid=id;
 			}
 		}
@@ -256,11 +258,24 @@
 			var coaid='#merchantactivity'+moid;
 			if(caid!=coaid){
 				$(coaid).fadeOut(300);
-				$(caid).delay(400).fadeIn(600);
+				$(caid).delay(300).fadeIn(500);
 				moid=id;
 			}
 		}
+	var meizz; //声明一个页面级全局变量
+	function merchantmouseOver(id)
+	{
+	    meizz = setTimeout("displayMerchantActivity("+id+")", 800); //设定程序延迟一秒钟执行
+	}
+	function clubmouseOver(id)
+	{
+	    meizz = setTimeout("displayClubActivity("+id+")", 800); //设定程序延迟一秒钟执行
+	}
 	
+	function mouseOut()
+	{
+	    clearTimeout(meizz);
+	}
 					</script>
 
 	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
