@@ -20,7 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      	
      	<a href="<%=path %>/addTalkingJsp">发表说说</a>
      	<a href="<%=path %>/myTalking">我的说说</a>
-     	<a href="<%=path %>/allTalking">说说首页</a>
+     	<a href="<%=path %>/relativeTalking">说说首页</a>
      	<s:property value="message"/><br/>
      	<!-- 删除说说导致说说页数与真实页数不一致 ，将当总页数减一，并跳转至上一页
      	<s:if test="pics.size()==0&&currentPage!=1">
@@ -61,7 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		     <s:else>
 		     			&nbsp;分享次数：${talking.shareDetails.shareCount}
 		     </s:else>
-		     <s:if test="actionName.equals('allTalking')">
+		     <s:if test="actionName.equals('relativeTalking')">
 		     	&nbsp;来自:${user.name}
 		     	&nbsp;<a href="<%=path %>/preShareTalking?talking.id=${id}">分享</a>
 		     	&nbsp;
