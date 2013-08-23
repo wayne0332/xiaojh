@@ -31,6 +31,8 @@ import com.tjxjh.util.CodeUtil;
 @Namespace("/")
 public class UserAction extends BaseAction
 {
+	static final String MANAGER_LOGIN = "managerLogin";
+	static final String MANAGER_LOGIN_INPUT = "managerLoginInput";
 	static final String MY_INVITED = "myInvited";
 	static final String LOGOUT = "logout";
 	static final String UPDATE_USER_INPUT = "updateUserInput";
@@ -72,8 +74,13 @@ public class UserAction extends BaseAction
 					"msg", "用户名或密码错误!"})})
 	public String userLogin()
 	{
+		return login(UserStatus.VALIDATED);
+	}
+
+	private String login(UserStatus status)
+	{
 		super.clearSession();
-		if((user = userService.login(user, UserStatus.VALIDATED)) != null)
+		if((user = userService.login(user, status)) != null)
 		{
 			super.saveUser(user);
 			return SUCCESS;
@@ -82,6 +89,15 @@ public class UserAction extends BaseAction
 		{
 			return INPUT;
 		}
+	}
+	
+	@Action(value = MANAGER_LOGIN, results = {
+			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "manageIndex"),
+			@Result(name = INPUT, type = REDIRECT_ACTION, location = MANAGER_LOGIN_INPUT, params = {
+					"msg", "用户名或密码错误!"})})
+	public String managerLogin()
+	{
+		return login(UserStatus.ADMIN);
 	}
 	
 	@Action(value = REGISTER, results = {
@@ -224,37 +240,19 @@ public class UserAction extends BaseAction
 		return SUCCESS;
 	}
 	
-	@Action(value = "manageIndex", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/index.jsp")})
-	public String managerPage()
-	{
-		return SUCCESS;
-	}
-	
-	@Action(value = "manageTop", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/admin_top.jsp")})
-	public String managerTop()
-	{
-		return SUCCESS;
-	}
-	
-	@Action(value = "manageLeft", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/left.jsp")})
-	public String managerLeft()
-	{
-		return SUCCESS;
-	}
-	
-	@Action(value = "manageRight", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/right.jsp")})
-	public String managerRight()
-	{
-		return SUCCESS;
-	}
-	
 	@Actions({
 			@Action(value = LOGIN_INPUT, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
+					+ "login.jsp")}),
+			@Action(value = MANAGER_LOGIN_INPUT, results = {@Result(name = SUCCESS, location = BaseAction.MANAGE
 					+ "login.jsp")}),
 			@Action(value = REGISTER_INPUT, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 					+ "register.jsp")}),
 			@Action(value = UPDATE_USER_INPUT, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
-					+ UPDATE_USER + JSP)})})
+					+ UPDATE_USER + JSP)}),
+			@Action(value = "manageIndex", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/index.jsp")}),
+			@Action(value = "manageTop", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/admin_top.jsp")}),
+			@Action(value = "manageLeft", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/left.jsp")}),
+			@Action(value = "manageRight", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/right.jsp")})})
 	public String page()
 	{
 		return SUCCESS;
