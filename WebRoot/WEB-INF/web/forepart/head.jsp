@@ -9,10 +9,13 @@
 
 	<s:if test="#session.user == null">
 		<div class="nav_bar bc">
-		<ul class="fr">
-			<li><a href="index" class="a_bt">主页</a>
-			<li><a href="registerInput" class="a_bt">注册</a></li>
-		</ul></div>
+			<ul class="fr">
+				<!-- 暂时加的 以后要删 -->
+				<li><a href="managerLoginInput" class="a_bt">管理</a> <!-- 暂时加的 以后要删 -->
+				<li><a href="index" class="a_bt">主页</a>
+				<li><a href="registerInput" class="a_bt">注册</a></li>
+			</ul>
+		</div>
 	</s:if>
 
 	<s:else>
