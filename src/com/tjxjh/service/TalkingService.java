@@ -1,6 +1,9 @@
 package com.tjxjh.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -8,7 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.opensymphony.xwork2.ActionContext;
 import com.tjxjh.enumeration.TalkingStatus;
+import com.tjxjh.po.Club;
+import com.tjxjh.po.Merchant;
 import com.tjxjh.po.ShareDetails;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
@@ -215,6 +222,7 @@ public class TalkingService extends BaseService{
 	public Talking update(Talking tak){
 		return dao.merge(tak);
 	}
+	/**********************************所有说说***********************************************************************************/
 	@Transactional (propagation = Propagation.REQUIRED) 
 	public Page getAllPageByHql(Integer eachPageNumber,Integer currentPage,Integer totalPageNumber)
 	{
@@ -234,6 +242,20 @@ public class TalkingService extends BaseService{
 			return null;
 		}
 	}
+	@SuppressWarnings("unchecked")
+	public List<Talking> findAllTalkingByHql(Page page)
+	{
+		if(page==null){
+			return null;
+		}
+		return (List<Talking>) dao
+				.executeHql(
+						page,
+						"from Talking t where  t.status in ('SHARE') order by datetime desc"
+						);
+	}
+	/******************************End:所有说说***************************************************************************************/
+	/******************************我的说说***************************************************************************************/
 	@Transactional (propagation = Propagation.REQUIRED) 
 	public Page getMyPageByHql(User user,Integer eachPageNumber,Integer currentPage,Integer totalPageNumber)
 	{
@@ -254,6 +276,7 @@ public class TalkingService extends BaseService{
 			return null;
 		}
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Talking> findMyTalkingByHql(Page page,User  user)
 	{
@@ -266,16 +289,87 @@ public class TalkingService extends BaseService{
 						"from Talking t where t.user.id=? and t.status in ('SHARE') order by datetime desc",
 						user.getId());
 	}
+	/******************************End:我的说说***************************************************************************************/
+	/******************************我相关的说说***************************************************************************************/
+	@Transactional (propagation = Propagation.REQUIRED) 
+	public Page getRelativePageByHql(User user,Integer eachPageNumber,Integer currentPage,Integer totalPageNumber)
+	{
+		if(currentPage<=0){
+			currentPage=1;
+		}
+		if(totalPageNumber!=0){
+			return Page.getPage(currentPage, eachPageNumber, totalPageNumber);
+		}
+		ActionContext context = ActionContext.getContext();  
+	    Map<String, Object> session = context.getSession();
+		ArrayList<User> users=(ArrayList<User>) session.get("relativeUsers");
+		//将自己的信息放入users；
+		users.add((User)session.get("user"));
+		
+		String Hql="select count(*) from Talking t where t.status in ('SHARE') ";
+		StringBuilder str3=new StringBuilder();
+		for(User u:users){
+			str3.append(u.getId()+",");
+		}
+		if(str3.length()>0){
+			Hql=Hql+"and t.user.id in ("+str3.substring(0, str3.length()-1)+")";
+		}
+		try{
+			Page page= dao.getPageByHql(eachPageNumber,Hql);
+			page.setCurrentPage(currentPage);
+			return page;
+		}catch(Exception e){
+			System.out.println("---------TalkingService--getMyPageByHql--------"+e);
+			return null;
+		}
+	}
 	@SuppressWarnings("unchecked")
-	public List<Talking> findAllTalkingByHql(Page page)
+	public List<Talking> findRelativeTalkingByHql(Page page,User  user)
 	{
 		if(page==null){
 			return null;
 		}
+		ActionContext context = ActionContext.getContext();  
+	    Map<String, Object> session = context.getSession();
+		ArrayList<User> users=(ArrayList<User>) session.get("relativeUsers");
+		//将自己的信息放入users；
+		users.add((User)session.get("user"));
+		
+		String Hql="from Talking t where t.status in ('SHARE') ";
+		StringBuilder str3=new StringBuilder();
+		for(User u:users){
+			str3.append(u.getId()+",");
+		}
+		if(str3.length()>0){
+			Hql=Hql+"and t.user.id in ("+str3.substring(0, str3.length()-1)+")";
+		}
+		System.out.println(Hql+"==========================");
 		return (List<Talking>) dao
 				.executeHql(
-						page,
-						"from Talking t where  t.status in ('SHARE') order by datetime desc"
-						);
+						page,Hql);
+	}
+	/******************************End:我相关的说说***************************************************************************************/
+	@Transactional (propagation = Propagation.REQUIRED) 
+	public List<User> preGetRelativeUserId(User user){
+		List<User> users=new ArrayList<User>();
+		//查找用户所在社团对应的id号
+		users.addAll((List<User>) dao.executeHql("select club.user.id from ClubMember cl where cl.user.id=?", user.getId()));
+		//关注的社团
+		Set<Club> clubs=user.getFocusClubs();
+		for(Club c:clubs){
+			users.add(c.getUser());
+		}
+		
+		//关注的用户
+		Set<User> users2=user.getUsersForTargetUserId();
+		for(User u:users2){
+			users.add(u);
+		}
+		//关注的商家
+		Set<Merchant> merchants=user.getMerchants();
+		for(Merchant m:merchants){
+			users.add(m.getUser());
+		}
+		return users;
 	}
 }

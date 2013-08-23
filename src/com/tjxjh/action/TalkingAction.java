@@ -87,6 +87,18 @@ public class TalkingAction extends BaseAction
 		actionName="myTalking";
 		return SUCCESS;
 	}
+	@Action(value = "relativeTalking", results = {
+			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myTalking.jsp"),
+			@Result(name = INPUT, location = ERROR_PAGE)})
+			public String relativeTalking()
+			{
+				//根据user id查找未删除的说说
+				user=Auth.getUserFromSession();
+				page=talkingService.getRelativePageByHql(user,eachPageNumber,currentPage,totalPageNumber);
+				taks=talkingService.findRelativeTalkingByHql(page,user);
+				actionName="relativeTalking";
+				return SUCCESS;
+			}
 	
 	@Action(value = "allTalking", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myTalking.jsp"),

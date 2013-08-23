@@ -50,7 +50,7 @@
 					<ul class="w335 fr mt10">
 						<li><label>组织单位：</label>${organizer}</li>
 						<li><label>主办单位：</label>${club.name}${merchant.name}</li>
-						<li><label>活动来源：</label>${ac.club.name}${ac.merchant.name}${datetime}</li>
+						<li><label>发布时间：</label>${datetime}</li>
 						<li><label>资金预算：</label>${budget}元</li>
 						<li><label>举办地点：</label>${place}</li>
 						<li><label>活动状态： </label>

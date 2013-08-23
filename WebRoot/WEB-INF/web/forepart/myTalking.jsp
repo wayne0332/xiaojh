@@ -17,7 +17,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      <div class="div">
 
      	<!-- 提示信息 -->
+     	
      	<a href="<%=path %>/addTalkingJsp">发表说说</a>
+     	<a href="<%=path %>/myTalking">我的说说</a>
+     	<a href="<%=path %>/allTalking">说说首页</a>
      	<s:property value="message"/><br/>
      	<!-- 删除说说导致说说页数与真实页数不一致 ，将当总页数减一，并跳转至上一页
      	<s:if test="pics.size()==0&&currentPage!=1">
