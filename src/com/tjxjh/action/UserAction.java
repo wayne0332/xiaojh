@@ -14,7 +14,6 @@ import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
-import com.tjxjh.enumeration.OnlineActivityStatus;
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
@@ -24,6 +23,7 @@ import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
 import com.tjxjh.service.ClubService;
 import com.tjxjh.service.OnlineActivityService;
+import com.tjxjh.service.MailService;
 import com.tjxjh.service.PictureService;
 import com.tjxjh.service.TalkingService;
 import com.tjxjh.service.UserService;
@@ -33,6 +33,7 @@ import com.tjxjh.util.CodeUtil;
 @Namespace("/")
 public class UserAction extends BaseAction
 {
+	static final String REGISTER_VALIDATE = "registerValidate";
 	static final String MANAGER_LOGIN = "managerLogin";
 	static final String MANAGER_LOGIN_INPUT = "managerLoginInput";
 	static final String MY_INVITED = "myInvited";
@@ -70,10 +71,12 @@ public class UserAction extends BaseAction
 	private ClubService clubService = null;
 	@Resource
 	private OnlineActivityService onlineActivityService = null;
+	@Resource
+	private MailService mailService = null;
 	private User user = null;
 	protected File portrait = null;
-	protected String portraitFileName = null;
-	private Integer type;
+	protected String portraitFileName = null, code = null;
+	private Integer type = null;
 	
 	@Action(value = USER_LOGIN, results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = IndexAction.INDEX),
@@ -83,7 +86,7 @@ public class UserAction extends BaseAction
 	{
 		return login(UserStatus.VALIDATED);
 	}
-
+	
 	private String login(UserStatus status)
 	{
 		super.clearSession();
@@ -127,7 +130,33 @@ public class UserAction extends BaseAction
 			return INPUT;
 		}
 		super.getRequestMap().put("email", email[1]);
-		return super.successOrInput(userService.register(user, portrait));
+		if(userService.register(user, portrait))
+		{
+			mailService.sendRegisterLetter(user);
+			return SUCCESS;
+		}
+		else
+		{
+			return INPUT;
+		}
+	}
+	
+	@Action(value = REGISTER_VALIDATE, results = {
+			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = IndexAction.INDEX),
+			@Result(name = INPUT, type = REDIRECT_ACTION, location = MANAGER_LOGIN_INPUT, params = {
+					"msg", "注册验证失败(可能链接已过期)!"})})
+	public String registerValidate()
+	{
+		user = mailService.validateRegisterUser(code);
+		if(user != null)
+		{
+			super.saveUser(user);
+			return SUCCESS;
+		}
+		else
+		{
+			return INPUT;
+		}
 	}
 	
 	@Action(value = UPDATE_USER, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = REFRESH_USER
@@ -469,6 +498,5 @@ public class UserAction extends BaseAction
 	public void setOnlineActivityService(OnlineActivityService onlineActivityService) {
 		this.onlineActivityService = onlineActivityService;
 	}
-	
 	
 }
