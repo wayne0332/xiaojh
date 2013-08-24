@@ -24,7 +24,7 @@
 <body>
 	<div class="container cf zoom">
 		<jsp:include page="head.jsp" />
-		<div class="left_bar w270 cf mt75">
+		<div class="left_bar w270 cf mt75">			
 			<div class="my_info w240 h90 p5 m5 shadow_l_10 bg_box">
 				<img src="<s:property value="#session.user.portraitPath"/>"
 					class="fl mt5 ml10 circle_80 shadow_l_5" />
