@@ -65,7 +65,7 @@
 		<div class="main fl cf">
 			<div class="club_secNav w pl5 pr5">
 				<a
-					href="clubPostList?clubId=<s:property value="club.id" />&pageNum=1">进入贴吧</a>
+					href="clubPostList?club.id=<s:property value="club.id" />&pageNum=1">进入贴吧</a>
 				<s:a href="clubMembers?club.id=%{club.id}">社团成员<s:if
 						test="#request.clubMember != null && #request.clubMember.role.name() != 'NORMAL' && #request.userRequestCount != 0">
 							(<s:property value="#request.userRequestCount" />)
