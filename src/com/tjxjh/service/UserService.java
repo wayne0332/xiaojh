@@ -33,7 +33,7 @@ public class UserService extends BaseService
 	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean register(User user, File portrait)
 	{
-		user.setStatus(UserStatus.VALIDATED);
+		user.setStatus(UserStatus.NO_VALIDATE);
 		if(portrait != null)
 		{
 			savePortrait(user.getPortraitPath(), portrait, 280);
