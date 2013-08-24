@@ -121,9 +121,9 @@ public class OnlineActivityAction extends BaseAction{
 	@Action(value = "findOnlineActivity", results = {
 				@Result(name = SUCCESS, location = BaseAction.FOREPART + "myOnlineActivity.jsp")})
 	public String findOnlineActivity(){
-//		user.setId(1);
+		user=Auth.getUserFromSession();
 //		club.setId(1);
-		merchant.setId(1);
+//		merchant.setId(1);
 		pageAndoacs();
 		actionName="findOnlineActivity";
 		return SUCCESS;
