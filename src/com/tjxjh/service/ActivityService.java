@@ -198,7 +198,7 @@ public class ActivityService extends BaseService{
 	}
 	/**************************************************根据用户所在社团、关注社团、关注商家 查询活动*******************************************************/
 	@Transactional (propagation = Propagation.REQUIRED) 
-	public Page getMyActivityPageByHql(User user,Integer eachPageNumber,Integer currentPage,Integer totalPageNumber)
+	public Page getRelativeActivityPageByHql(User user,Integer eachPageNumber,Integer currentPage,Integer totalPageNumber)
 	{
 		if(currentPage<=0){
 			currentPage=1;
@@ -237,7 +237,7 @@ public class ActivityService extends BaseService{
 		}
 	}
 	@SuppressWarnings("unchecked")
-	public List<Activity> findMyActivityByHql(Page page,User  user,String condition)
+	public List<Activity> findRelativeActivityByHql(Page page,User  user,String condition)
 	{
 		if(page==null){
 			return null;
