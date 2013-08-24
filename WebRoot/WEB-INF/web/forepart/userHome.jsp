@@ -25,20 +25,7 @@
 	<div class="container cf zoom">
 		<jsp:include page="head.jsp" />
 		<div class="left_bar w270 cf mt75">
-			<div class="my_info w240 h90 p5 m5 shadow_l_10 bg_box">
-				<img src="<s:property value="#session.user.portraitPath"/>"
-					class="fl mt5 ml10 circle_80 shadow_l_5" />
-				<ul class="fl w135 p5 pl10 text_r">
-					<li class="w135 text_l f14"><a href="updateUserInput"><s:property
-								value="#session.user.name" /> </a></li>
-					<li><s:property value="#session.user.grade" />
-					</li>
-					<li><s:property
-							value="#application.schools[#session.user.school.id].name" />
-					</li>
-					<li>凤凰社</li>
-				</ul>
-			</div>
+			<jsp:include page="userMessage.jsp" />
 			<form action="searchAll" method="post"
 				class="l_search w250 m5 shadow_l_10">
 				<input name="searchText" type="text" class="w200 h30 pl5" />
