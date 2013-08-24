@@ -124,6 +124,7 @@ public class UserAction extends BaseAction
 			@Result(name = ERROR, location = FOREPART + ERROR_PAGE)})
 	public String register()
 	{
+		super.clearSession();
 		if(portrait != null)
 		{
 			fillPortraitPathToUser(user.getName());
