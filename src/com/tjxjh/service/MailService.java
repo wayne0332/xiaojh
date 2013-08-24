@@ -25,7 +25,7 @@ public class MailService extends BaseService
 	
 	/** user的id和email都不能空 */
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void sendRegisterLetter(User user)
+	public boolean sendRegisterLetter(User user)
 	{
 		Assert.isTrue(user != null && user.getId() != null
 				&& user.getEmail() != null);
@@ -40,6 +40,12 @@ public class MailService extends BaseService
 						.append(code).append("</a>").toString())))
 		{
 			dao.persist(new MailValidate(code, user));
+			return true;
+		}
+		else
+		{
+			dao.delete(user);
+			return false;
 		}
 	}
 	

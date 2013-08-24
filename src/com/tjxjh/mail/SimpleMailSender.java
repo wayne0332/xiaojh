@@ -48,7 +48,7 @@ public class SimpleMailSender
 			Transport.send(mailMessage);
 			return true;
 		}
-		catch(MessagingException ex)
+		catch(Exception ex)
 		{
 			ex.printStackTrace();
 		}
@@ -92,7 +92,7 @@ public class SimpleMailSender
 			Transport.send(mailMessage);
 			return true;
 		}
-		catch(MessagingException ex)
+		catch(Exception ex)
 		{
 			ex.printStackTrace();
 		}

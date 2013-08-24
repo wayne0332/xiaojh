@@ -85,8 +85,9 @@ public class UserAction extends BaseAction
 		super.clearSession();
 		if((user = userService.login(user, status)) != null)
 		{
-			//将相关的用户id存入session
-			super.getSessionMap().put("relativeUsers", talkingService.preGetRelativeUserId(user));
+			// 将相关的用户id存入session
+			super.getSessionMap().put("relativeUsers",
+					talkingService.preGetRelativeUserId(user));
 			super.saveUser(user);
 			return SUCCESS;
 		}
@@ -109,7 +110,8 @@ public class UserAction extends BaseAction
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "emailLoginJsp", params = {
 					"email", "${#request.email}"}),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = REGISTER_INPUT, params = {
-					"msg", "请正确输入信息!"})})
+					"msg", "请正确输入信息!"}),
+			@Result(name = ERROR, location = FOREPART + ERROR_PAGE)})
 	public String register()
 	{
 		if(portrait != null)
@@ -124,8 +126,14 @@ public class UserAction extends BaseAction
 		super.getRequestMap().put("email", email[1]);
 		if(userService.register(user, portrait))
 		{
-			mailService.sendRegisterLetter(user);
-			return SUCCESS;
+			if(mailService.sendRegisterLetter(user))
+			{
+				return SUCCESS;
+			}
+			else
+			{
+				return ERROR;
+			}
 		}
 		else
 		{
