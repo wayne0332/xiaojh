@@ -18,7 +18,6 @@ import cn.cafebabe.websupport.service.BaseService;
 
 import com.tjxjh.action.UserAction;
 import com.tjxjh.enumeration.UserStatus;
-import com.tjxjh.po.Activity;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.User;
@@ -46,6 +45,7 @@ public class UserService extends BaseService
 		}
 		return super.save(md5Password(user));
 	}
+	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public User findById(Integer id)
 	{
@@ -74,6 +74,13 @@ public class UserService extends BaseService
 			savePortrait(user.getPortraitPath(), portrait, 280);
 		}
 		return super.update(user, "id") != 0;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void changeUserPassword(User user, String newPsd)
+	{
+		dao.executeUpdateHql("update User set password=? where id=?",
+				CodeUtil.md5(newPsd), user.getId());
 	}
 	
 	public User refresh(User user)

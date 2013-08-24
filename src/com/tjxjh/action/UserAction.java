@@ -33,6 +33,8 @@ import com.tjxjh.util.CodeUtil;
 @Namespace("/")
 public class UserAction extends BaseAction
 {
+	static final String CHANGE_USER_PASSWORD_INPUT = "changeUserPasswordInput";
+	static final String CHANGE_USER_PASSWORD = "changeUserPassword";
 	static final String REGISTER_VALIDATE = "registerValidate";
 	static final String MANAGER_LOGIN = "managerLogin";
 	static final String MANAGER_LOGIN_INPUT = "managerLoginInput";
@@ -182,6 +184,22 @@ public class UserAction extends BaseAction
 		}
 		userService.update(user, portrait);
 		return SUCCESS;
+	}
+	
+	@Action(value = CHANGE_USER_PASSWORD, results = {
+			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = REFRESH_USER
+					+ CENTER),
+			@Result(name = INPUT, type = REDIRECT_ACTION, location = CHANGE_USER_PASSWORD_INPUT, params = {
+					"msg", "密码错误!"})})
+	public String changeUserPassword()
+	{
+		if(super.currentUser().getPassword()
+				.equals(CodeUtil.md5(user.getPassword())))
+		{
+			userService.changeUserPassword(super.currentUser(), code);
+			return SUCCESS;
+		}
+		return INPUT;
 	}
 	
 	private void fillPortraitPathToUser(String userName)
@@ -350,6 +368,8 @@ public class UserAction extends BaseAction
 					+ "register.jsp")}),
 			@Action(value = UPDATE_USER_INPUT, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 					+ UPDATE_USER + JSP)}),
+			@Action(value = CHANGE_USER_PASSWORD_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
+					+ CHANGE_USER_PASSWORD + JSP)}),
 			@Action(value = "manageIndex", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/index.jsp")}),
 			@Action(value = "manageTop", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/admin_top.jsp")}),
 			@Action(value = "manageLeft", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/left.jsp")}),

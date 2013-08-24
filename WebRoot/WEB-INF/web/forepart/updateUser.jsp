@@ -26,6 +26,7 @@
 			<jsp:include page="userMessage.jsp" />
 		</div>
 		<div class="main w730 cf mt75">
+			<a href="changeUserPasswordInput">修改密码</a>
 			<form action="updateUser" method="post" enctype="multipart/form-data">
 				name:
 				<s:property value="#session.user.name" />
