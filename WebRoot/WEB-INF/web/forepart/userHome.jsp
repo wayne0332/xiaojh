@@ -18,7 +18,7 @@
 <link rel="stylesheet" type="text/css" href="css/base-min.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
 <link rel="stylesheet" type="text/css" href="css/page-user.css" />
-
+<script type="text/javascript" src="<%=path%>/js/ajax.js"></script>
 </head>
 
 <body>
@@ -26,7 +26,7 @@
 		<jsp:include page="head.jsp" />
 		<div class="left_bar w270 cf mt75">
 			<div class="my_info w240 h90 p5 m5 shadow_l_10 bg_box">
-				<img src="images/head/head1.jpg"
+				<img src="<s:property value="#session.user.portraitPath"/>"
 					class="fl mt5 ml10 circle_80 shadow_l_5" />
 				<ul class="fl w135 p5 pl10 text_r">
 					<li class="w135 text_l f14"><a href="updateUserInput"><s:property
@@ -129,49 +129,52 @@
 				<s:iterator value="taks" id="tak">
 					<div id="${id}" class="user_dongtai_div cf w700 mt10 pt10 pb15">
 						<div class="w60 h fl">
-							<img src="images/head/head1.jpg" class="w60 h60 fl" />
+							<img src="${user.portraitPath}" class="w60 h60 fl shadow_l_10 radius_6" />
 						</div>
-						<s:if test="talking==null">
-							<label class="fr w630 f14"><s:property value="text" /> </label>
-							<div class="cf w630 mt5 fr">
-								<s:if
-									test="url!=null&&!url.trim().equals('')&&urlType.toString()=='PICTURE'">
-									<img src="${url}" />
-								</s:if>
-								<!-- 说说 -->
-								<s:elseif
-									test="url!=null&&!url.trim().equals('')&&urlType.toString()=='VIDEO'">
-								     			${url}
-										     </s:elseif>
-							</div>
-						</s:if>
-						<s:elseif test="talking!=null">
-							<label><a>${talking.user.name}</a>分享：<s:property
-									value="text" /> </label>
-							<div class="cf">
-								<s:property value="talking.text" />
-								<s:if
-									test="talking.turl!=null&&talking.urlType.toString()=='PICTURE'">
-									<img src="${takling.url}" width="200px" />
-								</s:if>
-								<!-- 说说 -->
-								<s:elseif
-									test="talking.url!=null&&talking.urlType.toString()=='VIDEO'">
-									<s:property
-										value="talking.url.replace('400', '260').replace('480', '280')"
-										escape="false" />
-								</s:elseif>
-							</div>
-						</s:elseif>
-
-						<div id="zan${id}" class="fr w630 mt5">
-							<s:if test="shareDetails!=null">
-								<!-- like -->
-								<a href="javascript:void(0);" onclick="zanTalking(${id});">赞(${shareDetails.praiseCount})</a>
+						<div class="fr w610 mt5 mr15 user_talking_detail_div">
+							<s:if test="talking==null">
+								<label class="fr w610 f16 lh150 user_name_color">${user.name}</label>
+								<label class="fr w610 f14"><s:property value="text" /> </label>
+								<div class="cf w610 mt5 fr">
+									<s:if test="url!=null&&!url.trim().equals('')&&urlType.toString()=='PICTURE'">
+										<img src="${url}" class="maw400 mah300"/>
+									</s:if>
+									<s:elseif test="url!=null&&!url.trim().equals('')&&urlType.toString()=='VIDEO'">
+									    <s:property
+											value="url.replace('400', '300').replace('480', '360')"
+											escape="false" />
+								    </s:elseif>
+								</div>
 							</s:if>
-							<s:else>
-								<a href="javascript:void(0);" onclick="zanTalking(${id});">赞(${talking.shareDetails.praiseCount})</a>
-							</s:else>
+							<s:elseif test="talking!=null">
+								<label class="fr w610 f16 lh150 user_name_color">${user.name}</label>
+								<label><s:property value="text" /> </label>
+								<div class="p10 mt5 user_talking_share_div ">
+									${talking.user.name} :<s:property value="talking.text" /><br/>
+									<s:if
+										test="talking.turl!=null&&talking.urlType.toString()=='PICTURE'">
+										<img src="${takling.url}" class="maw400 mah300"/>
+									</s:if>
+									<!-- 说说 -->
+									<s:elseif test="talking.url!=null&&talking.urlType.toString()=='VIDEO'">
+										<s:property
+											value="talking.url.replace('400', '300').replace('480', '360')"
+											escape="false" />
+									</s:elseif>
+								</div>
+							</s:elseif>
+						</div>
+						<!-- like -->
+						<div class="fr w610 mt5 mr15">
+							<span id="zan${id}">
+								<s:if test="shareDetails!=null">
+									<!-- like -->
+									<a href="javascript:void(0);" onclick="zanTalking(${id});">赞(${shareDetails.praiseCount})</a>
+								</s:if>
+								<s:else>
+									<a href="javascript:void(0);" onclick="zanTalking(${id});">赞(${talking.shareDetails.praiseCount})</a>
+								</s:else>
+							</span>
 							<a href="<%=path %>/preShareTalking?talking.id=${id}">分享<s:if
 									test="shareDetails!=null">(${shareDetails.shareCount})</s:if> <s:else>(${talking.shareDetails.shareCount})</s:else>
 							</a><a href="#">评论</a> 来自：${user.name} <label>${datetime}</label>

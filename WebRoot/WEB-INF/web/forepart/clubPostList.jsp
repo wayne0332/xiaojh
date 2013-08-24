@@ -21,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
 	<body>
-	<div><a href="initAddClubPost?clubId=<s:property value="#request.club.id" />">发帖</a></div>
+	<div><a href="initAddClubPost?club.id=<s:property value="#request.club.id" />">发帖</a></div>
     <s:iterator value="#request.clubPostList.clubPostList">
     	<div class="post">
     		<div class="title">

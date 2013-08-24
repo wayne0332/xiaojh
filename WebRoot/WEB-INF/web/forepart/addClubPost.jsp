@@ -67,7 +67,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	<div class="div">
 	     	<!-- 提示信息 -->
 	     	<s:property value="message"/><br/>
-		 	<form action="addClubPost?clubId=<s:property value="clubId" />" method="post" enctype="multipart/form-data">
+		 	<form action="addClubPost?club.id=<s:property value="club.id" />" method="post" enctype="multipart/form-data">
 		 		标题:<input type="text" name="post.tittle"/><br>
 		     	帖子内容：<textarea id="editor" name="post.text" id="ncontent" style="width:100%;height:400px;"></textarea><br>
 		     	<input type="submit" value="提交"/>

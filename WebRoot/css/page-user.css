@@ -35,7 +35,7 @@
 	.campusList li a		{ text-decoration: none; display: block; }
 	.campusList li a:hover	{ background-color: #f8f8f8; }
 	.campusList_li1			{ background-color: #bbb; color: #f8f8f8; width: 230px; }
-
+	.logoImgcursor			{cursor:pointer;}
 
 /* left_bar_userHome
  * ---------------------------------------------------------------------------------------- */	
@@ -53,7 +53,7 @@
  * ---------------------------------------------------------------------------------------- */	
  
  	.w630					{ width: 630px; }
-
+	.w610					{ width: 610px; }
 	.userHome_box			{ background-color: #fff; }
 	
 	.userBox_title			{ display: block; line-height: 30px; background-color: rgba(40,100,40,0.3); color: #fff; margin: -10px 0 0 -10px; }
@@ -64,6 +64,9 @@
 	.user_dongtai_div img	{  }
 	.user_dongtai_div label	{  }
 	.user_dongtai_div a		{ width: 80px; display: inline-block; text-align: right; float: right; }
+	.user_talking_detail_div { overflow:hidden; }
+	.user_name_color 		{color:#498B31}
+	.user_talking_share_div {border:1px #E1E1E1 solid; line-height:26px; padding-top:0px;}
 
 /* myActivity
  * ---------------------------------------------------------------------------------------- */	

@@ -31,7 +31,8 @@
 				<li><a href="myClubs" class="a_bt">我的社团</a></li>
 				<li><a href="#" class="a_bt">店铺</a></li>
 				<li><a href="myActivity" class="a_bt">活动</a></li>
-				<li><a href="allTalking" class="a_bt">说说</a></li>
+				<li><a href="relativeTalking" class="a_bt">说说</a></li>
+				<li><a href="findMyPicture" class="a_bt">相册</a></li>
 				<li><a href="myFocus?type=0" class="a_bt">好友</a></li>
 				<li><a href="userHome" class="a_bt">个人主页</a></li>
 				<li><a href="receivedLetters" class="a_bt">飞鸽传书 (<s:property

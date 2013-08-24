@@ -164,7 +164,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           
         </ul>
       </div>
-      <h1 class="type"><a href="javascript:void(0)">栏目分类管理</a></h1>
+      <h1 class="type"><a href="javascript:void(0)">社团管理</a></h1>
       <div class="content">
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
@@ -172,7 +172,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </tr>
         </table>
         <ul class="MM">
-          <li><a href="http://www.865171.cn" target="main">信息分类</a></li>
+          <li><a href="allClubPost?pageNum=1" target="main">社团帖子总览</a></li>
           <li><a href="http://www.865171.cn" target="main">信息类型</a></li>
         </ul>
       </div>

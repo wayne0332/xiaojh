@@ -217,7 +217,7 @@ public class ActivityService extends BaseService{
 		if(str.length()>0){
 			sql=sql+"or c.club.id in ("+str.substring(0, str.length()-1)+")";
 		}
-		//关注的社团
+		//关注的商家
 		Set<Merchant> merchants=user.getMerchants();
 		StringBuilder str2=new StringBuilder();
 		for(Merchant m:merchants){

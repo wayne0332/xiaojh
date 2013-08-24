@@ -85,6 +85,8 @@ public class UserAction extends BaseAction
 		super.clearSession();
 		if((user = userService.login(user, status)) != null)
 		{
+			//将相关的用户id存入session
+			super.getSessionMap().put("relativeUsers", talkingService.preGetRelativeUserId(user));
 			super.saveUser(user);
 			return SUCCESS;
 		}
