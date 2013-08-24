@@ -12,8 +12,8 @@ public class Auth {
 		ActionContext context = ActionContext.getContext();  
 	    Map<String, Object> session = context.getSession();
 	    User user=new User();
-	    //user=(User) session.get("user");
-	    user.setId(2);
+	    user=(User) session.get("user");
+	    //user.setId(2);
 	    return user;
 	}
 	public static Club getClubFromSession (){
@@ -21,15 +21,14 @@ public class Auth {
 	    Map<String, Object> session = context.getSession();
 	    Club club=new Club();
 	   // user=(User) session.get("");
-	    club.setId(1);
+	    club=(Club) session.get("club");
 	    return club;
 	}
 	public static Merchant getMerchantFromSession (){
 		ActionContext context = ActionContext.getContext();  
 	    Map<String, Object> session = context.getSession();
 	    Merchant merchant=new Merchant();
-	   // user=(User) session.get("");
-	    merchant.setId(1);
+	    merchant=(Merchant) session.get("merchant");
 	    return merchant;
 	}
 

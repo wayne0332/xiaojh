@@ -18,6 +18,7 @@ import cn.cafebabe.websupport.service.BaseService;
 
 import com.tjxjh.action.UserAction;
 import com.tjxjh.enumeration.UserStatus;
+import com.tjxjh.po.Activity;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.User;
@@ -44,6 +45,11 @@ public class UserService extends BaseService
 					.getPortraitPath()));
 		}
 		return super.save(md5Password(user));
+	}
+	@Transactional(propagation = Propagation.REQUIRED)
+	public User findById(Integer id)
+	{
+		return dao.findById(User.class, id);
 	}
 	
 	private String replaceToDefaultPortrait(String portraitPath)
