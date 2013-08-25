@@ -12,44 +12,44 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 import cn.cafebabe.websupport.util.SpringUtil;
 
-import com.tjxjh.service.UserService;
+import com.tjxjh.service.MailService;
 
-public class CheckUserServlet extends HttpServlet
+public class CheckEmailServlet extends HttpServlet
 {
 	private static final long serialVersionUID = -1199577134038813213L;
-	private UserService userService = null;
+	private MailService mailService = null;
 	
 	@Override
 	public void init(ServletConfig config) throws ServletException
 	{
 		super.init(config);
-		userService = SpringUtil.springContext(config.getServletContext())
-				.getBean(UserService.class);
+		mailService = SpringUtil.springContext(config.getServletContext())
+				.getBean(MailService.class);
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException
 	{
-//		request.setCharacterEncoding("gbk");
-//		response.setCharacterEncoding("gbk");;
-		 response.setContentType("application/x-json");
-//		response.setContentType("text/html;charset=gbk");
-		String name = request.getParameter("name");
+		// request.setCharacterEncoding("gbk");
+		// response.setCharacterEncoding("gbk");;
+		response.setContentType("application/x-json");
+		// response.setContentType("text/html;charset=gbk");
+		String email = request.getParameter("email");
 		PrintWriter out = response.getWriter();
 		JSONObject json = new JSONObject();
-		if(name != null)
+		if(email != null)
 		{
-			json.accumulate("error", false);
-			name = new String(name.getBytes("ISO8859-1"), "utf-8");
-			if(!(name = name.trim()).equals("")
-					&& !name.equals( UserService.DEFAULT_PORTRAIT.split("\\.")[0]))
+			email = new String(email.getBytes("ISO8859-1"), "utf-8");
+			if(!(email = email.trim()).equals("")
+					&& mailService.checkEmail(email))
 			{
-				json.accumulate("hadRegister", userService.isRegister(name));
+				json.accumulate("error", false);
+				json.accumulate("hadRegister", mailService.isRegister(email));
 			}
 			else
 			{
-				json.accumulate("hadRegister", false);
+				json.accumulate("error", true);
 			}
 		}
 		else

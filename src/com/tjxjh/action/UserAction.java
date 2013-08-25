@@ -33,9 +33,13 @@ import com.tjxjh.util.CodeUtil;
 @Namespace("/")
 public class UserAction extends BaseAction
 {
+	public static final String RESET_USER_PASSWORD_INPUT = "resetUserPasswordInput";
+	static final String RESET_USER_PASSWORD = "resetUserPassword";
+	static final String FIND_USER_PASSWORD_INPUT = "findUserPasswordInput";
+	static final String FIND_USER_PASSWORD = "findUserPassword";
 	static final String CHANGE_USER_PASSWORD_INPUT = "changeUserPasswordInput";
 	static final String CHANGE_USER_PASSWORD = "changeUserPassword";
-	static final String REGISTER_VALIDATE = "registerValidate";
+	public static final String REGISTER_VALIDATE = "registerValidate";
 	static final String MANAGER_LOGIN = "managerLogin";
 	static final String MANAGER_LOGIN_INPUT = "managerLoginInput";
 	static final String MY_INVITED = "myInvited";
@@ -82,7 +86,7 @@ public class UserAction extends BaseAction
 	
 	@Action(value = USER_LOGIN, results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = IndexAction.INDEX),
-			@Result(name = INPUT, type = REDIRECT_ACTION, location = LOGIN_INPUT, params = {
+			@Result(name = INPUT, type = REDIRECT_ACTION, location = IndexAction.INDEX, params = {
 					"msg", "用户名或密码错误!"})})
 	public String userLogin()
 	{
@@ -94,19 +98,25 @@ public class UserAction extends BaseAction
 		super.clearSession();
 		if((user = userService.login(user, status)) != null)
 		{
-			// 将相关的用户id存入session
-			super.saveUser(user);
-			super.getSessionMap().put("relativeUsers",
-					talkingService.preGetRelativeUserId(user));
-			// 将相关的用户id存入session
-			super.getSessionMap().put("relativeUsers",
-					talkingService.preGetRelativeUserId(user));
+			saveUser(user);
 			return SUCCESS;
 		}
 		else
 		{
 			return INPUT;
 		}
+	}
+	
+	@Override
+	protected void saveUser(User user)
+	{
+		// 将相关的用户id存入session
+		super.saveUser(user);
+		super.getSessionMap().put("relativeUsers",
+				talkingService.preGetRelativeUserId(user));
+		// 将相关的用户id存入session
+		super.getSessionMap().put("relativeUsers",
+				talkingService.preGetRelativeUserId(user));
 	}
 	
 	@Action(value = MANAGER_LOGIN, results = {
@@ -131,12 +141,11 @@ public class UserAction extends BaseAction
 		{
 			fillPortraitPathToUser(user.getName());
 		}
-		String[] email = user.getEmail().split("@");
-		if(email.length != 2)
+		if(!mailService.checkEmail(user.getEmail()))
 		{
 			return INPUT;
 		}
-		super.getRequestMap().put("email", email[1]);
+		super.getRequestMap().put("email", user.getEmail().split("@")[1]);
 		if(userService.register(user, portrait))
 		{
 			if(mailService.sendRegisterLetter(user))
@@ -155,15 +164,22 @@ public class UserAction extends BaseAction
 	}
 	
 	@Action(value = REGISTER_VALIDATE, results = {
-			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = IndexAction.INDEX),
-			@Result(name = INPUT, type = REDIRECT_ACTION, location = MANAGER_LOGIN_INPUT, params = {
+			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = REFRESH_USER
+					+ IndexAction.INDEX),
+			@Result(name = INPUT, type = REDIRECT_ACTION, location = IndexAction.INDEX, params = {
 					"msg", "注册验证失败(可能链接已过期)!"})})
 	public String registerValidate()
 	{
-		user = mailService.validateRegisterUser(code);
+		return validateEmail();
+	}
+	
+	private String validateEmail()
+	{
+		super.clearSession();
+		user = mailService.fromValidateEmail(code);
 		if(user != null)
 		{
-			super.saveUser(user);
+			saveUser(user);
 			return SUCCESS;
 		}
 		else
@@ -193,13 +209,56 @@ public class UserAction extends BaseAction
 					"msg", "密码错误!"})})
 	public String changeUserPassword()
 	{
-		if(super.currentUser().getPassword()
-				.equals(CodeUtil.md5(user.getPassword())))
+		user.setId(super.currentUser().getId());
+		user.setPassword(CodeUtil.md5(user.getPassword()));
+		if(userService.exist(user))
 		{
 			userService.changeUserPassword(super.currentUser(), code);
 			return SUCCESS;
 		}
 		return INPUT;
+	}
+	
+	@Action(value = RESET_USER_PASSWORD, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = REFRESH_USER
+			+ IndexAction.INDEX)})
+	public String resetUserPassword()
+	{
+		userService.changeUserPassword(super.currentUser(), user.getPassword());
+		return SUCCESS;
+	}
+	
+	@Action(value = RESET_USER_PASSWORD_INPUT, results = {
+			@Result(name = SUCCESS, location = FOREPART + RESET_USER_PASSWORD
+					+ JSP),
+			@Result(name = INPUT, type = REDIRECT_ACTION, location = IndexAction.INDEX, params = {
+					"msg", "重置密码失败(可能链接已过期)!"})})
+	public String resetUserPasswordInput()
+	{
+		return validateEmail();
+	}
+	
+	@Action(value = FIND_USER_PASSWORD, results = {
+			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "emailLoginJsp", params = {
+					"email", "${#request.email}"}),
+			@Result(name = INPUT, type = REDIRECT_ACTION, location = FIND_USER_PASSWORD_INPUT, params = {
+					"msg", "请输入正确的邮箱"}),
+			@Result(name = ERROR, type = REDIRECT_ACTION, location = FIND_USER_PASSWORD_INPUT, params = {
+					"msg", "此邮箱不存在,请检查邮箱是否正确"})})
+	public String findUserPassword()
+	{
+		if(!mailService.checkEmail(user.getEmail()))
+		{
+			return INPUT;
+		}
+		super.getRequestMap().put("email", user.getEmail().split("@")[1]);
+		if(mailService.sendFindUserPsdLetter(user))
+		{
+			return SUCCESS;
+		}
+		else
+		{
+			return ERROR;
+		}
 	}
 	
 	private void fillPortraitPathToUser(String userName)
@@ -370,6 +429,8 @@ public class UserAction extends BaseAction
 					+ UPDATE_USER + JSP)}),
 			@Action(value = CHANGE_USER_PASSWORD_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
 					+ CHANGE_USER_PASSWORD + JSP)}),
+			@Action(value = FIND_USER_PASSWORD_INPUT, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
+					+ FIND_USER_PASSWORD + JSP)}),
 			@Action(value = "manageIndex", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/index.jsp")}),
 			@Action(value = "manageTop", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/admin_top.jsp")}),
 			@Action(value = "manageLeft", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/left.jsp")}),

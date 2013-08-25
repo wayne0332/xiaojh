@@ -13,9 +13,14 @@
 			id="password" type="password" name="user.password"
 			class="loginForm_text w200 h30 pl5 pr5" /></li>
 		<li><input type="radio" name="role" value="user"
-			checked="checked" class="input_radio ml5"><label class="pl5 mr5">普通用户</label><input
-			type="radio" name="role" value="merchant" class="input_radio ml5"><label
-			class="pl5 mr5">商家用户</label><input type="submit" value="登陆" class="loginForm_submit h30 ml10">
+			checked="checked" class="input_radio ml5"><label
+			class="pl5 mr5">普通用户</label><input type="radio" name="role"
+			value="merchant" class="input_radio ml5"><label
+			class="pl5 mr5">商家用户</label></li>
+		<li><input type="submit" value="登陆"
+			class="loginForm_submit h30 ml10"><label class="w50 pl5"><a
+				href="findUserPasswordInput">忘记密码</a>
+		</label>
 		</li>
 	</ul>
 </form>
