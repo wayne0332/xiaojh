@@ -27,7 +27,7 @@
 				</td>
 			</tr>
 			<tr>
-				<td><input type="submit" value="提交">
+				<td><input type="hidden" name="code" value="${param.code }"><input type="submit" value="提交">
 				</td>
 			</tr>
 		</table>

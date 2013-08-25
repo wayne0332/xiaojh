@@ -8,7 +8,6 @@ import org.apache.struts2.ServletActionContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import cn.cafebabe.websupport.service.BaseService;
 

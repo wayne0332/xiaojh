@@ -176,7 +176,7 @@ public class UserAction extends BaseAction
 	private String validateEmail()
 	{
 		super.clearSession();
-		user = mailService.fromValidateEmail(code);
+		User user = mailService.fromValidateEmail(code);
 		if(user != null)
 		{
 			saveUser(user);
@@ -219,31 +219,41 @@ public class UserAction extends BaseAction
 		return INPUT;
 	}
 	
-	@Action(value = RESET_USER_PASSWORD, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = REFRESH_USER
-			+ IndexAction.INDEX)})
-	public String resetUserPassword()
-	{
-		userService.changeUserPassword(super.currentUser(), user.getPassword());
-		return SUCCESS;
-	}
-	
-	@Action(value = RESET_USER_PASSWORD_INPUT, results = {
-			@Result(name = SUCCESS, location = FOREPART + RESET_USER_PASSWORD
-					+ JSP),
+	@Action(value = RESET_USER_PASSWORD, results = {
+			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = REFRESH_USER
+					+ IndexAction.INDEX),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = IndexAction.INDEX, params = {
 					"msg", "重置密码失败(可能链接已过期)!"})})
-	public String resetUserPasswordInput()
+	public String resetUserPassword()
 	{
-		return validateEmail();
+		if(validateEmail().equals(SUCCESS))
+		{
+			userService.changeUserPassword(super.currentUser(),
+					user.getPassword());
+			return SUCCESS;
+		}
+		return INPUT;
 	}
 	
+	// @Action(value = RESET_USER_PASSWORD_INPUT, results = {
+	// @Result(name = SUCCESS, location = FOREPART + RESET_USER_PASSWORD
+	// + JSP),
+	// @Result(name = INPUT, type = REDIRECT_ACTION, location =
+	// IndexAction.INDEX, params = {
+	// "msg", "重置密码失败(可能链接已过期)!"})})
+	// public String resetUserPasswordInput()
+	// {
+	// return validateEmail();
+	// }
 	@Action(value = FIND_USER_PASSWORD, results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "emailLoginJsp", params = {
 					"email", "${#request.email}"}),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = FIND_USER_PASSWORD_INPUT, params = {
 					"msg", "请输入正确的邮箱"}),
-			@Result(name = ERROR, type = REDIRECT_ACTION, location = FIND_USER_PASSWORD_INPUT, params = {
-					"msg", "此邮箱不存在,请检查邮箱是否正确"})})
+			@Result(name = NONE, type = REDIRECT_ACTION, location = FIND_USER_PASSWORD_INPUT, params = {
+					"msg", "此邮箱未注册"}),
+			@Result(name = ERROR, type = REDIRECT_ACTION, location = FOREPART
+					+ ERROR_PAGE)})
 	public String findUserPassword()
 	{
 		if(!mailService.checkEmail(user.getEmail()))
@@ -251,6 +261,10 @@ public class UserAction extends BaseAction
 			return INPUT;
 		}
 		super.getRequestMap().put("email", user.getEmail().split("@")[1]);
+		if(!userService.exist(user))
+		{
+			return NONE;
+		}
 		if(mailService.sendFindUserPsdLetter(user))
 		{
 			return SUCCESS;
@@ -427,6 +441,8 @@ public class UserAction extends BaseAction
 					+ "register.jsp")}),
 			@Action(value = UPDATE_USER_INPUT, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 					+ UPDATE_USER + JSP)}),
+			@Action(value = RESET_USER_PASSWORD_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
+					+ RESET_USER_PASSWORD + JSP)}),
 			@Action(value = CHANGE_USER_PASSWORD_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
 					+ CHANGE_USER_PASSWORD + JSP)}),
 			@Action(value = FIND_USER_PASSWORD_INPUT, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
