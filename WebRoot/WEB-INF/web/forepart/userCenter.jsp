@@ -148,11 +148,10 @@
 								<label><s:property value="text" /> </label>
 								<div class="p10 mt5 user_talking_share_div ">
 									${talking.user.name} :<s:property value="talking.text" /><br/>
-									<s:if
-										test="talking.turl!=null&&talking.urlType.toString()=='PICTURE'">
-										<img src="${takling.url}" class="maw400 mah300"/>
+									
+									<s:if test="talking.url!=null&&talking.urlType.toString()=='PICTURE'">
+										<img src="${talking.url}" class="maw400 mah300"/>
 									</s:if>
-									<!-- 说说 -->
 									<s:elseif test="talking.url!=null&&talking.urlType.toString()=='VIDEO'">
 										<s:property
 											value="talking.url.replace('400', '300').replace('480', '360')"
