@@ -1,12 +1,17 @@
 package com.tjxjh.service;
 
+import java.sql.Timestamp;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.ServletActionContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import cn.cafebabe.websupport.service.BaseService;
 
+import com.tjxjh.enumeration.MailValidateType;
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.mail.SimpleMailSender;
 import com.tjxjh.po.MailValidate;
@@ -17,29 +22,18 @@ import com.tjxjh.util.MailUtil;
 @Service
 public class MailService extends BaseService
 {
+	private static final int DEFAULT_SERVER_PORT = 80;
 	public static final int SECOND = 1000, MINUTE = 60 * SECOND,
 			HOUR = 60 * MINUTE, DAY = 24 * HOUR;
 	private final static int EFFECTIVE_TIME = DAY;
 	private final static String EFFECTIVE_TIME_STRING = "1天";
-	private final static String REGISTER_VALIDATE_PATH = "http://cafebabe-pc:8080/xiaojh/registerValidate?code=";
 	
-	/** user的id和email都不能空 */
+	/** user的id和email不能空 */
 	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean sendRegisterLetter(User user)
 	{
-		Assert.isTrue(user != null && user.getId() != null
-				&& user.getEmail() != null);
-		String code = getCode(user);
-		if(SimpleMailSender.sendHtmlMail(MailUtil.defaultMailInfo(
-				user.getEmail(),
-				"欢迎注册校江湖账号",
-				new StringBuilder("点击链接完成注册(请在").append(EFFECTIVE_TIME_STRING)
-						.append("内点击链接,否则链接将失效!)<br><a href='")
-						.append(REGISTER_VALIDATE_PATH).append(code)
-						.append("'>").append(REGISTER_VALIDATE_PATH)
-						.append(code).append("</a>").toString())))
+		if(sendLetter(user, "欢迎注册校江湖账号", MailValidateType.REGISTER_VALIDATE))
 		{
-			dao.persist(new MailValidate(code, user));
 			return true;
 		}
 		else
@@ -50,7 +44,72 @@ public class MailService extends BaseService
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public User validateRegisterUser(String code)
+	private boolean sendLetter(User user, String subject,
+			MailValidateType mailValidateType)
+	{
+		if(user == null || user.getId() == null || user.getEmail() == null)
+		{
+			return false;
+		}
+		String code = getCode(user);
+		MailValidate mailValidate = dao.findById(MailValidate.class, code);
+		if(mailValidate != null && !mailValidate.equals(mailValidateType))
+		{
+			return false;
+		}
+		StringBuilder path = new StringBuilder(getServerPath()).append("/")
+				.append(mailValidateType.getPath()).append("?code=")
+				.append(code);
+		if(SimpleMailSender.sendHtmlMail(MailUtil.defaultMailInfo(
+				user.getEmail(),
+				subject,
+				new StringBuilder("点击链接完成").append(mailValidateType.getName())
+						.append("(请在").append(EFFECTIVE_TIME_STRING)
+						.append("内点击链接,否则链接将失效!)<br><a href='").append(path)
+						.append("'>").append(path).append(code).append("</a>")
+						.toString())))
+		{
+			if(mailValidate == null)
+			{
+				dao.persist(new MailValidate(code, user, mailValidateType));
+			}
+			else
+			{
+				mailValidate.setDatetime(new Timestamp(System
+						.currentTimeMillis()));
+			}
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	private StringBuilder getServerPath()
+	{
+		HttpServletRequest request = ServletActionContext.getRequest();
+		StringBuilder path = new StringBuilder("http://").append(request
+				.getServerName());
+		if(request.getServerPort() != DEFAULT_SERVER_PORT)
+		{
+			path.append(":").append(request.getServerPort());
+		}
+		return path.append(ServletActionContext.getServletContext()
+				.getContextPath());
+	}
+	
+	/** user的email不能空 */
+	@Transactional(propagation = Propagation.REQUIRED)
+	public boolean sendFindUserPsdLetter(User user)
+	{
+		user = super.getFistObjectOfList(dao.findByExample(user));
+		return sendLetter(user, "请点击以修改消江湖账号密码",
+				MailValidateType.CHANGE_USER_PASSWORD);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public User fromValidateEmail(String code)
 	{
 		User user = null;
 		MailValidate validate = dao.findById(MailValidate.class, code);
@@ -68,7 +127,19 @@ public class MailService extends BaseService
 	
 	private String getCode(User user)
 	{
-		return CodeUtil.md5(String.valueOf(user.getId()
-				+ System.currentTimeMillis()));
+		return CodeUtil.md5(String.valueOf(user.getEmail()));
+	}
+	
+	public boolean isRegister(String email)
+	{
+		return ((Long) dao.executeHql(
+				"select count(*) from User where email=?", email).get(0)) > 0;
+	}
+	
+	public boolean checkEmail(String email)
+	{
+		int atIndex = -1;
+		return (atIndex = email.indexOf("@")) > 0
+				&& email.indexOf(".") > atIndex;
 	}
 }

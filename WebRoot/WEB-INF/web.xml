@@ -48,6 +48,10 @@
 		<servlet-name>CheckUserServlet</servlet-name>
 		<servlet-class>com.tjxjh.servlet.CheckUserServlet</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>CheckEmailServlet</servlet-name>
+		<servlet-class>com.tjxjh.servlet.CheckEmailServlet</servlet-class>
+	</servlet>
 	<!-- 这两个东西不用了   
   <servlet>
     <servlet-name>CheckClubServlet</servlet-name>
@@ -63,6 +67,10 @@
 	<servlet-mapping>
 		<servlet-name>CheckUserServlet</servlet-name>
 		<url-pattern>/hadRegister.html</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>CheckEmailServlet</servlet-name>
+		<url-pattern>/hadEmailRegister.html</url-pattern>
 	</servlet-mapping>
 <!-- 这两个东西不用了   
 <servlet-mapping>
