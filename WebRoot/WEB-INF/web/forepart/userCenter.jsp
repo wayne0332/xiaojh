@@ -24,49 +24,43 @@
 <body>
 	<div class="container cf zoom">
 		<jsp:include page="head.jsp" />
-		<div class="left_bar w270 cf mt75">			
+		<div class="left_bar w270 cf mt75">
 			<div class="my_info w240 h90 p5 m5 shadow_l_10 bg_box">
 				<img src="<s:property value="#session.user.portraitPath"/>"
 					class="fl mt5 ml10 circle_80 shadow_l_5" />
 				<ul class="fl w135 p5 pl10 text_r">
-					<li class="w135 text_l f14">${user.name}</li>
-					<li>${user.grade}
+					<li class="w135 text_l f14"><a href="updateUserInput"><s:property
+								value="#session.user.name" /> </a></li>
+					<li><s:property value="#session.user.grade" />
 					</li>
-					<li>${user.school.name}
+					<li><s:property
+							value="#application.schools[#session.user.school.id].name" />
 					</li>
 				</ul>
 			</div>
+			<form action="searchAll" method="post"
+				class="l_search w250 m5 shadow_l_10">
+				<input name="searchText" type="text" class="w200 h30 pl5" />
+				<button type="submit" class="w40 h30 fr shadow_l_5">搜索</button>
+			</form>
 
-			<label class="Clearfix w250 ml5 mt20">相册 <a
-				href="<%=path%>/findAllPicture" class="fr">更多</a> </label>
+			<label class="Clearfix w250 ml5 mt50">我的门客<a
+				href="myFocus?type=0" class="fr">更多</a> </label>
 			<div class="l_box w240 p5 m5 cf shadow_l_10 radius_6 bg_box">
-					<span style="display: inline-block;"> 
-						<s:if test="pics.size()==0">
-							暂无相册……
+				<s:iterator value="#request.focusUserList">
+					<div class="fl p5">
+						<s:if test="portrait==''">
+							<a href="userHome?user.id=${id}"><img src="<s:property value="portraitPath" />" class="w50 h50 Clearfix" /></a>
 						</s:if>
 						<s:else>
-							<a href="<%=path%>/findAllPicture"><img src="<%=path%>/${pics[0].path}" width="240px" /></a>
+							<a href="userHome?user.id=${id}"><img src="upload/portrait/auto_photo.png" class="w50 h50 Clearfix" /></a>
 						</s:else>
-					</span>
-			</div>
-			
-			<label class="Clearfix w250 ml5 mt20">线上活动 <a
-				href="#" class="fr">更多</a> </label>
-			<div class="l_box w240 p5 m5 cf shadow_l_10 radius_6 bg_box">
-				<s:iterator value="onlineActs">
-					<div class="fl">
-						<img src="${titleImgPath}"  class="w40 h50" />
-					</div>
-					<div class="fl">
-						标题：<a href="getOnlineActivityById?onlineactivity.id=${id}">${tittle}</a>
-						<br/>发布时间:${datetime}
+						<label class="Clearfix mb5 w50"><s:property value="name" />
+						</label>
 					</div>
 				</s:iterator>
-				<s:if test="onlineActs.size()==0">
-							暂无线上活动……
-				</s:if>
 			</div>
-				
+
 			<label class="Clearfix w250 ml5 mt20">关注社团 <a
 				href="myFocus?type=1" class="fr">更多</a> </label>
 			<div class="l_box w240 p5 m5 cf shadow_l_10 radius_6 bg_box">
@@ -104,12 +98,26 @@
 		</div>
 
 		<div class="main w730 cf mt75">
-			
-			<!-- 导航-->
+			<!-- 发布说说-->
+			<form action="addTalking" method="post" enctype="multipart/form-data"
+				class="userHome_box w700 m5 p10 cf shadow_l_10 radius_6">
+				<label class="userBox_title w pl10 pr10 h30">发状态</label>
+				<textarea class="h100 mt10 mb5 f14 p5"></textarea>
+				媒体链接：<input type="text" name="talking.url" /><br /> 图片：<input
+					type="file" name="uploadImage" />
+				<button type="submit" class="fr">发布</button>
+			</form>
+			<!--END： 发布说说-->
+			<!-- 相册-->
 			<div class="userHome_box w700 m5 p10 cf shadow_l_10 radius_6">
-				<a href="#"><label>相册</label></a>
-				<a href="#"><label>说说</label></a>
-				<a href="#"><label>活动</label></a>
+				<label>最新相册</label>
+				<s:iterator value="pics">
+					<span style="display: inline-block;"> <a
+						href="<%=path%><s:property  value="path.replace('st_', '')" />"
+						target="_blank"><img src="<%=path%>/${path}" width="190px" />
+					</a> <br /> ${name}&nbsp; From:<a href="#">${user.name}</a> </span>
+				</s:iterator>
+				<a href="<%=path%>/findAllPicture" target="_self" class="fr">更多</a>
 			</div>
 			<!-- END:相册-->
 			<!-- 说说 -->

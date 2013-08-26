@@ -105,7 +105,7 @@ public class ClubPostAction extends BaseAction{
 			return INPUT;
 		}
 	}
-	@Action(value = "deleteClubPost", results = {
+	@Action(value = "deletezPost", results = {
 			@Result(name = SUCCESS,type=REDIRECT_ACTION, location = "clubPostList", params={"club.id","${club.id}","pageNum","${pageNum}"})})
 	public String deleteClubPost(){
 		if(service.deleteClubPost(post)){

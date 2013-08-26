@@ -42,6 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      		<a href="activityPostList?activityId=<s:property value="onlineactivity.id" />&pageNum=1" >进入活动论坛</a>
      	</div>
      	<br>
+     	
      </div>
   </body>
 </html>

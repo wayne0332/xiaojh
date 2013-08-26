@@ -101,16 +101,17 @@ public class OnlineActivityAction extends BaseAction{
 		}
 	}
 	//根据用户所在社团，所关注的社团，关注的商家 查出发布的OnlingActivity, 尚未添加关注的用户活动
-	@Action(value = "myOnlineActivity", results = {
-			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myOnlineActivity.jsp")})
-	public String findMyOnlineActivity(){
-		user=Auth.getUserFromSession();
-		page=onlineActivityService.getMyOnlineActivityPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
-		oacs=onlineActivityService.findMyOnlineActivityByHql(page,user);
-		actionName="myOnlineActivity";
-		return SUCCESS;
-		
-	}
+		@Action(value = "relativeOnlineActivity", results = {
+				@Result(name = SUCCESS, location = BaseAction.FOREPART + "myOnlineActivity.jsp")})
+		public String findRelativeOnlineActivity(){
+			user=Auth.getUserFromSession();
+			page=onlineActivityService.getRelativeOnlineActivityPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
+			oacs=onlineActivityService.findRelativeOnlineActivityByHql(page,user);
+			actionName="relativeOnlineActivity";
+			return SUCCESS;
+			
+		}
+
 	@Action(value = "getOnlineActivityById", results = {
 				@Result(name = SUCCESS, location = BaseAction.FOREPART + "onlineActivity.jsp")})
 		public String getOnlineActivityById(){
@@ -121,9 +122,12 @@ public class OnlineActivityAction extends BaseAction{
 	@Action(value = "findOnlineActivity", results = {
 				@Result(name = SUCCESS, location = BaseAction.FOREPART + "myOnlineActivity.jsp")})
 	public String findOnlineActivity(){
-		user=Auth.getUserFromSession();
+		//user=Auth.getUserFromSession();
 //		club.setId(1);
 //		merchant.setId(1);
+		user=Auth.getUserFromSession();
+		club=Auth.getClubFromSession();
+		merchant=Auth.getMerchantFromSession();
 		pageAndoacs();
 		actionName="findOnlineActivity";
 		return SUCCESS;

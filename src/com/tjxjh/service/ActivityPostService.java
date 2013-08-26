@@ -26,6 +26,14 @@ public class ActivityPostService extends BaseService{
 		return save(post);
 	}
 	
+	public List<ActivityPost> allActivityPost(Page page){
+		String hql = "from ActivityPost p order by p.datetime desc";
+		List<ActivityPost> list = (List<ActivityPost>) dao.executeHql(page,hql);
+		return list;
+	}
+	
+	
+	
 	public List<ActivityPost> activityPostList(int activityId,Page page){
 		String hql = "from ActivityPost p where p.onlineActivity.id=? order by p.datetime desc";
 		List<ActivityPost> list = (List<ActivityPost>) dao.executeHql(page,hql,activityId);
@@ -34,9 +42,26 @@ public class ActivityPostService extends BaseService{
 	
 	public Page activityPostNum(int activityId,Page page){
 		String hql = "select count(*) from ActivityPost p where p.onlineActivity.id=?";
-		List<Long> countL = (List<Long>)dao.executeHql(hql,activityId);
+		List<Long> countL = null;
+		if(activityId==0){
+			hql = "select count(*) from ActivityPost";
+			countL = (List<Long>)dao.executeHql(hql);
+		}else{
+			countL = (List<Long>)dao.executeHql(hql,activityId);
+		}
 		int itemNum = countL.get(0).intValue();
 		return new Page(page.getCurrentPage(),Page.getDefaultPageNumber(),itemNum);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public boolean deleteActivityPost(ActivityPost post){
+		String hql = "delete from ActivityPost p where p.id=?";
+		int i = dao.executeUpdateHql(hql, post.getId());
+		if(i==1){
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	public ActivityPostContent activityPostContent(int postId,Page page){

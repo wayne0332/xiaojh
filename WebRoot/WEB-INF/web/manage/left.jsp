@@ -173,7 +173,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </table>
         <ul class="MM">
           <li><a href="allClubPost?pageNum=1" target="main">社团帖子总览</a></li>
-          <li><a href="http://www.865171.cn" target="main">信息类型</a></li>
+        </ul>
+      </div>
+      <h1 class="type"><a href="javascript:void(0)">活动管理</a></h1>
+      <div class="content">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td><img src="images/menu_topline.gif" width="182" height="5" /></td>
+          </tr>
+        </table>
+        <ul class="MM">
+          <li><a href="allActivityPost?pageNum=1" target="main">线上活动帖子总览</a></li>
         </ul>
       </div>
       </div>

@@ -120,13 +120,13 @@ public class ActivityAction extends BaseAction{
 		}
 	}
 	//根据用户所在社团，所关注的社团，关注的商家 查出发布的activity
-	@Action(value = "myActivity", results = {
+	@Action(value = "relativeActivity", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
 	public String findMyActivity(){
 		user=Auth.getUserFromSession();
-		page=activityService.getMyActivityPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
-		acs=activityService.findMyActivityByHql(page,user,condition);
-		actionName="myActivity";
+		page=activityService.getRelativeActivityPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
+		acs=activityService.findRelativeActivityByHql(page,user,condition);
+		actionName="relativeActivity";
 		return SUCCESS;
 		
 	}

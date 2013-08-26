@@ -303,8 +303,6 @@ public class TalkingService extends BaseService{
 		ActionContext context = ActionContext.getContext();  
 	    Map<String, Object> session = context.getSession();
 		ArrayList<User> users=(ArrayList<User>) session.get("relativeUsers");
-		//将自己的信息放入users；
-		users.add((User)session.get("user"));
 		
 		String Hql="select count(*) from Talking t where t.status in ('SHARE') ";
 		StringBuilder str3=new StringBuilder();
@@ -332,8 +330,6 @@ public class TalkingService extends BaseService{
 		ActionContext context = ActionContext.getContext();  
 	    Map<String, Object> session = context.getSession();
 		ArrayList<User> users=(ArrayList<User>) session.get("relativeUsers");
-		//将自己的信息放入users；
-		users.add((User)session.get("user"));
 		
 		String Hql="from Talking t where t.status in ('SHARE') ";
 		StringBuilder str3=new StringBuilder();
@@ -341,7 +337,7 @@ public class TalkingService extends BaseService{
 			str3.append(u.getId()+",");
 		}
 		if(str3.length()>0){
-			Hql=Hql+"and t.user.id in ("+str3.substring(0, str3.length()-1)+")";
+			Hql=Hql+"and t.user.id in ("+str3.substring(0, str3.length()-1)+") order by datetime desc";
 		}
 		System.out.println(Hql+"==========================");
 		return (List<Talking>) dao
@@ -359,7 +355,10 @@ public class TalkingService extends BaseService{
 		for(Club c:clubs){
 			users.add(c.getUser());
 		}
-		
+		//将自己放入
+		ActionContext context = ActionContext.getContext();  
+	    Map<String, Object> session = context.getSession();
+		users.add((User)session.get("user"));
 		//关注的用户
 		Set<User> users2=user.getUsersForTargetUserId();
 		for(User u:users2){

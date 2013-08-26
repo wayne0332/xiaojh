@@ -14,14 +14,16 @@ import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
-import com.tjxjh.enumeration.OnlineActivityStatus;
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
+import com.tjxjh.po.OnlineActivity;
 import com.tjxjh.po.Picture;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
 import com.tjxjh.service.ClubService;
+import com.tjxjh.service.OnlineActivityService;
+import com.tjxjh.service.MailService;
 import com.tjxjh.service.PictureService;
 import com.tjxjh.service.TalkingService;
 import com.tjxjh.service.UserService;
@@ -31,6 +33,9 @@ import com.tjxjh.util.CodeUtil;
 @Namespace("/")
 public class UserAction extends BaseAction
 {
+	static final String CHANGE_USER_PASSWORD_INPUT = "changeUserPasswordInput";
+	static final String CHANGE_USER_PASSWORD = "changeUserPassword";
+	static final String REGISTER_VALIDATE = "registerValidate";
 	static final String MANAGER_LOGIN = "managerLogin";
 	static final String MANAGER_LOGIN_INPUT = "managerLoginInput";
 	static final String MY_INVITED = "myInvited";
@@ -43,11 +48,12 @@ public class UserAction extends BaseAction
 	static final String REGISTER_INPUT = "registerInput";
 	static final String LOGIN_INPUT = "loginInput";
 	static final String MAIN = "userHome";
+	static final String CENTER = "userCenter";
 	public final static String PORTRAIT_FOLDER = "upload/portrait/";
 	private static final long serialVersionUID = 7096555953593277984L;
 	// 分页信息
 	private Page page;
-	private Integer eachPageNumber = 6;
+	private Integer eachPageNumber = 10;
 	private Integer currentPage = 1;
 	private Integer totalPageNumber = 0;
 	// talking
@@ -55,6 +61,8 @@ public class UserAction extends BaseAction
 	private String message = "";
 	// 相册
 	private List<Picture> pics = new ArrayList<Picture>();
+	// 线上活动
+	private List<OnlineActivity> onlineActs = new ArrayList<OnlineActivity>();
 	@Resource
 	private PictureService pictureService = null;
 	@Resource
@@ -63,10 +71,14 @@ public class UserAction extends BaseAction
 	private UserService userService = null;
 	@Resource
 	private ClubService clubService = null;
+	@Resource
+	private MailService mailService = null;
+	@Resource
+	private OnlineActivityService onlineActivityService = null;
 	private User user = null;
 	protected File portrait = null;
-	protected String portraitFileName = null;
-	private Integer type;
+	protected String portraitFileName = null, code = null;
+	private Integer type = null;
 	
 	@Action(value = USER_LOGIN, results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = IndexAction.INDEX),
@@ -76,15 +88,19 @@ public class UserAction extends BaseAction
 	{
 		return login(UserStatus.VALIDATED);
 	}
-
+	
 	private String login(UserStatus status)
 	{
 		super.clearSession();
 		if((user = userService.login(user, status)) != null)
 		{
-			//将相关的用户id存入session
-			super.getSessionMap().put("relativeUsers", talkingService.preGetRelativeUserId(user));
+			// 将相关的用户id存入session
 			super.saveUser(user);
+			super.getSessionMap().put("relativeUsers",
+					talkingService.preGetRelativeUserId(user));
+			// 将相关的用户id存入session
+			super.getSessionMap().put("relativeUsers",
+					talkingService.preGetRelativeUserId(user));
 			return SUCCESS;
 		}
 		else
@@ -106,9 +122,11 @@ public class UserAction extends BaseAction
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "emailLoginJsp", params = {
 					"email", "${#request.email}"}),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = REGISTER_INPUT, params = {
-					"msg", "请正确输入信息!"})})
+					"msg", "请正确输入信息!"}),
+			@Result(name = ERROR, location = FOREPART + ERROR_PAGE)})
 	public String register()
 	{
+		super.clearSession();
 		if(portrait != null)
 		{
 			fillPortraitPathToUser(user.getName());
@@ -119,7 +137,39 @@ public class UserAction extends BaseAction
 			return INPUT;
 		}
 		super.getRequestMap().put("email", email[1]);
-		return super.successOrInput(userService.register(user, portrait));
+		if(userService.register(user, portrait))
+		{
+			if(mailService.sendRegisterLetter(user))
+			{
+				return SUCCESS;
+			}
+			else
+			{
+				return ERROR;
+			}
+		}
+		else
+		{
+			return INPUT;
+		}
+	}
+	
+	@Action(value = REGISTER_VALIDATE, results = {
+			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = IndexAction.INDEX),
+			@Result(name = INPUT, type = REDIRECT_ACTION, location = MANAGER_LOGIN_INPUT, params = {
+					"msg", "注册验证失败(可能链接已过期)!"})})
+	public String registerValidate()
+	{
+		user = mailService.validateRegisterUser(code);
+		if(user != null)
+		{
+			super.saveUser(user);
+			return SUCCESS;
+		}
+		else
+		{
+			return INPUT;
+		}
 	}
 	
 	@Action(value = UPDATE_USER, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = REFRESH_USER
@@ -136,6 +186,22 @@ public class UserAction extends BaseAction
 		return SUCCESS;
 	}
 	
+	@Action(value = CHANGE_USER_PASSWORD, results = {
+			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = REFRESH_USER
+					+ CENTER),
+			@Result(name = INPUT, type = REDIRECT_ACTION, location = CHANGE_USER_PASSWORD_INPUT, params = {
+					"msg", "密码错误!"})})
+	public String changeUserPassword()
+	{
+		if(super.currentUser().getPassword()
+				.equals(CodeUtil.md5(user.getPassword())))
+		{
+			userService.changeUserPassword(super.currentUser(), code);
+			return SUCCESS;
+		}
+		return INPUT;
+	}
+	
 	private void fillPortraitPathToUser(String userName)
 	{
 		user.setPortraitPath(PORTRAIT_FOLDER + CodeUtil.md5(userName)
@@ -149,12 +215,12 @@ public class UserAction extends BaseAction
 		return SUCCESS;
 	}
 	
+	// main :userHome
 	@Action(value = MAIN, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 			+ MAIN + JSP)})
-	public String main()
+	public String home()
 	{
-		/************************** CAFEBABE *******************************************/
-		/************************** CAFEBABE *******************************************/
+		/************************** TT *******************************************/
 		List<User> focusUserList = userService.getFocusList(User.class,
 				(User) getSessionMap().get("user"));
 		if(focusUserList.size() > 9)
@@ -177,14 +243,65 @@ public class UserAction extends BaseAction
 		}
 		getRequestMap().put("focusMerchantList", focusMerchantList);
 		super.getRequestMap().put("allUsers", userService.allUsers());
+		if(null == user || null == user.getId())
+		{
+			user = (User) getSessionMap().get("user");
+			user = userService.findById(user.getId());
+		}
+		else
+		{
+			user = userService.findById(user.getId());
+		}
+		/************************** 指定用户相册 *******************************************/
+		page = pictureService.getMyPageByHql(user, 1, currentPage, 1);
+		pics = pictureService.findMyPictureByHql(page, user);
+		/*************************** 指定用户线上活动 *****************************************/
+		page = onlineActivityService.getOneOnlineActivityPageByHql(4,
+				currentPage, 1, null, null, user);
+		onlineActs = onlineActivityService.findOneClubOnlineActivityByHql(page,
+				null, null, user);
+		/************************** 指定用户说说说说 *******************************************/
+		page = talkingService.getMyPageByHql(user, 10, currentPage, 1);
+		taks = talkingService.findMyTalkingByHql(page, user);
+		return SUCCESS;
+	}
+	
+	@Action(value = CENTER, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
+			+ CENTER + JSP)})
+	public String center()
+	{
+		/************************** TT *******************************************/
+		List<User> focusUserList = userService.getFocusList(User.class,
+				(User) getSessionMap().get("user"));
+		if(focusUserList.size() > 9)
+		{
+			focusUserList = focusUserList.subList(0, 9);
+		}
+		getRequestMap().put("focusUserList", focusUserList);
+		List<Club> focusClubList = userService.getFocusList(Club.class,
+				(User) getSessionMap().get("user"));
+		if(focusClubList.size() > 9)
+		{
+			focusClubList = focusClubList.subList(0, 9);
+		}
+		getRequestMap().put("focusClubList", focusClubList);
+		List<Merchant> focusMerchantList = userService.getFocusList(
+				Merchant.class, (User) getSessionMap().get("user"));
+		if(focusMerchantList.size() > 9)
+		{
+			focusMerchantList = focusMerchantList.subList(0, 9);
+		}
+		getRequestMap().put("focusMerchantList", focusMerchantList);
+		super.getRequestMap().put("allUsers", userService.allUsers());
+		user = (User) getSessionMap().get("user");
 		/************************** 相册 *******************************************/
-		page = pictureService.getAllPageByHql(eachPageNumber, currentPage, 1);
-		pics = pictureService.findAllPictureByHql(page);
-		/************************** 相册 *******************************************/
-		/************************** 说说 *******************************************/
-		page = talkingService.getAllPageByHql(eachPageNumber, currentPage, 1);
-		taks = talkingService.findAllTalkingByHql(page);
-		/*************************************************************************/
+		page = pictureService.getRelativeByHql(eachPageNumber, currentPage,
+				totalPageNumber);
+		pics = pictureService.findRelativePictureByHql(page);
+		/************************* 相关说说 *******************************************/
+		page = talkingService.getRelativePageByHql(user, eachPageNumber,
+				currentPage, 1);
+		taks = talkingService.findRelativeTalkingByHql(page, user);
 		return SUCCESS;
 	}
 	
@@ -251,6 +368,8 @@ public class UserAction extends BaseAction
 					+ "register.jsp")}),
 			@Action(value = UPDATE_USER_INPUT, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 					+ UPDATE_USER + JSP)}),
+			@Action(value = CHANGE_USER_PASSWORD_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
+					+ CHANGE_USER_PASSWORD + JSP)}),
 			@Action(value = "manageIndex", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/index.jsp")}),
 			@Action(value = "manageTop", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/admin_top.jsp")}),
 			@Action(value = "manageLeft", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/left.jsp")}),
@@ -398,5 +517,31 @@ public class UserAction extends BaseAction
 	public void setClubService(ClubService clubService)
 	{
 		this.clubService = clubService;
+	}
+	
+	public void setMailService(MailService mailService)
+	{
+		this.mailService = mailService;
+	}
+	
+	public void setCode(String code)
+	{
+		this.code = code;
+	}
+	
+	public List<OnlineActivity> getOnlineActs()
+	{
+		return onlineActs;
+	}
+	
+	public void setOnlineActs(List<OnlineActivity> onlineActs)
+	{
+		this.onlineActs = onlineActs;
+	}
+	
+	public void setOnlineActivityService(
+			OnlineActivityService onlineActivityService)
+	{
+		this.onlineActivityService = onlineActivityService;
 	}
 }

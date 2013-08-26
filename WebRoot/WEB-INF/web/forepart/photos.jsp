@@ -31,8 +31,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      		<a href="<%=path%><s:property  value="path.replace('st_', '')" />" target="_blank"><img src="<%=path%>/${path}"></a>
      		<br>
      		${name}&nbsp;
-     		<s:if test="actionName.equals('findAllPicture')">
-     			From:<a href="#">${user.name}</a>
+     		<s:if test="actionName.equals('relativePicture')">
+     			From:<a href="userHome?user.id=${user.id}">${user.name}</a>
      		</s:if>
      		<s:else>
 	     		<a href="<%=path%>/deletePicture?picture.id=${id}">删除</a>

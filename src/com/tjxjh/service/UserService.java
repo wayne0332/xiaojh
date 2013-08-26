@@ -33,7 +33,7 @@ public class UserService extends BaseService
 	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean register(User user, File portrait)
 	{
-		user.setStatus(UserStatus.VALIDATED);
+		user.setStatus(UserStatus.NO_VALIDATE);
 		if(portrait != null)
 		{
 			savePortrait(user.getPortraitPath(), portrait, 280);
@@ -44,6 +44,12 @@ public class UserService extends BaseService
 					.getPortraitPath()));
 		}
 		return super.save(md5Password(user));
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public User findById(Integer id)
+	{
+		return dao.findById(User.class, id);
 	}
 	
 	private String replaceToDefaultPortrait(String portraitPath)
@@ -68,6 +74,13 @@ public class UserService extends BaseService
 			savePortrait(user.getPortraitPath(), portrait, 280);
 		}
 		return super.update(user, "id") != 0;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void changeUserPassword(User user, String newPsd)
+	{
+		dao.executeUpdateHql("update User set password=? where id=?",
+				CodeUtil.md5(newPsd), user.getId());
 	}
 	
 	public User refresh(User user)
