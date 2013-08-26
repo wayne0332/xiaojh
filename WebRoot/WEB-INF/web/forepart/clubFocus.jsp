@@ -123,6 +123,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<s:iterator value="#request.focusList">
 							<div class="listItem">
 							<div class="portrait_big">
+									<s:if test="logoPath==''">
+										<img src="<s:property value="logoPath" />" width="40px" />
+									</s:if>	
+									<s:else>
+										<img src="upload/portrait/auto_photo.png" width="40px" />
+									</s:else>
 								</div>
 								<div class="userItem">
 									<div class="infoItem">

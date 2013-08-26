@@ -105,7 +105,14 @@
 				<s:elseif test="type==2">
 					<s:iterator value="#request.focusList">
 						<div class="listItem">
-							<div class="portrait_big"></div>
+							<div class="portrait_big">
+								<s:if test="portrait==''">
+									<img src="images/head/head1.jpg" class="fl logoImg" />
+								</s:if>
+								<s:else>
+									<img src="images/head/head1.jpg"  class="fl logoImg" />
+								</s:else>
+							</div>
 							<div class="userItem">
 								<div class="infoItem">
 									<s:property value="name" />

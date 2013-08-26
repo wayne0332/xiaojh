@@ -3,6 +3,7 @@ package com.tjxjh.service;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -256,7 +257,7 @@ public class MerchantService extends BaseService
 		return true;
 	}
 	
-	public <T> List<T> getFocusList(Class objectClass, Merchant merchant)
+	public <T extends Comparable> List<T> getFocusList(Class objectClass, Merchant merchant)
 	{
 		List<T> list = new ArrayList<T>();
 		Merchant m = dao.findById(Merchant.class, merchant.getId());
@@ -272,6 +273,7 @@ public class MerchantService extends BaseService
 		{
 			list.add(it.next());
 		}
+		Collections.sort(list);
 		return list;
 	}
 	

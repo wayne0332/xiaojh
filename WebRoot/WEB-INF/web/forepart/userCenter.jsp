@@ -84,6 +84,14 @@
 			<div class="l_box w240 p5 m5 cf shadow_l_10 radius_6 bg_box">
 				<s:iterator value="#request.focusMerchantList">
 					<div class="fl">
+						<s:if test="logoPath==''">
+							<img src="<s:property value="portraitPath" />"
+								class="w50 h50 Clearfix" />
+						</s:if>
+						<s:else>
+							<img src="upload/portrait/auto_photo.png"
+								class="w50 h50 Clearfix" />
+						</s:else>
 						<%-- <s:if test="portrait==''">
 									<img src="<s:property value="portraitPath" />" width="40px" />
 								</s:if>
