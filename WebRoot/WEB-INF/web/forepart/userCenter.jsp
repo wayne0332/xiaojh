@@ -181,7 +181,13 @@
 							</span>
 							<a href="<%=path %>/preShareTalking?talking.id=${id}">分享<s:if
 									test="shareDetails!=null">(${shareDetails.shareCount})</s:if> <s:else>(${talking.shareDetails.shareCount})</s:else>
-							</a><a href="#">评论</a> 来自：${user.name} <label>${datetime}</label>
+							</a><!--<a href="#">评论</a> 来自：${user.name} <label>${datetime}</label>-->
+							<a href="#">评论</a>
+							<label>${datetime}</label>
+							<form>
+								<textarea class="fr mt5 textarea" style="width:610px;"></textarea>
+								<input type="submit" class="submit fr" value="评论"/>
+							</form>
 						</div>
 						<!-- like end -->
 					</div>
