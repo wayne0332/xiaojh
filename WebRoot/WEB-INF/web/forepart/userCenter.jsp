@@ -7,7 +7,7 @@
 			+ path + "/";
 %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
 <html>
 <head>
 
@@ -173,8 +173,15 @@
 							</span>
 							<a href="<%=path %>/preShareTalking?talking.id=${id}">分享<s:if
 									test="shareDetails!=null">(${shareDetails.shareCount})</s:if> <s:else>(${talking.shareDetails.shareCount})</s:else>
-							</a><a href="#">评论</a> 来自：${user.name} <label>${datetime}</label>
+							</a>
+							<a href="#">评论</a>
+							<label>${datetime}</label>
+							<form>
+								<textarea class="fr mt5 textarea" style="width:610px;"></textarea>
+								<input type="submit" class="submit fr" value="评论"/>
+							</form>
 						</div>
+						
 						<!-- like end -->
 					</div>
 				</s:iterator>

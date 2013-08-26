@@ -48,7 +48,6 @@
 	.l_search input			{ border: none; }
 	.l_search button		{ border: none; background-color: #777; }
 	
-	
 /* userHome & userCenter
  * ---------------------------------------------------------------------------------------- */	
  
@@ -58,6 +57,9 @@
 	
 	.userBox_title			{ display: block; line-height: 30px; background-color: rgba(40,100,40,0.3); color: #fff; margin: -10px 0 0 -10px; }
 	.userHome_box textarea	{ width: 687px; resize: none; }
+	.textarea				{ border:1px solid #DADADA;min-height:30px;word-wrap: break-word;overflow-y:visible; }
+	.textarea:hover 		{ border-color: #F5B93C; background-color: #FFFFFF; min-height:50px;overflow-y:visible;}
+	.submit					{ height:30px; width:100px; border:1px solid #DADADA;}
 	.userHome_box button	{  }
 
 	.user_dongtai_div		{ border-bottom: 1px solid #ccc; }
