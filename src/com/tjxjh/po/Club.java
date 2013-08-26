@@ -26,7 +26,7 @@ import com.tjxjh.enumeration.ClubType;
  */
 @Entity
 @Table(name = "club", catalog = "xiaojh")
-public class Club implements java.io.Serializable
+public class Club implements java.io.Serializable,Comparable<Club>
 {
 	// Fields
 	private Integer id;
@@ -374,5 +374,11 @@ public class Club implements java.io.Serializable
 	public void setFocusMerchants(Set<Merchant> focusMerchants)
 	{
 		this.focusMerchants = focusMerchants;
+	}
+
+	@Override
+	public int compareTo(Club o) {
+		// TODO Auto-generated method stub
+		return o.getId()-this.getId();
 	}
 }

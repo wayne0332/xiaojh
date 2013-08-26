@@ -2,6 +2,7 @@ package com.tjxjh.service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -163,7 +164,7 @@ public class UserService extends BaseService
 		return userList;
 	}
 	
-	public <T> List<T> getFocusList(Class objectClass, User user)
+	public <T extends Comparable> List<T> getFocusList(Class objectClass, User user)
 	{
 		List<T> list = new ArrayList<T>();
 		User p = dao.findById(User.class, user.getId());
@@ -180,11 +181,13 @@ public class UserService extends BaseService
 		{
 			focusSet = (Set<T>) p.getMerchants();
 		}
+		
 		Iterator<T> it = focusSet.iterator();
 		while(it.hasNext())
 		{
 			list.add(it.next());
 		}
+		Collections.sort(list);
 		return list;
 	}
 	
