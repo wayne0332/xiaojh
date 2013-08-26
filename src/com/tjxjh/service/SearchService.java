@@ -1,5 +1,7 @@
 package com.tjxjh.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -7,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.cafebabe.autodao.pojo.Page;
 
+import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.User;
@@ -35,7 +38,14 @@ public class SearchService extends BaseService2 {
 		SearchResult sr = new SearchResult();
 		Page page2 = new Page(pageInfo.getCurrentPage(),Page.getDefaultPageNumber(),this.countItemNum(text, User.class));
 		sr.setPage(page2);
-		sr.setUserList(this.searchFromName(text, page2,User.class));
+		List<User> list = this.searchFromName(text, page2,User.class);
+		for(int i=0;i<list.size();i++){
+			User u = list.get(i);
+			if(u.getStatus()==UserStatus.SYSTEM||u.getStatus()==UserStatus.ADMIN){
+				list.remove(i);
+			}
+		}
+		sr.setUserList(list);
 		return sr;
 	}
 	
