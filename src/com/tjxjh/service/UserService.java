@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import cn.cafebabe.autodao.pojo.Page;
 import cn.cafebabe.websupport.service.BaseService;
 
 import com.tjxjh.action.UserAction;
@@ -111,11 +112,36 @@ public class UserService extends BaseService
 		}
 	}
 	
-	public List<User> allUsers()
+	public List<User> allUsers(Page page)
 	{
-		return dao.findAll(User.class);
+		return (List<User>) dao.executeHql(page,"from User u where u.status!='SYSTEM'");
 	}
 	
+	public Page userNum(Page page){
+		String hql = "select count(*) from User u";
+		List<Long> countL = null;
+		countL = (List<Long>)dao.executeHql(hql);
+		int itemNum = countL.get(0).intValue();
+		return new Page(page.getCurrentPage(),Page.getDefaultPageNumber(),itemNum);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public boolean changeUserStatus(User targetUser,UserStatus status){
+		try{
+			if(!exist(targetUser)){
+				throw new Exception();
+			}
+			else{
+				User user = dao.findById(User.class, targetUser.getId());
+				user.setStatus(status);
+				dao.flush();
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 	public boolean isRegister(String name)
 	{
 		return (Long) dao.executeHql("select count(*) from User where name=?",

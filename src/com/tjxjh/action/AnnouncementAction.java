@@ -10,12 +10,15 @@ import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
+import com.tjxjh.annotation.Auth;
 import com.tjxjh.enumeration.ClubMemberRole;
 import com.tjxjh.enumeration.UserStatus;
+import com.tjxjh.interceptor.AuthInterceptor.ClubManagerAuth;
+import com.tjxjh.interceptor.AuthInterceptor.UserWithClubMemberAuth;
 import com.tjxjh.po.Announcement;
 import com.tjxjh.service.AnnouncementService;
 
-@ParentPackage("struts-default")
+@ParentPackage("authController")
 @Namespace("/")
 public class AnnouncementAction extends BaseAction
 {
@@ -30,8 +33,10 @@ public class AnnouncementAction extends BaseAction
 	private String path = null;
 	private Page page = null;
 	
+	
 	@Actions({@Action(value = ADD_ANNOUNCEMENT_INPUT, results = {@Result(name = SUCCESS, location = MANAGE
 			+ ADD_ANNOUNCEMENT + JSP, params = {"path", "${path}"})})})
+	@Auth(type = ClubManagerAuth.class)
 	public String page()
 	{
 		return SUCCESS;
@@ -41,6 +46,7 @@ public class AnnouncementAction extends BaseAction
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "${path}"),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = ADD_ANNOUNCEMENT),
 			@Result(name = ERROR, location = FOREPART + ERROR_PAGE)})
+	@Auth(type = ClubManagerAuth.class)
 	public String addAnnouncement()
 	{
 		if(path == null)
@@ -64,6 +70,7 @@ public class AnnouncementAction extends BaseAction
 	
 	@Action(value = MY_ANNOUNCEMENTS, results = {@Result(name = SUCCESS, location = FOREPART
 			+ MY_ANNOUNCEMENTS + JSP)})
+	@Auth(type = UserWithClubMemberAuth.class)
 	public String myAnnouncements()
 	{
 		if(page == null)
@@ -80,6 +87,7 @@ public class AnnouncementAction extends BaseAction
 	
 	@Action(value = CLUB_ANNOUNCEMENTS, results = {@Result(name = SUCCESS, location = FOREPART
 			+ CLUB_ANNOUNCEMENTS + JSP)})
+	@Auth(type = ClubManagerAuth.class)
 	public String clubAnnouncements()
 	{
 		if(page == null)

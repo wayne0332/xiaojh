@@ -159,7 +159,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           </tr>
         </table>
         <ul class="MM">
-          <li><a href="http://www.865171.cn" target="main">基本设置</a></li>
+          <li><a href="allUser?pageNum=1" target="main">用户账号管理</a></li>
           <li><a href="http://www.865171.cn" target="main">邮件设置</a></li>
           
         </ul>
