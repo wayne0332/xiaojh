@@ -110,7 +110,7 @@
 			<form action="addTalking" method="post" enctype="multipart/form-data"
 				class="userHome_box w700 m5 p10 cf shadow_l_10 radius_6">
 				<label class="userBox_title w pl10 pr10 h30">发状态</label>
-				<textarea class="h100 mt10 mb5 f14 p5"></textarea>
+				<textarea class="h100 mt10 mb5 f14 p5" name="talking.text"></textarea>
 				媒体链接：<input type="text" name="talking.url" /><br /> 图片：<input
 					type="file" name="uploadImage" />
 				<button type="submit" class="fr">发布</button>
@@ -137,12 +137,12 @@
 							<img src="${t.user.portraitPath}" class="w60 h60 fl shadow_l_10 radius_6" />
 						</div>
 						<div id="talking_detail_div" class="fr w610 mt5 mr15 user_talking_detail_div">
-							<a href="userHome?user.id=${t.user.id}" class="f16 lh150 user_name_color">${t.user.name}</a>
+							<a href="userHome?user.id=${t.user.id}" target="_blank" class="f16 lh150 user_name_color">${t.user.name}</a>
 							<label class="fr w610 f14"><s:property value="t.text" /> </label>
 							<s:if test="t.talking==null">
 								<div class="cf w610 mt5 fr">
 									<s:if test="t.url!=null&&!t.url.trim().equals('')&&t.urlType.toString()=='PICTURE'">
-										<img src="${url}" class="maw400 mah300"/>
+										<img src="${t.url}" class="maw400 mah300"/>
 									</s:if>
 									<s:elseif test="t.url!=null&&!t.url.trim().equals('')&&t.urlType.toString()=='VIDEO'">
 									    <s:property
@@ -189,10 +189,12 @@
 								<s:iterator value="tcs" id="tc">
 									<div class="user_pinglun_div w610 cb">
 										<div class="w40 h40 mt5 mr10 fl ">
-											<img src="${tc.user.portraitPath}" class="w40 h40 shadow_l_10 radius_6" />
+											<a href="userHome?user.id=${tc.user.id}" target="_blank">
+												<img src="${tc.user.portraitPath}" class="w40 h40 shadow_l_10 radius_6" />
+											</a>
 										</div>
 										<div class="fl w560">
-											<a href="userHome?user.id=${tc.user.id}" class="f12 user_name_color">${tc.user.name}</a>
+											<a href="userHome?user.id=${tc.user.id}" target="_blank" class="f12 user_name_color">${tc.user.name}</a>
 											:${tc.text}<br/>
 											<div class="fl color_gray">
 												<s:property value="datetime.toString().substring(5,16)"/>&nbsp;&nbsp;&nbsp;

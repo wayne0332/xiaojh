@@ -38,10 +38,12 @@ public class TalkingCommentAction extends BaseAction{
 		PrintWriter out =GetRequsetResponse.getAjaxPrintWriter();
 		StringBuilder temp=new StringBuilder();
 		if(b){
-			temp.append("<div class='user_pinglun_div w610 cb'><div class='w40 h40 mt5 mr10 fl '><img src='");
+			temp.append("<div class='user_pinglun_div w610 cb'><div class='w40 h40 mt5 mr10 fl '> <a href='userHome?user.id=");
+			temp.append(user.getId()+"' target='_blank' class='f12 user_name_color'>");
+			temp.append("<img src='");
 			temp.append(user.getPortraitPath());
-			temp.append("' class='w40 h40 shadow_l_10 radius_6' /></div><div class='fl w560'><a href='userHome?user.id=");
-			temp.append(user.getId()+"' class='f12 user_name_color'>"+user.getName()+"</a>：");
+			temp.append("' class='w40 h40 shadow_l_10 radius_6' /></a></div><div class='fl w560'><a href='userHome?user.id=");
+			temp.append(user.getId()+"' target='_blank' class='f12 user_name_color'>"+user.getName()+"</a>：");
 			temp.append(talkingComment.getText()+"<br/><div class='fl color_gray'>");
 			temp.append(talkingComment.getDatetime().toString().substring(5,16));
 			temp.append("&nbsp;&nbsp;&nbsp;</div><a href='javascript:void(0);' onclick=\"huifu(");
