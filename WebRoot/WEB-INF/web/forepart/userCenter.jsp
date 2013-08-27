@@ -132,35 +132,36 @@
 			<div class="userHome_box w700 m5 mt30 p10 cf shadow_l_10 radius_6">
 				<label class="userBox_title w pl10 pr10 h30">江湖动态</label>
 				<s:iterator value="taks" id="tak">
-					<div id="${id}" class="user_dongtai_div cf w700 mt10 pt10 pb15">
+					<div id="${t.id}" class="user_dongtai_div cf w700 mt10 pt10 pb15">
 						<div class="w60 h fl">
-							<img src="${user.portraitPath}" class="w60 h60 fl shadow_l_10 radius_6" />
+							<img src="${t.user.portraitPath}" class="w60 h60 fl shadow_l_10 radius_6" />
 						</div>
-						<div class="fr w610 mt5 mr15 user_talking_detail_div">
-							<label class="fr w610 f16 lh150 user_name_color">${user.name}</label>
+						<div id="talking_detail_div" class="fr w610 mt5 mr15 user_talking_detail_div">
+							<a href="userHome?user.id=${t.user.id}" class="f16 lh150 user_name_color">${t.user.name}</a>
 							<label class="fr w610 f14"><s:property value="text" /> </label>
-							<s:if test="talking==null">
+							<s:if test="t.talking==null">
 								<div class="cf w610 mt5 fr">
-									<s:if test="url!=null&&!url.trim().equals('')&&urlType.toString()=='PICTURE'">
+									<s:if test="t.url!=null&&!t.url.trim().equals('')&&t.urlType.toString()=='PICTURE'">
 										<img src="${url}" class="maw400 mah300"/>
 									</s:if>
-									<s:elseif test="url!=null&&!url.trim().equals('')&&urlType.toString()=='VIDEO'">
+									<s:elseif test="t.url!=null&&!t.url.trim().equals('')&&t.urlType.toString()=='VIDEO'">
 									    <s:property
-											value="url.replace('400', '300').replace('480', '360')"
+											value="t.url.replace('400', '300').replace('480', '360')"
 											escape="false" />
 								    </s:elseif>
 								</div>
 							</s:if>
-							<s:elseif test="talking!=null">
+							<s:elseif test="t.talking!=null">
 								<div class="p10 mt5 user_talking_share_div cb">
-									${talking.user.name} :<s:property value="talking.text" /><br/>
+									<a href="userHome?user.id=${t.talking.user.id}"  class="f12 user_name_color">${t.talking.user.name}</a>
+									:<s:property value="t.talking.text" /><br/>
 									
-									<s:if test="talking.url!=null&&talking.urlType.toString()=='PICTURE'">
-										<img src="${talking.url}" class="maw400 mah300"/>
+									<s:if test="t.talking.url!=null&&t.talking.urlType.toString()=='PICTURE'">
+										<img src="${t.talking.url}" class="maw400 mah300"/>
 									</s:if>
-									<s:elseif test="talking.url!=null&&talking.urlType.toString()=='VIDEO'">
+									<s:elseif test="t.talking.url!=null&&t.talking.urlType.toString()=='VIDEO'">
 										<s:property
-											value="talking.url.replace('400', '300').replace('480', '360')"
+											value="t.talking.url.replace('400', '300').replace('480', '360')"
 											escape="false" />
 									</s:elseif>
 								</div>
@@ -168,22 +169,25 @@
 						</div>
 						<!-- like -->
 						<div class="fr w610 mt5 mr15">
-							<span id="zan${id}">
-								<s:if test="shareDetails!=null">
+							<span id="zan${t.id}">
+								<s:if test="t.shareDetails!=null">
 									<!-- like -->
-									<a href="javascript:void(0);" onclick="zanTalking(${id});">赞(${shareDetails.praiseCount})</a>
+									<a href="javascript:void(0);" onclick="zanTalking(${t.id});">赞(${t.shareDetails.praiseCount})</a>
 								</s:if>
 								<s:else>
-									<a href="javascript:void(0);" onclick="zanTalking(${id});">赞(${talking.shareDetails.praiseCount})</a>
+									<a href="javascript:void(0);" onclick="zanTalking(${t.id});">赞(${t.talking.shareDetails.praiseCount})</a>
 								</s:else>
 							</span>
-							<label>${datetime}</label>
-							<a href="<%=path %>/preShareTalking?talking.id=${id}">分享<s:if
-									test="shareDetails!=null">(${shareDetails.shareCount})</s:if> <s:else>(${talking.shareDetails.shareCount})</s:else>
+							<label>${t.datetime}</label>
+							<a href="<%=path %>/preShareTalking?talking.id=${t.id}">分享<s:if
+									test="shareDetails!=null">(${t.shareDetails.shareCount})</s:if> <s:else>(${t.talking.shareDetails.shareCount})</s:else>
 
 							</a><!--<a href="#">评论</a> 来自：${user.name} <label>${datetime}</label>-->
 							<div class="user_dongtai_div w610 mt10 mb10 cb"></div>
 							
+							<s:iterator value="tak.getTalkingComments()" id="tc">
+								<div class="user_pinglun_div w610">${tc.text} <s:property value="tak.getTalkingComments().size()"/></div>
+							</s:iterator>
 							<form action="addTalkingComment" method="post">
 								<input type="hidden" name="talkingComment.talking.id" value="${id}" />
 								<textarea name="talkingComment.text" class="fr mt5 textarea" style="width:610px;"></textarea>

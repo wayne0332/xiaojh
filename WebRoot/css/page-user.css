@@ -66,6 +66,8 @@
 	.user_dongtai_div img	{  }
 	.user_dongtai_div label	{  }
 	.user_dongtai_div a		{ width: 80px; display: inline-block; text-align: right; float: right; }
+	
+	#talking_detail_div a	{float:left; text-align:left;width:auto;}
 	.user_talking_detail_div { overflow:hidden; }
 	.user_pinglun_div		{ border-bottom: 1px dotted #ccc; }
 	.user_name_color 		{color:#498B31}

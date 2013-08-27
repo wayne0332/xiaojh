@@ -21,10 +21,12 @@ import com.tjxjh.po.OnlineActivity;
 import com.tjxjh.po.Picture;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
+import com.tjxjh.pojo.IndexTalking;
 import com.tjxjh.service.ClubService;
 import com.tjxjh.service.OnlineActivityService;
 import com.tjxjh.service.MailService;
 import com.tjxjh.service.PictureService;
+import com.tjxjh.service.TalkingCommentService;
 import com.tjxjh.service.TalkingService;
 import com.tjxjh.service.UserService;
 import com.tjxjh.util.CodeUtil;
@@ -61,7 +63,7 @@ public class UserAction extends BaseAction
 	private Integer currentPage = 1;
 	private Integer totalPageNumber = 0;
 	// talking
-	private List<Talking> taks = new ArrayList<Talking>();
+	private List<IndexTalking> taks = new ArrayList<IndexTalking>();
 	private String message = "";
 	// 相册
 	private List<Picture> pics = new ArrayList<Picture>();
@@ -77,6 +79,8 @@ public class UserAction extends BaseAction
 	private ClubService clubService = null;
 	@Resource
 	private MailService mailService = null;
+	@Resource
+	private TalkingCommentService talkingCommentService = null;
 	@Resource
 	private OnlineActivityService onlineActivityService = null;
 	private User user = null;
@@ -333,7 +337,13 @@ public class UserAction extends BaseAction
 				null, null, user);
 		/************************** 指定用户说说说说 *******************************************/
 		page = talkingService.getMyPageByHql(user, 10, currentPage, 1);
-		taks = talkingService.findMyTalkingByHql(page, user);
+		List<Talking> temp = talkingService.findMyTalkingByHql(page, user);
+		for(Talking t:temp){
+			IndexTalking it=new IndexTalking();
+			it.setT(t);
+			it.setTcs(talkingCommentService.findByHql(t.getId()));
+			taks.add(it);
+		}
 		return SUCCESS;
 	}
 	
@@ -372,7 +382,13 @@ public class UserAction extends BaseAction
 		/************************* 相关说说 *******************************************/
 		page = talkingService.getRelativePageByHql(user, eachPageNumber,
 				currentPage, 1);
-		taks = talkingService.findRelativeTalkingByHql(page, user);
+		List<Talking> temp = talkingService.findRelativeTalkingByHql(page, user);
+		for(Talking t:temp){
+			IndexTalking it=new IndexTalking();
+			it.setT(t);
+			it.setTcs(talkingCommentService.findByHql(t.getId()));
+			taks.add(it);
+		}
 		return SUCCESS;
 	}
 	
@@ -539,12 +555,12 @@ public class UserAction extends BaseAction
 		this.totalPageNumber = totalPageNumber;
 	}
 	
-	public List<Talking> getTaks()
+	public List<IndexTalking> getTaks()
 	{
 		return taks;
 	}
 	
-	public void setTaks(List<Talking> taks)
+	public void setTaks(List<IndexTalking> taks)
 	{
 		this.taks = taks;
 	}
@@ -619,4 +635,9 @@ public class UserAction extends BaseAction
 	{
 		this.onlineActivityService = onlineActivityService;
 	}
+
+	public void setTalkingCommentService(TalkingCommentService talkingCommentService) {
+		this.talkingCommentService = talkingCommentService;
+	}
+	
 }
