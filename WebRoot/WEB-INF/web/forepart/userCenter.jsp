@@ -138,7 +138,7 @@
 						</div>
 						<div id="talking_detail_div" class="fr w610 mt5 mr15 user_talking_detail_div">
 							<a href="userHome?user.id=${t.user.id}" class="f16 lh150 user_name_color">${t.user.name}</a>
-							<label class="fr w610 f14"><s:property value="text" /> </label>
+							<label class="fr w610 f14"><s:property value="t.text" /> </label>
 							<s:if test="t.talking==null">
 								<div class="cf w610 mt5 fr">
 									<s:if test="t.url!=null&&!t.url.trim().equals('')&&t.urlType.toString()=='PICTURE'">
@@ -154,7 +154,7 @@
 							<s:elseif test="t.talking!=null">
 								<div class="p10 mt5 user_talking_share_div cb">
 									<a href="userHome?user.id=${t.talking.user.id}"  class="f12 user_name_color">${t.talking.user.name}</a>
-									:<s:property value="t.talking.text" /><br/>
+									：<s:property value="t.talking.text" /><br/>
 									
 									<s:if test="t.talking.url!=null&&t.talking.urlType.toString()=='PICTURE'">
 										<img src="${t.talking.url}" class="maw400 mah300"/>
@@ -180,19 +180,33 @@
 							</span>
 							<label>${t.datetime}</label>
 							<a href="<%=path %>/preShareTalking?talking.id=${t.id}">分享<s:if
-									test="shareDetails!=null">(${t.shareDetails.shareCount})</s:if> <s:else>(${t.talking.shareDetails.shareCount})</s:else>
-
-							</a><!--<a href="#">评论</a> 来自：${user.name} <label>${datetime}</label>-->
+									test="t.shareDetails!=null">(${t.shareDetails.shareCount})</s:if> <s:else>(${t.talking.shareDetails.shareCount})</s:else>
+							</a>
+							<!-- 分割线 -->
 							<div class="user_dongtai_div w610 mt10 mb10 cb"></div>
-							
-							<s:iterator value="tak.getTalkingComments()" id="tc">
-								<div class="user_pinglun_div w610">${tc.text} <s:property value="tak.getTalkingComments().size()"/></div>
-							</s:iterator>
-							<form action="addTalkingComment" method="post">
-								<input type="hidden" name="talkingComment.talking.id" value="${id}" />
-								<textarea name="talkingComment.text" class="fr mt5 textarea" style="width:610px;"></textarea>
-								<input type="submit" class="submit fr" value="评论"/>
-							</form>
+							<!-- 说说回复 -->
+							<span id="tcs${t.id}"><!-- 用于ajax动态更新说说 -->
+								<s:iterator value="tcs" id="tc">
+									<div class="user_pinglun_div w610 cb">
+										<div class="w40 h40 mt5 mr10 fl ">
+											<img src="${tc.user.portraitPath}" class="w40 h40 shadow_l_10 radius_6" />
+										</div>
+										<div class="fl w560">
+											<a href="userHome?user.id=${tc.user.id}" class="f12 user_name_color">${tc.user.name}</a>
+											:${tc.text}<br/>
+											<div class="fl color_gray">
+												<s:property value="datetime.toString().substring(5,16)"/>&nbsp;&nbsp;&nbsp;
+											</div>
+											<a href="javascript:void(0);" onclick="huifu(${t.id},'${tc.user.name}',${tc.user.id});" class="f12 user_name_color">回复</a>
+										</div>
+										<div class="cb"></div>
+									</div>
+								</s:iterator>
+							</span>
+								<input type="hidden" id="user_id${t.id}" name="userid" value="0"/>
+								<textarea id="pl_t${t.id}" name="talkingComment.text" class="fr mt5 textarea color_gray" style="width:610px;"></textarea>
+								<input type="button" class="submit fr" onclick="addTalkingComment(${t.id});" value="评论"/>
+							<!-- End:说说回复 -->
 						</div>
 						
 						<!-- like end -->
@@ -201,61 +215,23 @@
 				<br> <a href="<%=path%>/allTalking" target="_self">更多</a>&nbsp;
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 			</div>
 			<!-- END：说说 -->
 		</div>
 		<div class="clearfloat"></div>
 		<div class="footer"></div>
 	</div>
+	<script type="text/javascript">
+		function huifu(id,name,userid){
+			var pl_t='#pl_t'+id;
+			var user_id='#user_id'+id;
+			$(pl_t).val("@"+name+":");
+			$(user_id).val(userid);
+			$(pl_t).focus();
+		}
+
+	</script>
+
+	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
 </body>
 </html>

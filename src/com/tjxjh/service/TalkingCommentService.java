@@ -11,8 +11,14 @@ import cn.cafebabe.websupport.service.BaseService;
 public class TalkingCommentService extends BaseService{
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public boolean add(TalkingComment tc){
-			return super.save(tc);
+	public boolean add(TalkingComment tc,Integer userid){
+		String temp=tc.getText();
+		try{
+			tc.setText("@<a class='f12 user_name_color' href='userHome?user.id="+userid+"' target='_blank'>"+temp.substring(temp.indexOf("@")+1, temp.indexOf(":"))+"</a>:"+temp.substring(temp.indexOf(":")+1));
+		}catch(Exception e){
+			
+		}
+		return super.save(tc);
 	}
 	
 	@Transactional (propagation = Propagation.REQUIRED) 
