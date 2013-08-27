@@ -176,8 +176,9 @@
 							</a>
 							<a href="#">评论</a>
 							<label>${datetime}</label>
-							<form>
-								<textarea class="fr mt5 textarea" style="width:610px;"></textarea>
+							<form action="addTalkingComment" method="post">
+								<input type="hidden" name="talkingComment.id" value="${id}" />
+								<textarea name="talkingComment.text" class="fr mt5 textarea" style="width:610px;"></textarea>
 								<input type="submit" class="submit fr" value="评论"/>
 							</form>
 						</div>
