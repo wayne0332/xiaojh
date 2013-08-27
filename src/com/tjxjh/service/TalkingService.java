@@ -349,7 +349,7 @@ public class TalkingService extends BaseService{
 	public List<User> preGetRelativeUserId(User user){
 		List<User> users=new ArrayList<User>();
 		//查找用户所在社团对应的id号
-		users.addAll((List<User>) dao.executeHql("select club.user.id from ClubMember cl where cl.user.id=?", user.getId()));
+		users.addAll((List<User>) dao.executeHql("select club.user from ClubMember cl where cl.user.id=?", user.getId()));
 		//关注的社团
 		Set<Club> clubs=user.getFocusClubs();
 		for(Club c:clubs){
