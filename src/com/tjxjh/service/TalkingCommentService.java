@@ -12,12 +12,7 @@ public class TalkingCommentService extends BaseService{
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean add(TalkingComment tc){
-		try{
 			return super.save(tc);
-		}catch(Exception e){
-			System.out.println(e);
-			return false;
-		}
 	}
 	
 	@Transactional (propagation = Propagation.REQUIRED) 
