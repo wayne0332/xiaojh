@@ -214,7 +214,6 @@
 				</s:iterator>
 				<br> <a href="<%=path%>/allTalking" target="_self">更多</a>&nbsp;
 
-
 			</div>
 			<!-- END：说说 -->
 		</div>
