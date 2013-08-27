@@ -119,11 +119,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
 	<body>
 		<div>
-			<s:property value="#request.type" />
 			<s:if test="%{#request.type==0}">
 				<table>
     				<tr>
-    					<td colspan="8">找人：<s:property value="#request.clubMembers" /></td>
+    					<td colspan="8">找人：</td>
     				</tr>
     				<s:iterator value="#request.searchResult.userList">
     				<tr>	
@@ -153,7 +152,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</s:if> <s:else>
 								<s:if test="#request.clubMembers[id] == null">
 									<s:a
-										href="clubAddUser?user.id=%{id}&text=%{#request.searchText}&club.id=%{club.id}">添加</s:a>
+										href="clubAddUser?user.id=%{id}&text=%{#request.searchText}&club.id=%{club.id}&pageNum=%{searchResult.page.currentPage}">添加</s:a>
 								</s:if>
 								<s:elseif test="#request.clubMembers[id].role.name() == 'NORMAL'">
 									<s:if test="#request.clubMembers[id].status.name() == 'NO_CHECK'">
@@ -162,8 +161,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											已发出邀请
 										</s:if>
 										<s:else>
-											<s:a href="clubAcceptInvited?user.id=%{id}&club.id=%{club.id}">接受申请</s:a>
-											<s:a href="clubRefuseInvited?user.id=%{id}&club.id=%{club.id}">拒绝</s:a>
+											<s:a href="clubAcceptInvited?user.id=%{id}&text=%{#request.searchText}&club.id=%{club.id}&pageNum=%{searchResult.page.currentPage}">接受申请</s:a>
+											<s:a href="clubRefuseInvited?user.id=%{id}&text=%{#request.searchText}&club.id=%{club.id}&pageNum=%{searchResult.page.currentPage}">拒绝</s:a>
 										</s:else>
 									</s:if>
 									<s:else>
@@ -193,17 +192,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</s:else>
     					</s:if>
     					<!-- 否则，从其他入口进入，无club操作 -->
-    					<s:else>
+    					<s:elseif test="%{#session.user.id!=id}">
     						<s:if test="%{#request.userMap[id]==null}">
 	    						<input id="<s:property value="id" />" type="button" value="关注" onclick="focusUser(<s:property value="id" />)"/>
 	    					</s:if>
 	    					<s:else>
 	    						<input id="<s:property value="id" />" type="button" disabled="disabled" value="已关注"/>
 	    					</s:else>
-    					</s:else>
+    					</s:elseif>
     					</td>
     					<td>
+    					<s:if test="%{#session.user.id!=id}">
     						<s:a href="personalLetterInput?targetUser.id=%{id}&targetUser.name=%{name}" >发私信</s:a>
+    					</s:if>
     					</td>
     				</tr>
     				</s:iterator>
@@ -261,7 +262,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     					<td>
     					<s:if test="%{#session.user!=null}" >
     						<!-- 若入口为社团页，且role不是普通社员，则显示社团操作 -->
-	    					<s:if test="%{#request.clubMember != null&&#request.clubMember.role.name()!='NORMAL'}">
+	    					<s:if test="%{#request.clubMember != null&&club.id != id&&#request.clubMember.role.name()!='NORMAL'}">
 	    						<s:if test="id in #request.clubCheckList">
 	    							<input id="c_<s:property value="id" />" type="button" disabled="disabled" value="社团已关注"/>
 	    						</s:if>
@@ -342,7 +343,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    				</s:else>
 	    				</s:else>
     				</s:if>
-    				<s:elseif test="%{#session.merchant!=null}">
+    				<s:elseif test="%{#session.merchant!=null&&#session.merchant.id!=id}">
     					<s:if test="%{id in #request.checkList}">
 	    					<input id="m_<s:property value="id" />" type="button" disabled="disabled" value="已关注"/>
 	    				</s:if>
