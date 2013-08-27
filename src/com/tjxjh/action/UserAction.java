@@ -114,6 +114,7 @@ public class UserAction extends BaseAction
 		super.saveUser(user);
 		super.getSessionMap().put("relativeUsers",
 				talkingService.preGetRelativeUserId(user));
+
 	}
 	
 	@Action(value = MANAGER_LOGIN, results = {

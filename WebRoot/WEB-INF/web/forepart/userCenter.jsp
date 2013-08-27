@@ -137,9 +137,9 @@
 							<img src="${user.portraitPath}" class="w60 h60 fl shadow_l_10 radius_6" />
 						</div>
 						<div class="fr w610 mt5 mr15 user_talking_detail_div">
+							<label class="fr w610 f16 lh150 user_name_color">${user.name}</label>
+							<label class="fr w610 f14"><s:property value="text" /> </label>
 							<s:if test="talking==null">
-								<label class="fr w610 f16 lh150 user_name_color">${user.name}</label>
-								<label class="fr w610 f14"><s:property value="text" /> </label>
 								<div class="cf w610 mt5 fr">
 									<s:if test="url!=null&&!url.trim().equals('')&&urlType.toString()=='PICTURE'">
 										<img src="${url}" class="maw400 mah300"/>
@@ -152,9 +152,7 @@
 								</div>
 							</s:if>
 							<s:elseif test="talking!=null">
-								<label class="fr w610 f16 lh150 user_name_color">${user.name}</label>
-								<label><s:property value="text" /> </label>
-								<div class="p10 mt5 user_talking_share_div ">
+								<div class="p10 mt5 user_talking_share_div cb">
 									${talking.user.name} :<s:property value="talking.text" /><br/>
 									
 									<s:if test="talking.url!=null&&talking.urlType.toString()=='PICTURE'">
@@ -179,15 +177,16 @@
 									<a href="javascript:void(0);" onclick="zanTalking(${id});">赞(${talking.shareDetails.praiseCount})</a>
 								</s:else>
 							</span>
+							<label>${datetime}</label>
 							<a href="<%=path %>/preShareTalking?talking.id=${id}">分享<s:if
 									test="shareDetails!=null">(${shareDetails.shareCount})</s:if> <s:else>(${talking.shareDetails.shareCount})</s:else>
 
 							</a><!--<a href="#">评论</a> 来自：${user.name} <label>${datetime}</label>-->
-
-							<a href="#">评论</a>
-							<label>${datetime}</label>
-							<form>
-								<textarea class="fr mt5 textarea" style="width:610px;"></textarea>
+							<div class="user_dongtai_div w610 mt10 mb10 cb"></div>
+							
+							<form action="addTalkingComment" method="post">
+								<input type="hidden" name="talkingComment.talking.id" value="${id}" />
+								<textarea name="talkingComment.text" class="fr mt5 textarea" style="width:610px;"></textarea>
 								<input type="submit" class="submit fr" value="评论"/>
 							</form>
 						</div>

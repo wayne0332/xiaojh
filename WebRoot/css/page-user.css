@@ -67,6 +67,7 @@
 	.user_dongtai_div label	{  }
 	.user_dongtai_div a		{ width: 80px; display: inline-block; text-align: right; float: right; }
 	.user_talking_detail_div { overflow:hidden; }
+	.user_pinglun_div		{ border-bottom: 1px dotted #ccc; }
 	.user_name_color 		{color:#498B31}
 	.user_talking_share_div {border:1px #E1E1E1 solid; line-height:26px; padding-top:0px;}
 
