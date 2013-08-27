@@ -144,17 +144,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     					<td>
     						<s:property value="signature" />
     					</td>
+    					<s:if test="%{#session.user.id!=id}">
     					<td>
-    						<s:if test="%{#request.userMap[id]==null}">
-	    						<input id="<s:property value="id" />" type="button" value="关注" onclick="focusUser(<s:property value="id" />)"/>
-	    					</s:if>
-	    					<s:else>
-	    						<input id="<s:property value="id" />" type="button" disabled="disabled" value="已关注"/>
-	    					</s:else>
+    						
+    							<s:if test="%{#request.userMap[id]==null}">
+		    						<input id="<s:property value="id" />" type="button" value="关注" onclick="focusUser(<s:property value="id" />)"/>
+		    					</s:if>
+		    					<s:else>
+		    						<input id="<s:property value="id" />" type="button" disabled="disabled" value="已关注"/>
+		    					</s:else>
     					</td>
     					<td>
     						<s:a href="personalLetterInput?targetUser.id=%{id}&targetUser.name=%{name}" >发私信</s:a>
     					</td>
+    					</s:if>
     				</tr>
     				</s:iterator>
     			</table>

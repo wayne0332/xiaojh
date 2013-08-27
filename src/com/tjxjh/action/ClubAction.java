@@ -70,6 +70,7 @@ public class ClubAction extends BaseAction
 	private String text = null;
 	private User user = null;
 	private int type;
+	private int pageNum;
 	private List<Activity> acs = null;
 	//排序方式
 	@Actions({@Action(value = APPLY_CLUB_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
@@ -219,9 +220,10 @@ public class ClubAction extends BaseAction
 	}
 	
 	@Action(value = CLUB_ADD_USER, results = {
-			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = SEARCH_USER_TO_MANAGE, params = {
-					"text", "${text}", "club.id", "${club.id}"}),
-			@Result(name = INPUT, type = REDIRECT_ACTION, location = SEARCH_USER_TO_MANAGE)})
+			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "searchUser", params = {
+					"searchText", "${text}", "club.id", "${club.id}","pageNum","${pageNum}"}),
+			@Result(name = INPUT, type = REDIRECT_ACTION, location = "searchUser", params = {
+					"searchText", "${text}", "club.id", "${club.id}","pageNum","${pageNum}"})})
 	@Auth(type = ClubManagerAuth.class)
 	public String clubAddUser()
 	{
@@ -459,6 +461,14 @@ public class ClubAction extends BaseAction
 	public void setActivityService(ActivityService activityService)
 	{
 		this.activityService = activityService;
+	}
+
+	public int getPageNum() {
+		return pageNum;
+	}
+
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
 	}
 	
 }
