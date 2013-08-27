@@ -3,6 +3,7 @@ package com.tjxjh.service;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -24,7 +25,6 @@ import com.tjxjh.enumeration.ClubType;
 import com.tjxjh.enumeration.PersonalLetterStatus;
 import com.tjxjh.enumeration.Sex;
 import com.tjxjh.enumeration.UserStatus;
-import com.tjxjh.po.Activity;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubMember;
 import com.tjxjh.po.ClubMemberId;
@@ -267,7 +267,7 @@ public class ClubService extends BaseService
 		return true;
 	}
 	
-	public <T> List<T> getFocusList(Class objectClass, Club club)
+	public <T extends Comparable> List<T> getFocusList(Class objectClass, Club club)
 	{
 		List<T> list = new ArrayList<T>();
 		Club c = dao.findById(Club.class, club.getId());
@@ -283,6 +283,7 @@ public class ClubService extends BaseService
 		{
 			list.add(it.next());
 		}
+		Collections.sort(list);
 		return list;
 	}
 	private PersonalLetter sendLetter(User target, User source, String text)

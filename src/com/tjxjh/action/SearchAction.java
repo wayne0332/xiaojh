@@ -55,6 +55,32 @@ public class SearchAction extends BaseAction{
 	public String SearchAll(){
 		Page page = new Page(1);
 		page.setCurrentPage(1);
+		User sessionUser = (User)getSessionMap().get("user");
+		Merchant sessionMerchant = (Merchant)getSessionMap().get("merchant");
+		List<Club> clubList = null;
+		List<Merchant> merchantList = null;
+		if(sessionUser!= null){
+			Map<Integer,User> userMap = userService.getFocusUsers(sessionUser);
+			getRequestMap().put("userMap", userMap);
+			clubList = userService.getFocusList(Club.class,sessionUser);
+			merchantList = userService.getFocusList(Merchant.class,sessionUser);
+		}else if(sessionMerchant != null){
+			clubList = merchantService.getFocusList(Club.class,sessionMerchant);
+			merchantList = merchantService.getFocusList(Merchant.class,sessionMerchant);
+		}
+		//用户关注商家的checkList
+		List<Integer> checkListM = new ArrayList<Integer>();
+		for(Merchant m :merchantList){
+			checkListM.add(m.getId());
+		}
+		getRequestMap().put("checkListM", checkListM);
+		//用户关注社团的checkList
+		List<Integer> checkListC = new ArrayList<Integer>();
+		for(Club c :clubList){
+			checkListC.add(c.getId());
+		}
+		getRequestMap().put("checkListC", checkListC);
+		
 		if(getRequestMap().get(BaseAction.CLUB_MEMBER)!=null){
 			getRequestMap().put("clubMembers",clubService.clubMembersMap(club));
 		}
@@ -84,6 +110,7 @@ public class SearchAction extends BaseAction{
 		if(sessionUser!= null){
 			Map<Integer,User> userMap = userService.getFocusUsers(sessionUser);
 			getRequestMap().put("userMap", userMap);
+			
 		}
 		if(getRequestMap().get(BaseAction.CLUB_MEMBER)!=null){
 			super.getRequestMap().put("clubMembers",
@@ -169,7 +196,7 @@ public class SearchAction extends BaseAction{
 		Merchant sessionMerchant = (Merchant)getSessionMap().get("merchant");
 		List<Merchant> merchantList = null;
 		if(sessionUser != null){
-			merchantList = userService.getFocusList(Merchant.class,sessionUser);			
+			merchantList = userService.getFocusList(Merchant.class,sessionUser);
 		}else if(sessionMerchant != null){
 			merchantList = merchantService.getFocusList(Merchant.class,sessionMerchant);
 		}
