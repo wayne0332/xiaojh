@@ -14,7 +14,9 @@ public class TalkingCommentService extends BaseService{
 	public boolean add(TalkingComment tc,Integer userid){
 		String temp=tc.getText();
 		try{
+		if(temp.trim().substring(0, 1).equals("@")){
 			tc.setText("@<a class='f12 user_name_color' href='userHome?user.id="+userid+"' target='_blank'>"+temp.substring(temp.indexOf("@")+1, temp.indexOf(":"))+"</a>:"+temp.substring(temp.indexOf(":")+1));
+			}
 		}catch(Exception e){
 			
 		}
@@ -40,8 +42,8 @@ public class TalkingCommentService extends BaseService{
 	@Transactional(readOnly = true, propagation=Propagation.SUPPORTS)   
 	public TalkingComment findOneByHql(Object... params){
 		@SuppressWarnings("unchecked")
-		List<TalkingComment> list=(List<TalkingComment>) dao.executeHql("from TalkingComment t where t.talking.id=? and t.user.id=?", params);
-		if(list.size()==0){
+		List<TalkingComment> list=(List<TalkingComment>) dao.executeHql("from TalkingComment t where t.id=? and t.user.id=?", params);
+		if(list.size()==1){
 			return list.get(0);
 		}
 		return null;

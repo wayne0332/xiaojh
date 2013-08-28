@@ -138,6 +138,38 @@ function huifuStateChanged()
 
 	}
 }
+var tc_div;
+function deleteTalkingComment(id)
+{ 
+	if(!confirm("确定删除说说?")){
+		return;
+	}
+	xmlHttp=GetXmlHttpObject();
+	if (xmlHttp==null)
+	{
+		alert ("您的浏览器不支持AJAX！");
+		return;
+	} 
+	tc_div="tc"+id;
+	var url="deleteTalkingcomment?talkingComment.id="+id;
+	xmlHttp.onreadystatechange=deleteTalkingCommentChanged;
+	xmlHttp.open("GET",url,true);
+	xmlHttp.send(null);
+}
+
+function deleteTalkingCommentChanged()
+{ 
+	if (xmlHttp.readyState==4)
+	{ 
+		var res=xmlHttp.responseText;
+		if(res=="1"){
+			document.getElementById(tc_div).style.display="none";
+		}else{
+			alert("网络忙，请稍后再试！");
+		}
+
+	}
+}
 function GetXmlHttpObject()
 {
 var xmlHttp=null;

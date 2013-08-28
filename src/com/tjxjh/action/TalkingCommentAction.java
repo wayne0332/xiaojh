@@ -22,8 +22,6 @@ public class TalkingCommentAction extends BaseAction{
 	private static final long serialVersionUID = 1L;
 	@Resource
 	private TalkingCommentService talkingCommentService = null;
-	@Resource
-	private UserService userService = null;
 	private TalkingComment talkingComment=new TalkingComment();
 	private String message;//提示信息
 	User user=new User();
@@ -38,7 +36,7 @@ public class TalkingCommentAction extends BaseAction{
 		PrintWriter out =GetRequsetResponse.getAjaxPrintWriter();
 		StringBuilder temp=new StringBuilder();
 		if(b){
-			temp.append("<div class='user_pinglun_div w610 cb'><div class='w40 h40 mt5 mr10 fl '> <a href='userHome?user.id=");
+			temp.append("<div id='tc"+talkingComment.getId()+"' class='user_pinglun_div w610 cb tc_detail'><div class='w40 h40 mt5 mr10 fl '> <a href='userHome?user.id=");
 			temp.append(user.getId()+"' target='_blank' class='f12 user_name_color'>");
 			temp.append("<img src='");
 			temp.append(user.getPortraitPath());
@@ -48,7 +46,9 @@ public class TalkingCommentAction extends BaseAction{
 			temp.append(talkingComment.getDatetime().toString().substring(5,16));
 			temp.append("&nbsp;&nbsp;&nbsp;</div><a href='javascript:void(0);' onclick=\"huifu(");
 			temp.append(talkingComment.getTalking().getId()+",'"+user.getName()+"',"+user.getId());
-			temp.append(");\" class='f12 user_name_color'>回复</a></div><div class='cb'></div></div>");
+			temp.append(");\" class='f12 user_name_color'>回复</a>");
+			temp.append("<span class='delete_tc'>&nbsp;&nbsp;<a href='javascript:void(0);' onclick='deleteTalkingComment("+talkingComment.getId()+");' class='f12 user_name_color'>删除</a></span>");
+			temp.append("</div><div class='cb'></div></div>");
 			out.print(temp.toString());
 			out.flush();
 			out.close();
@@ -59,14 +59,31 @@ public class TalkingCommentAction extends BaseAction{
 			out.close();
 			return null;
 		}
-		
-    	
 	}
-	@Action(value = "deleteTalkingcomment", results = {
-			@Result(name = SUCCESS, location = BaseAction.FOREPART + "success.jsp")})
+	@Action(value = "deleteTalkingcomment", results = {})
 	public String deleteTalkingComment(){
+			PrintWriter out =GetRequsetResponse.getAjaxPrintWriter();
 			user=Auth.getUserFromSession();
-			talkingComment=talkingCommentService.findOneByHql(new Object[]{user.getId(),talkingComment.getId()});
+			talkingComment=talkingCommentService.findOneByHql(new Object[]{talkingComment.getId(),user.getId()});
+			if(talkingComment==null)
+			{
+				out.print("0");
+				out.flush();
+				out.close();
+				return null;
+			}else{
+				talkingCommentService.delete(talkingComment);
+				out.print("1");
+				out.flush();
+				out.close();
+				return null;
+			}
+	}
+	@Action(value = "admindeleteTalkingcomment", results = {
+			@Result(name = SUCCESS, location = BaseAction.FOREPART + "success.jsp")})
+	public String adminDeleteTalkingComment(){
+			user=Auth.getUserFromSession();
+			talkingComment=talkingCommentService.findOneByHql(new Object[]{talkingComment.getId(),user.getId()});
 			if(talkingComment==null)
 			{
 				message="删除失败！该文件不存在，或你正在非法删除数据";
@@ -76,6 +93,7 @@ public class TalkingCommentAction extends BaseAction{
 	    	message="删除成功";
 			return SUCCESS;
 	}
+	
 	public TalkingCommentService getTalkingCommentService() {
 		return talkingCommentService;
 	}

@@ -171,7 +171,7 @@
 							<!-- 说说回复 -->
 							<span id="tcs${t.id}"><!-- 用于ajax动态更新说说 -->
 								<s:iterator value="tcs" id="tc">
-									<div class="user_pinglun_div w610 cb">
+									<div  id="tc${tc.id}" class="user_pinglun_div w610 cb tc_detail">
 										<div class="w40 h40 mt5 mr10 fl ">
 											<a href="userHome?user.id=${tc.user.id}" target="_blank">
 												<img src="${tc.user.portraitPath}" class="w40 h40 shadow_l_10 radius_6" />
@@ -184,6 +184,11 @@
 												<s:property value="datetime.toString().substring(5,16)"/>&nbsp;&nbsp;&nbsp;
 											</div>
 											<a href="javascript:void(0);" onclick="huifu(${t.id},'${tc.user.name}',${tc.user.id});" class="f12 user_name_color">回复</a>
+											<s:if test="user.id==#session.user.id">
+											<span class="delete_tc">
+												&nbsp;&nbsp;<a href="javascript:void(0);" onclick="deleteTalkingComment(${tc.id});" class="f12 user_name_color">删除</a>
+											</span>
+											</s:if>
 										</div>
 										<div class="cb"></div>
 									</div>
@@ -198,7 +203,7 @@
 						<!-- like end -->
 					</div>
 				</s:iterator>
-				<br> <a href="<%=path%>/allTalking" target="_self">更多</a>&nbsp;
+				<br> <a href="<%=path%>/allTalking" target="_self">更多</a>
 
 			</div>
 			<!-- END：说说 -->
