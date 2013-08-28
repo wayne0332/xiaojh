@@ -22,9 +22,10 @@ import com.tjxjh.po.Picture;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
 import com.tjxjh.pojo.IndexTalking;
+import com.tjxjh.pojo.UserList;
 import com.tjxjh.service.ClubService;
-import com.tjxjh.service.OnlineActivityService;
 import com.tjxjh.service.MailService;
+import com.tjxjh.service.OnlineActivityService;
 import com.tjxjh.service.PictureService;
 import com.tjxjh.service.TalkingCommentService;
 import com.tjxjh.service.TalkingService;
@@ -87,7 +88,21 @@ public class UserAction extends BaseAction
 	protected File portrait = null;
 	protected String portraitFileName = null, code = null;
 	private Integer type = null;
+	private int pageNum;
 	
+	@Action(value = "allUser", results = {
+			@Result(name = SUCCESS, location = MANAGE+"allUser.jsp"),
+			@Result(name = INPUT, type = REDIRECT_ACTION, location = IndexAction.INDEX, params = {
+					"msg", "用户名或密码错误!"})})
+	public String allUser(){
+		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
+		page.setCurrentPage(pageNum);
+		UserList userList = new UserList();
+		userList.setUserList(userService.allUsers(page));
+		userList.setPage(userService.userNum(page));
+		getRequestMap().put("userList", userList);
+		return SUCCESS;
+	}
 	@Action(value = USER_LOGIN, results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = IndexAction.INDEX),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = IndexAction.INDEX, params = {
@@ -317,7 +332,7 @@ public class UserAction extends BaseAction
 			focusMerchantList = focusMerchantList.subList(0, 9);
 		}
 		getRequestMap().put("focusMerchantList", focusMerchantList);
-		super.getRequestMap().put("allUsers", userService.allUsers());
+//		super.getRequestMap().put("allUsers", userService.allUsers());
 		if(null == user || null == user.getId())
 		{
 			user = (User) getSessionMap().get("user");
@@ -373,7 +388,7 @@ public class UserAction extends BaseAction
 			focusMerchantList = focusMerchantList.subList(0, 9);
 		}
 		getRequestMap().put("focusMerchantList", focusMerchantList);
-		super.getRequestMap().put("allUsers", userService.allUsers());
+//		super.getRequestMap().put("allUsers", userService.allUsers());
 		user = (User) getSessionMap().get("user");
 		/************************** 相册 *******************************************/
 		page = pictureService.getRelativeByHql(eachPageNumber, currentPage,
@@ -638,6 +653,12 @@ public class UserAction extends BaseAction
 
 	public void setTalkingCommentService(TalkingCommentService talkingCommentService) {
 		this.talkingCommentService = talkingCommentService;
+	}
+	public int getPageNum() {
+		return pageNum;
+	}
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
 	}
 	
 }
