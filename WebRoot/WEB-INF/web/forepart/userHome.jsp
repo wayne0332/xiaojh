@@ -54,13 +54,14 @@
 				href="#" class="fr">更多</a> </label>
 			<div class="l_box w240 p5 m5 cf shadow_l_10 radius_6 bg_box">
 				<s:iterator value="onlineActs">
-					<div class="fl">
-						<img src="${titleImgPath}"  class="w40 h50" />
+					<div class="fl mt5 mr5">
+						<img src="${titleImgPath}"  class="w40 h50 shadow_l_10" />
 					</div>
-					<div class="fl">
+					<div class="fl mt5">
 						标题：<a href="getOnlineActivityById?onlineactivity.id=${id}">${tittle}</a>
-						<br/>发布时间:${datetime}
+						<br/>发布时间:<s:property value="datetime.toString().substring(0,16)"/>
 					</div>
+					<div class="cb"></div>
 				</s:iterator>
 				<s:if test="onlineActs.size()==0">
 							暂无线上活动……
@@ -122,9 +123,9 @@
 						</div>
 						<div id="talking_detail_div" class="fr w610 mt5 mr15 user_talking_detail_div">
 							<a href="userHome?user.id=${t.user.id}" target="_blank" class="f16 lh150 user_name_color">${t.user.name}</a>
-							<label class="fr w610 f14"><s:property value="t.text" /> </label>
+							<label class="fr w610 f14"><s:property value="t.text" escape="false"/> </label>
 							<s:if test="t.talking==null">
-								<div class="cf w610 mt5 fr">
+								<div class="cf w610 mt5 fr of_h">
 									<s:if test="t.url!=null&&!t.url.trim().equals('')&&t.urlType.toString()=='PICTURE'">
 										<img src="${t.url}" class="maw400 mah300"/>
 									</s:if>
@@ -162,7 +163,7 @@
 									<a href="javascript:void(0);" onclick="zanTalking(${t.id});">赞(${t.talking.shareDetails.praiseCount})</a>
 								</s:else>
 							</span>
-							<label>${t.datetime}</label>
+							<label><s:property value="t.datetime.toString().substring(0,16)"/></label>
 							<a href="<%=path %>/preShareTalking?talking.id=${t.id}">分享<s:if
 									test="t.shareDetails!=null">(${t.shareDetails.shareCount})</s:if> <s:else>(${t.talking.shareDetails.shareCount})</s:else>
 							</a>
