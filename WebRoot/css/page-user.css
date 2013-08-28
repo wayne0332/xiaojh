@@ -78,6 +78,7 @@
 	.color_gray				{color:#bbb;}
 	.delete_tc				{visibility:hidden;}
 	.tc_detail:hover .delete_tc{visibility:visible;}
+	.of_h						{overflow:hidden;}
 
 /* myActivity
  * ---------------------------------------------------------------------------------------- */	

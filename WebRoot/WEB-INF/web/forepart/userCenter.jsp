@@ -138,9 +138,9 @@
 						</div>
 						<div id="talking_detail_div" class="fr w610 mt5 mr15 user_talking_detail_div">
 							<a href="userHome?user.id=${t.user.id}" target="_blank" class="f16 lh150 user_name_color">${t.user.name}</a>
-							<label class="fr w610 f14"><s:property value="t.text" /> </label>
+							<label class="fr w610 f14"><s:property value="t.text" escape="false"/> </label>
 							<s:if test="t.talking==null">
-								<div class="cf w610 mt5 fr">
+								<div class="cf w610 mt5 fr of_h">
 									<s:if test="t.url!=null&&!t.url.trim().equals('')&&t.urlType.toString()=='PICTURE'">
 										<img src="${t.url}" class="maw400 mah300"/>
 									</s:if>
@@ -178,7 +178,7 @@
 									<a href="javascript:void(0);" onclick="zanTalking(${t.id});">赞(${t.talking.shareDetails.praiseCount})</a>
 								</s:else>
 							</span>
-							<label>${t.datetime}</label>
+							<label><s:property value="t.datetime.toString().substring(0,16)"/></label>
 							<a href="<%=path %>/preShareTalking?talking.id=${t.id}">分享<s:if
 									test="t.shareDetails!=null">(${t.shareDetails.shareCount})</s:if> <s:else>(${t.talking.shareDetails.shareCount})</s:else>
 							</a>
