@@ -91,9 +91,7 @@ public class UserAction extends BaseAction
 	private int pageNum;
 	
 	@Action(value = "allUser", results = {
-			@Result(name = SUCCESS, location = MANAGE+"allUser.jsp"),
-			@Result(name = INPUT, type = REDIRECT_ACTION, location = IndexAction.INDEX, params = {
-					"msg", "用户名或密码错误!"})})
+			@Result(name = SUCCESS, location = MANAGE+"allUser.jsp")})
 	public String allUser(){
 		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
 		page.setCurrentPage(pageNum);
@@ -103,6 +101,7 @@ public class UserAction extends BaseAction
 		getRequestMap().put("userList", userList);
 		return SUCCESS;
 	}
+	
 	@Action(value = USER_LOGIN, results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = IndexAction.INDEX),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = IndexAction.INDEX, params = {

@@ -38,6 +38,19 @@ public class ClubService extends BaseService
 {
 	private static final String CLUBMEMBERS_WITHOUT_PROPRIETER_HQL = "from ClubMember where club.id=? and status=? and user.id<>?";
 	
+	public List<Club> allClub(Page page){
+		String hql = "from Club c where c.status != 'DENIED'";
+		return (List<Club>) dao.executeHql(page, hql);
+	}
+	
+	public Page clubNum(Page page){
+		String hql = "select count(*) from Club";
+		List<Long> countL = null;
+		countL = (List<Long>)dao.executeHql(hql);
+		int itemNum = countL.get(0).intValue();
+		return new Page(page.getCurrentPage(),Page.getDefaultPageNumber(),itemNum);
+	}
+	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean applyClub(Club club, User proprieterUser, File logo)
 	{
@@ -154,6 +167,24 @@ public class ClubService extends BaseService
 			}
 		}
 		return false;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public boolean changeClubStatus(Club targetClub,ClubStatus status){
+		try{
+			if(!exist(targetClub)){
+				throw new Exception();
+			}
+			else{
+				Club club = dao.findById(Club.class, targetClub.getId());
+				club.setStatus(status);
+				dao.flush();
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)

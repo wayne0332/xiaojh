@@ -25,6 +25,7 @@ import com.tjxjh.po.ClubMember;
 import com.tjxjh.po.ClubPost;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.User;
+import com.tjxjh.pojo.ClubList;
 import com.tjxjh.pojo.ClubPostList;
 import com.tjxjh.service.ActivityService;
 import com.tjxjh.service.ClubPostService;
@@ -72,6 +73,21 @@ public class ClubAction extends BaseAction
 	private int type;
 	private int pageNum;
 	private List<Activity> acs = null;
+	@Actions({@Action(value = "allClub", results = {@Result(name = SUCCESS, location = MANAGE
+			+ "allClub.jsp")})})
+	public String allClub(){
+		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
+		page.setCurrentPage(pageNum);
+		ClubList clubList = new ClubList();
+		clubList.setClubList(clubService.allClub(page));
+		for(Club c:clubList.getClubList()){
+			c.getClubMembers().size();
+			c.getProprieter().getName();
+		}
+		clubList.setPage(clubService.clubNum(page));
+		getRequestMap().put("clubList", clubList);
+		return SUCCESS;
+	}
 	//排序方式
 	@Actions({@Action(value = APPLY_CLUB_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
 			+ APPLY_CLUB + JSP)})})

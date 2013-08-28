@@ -12,9 +12,12 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.tjxjh.enumeration.ClubStatus;
+import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubMember;
 import com.tjxjh.po.Merchant;
+import com.tjxjh.po.User;
 import com.tjxjh.service.ClubService;
 
 @ParentPackage("struts-default")
@@ -160,6 +163,38 @@ public class ClubFocusAjax extends BaseAction{
 		out.print("<isSuccess>"+flag+"</isSuccess>");
 		return null;
 	}
+	
+	@Action(value = "denyClub", results = {@Result(name = SUCCESS, type = "xslt")})
+	public String denyClub(){
+		int flag = 1;
+		Club target = new Club();
+		if(id==0){
+			flag = 0;
+		}else{
+			target.setId(id);
+			boolean b = service.changeClubStatus(target, ClubStatus.DENIED);
+			if(b){
+				flag = 1;
+			}else{
+				flag = 0;
+			}
+		}
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setHeader("pragma","no-cache");
+		response.setHeader("cache-control","no-cache");
+		response.setHeader("expires","0");
+		response.setContentType("text/xml;charset=utf-8");
+		PrintWriter out = null;
+		try {
+			out = response.getWriter();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		out.print("<?xml version='1.0' encoding='utf-8'?>");
+		out.print("<isSuccess>"+flag+"</isSuccess>");
+		return null;
+}
 	public void setService(ClubService service) {
 		this.service = service;
 	}
