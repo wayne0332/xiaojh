@@ -39,7 +39,7 @@ public class ClubService extends BaseService
 	private static final String CLUBMEMBERS_WITHOUT_PROPRIETER_HQL = "from ClubMember where club.id=? and status=? and user.id<>?";
 	
 	public List<Club> allClub(Page page){
-		String hql = "from Club c where c.status != 'DENIED'";
+		String hql = "from Club c";
 		return (List<Club>) dao.executeHql(page, hql);
 	}
 	

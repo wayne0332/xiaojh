@@ -160,7 +160,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </table>
         <ul class="MM">
           <li><a href="allUser?pageNum=1" target="main">用户账号管理</a></li>
-          <li><a href="allClub?pageNum=1" target="main">商家账号管理</a></li>
+          <li><a href="allClub?pageNum=1" target="main">社团账号管理</a></li>
           
         </ul>
       </div>

@@ -81,8 +81,8 @@ public class ClubAction extends BaseAction
 		ClubList clubList = new ClubList();
 		clubList.setClubList(clubService.allClub(page));
 		for(Club c:clubList.getClubList()){
-			c.getClubMembers().size();
 			c.getProprieter().getName();
+			c.getSchool().getName();
 		}
 		clubList.setPage(clubService.clubNum(page));
 		getRequestMap().put("clubList", clubList);
