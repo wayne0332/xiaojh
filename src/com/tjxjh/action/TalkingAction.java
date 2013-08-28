@@ -55,7 +55,7 @@ public class TalkingAction extends BaseAction
 	private String uploadImageContentType;// 文件类型
 	
 	@Action(value = "addTalking", results = {
-	@Result(name = SUCCESS, type = REDIRECT_ACTION,location ="/myTalking"),
+	@Result(name = SUCCESS, type = REDIRECT_ACTION,location ="/userCenter"),
 	@Result(name = INPUT, location = ERROR_PAGE),
 	@Result(name = ERROR, location = ERROR_PAGE)})
 	public String add()
@@ -74,17 +74,18 @@ public class TalkingAction extends BaseAction
 		}
 		return ERROR;
 	}
-
-	@Action(value = "myTalking", results = {
+	//根据user id查找未删除的说说
+	@Action(value = "talking", results = {
 	@Result(name = SUCCESS, location = BaseAction.FOREPART + "myTalking.jsp"),
 	@Result(name = INPUT, location = ERROR_PAGE)})
-	public String myTalking()
+	public String talking()
 	{
-		//根据user id查找未删除的说说
-		user=Auth.getUserFromSession();
+		if(user==null||user.getId()==null){
+			user=Auth.getUserFromSession();
+		}
 		page=talkingService.getMyPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
 		taks=talkingService.findMyTalkingByHql(page,user);
-		actionName="myTalking";
+		actionName="talking";
 		return SUCCESS;
 	}
 	@Action(value = "relativeTalking", results = {

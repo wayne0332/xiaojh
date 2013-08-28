@@ -41,8 +41,10 @@ public class TalkingService extends BaseService{
 	@Transactional (propagation = Propagation.REQUIRED) 
 	public Talking delete(Talking tak){
 		 tak.setStatus(TalkingStatus.DELETE);
-		 DeleteSource.deleteVideo(tak.getUrl());
-		 DeleteSource.delete(tak.getUrl());
+		 if(tak.getOnlineActivities().size()==0&&tak.getActivities().size()==0){
+			 DeleteSource.deleteVideo(tak.getUrl());
+			 DeleteSource.delete(tak.getUrl());
+		 }
 		 return dao.merge(tak);
 	}
 	@Transactional (propagation = Propagation.REQUIRED) 

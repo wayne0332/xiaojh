@@ -18,8 +18,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
      	<!-- 提示信息 -->
      	
-     	<a href="<%=path %>/addTalkingJsp">发表说说</a>
-     	<a href="<%=path %>/myTalking">我的说说</a>
+     	<a href="<%=path %>/userCenter">发表说说</a>
+     	<a href="<%=path %>/talking">我的说说</a>
      	<a href="<%=path %>/relativeTalking">说说首页</a>
      	<s:property value="message"/><br/>
      	<!-- 删除说说导致说说页数与真实页数不一致 ，将当总页数减一，并跳转至上一页
@@ -31,7 +31,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      	<s:iterator value="taks" id="tak">
      	<div style="display: inline-block; border:1px solid;width:80%;margin:20px;" id="${id}">
      			<s:if test="talking==null">
-			     		<s:property value="text"/><br>
+			     		<s:property value="text" escape="false"/><br>
 			     		 <s:if test="url!=null&&!url.trim().equals('')&&urlType.toString()=='PICTURE'">
 			     			<img src="${url}" />
 			     		 </s:if>
@@ -76,9 +76,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		     	</span>
 		     	
 		     </s:if>
-		     <s:elseif test="actionName.equals('myTalking')">
+		     <s:if test="user.id==#session.user.id">
 		     	<a href="javascript:void(0);" onclick="deleteTalking(${id});">删除</a>
-		     </s:elseif>
+		     </s:if>
      	</div>
      	</s:iterator>
      	<br>
