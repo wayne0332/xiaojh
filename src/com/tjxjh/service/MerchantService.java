@@ -52,6 +52,37 @@ public class MerchantService extends BaseService
 		return super.save(merchant);
 	}
 	
+	public List<Merchant> allMerchant(Page page)
+	{
+		return (List<Merchant>) dao.executeHql(page,"from Merchant");
+	}
+	
+	public Page merchantNum(Page page){
+		String hql = "select count(*) from Merchant";
+		List<Long> countL = null;
+		countL = (List<Long>)dao.executeHql(hql);
+		int itemNum = countL.get(0).intValue();
+		return new Page(page.getCurrentPage(),Page.getDefaultPageNumber(),itemNum);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public boolean changeMerchantStatus(Merchant targetMerchant,MerchantStatus status){
+		try{
+			if(!exist(targetMerchant)){
+				throw new Exception();
+			}
+			else{
+				Merchant merchant = dao.findById(Merchant.class, targetMerchant.getId());
+				merchant.setStatus(status);
+				dao.flush();
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean checkMerchant(Merchant merchant, boolean isPass)
 	{
