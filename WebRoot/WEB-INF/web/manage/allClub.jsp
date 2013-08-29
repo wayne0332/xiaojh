@@ -35,6 +35,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			}
   		, "xml");
 	};
+	function checkClub(clubId,isPass) {
+  		$.post("checkClub?club.id="+clubId+"&isPass="+isPass,
+  			function(xml){
+  				var td = document.getElementById("td_"+clubId);
+  				var span = document.getElementById("sp_"+clubId);
+  				if ($(xml).find("isSuccess").text()=="1"&&isPass==1) {
+  					span.innerHTML="已通过审核";
+  					td.innerHTML='<input id="<s:property value="id" />" type="button" value="封社团" onclick="javascript:if(confirm(\'确认封杀此社团吗?\')) denyClub(${id})" />';
+  				}else if($(xml).find("isSuccess").text()=="1"&&isPass==0){
+  					span.innerHTML="未通过审核";
+  					td.innerHTML="<span>无操作</span>";
+  				}else{
+  					alert("审核失败，请稍后再试。");
+  				}
+  			}
+  		, "xml");
+	};
 	</script>
   </head>
 	<body>
@@ -48,7 +65,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<td>学校</td>
     			<td>社团人数</td>
     			<td>当前状态</td>
-    			<td>封社团</td>
+    			<td>社团操作</td>
     			
     		</tr>
     	<s:iterator value="#request.clubList.clubList" >
@@ -66,15 +83,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<td><s:property value="proprieter。name" /></td>
     			<td><s:property value="school.name" /></td>
     			<td><s:property value="memberNumber" /></td>
-    			<td><s:property value="status.getName()" /></td>
+    			<td><span id="sp_<s:property value="id" />"><s:property value="status.getName()" /></span></td>
     			<s:if test="%{status.name()=='DENIED'}" >
     				<td>解封(功能待添加)</td>
     			</s:if>
-    			<s:elseif test="%{status.name()=='DENIED'}">
-    				<td><input id="<s:property value="id" />" type="button" value="通过审查" onclick="javascript:if(confirm('确认通过审查吗?')) denyClub(${id})" /></td>
-    			</s:elseif>
+    			<s:elseif test="%{status.name()=='NO_CHECK'}">
+    				<td id="td_<s:property value="id" />">
+    					<input id="pass_<s:property value="id" />" type="button" value="通过审查" onclick="javascript:if(confirm('确认通过审查吗?')) checkClub(${id},1)" />
+    					<input id="noPass_<s:property value="id" />" type="button" value="不通过" onclick="javascript:if(confirm('确认不通过审查吗?')) checkClub(${id},0)" />
+    				</td>
+    			</s:elseif >
     			<s:else>
-    				<td><input id="<s:property value="id" />" type="button" value="封社团" onclick="javascript:if(confirm('确认封杀此社团吗?')) denyClub(${id})" /></td>
+    				<td id="td_<s:property value="id" />"><input id="<s:property value="id" />" type="button" value="封社团" onclick="javascript:if(confirm('确认封杀此社团吗?')) denyClub(${id})" /></td>
     			</s:else>
     		</tr>
     	</s:iterator>

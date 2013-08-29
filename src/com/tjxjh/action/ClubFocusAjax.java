@@ -12,6 +12,7 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.tjxjh.annotation.Auth;
 import com.tjxjh.enumeration.ClubStatus;
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Club;
@@ -26,6 +27,8 @@ public class ClubFocusAjax extends BaseAction{
 	@Resource
 	private ClubService service = null;
 	private int id;
+	private Club club;
+	private int isPass;
 	
 	@Action(value = "clubFocusClub", results = {
 			@Result(name = SUCCESS, type = "xslt")})
@@ -194,7 +197,39 @@ public class ClubFocusAjax extends BaseAction{
 		out.print("<?xml version='1.0' encoding='utf-8'?>");
 		out.print("<isSuccess>"+flag+"</isSuccess>");
 		return null;
-}
+	}
+	
+	@Action(value = "checkClub", results = {@Result(name = SUCCESS, type = "xslt")})
+	public String checkClub()
+	{
+		
+		int flag = 1;
+		if(club.getId()==0){
+			flag = 0;
+		}else{
+			boolean b = service.checkClub(club, isPass==1?true:false);
+			if(b){
+				flag = 1;
+			}else{
+				flag = 0;
+			}
+		}
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setHeader("pragma","no-cache");
+		response.setHeader("cache-control","no-cache");
+		response.setHeader("expires","0");
+		response.setContentType("text/xml;charset=utf-8");
+		PrintWriter out = null;
+		try {
+			out = response.getWriter();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		out.print("<?xml version='1.0' encoding='utf-8'?>");
+		out.print("<isSuccess>"+flag+"</isSuccess>");
+		return null;
+	}
 	public void setService(ClubService service) {
 		this.service = service;
 	}
@@ -205,6 +240,22 @@ public class ClubFocusAjax extends BaseAction{
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public Club getClub() {
+		return club;
+	}
+
+	public void setClub(Club club) {
+		this.club = club;
+	}
+
+	public int getIsPass() {
+		return isPass;
+	}
+
+	public void setIsPass(int isPass) {
+		this.isPass = isPass;
 	}
 	
 	

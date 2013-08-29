@@ -111,13 +111,13 @@ public class ClubAction extends BaseAction
 		return SUCCESS;
 	}
 	
-	@Action(value = CHECK_CLUB, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = MY_CLUBS)})
-	@Auth
-	public String checkClub()
-	{
-		clubService.checkClub(club, true);
-		return SUCCESS;
-	}
+//	@Action(value = CHECK_CLUB, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = MY_CLUBS)})
+//	@Auth
+//	public String checkClub()
+//	{
+//		clubService.checkClub(club, true);
+//		return SUCCESS;
+//	}
 	
 	@Action(value = MY_CLUBS, results = {@Result(name = SUCCESS, location = FOREPART
 			+ MY_CLUBS + JSP)})
