@@ -90,7 +90,10 @@ public class ActivityService extends BaseService{
 		System.out.println("----------------------"+talking.getId());
 		activity.setTalking(talking);
 		activity.setStatus(ActivityStatus.UNDERWAY);
-		return super.save(activity);
+		super.save(activity);
+		talking.setText("<a href='getOnlineActivityById?onlineactivity.id="+activity.getId()+"' target='_blank'>"+activity.getTittle()+"</a>");
+		talkingService.update(talking);
+		return true;
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)

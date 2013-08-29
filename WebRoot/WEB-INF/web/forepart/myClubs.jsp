@@ -35,14 +35,14 @@
 			</div>
 			<div class="w240 h300 p5 m5 shadow_l_10 bg_box cf">
 				<div class="mt30 ml5">
-					按热度排序：<a href="school?school.id=${school.id}">查看</a>
+					按热度排序：<a href="myClubs">查看</a>
 				</div>
 				<div class="club_category cf ml5">
 					<span>按类型查看：</span><br />
 					<s:iterator value="@com.tjxjh.enumeration.ClubType@values()"
 						id="ac">
 						<a class="shadow_l_5"
-							href="school?school.id=${school.id}&clubType=<s:property value="name()"/>">${name}</a>
+							href="myClubs?clubType=<s:property value="name()"/>">${name}</a>
 					</s:iterator>
 				</div>
 			</div>
