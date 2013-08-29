@@ -271,14 +271,6 @@ public class MerchantAction extends BaseAction
 		this.pageNum = pageNum;
 	}
 
-	public int getIsPass() {
-		return isPass;
-	}
-
-	public void setIsPass(int isPass) {
-		this.isPass = isPass;
-	}
-
 	public String getMediaFileName()
 	{
 		return mediaFileName;
