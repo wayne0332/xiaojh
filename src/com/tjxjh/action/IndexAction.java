@@ -14,6 +14,7 @@ import cn.cafebabe.autodao.pojo.Page;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.School;
+import com.tjxjh.po.User;
 import com.tjxjh.pojo.IndexClub;
 import com.tjxjh.pojo.IndexMerchant;
 import com.tjxjh.service.ActivityService;
@@ -21,6 +22,7 @@ import com.tjxjh.service.ClubService;
 import com.tjxjh.service.CommonService;
 import com.tjxjh.service.MerchantService;
 import com.tjxjh.service.UserService;
+import com.tjxjh.util.Auth;
 
 @ParentPackage("struts-default")
 @Namespace("/")
@@ -73,6 +75,10 @@ public class IndexAction extends BaseAction{
 	@Action(value = SCHOOL, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 			+ "school.jsp")})
 	public String school(){
+		if(school==null||school.getId()==null){
+			User user=Auth.getUserFromSession();
+			school=user.getSchool();
+		}
 		school=commonService.school(school.getId());
 		if(clubType!=null&&!clubType.trim().equals("")){
 			page=clubService.findSchoolClubPageByType(eachPageNumber, currentPage, totalPageNumber, school, clubType);

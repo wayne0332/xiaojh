@@ -61,16 +61,15 @@ public class ActivityAction extends BaseAction{
 	 * 社团、商家发布活动 action
 	 * 执行功能：上传图片，缩放，裁剪生成缩略图
 	 * 
-	 * 所有用户尚未从session中获取，直接关联到id为1的用户上
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
 	@Action(value = "addActivity", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "success.jsp")})
 	public String add(){
-		club=Auth.getClubFromSession();
+		club=Auth.getClubMemberFromSession().getClub();
 		merchant=Auth.getMerchantFromSession();
-		user=Auth.getUserFromSession();
 		boolean upimg=activityService.uploadImage(activity,uploadImage, uploadImageFileName, UPLOAD_IMAGE_PATH+uploadImageFileName);
 		activityService.uploadVideo(activity,uploadVideo, uploadVideoFileName, UPLOAD_IMAGE_PATH+uploadVideoFileName);
 		if(upimg){
@@ -131,23 +130,21 @@ public class ActivityAction extends BaseAction{
 		
 	}
 	//用户根据社团id，商家id 查出社团发布的activity 
-	@Action(value = "oneActivity", results = {
+	@Action(value = "activitys", results = {
 				@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
-		public String findOneActivity(){
-			//club.setId(1);
-			//merchant.setId(1);
+		public String activitys(){
 			page=activityService.getOneClubPageByHql(eachPageNumber,currentPage,totalPageNumber,club,merchant);
 			acs=activityService.findOneClubActivityByHql(page,club,merchant,condition);
-			actionName="oneActivity";
+			actionName="activitys";
 			return SUCCESS;
 			
 	}
 	//商家，管理人员根据社团id，查出社团发布的activity 需要添加拦截器，非管理人员不能查看
-	@Action(value = "adminFindOneActivity", results = {
+	@Action(value = "adminActivitys", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
-		public String adminFindOneClubActivity(){
-			//club=Auth.getClubFromSession();
-			//merchant=Auth.getMerchantFromSession();
+		public String adminActivitys(){
+			club=Auth.getClubMemberFromSession().getClub();
+			merchant=Auth.getMerchantFromSession();
 			page=activityService.adminGetOneClubPageByHql(eachPageNumber,currentPage,totalPageNumber,club,merchant);
 			acs=activityService.adminFindOneClubActivityByHql(page,club,merchant,condition);
 			actionName="adminFindOneActivity";

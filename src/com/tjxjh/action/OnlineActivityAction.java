@@ -66,15 +66,15 @@ public class OnlineActivityAction extends BaseAction{
 	 * 社团、商家发布活动 action
 	 * 执行功能：上传图片，缩放，裁剪生成缩略图
 	 * 
-	 * 所有用户尚未从session中获取，直接关联到id为1的用户上
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
 	@Action(value = "addOnlineActivity", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "success.jsp")})
 	public String add(){
-		club=Auth.getClubFromSession();
-		//merchant=Auth.getMerchantFromSession();
+		club=Auth.getClubMemberFromSession().getClub();
+		merchant=Auth.getMerchantFromSession();
 		user=Auth.getUserFromSession();
 		boolean upimg=onlineActivityService.uploadImage(onlineactivity,uploadImage, uploadImageFileName, UPLOAD_IMAGE_PATH+uploadImageFileName);
 		onlineActivityService.uploadVideo(onlineactivity,uploadVideo, uploadVideoFileName, UPLOAD_IMAGE_PATH+uploadVideoFileName);
@@ -122,12 +122,8 @@ public class OnlineActivityAction extends BaseAction{
 	@Action(value = "findOnlineActivity", results = {
 				@Result(name = SUCCESS, location = BaseAction.FOREPART + "myOnlineActivity.jsp")})
 	public String findOnlineActivity(){
-		//user=Auth.getUserFromSession();
-//		club.setId(1);
-//		merchant.setId(1);
-		user=Auth.getUserFromSession();
-		club=Auth.getClubFromSession();
 		merchant=Auth.getMerchantFromSession();
+		user=Auth.getUserFromSession();
 		pageAndoacs();
 		actionName="findOnlineActivity";
 		return SUCCESS;
@@ -137,8 +133,8 @@ public class OnlineActivityAction extends BaseAction{
 					@Result(name = SUCCESS, location = BaseAction.FOREPART + "myOnlineActivity.jsp")})
 		public String userOnlineActivity(){
 			user=Auth.getUserFromSession();
-			club=Auth.getClubFromSession();
-//			merchant=Auth.getMerchantFromSession();
+			club=Auth.getClubMemberFromSession().getClub();
+			merchant=Auth.getMerchantFromSession();
 			pageAndoacs();
 			actionName="userOnlineActivity";
 			return SUCCESS;
@@ -161,7 +157,7 @@ public class OnlineActivityAction extends BaseAction{
 		public String deleteClubNews(){
 			user=Auth.getUserFromSession();
 			merchant=Auth.getMerchantFromSession();
-			club=Auth.getClubFromSession();
+			club=Auth.getClubMemberFromSession().getClub();
 			onlineactivity=onlineActivityService.findByHql(user,merchant,club,onlineactivity);
 			if(onlineactivity!=null){
 				onlineActivityService.delete(onlineactivity);
@@ -174,7 +170,7 @@ public class OnlineActivityAction extends BaseAction{
 		public String preModifyOnlineActivity(){
 			user=Auth.getUserFromSession();
 			merchant=Auth.getMerchantFromSession();
-			club=Auth.getClubFromSession();
+			club=Auth.getClubMemberFromSession().getClub();
 			onlineactivity=onlineActivityService.findByHql(user,merchant,club,onlineactivity);
 			return SUCCESS;
 	}	
@@ -185,7 +181,7 @@ public class OnlineActivityAction extends BaseAction{
 			public String modifyOnlineActivity(){
 				user=Auth.getUserFromSession();
 				merchant=Auth.getMerchantFromSession();
-				club=Auth.getClubFromSession();
+				club=Auth.getClubMemberFromSession().getClub();
 				OnlineActivity oldonlineactivity=onlineActivityService.findByHql(user,merchant,club,onlineactivity);
 				if(oldonlineactivity==null){
 					return ERROR;

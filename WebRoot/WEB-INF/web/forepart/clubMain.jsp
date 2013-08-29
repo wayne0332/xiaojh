@@ -72,6 +72,7 @@
 						</s:if>
 				</s:a>
 				<s:if test="#request.clubMember != null">
+					<a href="addActivityJsp">发布活动</a>
 					<s:if test="#request.clubMember.status.name() == 'NO_CHECK'">
 					等待确认
 					</s:if>

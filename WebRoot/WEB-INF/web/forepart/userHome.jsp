@@ -74,12 +74,12 @@
 				<s:iterator value="#request.focusClubList">
 					<div class="fl p5">
 						<s:if test="logoPath==''">
-							<img src="<s:property value="portraitPath" />"
-								class="w50 h50 Clearfix" />
+							<a href="clubMain?club.id=${id}"><img src="<s:property value="portraitPath" />"
+								class="w50 h50 Clearfix" /></a>
 						</s:if>
 						<s:else>
-							<img src="upload/portrait/auto_photo.png"
-								class="w50 h50 Clearfix" />
+							<a href="clubMain?club.id=${id}"><img src="upload/portrait/auto_photo.png"
+								class="w50 h50 Clearfix" /></a>
 						</s:else>
 						<label class="Clearfix mb5 w50"> <s:property value="name" />
 						</label>

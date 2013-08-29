@@ -57,20 +57,20 @@ public class ClubNewsAction extends BaseAction{
 	 * 发布社团新闻action
 	 * 执行功能：上传图片，缩放，裁剪生成缩略图
 	 * 
-	 * 所有用户尚未从session中获取，直接关联到id为1的用户上
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
 	@Action(value = "addClubNews", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "success.jsp")})
 	public String add(){
-		club=Auth.getClubFromSession();
-		user=Auth.getUserFromSession();
+		club=Auth.getClubMemberFromSession().getClub();
+		//user=Auth.getUserFromSession();
 		boolean upimg=clubNewsService.uploadImage(clubnews,uploadImage, uploadImageFileName, UPLOAD_IMAGE_PATH+uploadImageFileName);
 		clubNewsService.uploadVideo(clubnews,uploadVideo, uploadVideoFileName, UPLOAD_IMAGE_PATH+uploadVideoFileName);
 		if(upimg){
 			clubnews.setClub(club);
-			Talking talking=clubNewsService.initTalking(clubnews, user);
+			Talking talking=clubNewsService.initTalking(clubnews, club.getUser());
 			clubNewsService.add(talking,clubnews);
 			message="上传成功";
 			return SUCCESS;
@@ -94,7 +94,9 @@ public class ClubNewsAction extends BaseAction{
 	@Action(value = "oneClubNews", results = {
 				@Result(name = SUCCESS, location = BaseAction.FOREPART + "myClubNews.jsp")})
 		public String findOneClubNews(){
-			club=Auth.getClubFromSession();
+			if(club==null||club.getId()==null){
+				club=Auth.getClubMemberFromSession().getClub();
+			}
 			page=clubNewsService.getOneClubPageByHql(eachPageNumber,currentPage,club,totalPageNumber);
 			cns=clubNewsService.findOneClubNewsByHql(page,club);
 			actionName="oneClubNews";
@@ -110,7 +112,7 @@ public class ClubNewsAction extends BaseAction{
 				return SUCCESS;
 				
 		}
-	//管理员删除所在社团的Clubnews
+		//管理员删除所在社团的Clubnews
 		@Action(value = "deleteClubNews", results = {
 				@Result(name = SUCCESS,type = REDIRECT_ACTION, location ="adminFindOneClubNews")})
 			public String deleteClubNews(){
