@@ -113,7 +113,7 @@
 				<a href="#"><label>活动</label></a>
 			</div>
 			<!-- END:相册-->
-			<!-- 说说 -->
+				<!-- 说说 -->
 			<div class="userHome_box w700 m5 mt30 p10 cf shadow_l_10 radius_6">
 				<label class="userBox_title w pl10 pr10 h30">江湖动态</label>
 				<s:iterator value="taks" id="tak">
@@ -154,19 +154,37 @@
 						</div>
 						<!-- like -->
 						<div class="fr w610 mt5 mr15">
-							<span id="zan${t.id}">
-								<s:if test="t.shareDetails!=null">
-									<!-- like -->
-									<a href="javascript:void(0);" onclick="zanTalking(${t.id});">赞(${t.shareDetails.praiseCount})</a>
-								</s:if>
-								<s:else>
-									<a href="javascript:void(0);" onclick="zanTalking(${t.id});">赞(${t.talking.shareDetails.praiseCount})</a>
-								</s:else>
-							</span>
-							<label><s:property value="t.datetime.toString().substring(0,16)"/></label>
-							<a href="<%=path %>/preShareTalking?talking.id=${t.id}">分享<s:if
-									test="t.shareDetails!=null">(${t.shareDetails.shareCount})</s:if> <s:else>(${t.talking.shareDetails.shareCount})</s:else>
-							</a>
+							 <s:if test="t.user.id==#session.user.id">
+		     					<a href="javascript:void(0);" onclick="deleteTalking(${t.id});">删除</a>
+		     					<span id="zan${t.id}">
+									<s:if test="t.shareDetails!=null">
+										<!-- like -->
+										<a href="javascript:void(0);">赞(${t.shareDetails.praiseCount})</a>
+									</s:if>
+									<s:else>
+										<a href="javascript:void(0);">赞(${t.talking.shareDetails.praiseCount})</a>
+									</s:else>
+								</span>
+								<label><s:property value="t.datetime.toString().substring(0,16)"/></label>
+								<a href="javascript:void(0);">分享<s:if
+										test="t.shareDetails!=null">(${t.shareDetails.shareCount})</s:if> <s:else>(${t.talking.shareDetails.shareCount})</s:else>
+								</a>
+		    				 </s:if>
+		    				 <s:else>
+								<span id="zan${t.id}">
+									<s:if test="t.shareDetails!=null">
+										<!-- like -->
+										<a href="javascript:void(0);" onclick="zanTalking(${t.id});">赞(${t.shareDetails.praiseCount})</a>
+									</s:if>
+									<s:else>
+										<a href="javascript:void(0);" onclick="zanTalking(${t.id});">赞(${t.talking.shareDetails.praiseCount})</a>
+									</s:else>
+								</span>
+								<label><s:property value="t.datetime.toString().substring(0,16)"/></label>
+								<a href="<%=path %>/preShareTalking?talking.id=${t.id}">分享<s:if
+										test="t.shareDetails!=null">(${t.shareDetails.shareCount})</s:if> <s:else>(${t.talking.shareDetails.shareCount})</s:else>
+								</a>
+							 </s:else>
 							<!-- 分割线 -->
 							<div class="user_dongtai_div w610 mt10 mb10 cb"></div>
 							<!-- 说说回复 -->

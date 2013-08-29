@@ -1,4 +1,36 @@
 var talkingspanid;
+function addTalking(id)
+{ 
+	if(!confirm("确定删除说说?")){
+		return;
+	}
+	xmlHttp=GetXmlHttpObject();
+	if (xmlHttp==null)
+	{
+		alert ("您的浏览器不支持AJAX！");
+		return;
+	} 
+	talkingspanid=id;
+	var url="addTalking?talking.id="+id;
+	xmlHttp.open("POST",url);
+	xmlHttp.onreadystatechange=huifuStateChanged;
+	xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	xmlHttp.send("talkingComment.talking.id="+talkingid+"&userid="+userid+"&talkingComment.text="+encodeURIComponent(pl_t));
+}
+
+function addTalkingChanged()
+{ 
+	if (xmlHttp.readyState==4)
+	{ 
+		var res=xmlHttp.responseText;
+		if(res=="true"){
+			document.getElementById(talkingspanid).style.display = "none";
+		}else{
+			alert("删除失败！");
+		}
+
+	}
+}
 function deleteTalking(id)
 { 
 	if(!confirm("确定删除说说?")){
@@ -24,7 +56,6 @@ function deleteTalkingChanged()
 		var res=xmlHttp.responseText;
 		if(res=="true"){
 			document.getElementById(talkingspanid).style.display = "none";
-			alert("删除成功！");
 		}else{
 			alert("删除失败！");
 		}
