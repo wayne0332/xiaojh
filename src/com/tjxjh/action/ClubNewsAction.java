@@ -20,6 +20,7 @@ import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubNews;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
+import com.tjxjh.pojo.ClubNewsList;
 import com.tjxjh.service.ClubNewsService;
 import com.tjxjh.service.TalkingService;
 import com.tjxjh.util.Auth;
@@ -47,6 +48,7 @@ public class ClubNewsAction extends BaseAction{
 	private TalkingService talkingService = null;
 	private String message;//提示信息
 	private Page page;
+	private int pageNum;
 	private Integer eachPageNumber=8;
 	private Integer currentPage=1;
 	private Integer totalPageNumber=0;
@@ -78,6 +80,20 @@ public class ClubNewsAction extends BaseAction{
 			message="上传失败,图片不允许为空";
 			return ERROR;
 		}
+	}
+	@Action(value = "allClubNews", results = {
+			@Result(name = SUCCESS,location = MANAGE+"allClubNews.jsp")})
+	public String allClubNews(){
+		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
+		page.setCurrentPage(pageNum);
+		ClubNewsList clubNewsList = new ClubNewsList();
+		clubNewsList.setClubNewsList(clubNewsService.allClubNews(page));
+		clubNewsList.setPage(clubNewsService.clubNewsNum(page));
+		for(ClubNews c:clubNewsList.getClubNewsList()){
+			c.getClub().getName();
+		}
+		getRequestMap().put("clubNewsList", clubNewsList);
+		return SUCCESS;
 	}
 	//根据用户所在社团，查出社团发布的clubnews
 	@Action(value = "myClubNews", results = {
@@ -122,6 +138,18 @@ public class ClubNewsAction extends BaseAction{
 					clubNewsService.delete(clubnews);
 				}
 				actionName="adminFindOneClubNews";
+				return SUCCESS;
+						
+		}
+		//后台管理方法
+		@Action(value = "adminDeleteClubNews", results = {
+				@Result(name = SUCCESS,type = REDIRECT_ACTION, location ="allClubNews", params={"pageNum","${pageNum}"})})
+			public String adminDeleteClubNews(){
+				user=Auth.getUserFromSession();
+				clubnews=clubNewsService.findByHql(user, clubnews);
+				if(clubnews!=null){
+					clubNewsService.delete(clubnews);
+				}
 				return SUCCESS;
 						
 		}
@@ -218,6 +246,12 @@ public class ClubNewsAction extends BaseAction{
 	}
 	public void setPage(Page page) {
 		this.page = page;
+	}
+	public int getPageNum() {
+		return pageNum;
+	}
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
 	}
 	public Integer getEachPageNumber() {
 		return eachPageNumber;

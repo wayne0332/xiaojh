@@ -16,6 +16,7 @@ import org.apache.struts2.convention.annotation.Result;
 import cn.cafebabe.autodao.pojo.Page;
 
 import com.tjxjh.enumeration.ActivityStatus;
+import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Activity;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
@@ -56,6 +57,7 @@ public class ActivityAction extends BaseAction{
 	private Integer totalPageNumber=0;
 	User user=new User();
 	private String actionName;
+	private Integer flage;//flage=0表示查看所有所动，1表示查看尚未审核活动，2是查看已经审核的活动，3查看已经拒绝的活动
 	/**
 	 * 活动尚未关联到社团对应的虚拟用户
 	 * 社团、商家发布活动 action
@@ -90,14 +92,7 @@ public class ActivityAction extends BaseAction{
 			return ERROR;
 		}
 	}
-	//activityid 查找一个activity
-			@Action(value = "activity", results = {
-					@Result(name = SUCCESS, location = BaseAction.FOREPART + "activity.jsp")})
-			public String activity(){
-				activity=activityService.findById(activity.getId());
-				return SUCCESS;
-				
-			}
+	
 	/**
 	 * 校江湖管理人员发布的活动
 	 * @return
@@ -118,6 +113,14 @@ public class ActivityAction extends BaseAction{
 			return ERROR;
 		}
 	}
+	//activityid 查找一个activity
+	@Action(value = "activity", results = {
+			@Result(name = SUCCESS, location = BaseAction.FOREPART + "activity.jsp")})
+	public String activity(){
+		activity=activityService.findById(activity.getId());
+		return SUCCESS;
+		
+	}
 	//根据用户所在社团，所关注的社团，关注的商家 查出发布的activity
 	@Action(value = "relativeActivity", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
@@ -133,8 +136,8 @@ public class ActivityAction extends BaseAction{
 	@Action(value = "activitys", results = {
 				@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
 		public String activitys(){
-			page=activityService.getOneClubPageByHql(eachPageNumber,currentPage,totalPageNumber,club,merchant);
-			acs=activityService.findOneClubActivityByHql(page,club,merchant,condition);
+			page=activityService.getOneClubPageByHql(eachPageNumber,currentPage,totalPageNumber,club,merchant,2);
+			acs=activityService.getOneClubActivityByHql(page,club,merchant,condition,2);
 			actionName="activitys";
 			return SUCCESS;
 			
@@ -144,10 +147,11 @@ public class ActivityAction extends BaseAction{
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
 		public String adminActivitys(){
 			club=Auth.getCluFromSession ();
+			//Auth.hasRole();
 			merchant=Auth.getMerchantFromSession();
-			page=activityService.adminGetOneClubPageByHql(eachPageNumber,currentPage,totalPageNumber,club,merchant);
-			acs=activityService.adminFindOneClubActivityByHql(page,club,merchant,condition);
-			actionName="adminFindOneActivity";
+			page=activityService.getOneClubPageByHql(eachPageNumber,currentPage,totalPageNumber,club,merchant,flage);
+			acs=activityService.getOneClubActivityByHql(page,club,merchant,condition,flage);
+			actionName="adminActivitys";
 			return SUCCESS;
 				
 	}
@@ -161,15 +165,17 @@ public class ActivityAction extends BaseAction{
 			activityService.delete(activity);
 			return SUCCESS;
 	}	
+	
 	//管理员、商家 、社团 修改社团发布的Activity
 	@Action(value = "preModifyActivity", results = {
-			@Result(name = SUCCESS, location = BaseAction.FOREPART + "modifyActivity.jsp")})
+			@Result(name = SUCCESS, location = BaseAction.FOREPART + "modifyActivity.jsp"),
+			@Result(name = "admin", location = BaseAction.FOREPART + "adminModifyActivity.jsp")})
 		public String preModifyActivity(){
 			user=Auth.getUserFromSession();
 			merchant=Auth.getMerchantFromSession();
 			activity=activityService.findByHql(user,merchant, activity);
-			if(1==1){//判断用户是否为校江湖管理人员
-				actionName="admin";
+			if(user.getStatus()==UserStatus.ADMIN){//判断用户是否为校江湖管理人员
+				return "admin";
 			}
 			return SUCCESS;
 		}	
@@ -346,6 +352,12 @@ public class ActivityAction extends BaseAction{
 	}
 	public void setCondition(String condition) {
 		this.condition = condition;
+	}
+	public Integer getFlage() {
+		return flage;
+	}
+	public void setFlage(Integer flage) {
+		this.flage = flage;
 	}
 	
 

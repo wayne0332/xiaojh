@@ -72,7 +72,6 @@ public class ClubPostAction extends BaseAction{
 		page.setCurrentPage(pageNum);
 		ClubPostList clubPostList = new ClubPostList();
 		clubPostList.setClubPostList(service.allClubPost(page));
-		clubPostList.setPage(service.clubPostNum(0, page));
 		for(ClubPost c:clubPostList.getClubPostList()){
 			c.getClub().getName();
 			c.getUser().getName();
@@ -105,7 +104,7 @@ public class ClubPostAction extends BaseAction{
 			return INPUT;
 		}
 	}
-	@Action(value = "deletezPost", results = {
+	@Action(value = "deletePost", results = {
 			@Result(name = SUCCESS,type=REDIRECT_ACTION, location = "clubPostList", params={"club.id","${club.id}","pageNum","${pageNum}"})})
 	public String deleteClubPost(){
 		if(service.deleteClubPost(post)){
