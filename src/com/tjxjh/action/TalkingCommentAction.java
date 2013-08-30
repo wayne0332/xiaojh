@@ -11,7 +11,6 @@ import org.apache.struts2.convention.annotation.Result;
 import com.tjxjh.po.TalkingComment;
 import com.tjxjh.po.User;
 import com.tjxjh.service.TalkingCommentService;
-import com.tjxjh.service.UserService;
 import com.tjxjh.util.Auth;
 import com.tjxjh.util.GetRequsetResponse;
 

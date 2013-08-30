@@ -18,7 +18,7 @@
 <body>
 	<jsp:include page="head.jsp" />
 	<s:if test="#session.clubMember.role.name() != 'NORMAL'">
-		<a href="addAnnouncementInput?path=clubAnnouncements">社团通告</a>
+		<a href="addAnnouncementInput?path=clubAnnouncements&club.id=${param['club.id'] }">社团通告</a>
 	</s:if>
 	<table>
 		<tr>

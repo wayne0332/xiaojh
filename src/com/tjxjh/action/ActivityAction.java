@@ -68,7 +68,7 @@ public class ActivityAction extends BaseAction{
 	@Action(value = "addActivity", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "success.jsp")})
 	public String add(){
-		club=Auth.getClubMemberFromSession().getClub();
+		club=Auth.getCluFromSession ();
 		merchant=Auth.getMerchantFromSession();
 		boolean upimg=activityService.uploadImage(activity,uploadImage, uploadImageFileName, UPLOAD_IMAGE_PATH+uploadImageFileName);
 		activityService.uploadVideo(activity,uploadVideo, uploadVideoFileName, UPLOAD_IMAGE_PATH+uploadVideoFileName);
@@ -143,7 +143,7 @@ public class ActivityAction extends BaseAction{
 	@Action(value = "adminActivitys", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
 		public String adminActivitys(){
-			club=Auth.getClubMemberFromSession().getClub();
+			club=Auth.getCluFromSession ();
 			merchant=Auth.getMerchantFromSession();
 			page=activityService.adminGetOneClubPageByHql(eachPageNumber,currentPage,totalPageNumber,club,merchant);
 			acs=activityService.adminFindOneClubActivityByHql(page,club,merchant,condition);
@@ -200,12 +200,11 @@ public class ActivityAction extends BaseAction{
 				activityService.update(activity);
 				return SUCCESS;
 			}	
-		//校江湖管理修改社团发布的Activity
+		//校江湖管理人员修改社团发布的Activity
 		@Action(value = "adminModifyActivity", results = {
 				@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
 			public String adminModifyActivity(){
 				user=Auth.getUserFromSession();
-				//merchant=Auth.getMerchantFromSession();
 				Activity oldactivity=new Activity();
 				oldactivity.setId(activity.getId());
 				oldactivity=activityService.findByHql(user,merchant, oldactivity);
@@ -230,7 +229,7 @@ public class ActivityAction extends BaseAction{
 					Talking talking=activityService.initTalking(activity, oldactivity);
 					activityService.addOrUpdate(talking, activity);
 				}
-				//activityService.update(activity);
+				activityService.update(activity);
 				return SUCCESS;
 			}	
 	public File getUploadImage() {

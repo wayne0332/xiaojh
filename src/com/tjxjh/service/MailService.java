@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.cafebabe.websupport.service.BaseService;
 
 import com.tjxjh.enumeration.MailValidateType;
+import com.tjxjh.enumeration.MerchantStatus;
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.mail.SimpleMailSender;
 import com.tjxjh.po.MailValidate;
@@ -103,9 +104,29 @@ public class MailService extends BaseService
 	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean sendFindUserPsdLetter(User user)
 	{
-		user = super.getFistObjectOfList(dao.findByExample(user));
+		user = checkUserToSendLetter(user);
 		return sendLetter(user, "请点击以修改消江湖账号密码",
 				MailValidateType.CHANGE_USER_PASSWORD);
+	}
+	
+	private User checkUserToSendLetter(User user)
+	{
+		user = super.getFistObjectOfList(dao.findByExample(user));
+		if(user.getStatus() == UserStatus.VALIDATED)
+		{
+			return user;
+		}
+		else if(user.getStatus() == UserStatus.SYSTEM)
+		{
+			if((Long) dao
+					.executeHql(
+							"select count(*) from Merchant where status=? and user.id=?",
+							MerchantStatus.PASSED, user.getId()).get(0) != 0)
+			{
+				return user;
+			}
+		}
+		return null;
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -118,7 +139,10 @@ public class MailService extends BaseService
 			if(System.currentTimeMillis() - validate.getDatetime().getTime() < EFFECTIVE_TIME)
 			{
 				user = validate.getUser();
-				user.setStatus(UserStatus.VALIDATED);
+				if(user.getStatus() == UserStatus.NO_VALIDATE)
+				{
+					user.setStatus(UserStatus.VALIDATED);
+				}
 			}
 			dao.delete(validate);
 		}

@@ -12,13 +12,10 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 
-import com.tjxjh.annotation.Auth;
 import com.tjxjh.enumeration.ClubStatus;
-import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubMember;
 import com.tjxjh.po.Merchant;
-import com.tjxjh.po.User;
 import com.tjxjh.service.ClubService;
 
 @ParentPackage("struts-default")

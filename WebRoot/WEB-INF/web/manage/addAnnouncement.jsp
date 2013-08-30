@@ -28,8 +28,9 @@
 				</td>
 			</tr>
 			<tr>
-				<s:hidden name="path" value="%{path}" />
-				<td><input type="submit" value="发布"></td>
+				<td><s:hidden name="path" value="%{path}" /><input
+					type="hidden" name="club.id" value="${param['club.id'] }"><input
+					type="submit" value="发布"></td>
 			</tr>
 		</table>
 	</form>
