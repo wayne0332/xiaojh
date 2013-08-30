@@ -33,7 +33,7 @@
 			<div class="cf fl shadow_l_10 w700 bg_fff mt15">
 				<!-- 说说 -->
 				<s:iterator value="taks" id="tak">
-					<div id="${t.id}" class="user_dongtai_div cf  mt10 p10 ">
+					<div id="${t.id}" class="user_dongtai_div cf w700 mt10 pt10 pb15">
 						<div class="w60 h fl">
 							<img src="${t.user.portraitPath}" class="w60 h60 fl shadow_l_10 radius_6" />
 						</div>
@@ -55,7 +55,7 @@
 							<s:elseif test="t.talking!=null">
 								<div class="p10 mt5 user_talking_share_div cb">
 									<a href="userHome?user.id=${t.talking.user.id}"  class="f12 user_name_color">${t.talking.user.name}</a>
-									：<s:property value="t.talking.text" /><br/>
+									：<s:property value="t.talking.text" escape="false"/><br/>
 									
 									<s:if test="t.talking.url!=null&&t.talking.urlType.toString()=='PICTURE'">
 										<img src="${t.talking.url}" class="maw400 mah300"/>
@@ -97,9 +97,17 @@
 									</s:else>
 								</span>
 								<label><s:property value="t.datetime.toString().substring(0,16)"/></label>
+							
+								<s:if test="t.talking==null">
 								<a href="<%=path %>/preShareTalking?talking.id=${t.id}">分享<s:if
 										test="t.shareDetails!=null">(${t.shareDetails.shareCount})</s:if> <s:else>(${t.talking.shareDetails.shareCount})</s:else>
 								</a>
+								</s:if>
+								<s:else>
+								<a href="<%=path %>/preShareTalking?talking.id=${t.talking.id}&message=${t.text}">分享<s:if
+										test="t.shareDetails!=null">(${t.shareDetails.shareCount})</s:if> <s:else>(${t.talking.shareDetails.shareCount})</s:else>
+								</a>
+								</s:else>
 							 </s:else>
 							<!-- 分割线 -->
 							<div class="user_dongtai_div w610 mt10 mb10 cb"></div>
@@ -138,6 +146,8 @@
 						<!-- like end -->
 					</div>
 				</s:iterator>
+			<!-- END：说说 -->
+				
 		</div>
 			<ul class="w300 fl mt20">
 				<li class="w60 fr">共${page.pageNumber}页</li>

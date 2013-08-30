@@ -60,7 +60,6 @@ public class OnlineActivityAction extends BaseAction{
 	private Integer totalPageNumber=0;
 	User user=new User();
 	private String actionName;
-	private String onlineActivityType="";
 	/**
 	 * 活动尚未关联到社团对应的虚拟用户
 	 * 社团、商家发布活动 action
@@ -73,7 +72,6 @@ public class OnlineActivityAction extends BaseAction{
 	@Action(value = "addOnlineActivity", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "success.jsp")})
 	public String add(){
-		club=Auth.getCluFromSession ();
 		merchant=Auth.getMerchantFromSession();
 		user=Auth.getUserFromSession();
 		boolean upimg=onlineActivityService.uploadImage(onlineactivity,uploadImage, uploadImageFileName, UPLOAD_IMAGE_PATH+uploadImageFileName);
@@ -83,7 +81,7 @@ public class OnlineActivityAction extends BaseAction{
 				merchant=merchantService.merchantById(merchant);
 				onlineactivity.setUser(merchant.getUser());
 			}
-			else if(onlineActivityType.equals("club")&&club!=null&&club.getId()!=null){
+			else if(club!=null&&club.getId()!=null&&Auth.hasRole()){
 				club=ClubService.clubById(club);
 				onlineactivity.setUser(club.getUser());
 			}
@@ -100,6 +98,14 @@ public class OnlineActivityAction extends BaseAction{
 			return ERROR;
 		}
 	}
+	@Action(value = "preAddonlineActivity", results = {
+			@Result(name = SUCCESS, location = BaseAction.FOREPART + "addOnlineActivity.jsp")})
+	public String preAddOnlineActivityById(){
+		if(club!=null&&club.getId()!=null){
+			return SUCCESS;
+		}return ERROR;
+		
+}
 	//根据用户所在社团，所关注的社团，关注的商家 查出发布的OnlingActivity, 尚未添加关注的用户活动
 		@Action(value = "relativeOnlineActivity", results = {
 				@Result(name = SUCCESS, location = BaseAction.FOREPART + "myOnlineActivity.jsp")})
@@ -174,8 +180,7 @@ public class OnlineActivityAction extends BaseAction{
 			onlineactivity=onlineActivityService.findByHql(user,merchant,club,onlineactivity);
 			return SUCCESS;
 	}	
-	
-		//校江湖挂了员、商家 、社团管理员 修改社团发布的OnlineActivity
+	//校江湖挂了员、商家 、社团管理员 修改社团发布的OnlineActivity
 		@Action(value = "modifyOnlineActivity", results = {
 				@Result(name = SUCCESS, location = BaseAction.FOREPART + "myOnlineActivity.jsp")})
 			public String modifyOnlineActivity(){
@@ -321,12 +326,6 @@ public class OnlineActivityAction extends BaseAction{
 	}
 	public void setClubService(ClubService clubService) {
 		ClubService = clubService;
-	}
-	public String getOnlineActivityType() {
-		return onlineActivityType;
-	}
-	public void setOnlineActivityType(String onlineActivityType) {
-		this.onlineActivityType = onlineActivityType;
 	}
 	public List<OnlineActivity> getOacs() {
 		return oacs;

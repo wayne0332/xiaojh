@@ -46,9 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	     	活动视频连接:<input type="text" name="onlineactivity.videoUrl"/><br>
 	     	上传活动封面图片:<input type = "file" name="uploadImage"/><br>
 	     	上传活动视频:<input type = "file" name="uploadVideo"/><br>
-	     	<input type="radio" name="onlineActivityType" value="user"
-					checked="checked">个人
-			<input type="radio" name="onlineActivityType" value="club">社团
+			<input type="hidden" name="club.id" value="${club.id}">
 			<br>
 	     	<input type="submit" value="提交"/>
      	</form>

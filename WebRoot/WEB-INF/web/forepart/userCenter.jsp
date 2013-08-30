@@ -201,9 +201,17 @@
 									</s:else>
 								</span>
 								<label><s:property value="t.datetime.toString().substring(0,16)"/></label>
+							
+								<s:if test="t.talking==null">
 								<a href="<%=path %>/preShareTalking?talking.id=${t.id}">分享<s:if
 										test="t.shareDetails!=null">(${t.shareDetails.shareCount})</s:if> <s:else>(${t.talking.shareDetails.shareCount})</s:else>
 								</a>
+								</s:if>
+								<s:else>
+								<a href="<%=path %>/preShareTalking?talking.id=${t.talking.id}&message=${t.text}">分享<s:if
+										test="t.shareDetails!=null">(${t.shareDetails.shareCount})</s:if> <s:else>(${t.talking.shareDetails.shareCount})</s:else>
+								</a>
+								</s:else>
 							 </s:else>
 							<!-- 分割线 -->
 							<div class="user_dongtai_div w610 mt10 mb10 cb"></div>
