@@ -321,7 +321,8 @@ public class ClubService extends BaseService
 	{
 		List<T> list = getFocusList(objectClass,club);
 		Collections.sort(list);
-		return list.subList(page.getCurrentPage()*page.getEachPageNumber(),(page.getCurrentPage()+1)*page.getEachPageNumber());
+		//return list.subList(page.getCurrentPage()*page.getEachPageNumber(),(page.getCurrentPage()+1)*page.getEachPageNumber());
+		return list;
 	}
 	
 	private PersonalLetter sendLetter(User target, User source, String text)
