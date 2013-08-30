@@ -14,6 +14,7 @@ import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
+import com.tjxjh.annotation.Keyword;
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
@@ -32,7 +33,7 @@ import com.tjxjh.service.TalkingService;
 import com.tjxjh.service.UserService;
 import com.tjxjh.util.CodeUtil;
 
-@ParentPackage("struts-default")
+@ParentPackage("myPackage")
 @Namespace("/")
 public class UserAction extends BaseAction
 {
@@ -150,6 +151,7 @@ public class UserAction extends BaseAction
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = REGISTER_INPUT, params = {
 					"msg", "请正确输入信息!"}),
 			@Result(name = ERROR, location = FOREPART + ERROR_PAGE)})
+	@Keyword
 	public String register()
 	{
 		super.clearSession();

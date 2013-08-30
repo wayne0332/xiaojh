@@ -27,7 +27,7 @@ import com.tjxjh.service.SearchService;
 import com.tjxjh.service.UserService;
 
 
-@ParentPackage("authController")
+@ParentPackage("myPackage")
 @Namespace("/")
 public class SearchAction extends BaseAction{
 	@Resource
