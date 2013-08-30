@@ -28,8 +28,20 @@ public class KeywordInterceptor extends AbstractInterceptor
 			{
 				if(checkParam(param))
 				{
-					params.put(param,
-							getFilterString((String) params.get(param)));
+					Object paramValue = params.get(param);
+					if(paramValue instanceof String)
+					{
+						params.put(param, getFilterString((String) paramValue));
+					}
+					else if(paramValue instanceof String[])
+					{
+						String[] _paramValue = (String[]) paramValue;
+						for(int i = 0; i < _paramValue.length; i ++)
+						{
+							_paramValue[i] = getFilterString(_paramValue[i]);
+						}
+						params.put(param, _paramValue);
+					}
 				}
 			}
 		}
