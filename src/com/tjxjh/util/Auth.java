@@ -23,6 +23,16 @@ public class Auth {
 	    ClubMember cm=(ClubMember) session.get(BaseAction.CLUB_MEMBER);
 	    return cm;
 	}
+	public static Club getCluFromSession (){
+		ActionContext context = ActionContext.getContext();  
+	    Map<String, Object> session = context.getSession();
+	    ClubMember cm=(ClubMember) session.get(BaseAction.CLUB_MEMBER);
+	    if(cm!=null){
+	    	return cm.getClub();
+	    }
+	    return null;
+	}
+	
 	public static Merchant getMerchantFromSession (){
 		ActionContext context = ActionContext.getContext();  
 	    Map<String, Object> session = context.getSession();
