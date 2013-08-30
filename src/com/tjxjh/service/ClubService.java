@@ -44,7 +44,7 @@ public class ClubService extends BaseService
 	}
 	
 	public Page clubNum(Page page){
-		String hql = "select count(*) from Club";
+		String hql = "select count(*) from Club order by id desc";
 		List<Long> countL = null;
 		countL = (List<Long>)dao.executeHql(hql);
 		int itemNum = countL.get(0).intValue();
