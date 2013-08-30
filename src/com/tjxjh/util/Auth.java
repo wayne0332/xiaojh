@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.tjxjh.action.BaseAction;
+import com.tjxjh.enumeration.ClubMemberRole;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubMember;
 import com.tjxjh.po.Merchant;
@@ -39,6 +40,18 @@ public class Auth {
 	    Merchant merchant=new Merchant();
 	    merchant=(Merchant) session.get("merchant");
 	    return merchant;
+	}
+	public static boolean hasRole(){
+		boolean f=false;
+		ClubMember cm=Auth.getClubMemberFromSession();
+		if(Auth.getClubMemberFromSession()!=null){
+			if(Auth.getClubMemberFromSession().getRole()==ClubMemberRole.MANAGER){
+				f=true;
+			}else if(Auth.getClubMemberFromSession().getRole()==ClubMemberRole.PROPRIETER){
+				f=true;
+			}
+		}
+		return f;
 	}
 
 }
