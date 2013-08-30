@@ -97,8 +97,7 @@ public class ClubAction extends BaseAction
 		return SUCCESS;
 	}
 	
-	@Action(value = APPLY_CLUB, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CHECK_CLUB, params = {
-			"club.id", "${club.id}"})})
+	@Action(value = APPLY_CLUB, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = MY_CLUBS)})
 	@Auth
 	public String applyClub()
 	{
