@@ -103,6 +103,7 @@ public class MailService extends BaseService
 	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean sendFindUserPsdLetter(User user)
 	{
+		user.setStatus(UserStatus.VALIDATED);
 		user = super.getFistObjectOfList(dao.findByExample(user));
 		return sendLetter(user, "请点击以修改消江湖账号密码",
 				MailValidateType.CHANGE_USER_PASSWORD);
