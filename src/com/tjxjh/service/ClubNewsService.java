@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tjxjh.enumeration.TalkingUrlType;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubNews;
-import com.tjxjh.po.ClubPost;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
 import com.tjxjh.util.DeleteSource;
