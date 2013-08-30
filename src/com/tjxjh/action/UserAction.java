@@ -90,10 +90,11 @@ public class UserAction extends BaseAction
 	private Integer type = null;
 	private int pageNum;
 	
-	@Action(value = "allUser", results = {
-			@Result(name = SUCCESS, location = MANAGE+"allUser.jsp")})
-	public String allUser(){
-		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
+	@Action(value = "allUser", results = {@Result(name = SUCCESS, location = MANAGE
+			+ "allUser.jsp")})
+	public String allUser()
+	{
+		Page page = new Page(pageNum * Page.getDefaultPageNumber() + 1);
 		page.setCurrentPage(pageNum);
 		UserList userList = new UserList();
 		userList.setUserList(userService.allUsers(page));
@@ -132,7 +133,6 @@ public class UserAction extends BaseAction
 		super.saveUser(user);
 		super.getSessionMap().put("relativeUsers",
 				talkingService.preGetRelativeUserId(user));
-
 	}
 	
 	@Action(value = MANAGER_LOGIN, results = {
@@ -236,8 +236,7 @@ public class UserAction extends BaseAction
 	}
 	
 	@Action(value = RESET_USER_PASSWORD, results = {
-			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = REFRESH_USER
-					+ IndexAction.INDEX),
+			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = IndexAction.INDEX),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = IndexAction.INDEX, params = {
 					"msg", "重置密码失败(可能链接已过期)!"})})
 	public String resetUserPassword()
@@ -246,6 +245,7 @@ public class UserAction extends BaseAction
 		{
 			userService.changeUserPassword(super.currentUser(),
 					user.getPassword());
+			super.clearSession();
 			return SUCCESS;
 		}
 		return INPUT;
@@ -287,7 +287,7 @@ public class UserAction extends BaseAction
 		}
 		else
 		{
-			return ERROR;
+			return NONE;
 		}
 	}
 	
@@ -331,7 +331,7 @@ public class UserAction extends BaseAction
 			focusMerchantList = focusMerchantList.subList(0, 9);
 		}
 		getRequestMap().put("focusMerchantList", focusMerchantList);
-//		super.getRequestMap().put("allUsers", userService.allUsers());
+		// super.getRequestMap().put("allUsers", userService.allUsers());
 		if(null == user || null == user.getId())
 		{
 			user = (User) getSessionMap().get("user");
@@ -352,8 +352,9 @@ public class UserAction extends BaseAction
 		/************************** 指定用户说说说说 *******************************************/
 		page = talkingService.getMyPageByHql(user, 10, currentPage, 1);
 		List<Talking> temp = talkingService.findMyTalkingByHql(page, user);
-		for(Talking t:temp){
-			IndexTalking it=new IndexTalking();
+		for(Talking t : temp)
+		{
+			IndexTalking it = new IndexTalking();
 			it.setT(t);
 			it.setTcs(talkingCommentService.findByHql(t.getId()));
 			taks.add(it);
@@ -387,7 +388,7 @@ public class UserAction extends BaseAction
 			focusMerchantList = focusMerchantList.subList(0, 9);
 		}
 		getRequestMap().put("focusMerchantList", focusMerchantList);
-//		super.getRequestMap().put("allUsers", userService.allUsers());
+		// super.getRequestMap().put("allUsers", userService.allUsers());
 		user = (User) getSessionMap().get("user");
 		/************************** 相册 *******************************************/
 		page = pictureService.getRelativeByHql(eachPageNumber, currentPage,
@@ -396,9 +397,11 @@ public class UserAction extends BaseAction
 		/************************* 相关说说 *******************************************/
 		page = talkingService.getRelativePageByHql(user, eachPageNumber,
 				currentPage, 1);
-		List<Talking> temp = talkingService.findRelativeTalkingByHql(page, user);
-		for(Talking t:temp){
-			IndexTalking it=new IndexTalking();
+		List<Talking> temp = talkingService
+				.findRelativeTalkingByHql(page, user);
+		for(Talking t : temp)
+		{
+			IndexTalking it = new IndexTalking();
 			it.setT(t);
 			it.setTcs(talkingCommentService.findByHql(t.getId()));
 			taks.add(it);
@@ -649,15 +652,20 @@ public class UserAction extends BaseAction
 	{
 		this.onlineActivityService = onlineActivityService;
 	}
-
-	public void setTalkingCommentService(TalkingCommentService talkingCommentService) {
+	
+	public void setTalkingCommentService(
+			TalkingCommentService talkingCommentService)
+	{
 		this.talkingCommentService = talkingCommentService;
 	}
-	public int getPageNum() {
+	
+	public int getPageNum()
+	{
 		return pageNum;
 	}
-	public void setPageNum(int pageNum) {
+	
+	public void setPageNum(int pageNum)
+	{
 		this.pageNum = pageNum;
 	}
-	
 }
