@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.tjxjh.enumeration.TalkingUrlType;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubNews;
+import com.tjxjh.po.ClubPost;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
 import com.tjxjh.util.DeleteSource;
@@ -27,6 +28,26 @@ public class ClubNewsService extends BaseService{
 	ClubNews clubnews;
 	@Resource
 	private TalkingService talkingService = null;
+	
+	public List<ClubNews> allClubNews(Page page){
+		String hql = "from ClubNews n order by n.datetime desc";
+		List<ClubNews> list = (List<ClubNews>) dao.executeHql(page,hql);
+		return list;
+	}
+	
+	public Page clubPostNum(int clubId,Page page){
+		String hql = "select count(*) from ClubPost p where p.club.id=?";
+		List<Long> countL = null;
+		if(clubId==0){
+			hql = "select count(*) from ClubPost";
+			countL = (List<Long>)dao.executeHql(hql);
+		}else{
+			countL = (List<Long>)dao.executeHql(hql,clubId);
+		}
+		int itemNum = countL.get(0).intValue();
+		return new Page(page.getCurrentPage(),Page.getDefaultPageNumber(),itemNum);
+	}
+	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean add(Talking talking ,ClubNews clubnews){
 		talkingService.add(talking);
