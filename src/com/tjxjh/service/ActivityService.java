@@ -276,10 +276,57 @@ public class ActivityService extends BaseService{
 		}
 	}
 	/*************************************************END:根据用户所在社团查询活动*****************************************************/
-	/**********************************************************查看某个社团的活动*****************************************************/
+//	/**********************************************************查看某个社团的活动*****************************************************/
+//	@Transactional (propagation = Propagation.REQUIRED) 
+//	public Page getOneClubPageByHql(Integer eachPageNumber,Integer currentPage,Integer totalPageNumber,Club club,Merchant merchant)
+//	{
+//		if(currentPage<=0){
+//			currentPage=1;
+//		}
+//		if(totalPageNumber!=0){
+//			return Page.getPage(currentPage, eachPageNumber, totalPageNumber);
+//		}
+//		try{
+//			Page page=null;
+//			if(club.getId()!=null){
+//				page=dao.getPageByHql(eachPageNumber,"select count(*) from Activity cl  where cl.status in('UNDERWAY','END') and cl.club.id=?",club.getId());
+//			}else if(merchant.getId()!=null){
+//				page=dao.getPageByHql(eachPageNumber,"select count(*) from Activity cl where cl.status in('UNDERWAY','END') and cl.merchant.id=?",merchant.getId());
+//			}else{
+//				return null;
+//			}
+//			page.setCurrentPage(currentPage);
+//			return page;
+//		}catch (Exception e){
+//			System.out.println("---------ActivityService--getAllPageByHql--------"+e);
+//			return null;
+//		}
+//	}
+//	@SuppressWarnings("unchecked")
+//	public List<Activity> findOneClubActivityByHql(Page page,Club club,Merchant merchant,String condition)
+//	{
+//		if(page==null){
+//			return null;
+//		}
+//		try{
+//			if(club.getId()!=null){
+//				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in('UNDERWAY','END') and cl.club.id=? order by "+condition+" desc",club.getId());
+//			}else if(merchant.getId()!=null){
+//				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in('UNDERWAY','END') and cl.merchant.id=? order by "+condition+" desc",merchant.getId());
+//			}else{
+//				return null;
+//			}
+//		}catch(Exception e){
+//			System.out.println(e);
+//			return null;
+//		}
+//	}
+//	/********************************************************END：查看某个社团的活动***************************************************/
+	/**********************************************************管理员查看某个社团的活动*****************************************************/
 	@Transactional (propagation = Propagation.REQUIRED) 
-	public Page getOneClubPageByHql(Integer eachPageNumber,Integer currentPage,Integer totalPageNumber,Club club,Merchant merchant)
+	public Page getOneClubPageByHql(Integer eachPageNumber,Integer currentPage,Integer totalPageNumber,Club club,Merchant merchant,int flage)
 	{
+		//flage=0表示查看所有所动，1表示查看尚未审核活动，2是查看已经审核的活动，3查看已经拒绝的活动
 		if(currentPage<=0){
 			currentPage=1;
 		}
@@ -289,11 +336,41 @@ public class ActivityService extends BaseService{
 		try{
 			Page page=null;
 			if(club.getId()!=null){
-				page=dao.getPageByHql(eachPageNumber,"select count(*) from Activity cl  where cl.status in('UNDERWAY','END') and cl.club.id=?",club.getId());
+				if(flage==0){
+					page=dao.getPageByHql(eachPageNumber,"select count(*) from Activity cl  where  cl.club.id=?",club.getId());
+				}else if(flage==1){
+					page=dao.getPageByHql(eachPageNumber,"select count(*) from Activity cl  where  cl.club.id=? and cl.status in ('APPLY')",club.getId());
+				}else if(flage==2){
+					page=dao.getPageByHql(eachPageNumber,"select count(*) from Activity cl  where  cl.club.id=? and cl.status in ('UNDERWAY','END')",club.getId());
+				}else if(flage==3){
+					page=dao.getPageByHql(eachPageNumber,"select count(*) from Activity cl  where  cl.club.id=? and cl.status in ('REFUSE')",club.getId());
+				}else{
+					return null;
+				}
 			}else if(merchant.getId()!=null){
-				page=dao.getPageByHql(eachPageNumber,"select count(*) from Activity cl where cl.status in('UNDERWAY','END') and cl.merchant.id=?",merchant.getId());
+				if(flage==0){
+					page=dao.getPageByHql(eachPageNumber,"select count(*) from Activity cl  where  cl.merchant.id=?",merchant.getId());
+				}else if(flage==1){
+					page=dao.getPageByHql(eachPageNumber,"select count(*) from Activity cl  where  cl.merchant.id=? and cl.status in ('APPLY')",merchant.getId());
+				}else if(flage==2){
+					page=dao.getPageByHql(eachPageNumber,"select count(*) from Activity cl  where  cl.merchant.id=? and cl.status in ('UNDERWAY','END')",merchant.getId());
+				}else if(flage==3){
+					page=dao.getPageByHql(eachPageNumber,"select count(*) from Activity cl  where  cl.merchant.id=? and cl.status in ('REFUSE')",merchant.getId());
+				}else{
+					return null;
+				}
 			}else{
-				return null;
+				if(flage==0){
+					page=dao.getPageByHql(eachPageNumber,"select count(*) from Activity cl");
+				}else if(flage==1){
+					page=dao.getPageByHql(eachPageNumber,"select count(*) from Activity cl  where cl.status in ('APPLY')");
+				}else if(flage==2){
+					page=dao.getPageByHql(eachPageNumber,"select count(*) from Activity cl  where cl.status in ('UNDERWAY','END')");
+				}else if(flage==3){
+					page=dao.getPageByHql(eachPageNumber,"select count(*) from Activity cl  where cl.status in ('REFUSE')");
+				}else{
+					return null;
+				}
 			}
 			page.setCurrentPage(currentPage);
 			return page;
@@ -303,64 +380,48 @@ public class ActivityService extends BaseService{
 		}
 	}
 	@SuppressWarnings("unchecked")
-	public List<Activity> findOneClubActivityByHql(Page page,Club club,Merchant merchant,String condition)
+	public List<Activity> getOneClubActivityByHql(Page page,Club club,Merchant merchant,String condition,int flage)
 	{
 		if(page==null){
 			return null;
 		}
 		try{
 			if(club.getId()!=null){
-				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in('UNDERWAY','END') and cl.club.id=? order by "+condition+" desc",club.getId());
+				if(flage==0){
+					return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.club.id=? order by "+condition+" desc",club.getId());
+				}else if(flage==1){
+					return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.club.id=? and cl.status in ('APPLY') order by "+condition+" desc",club.getId());
+				}else if(flage==2){
+					return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.club.id=? and cl.status in ('UNDERWAY','END') order by "+condition+" desc",club.getId());
+				}else if(flage==3){
+					return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.club.id=? and cl.status in ('REFUSE') order by "+condition+" desc",club.getId());
+				}else{
+					return null;
+				}
 			}else if(merchant.getId()!=null){
-				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in('UNDERWAY','END') and cl.merchant.id=? order by "+condition+" desc",merchant.getId());
+				if(flage==0){
+					return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.merchant.id=? order by "+condition+" desc",merchant.getId());
+				}else if(flage==1){
+					return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.merchant.id=? and cl.status in ('APPLY') order by "+condition+" desc",merchant.getId());
+				}else if(flage==2){
+					return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.merchant.id=? and cl.status in ('UNDERWAY','END') order by "+condition+" desc",merchant.getId());
+				}else if(flage==3){
+					return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.merchant.id=? and cl.status in ('REFUSE') order by "+condition+" desc",merchant.getId());
+				}else{
+					return null;
+				}
 			}else{
-				return null;
-			}
-		}catch(Exception e){
-			System.out.println(e);
-			return null;
-		}
-	}
-	/********************************************************END：查看某个社团的活动***************************************************/
-	/**********************************************************查看某个社团的活动*****************************************************/
-	@Transactional (propagation = Propagation.REQUIRED) 
-	public Page adminGetOneClubPageByHql(Integer eachPageNumber,Integer currentPage,Integer totalPageNumber,Club club,Merchant merchant)
-	{
-		if(currentPage<=0){
-			currentPage=1;
-		}
-		if(totalPageNumber!=0){
-			return Page.getPage(currentPage, eachPageNumber, totalPageNumber);
-		}
-		try{
-			Page page=null;
-			if(club.getId()!=null){
-				page=dao.getPageByHql(eachPageNumber,"select count(*) from Activity cl  where  cl.club.id=?",club.getId());
-			}else if(merchant.getId()!=null){
-				page=dao.getPageByHql(eachPageNumber,"select count(*) from Activity cl where  cl.merchant.id=?",merchant.getId());
-			}else{
-				return null;
-			}
-			page.setCurrentPage(currentPage);
-			return page;
-		}catch (Exception e){
-			System.out.println("---------ActivityService--getAllPageByHql--------"+e);
-			return null;
-		}
-	}
-	@SuppressWarnings("unchecked")
-	public List<Activity> adminFindOneClubActivityByHql(Page page,Club club,Merchant merchant,String condition)
-	{
-		if(page==null){
-			return null;
-		}
-		try{
-			if(club.getId()!=null){
-				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.club.id=? order by "+condition+" desc",club.getId());
-			}else if(merchant.getId()!=null){
-				return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.merchant.id=? order by "+condition+" desc",merchant.getId());
-			}else{
-				return null;
+				if(flage==0){
+					return (List<Activity>) dao.executeHql(page,"from Activity cl order by "+condition+" desc");
+				}else if(flage==1){
+					return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in ('APPLY') order by "+condition+" desc");
+				}else if(flage==2){
+					return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in ('UNDERWAY','END') order by "+condition+" desc");
+				}else if(flage==3){
+					return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.status in ('REFUSE') order by "+condition+" desc");
+				}else{
+					return null;
+				}
 			}
 		}catch(Exception e){
 			System.out.println(e);
