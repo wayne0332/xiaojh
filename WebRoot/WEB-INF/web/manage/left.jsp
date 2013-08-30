@@ -169,7 +169,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </table>
         <ul class="MM">
           <li><a href="allClubPost?pageNum=1" target="main">社团帖子总览</a></li>
+          <li><a href="allClubNews?pageNum=1" target="main">社团新闻总览</a></li>
         </ul>
+        
       </div>
       <h1 class="type"><a href="javascript:void(0)">活动管理</a></h1>
       <div class="content">

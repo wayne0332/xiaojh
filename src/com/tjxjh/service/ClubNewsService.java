@@ -6,22 +6,23 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.struts2.ServletActionContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import cn.cafebabe.autodao.pojo.Page;
+import cn.cafebabe.websupport.service.BaseService;
+
 import com.tjxjh.enumeration.TalkingUrlType;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubNews;
-import com.tjxjh.po.ClubPost;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
 import com.tjxjh.util.DeleteSource;
 import com.tjxjh.util.FileUtil;
 import com.tjxjh.util.ImageCutAndZoom;
-
-import cn.cafebabe.autodao.pojo.Page;
-import cn.cafebabe.websupport.service.BaseService;
 
 @Service
 public class ClubNewsService extends BaseService{
@@ -35,19 +36,14 @@ public class ClubNewsService extends BaseService{
 		return list;
 	}
 	
-	public Page clubPostNum(int clubId,Page page){
-		String hql = "select count(*) from ClubPost p where p.club.id=?";
+	public Page clubNewsNum(Page page){
+		String hql = "select count(*) from ClubNews";
 		List<Long> countL = null;
-		if(clubId==0){
-			hql = "select count(*) from ClubPost";
-			countL = (List<Long>)dao.executeHql(hql);
-		}else{
-			countL = (List<Long>)dao.executeHql(hql,clubId);
-		}
+		countL = (List<Long>)dao.executeHql(hql);
 		int itemNum = countL.get(0).intValue();
 		return new Page(page.getCurrentPage(),Page.getDefaultPageNumber(),itemNum);
 	}
-	
+
 	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean add(Talking talking ,ClubNews clubnews){
 		talkingService.add(talking);

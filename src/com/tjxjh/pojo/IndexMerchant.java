@@ -3,7 +3,6 @@ package com.tjxjh.pojo;
 import java.util.List;
 
 import com.tjxjh.po.Activity;
-import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 
 

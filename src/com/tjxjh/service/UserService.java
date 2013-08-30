@@ -114,7 +114,7 @@ public class UserService extends BaseService
 	
 	public List<User> allUsers(Page page)
 	{
-		return (List<User>) dao.executeHql(page,"from User u where u.status!='SYSTEM'");
+		return (List<User>) dao.executeHql(page,"from User u where u.status!='SYSTEM' order by u.id desc");
 	}
 	
 	public Page userNum(Page page){
