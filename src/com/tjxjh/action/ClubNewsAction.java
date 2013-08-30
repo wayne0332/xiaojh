@@ -64,7 +64,7 @@ public class ClubNewsAction extends BaseAction{
 	@Action(value = "addClubNews", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "success.jsp")})
 	public String add(){
-		club=Auth.getClubMemberFromSession().getClub();
+		club=Auth.getCluFromSession ();
 		//user=Auth.getUserFromSession();
 		boolean upimg=clubNewsService.uploadImage(clubnews,uploadImage, uploadImageFileName, UPLOAD_IMAGE_PATH+uploadImageFileName);
 		clubNewsService.uploadVideo(clubnews,uploadVideo, uploadVideoFileName, UPLOAD_IMAGE_PATH+uploadVideoFileName);
@@ -95,7 +95,7 @@ public class ClubNewsAction extends BaseAction{
 				@Result(name = SUCCESS, location = BaseAction.FOREPART + "myClubNews.jsp")})
 		public String findOneClubNews(){
 			if(club==null||club.getId()==null){
-				club=Auth.getClubMemberFromSession().getClub();
+				club=Auth.getCluFromSession ();
 			}
 			page=clubNewsService.getOneClubPageByHql(eachPageNumber,currentPage,club,totalPageNumber);
 			cns=clubNewsService.findOneClubNewsByHql(page,club);

@@ -68,7 +68,7 @@
 	.user_dongtai_div label	{  }
 	.user_dongtai_div a		{ width: 80px; display: inline-block; text-align: right; float: right; }
 	
-	#talking_detail_div a	{float:left; text-align:left;width:auto;}
+	#talking_detail_div a	{float:none; text-align:left;width:auto;}
 	.user_talking_detail_div { overflow:hidden; }
 	.user_pinglun_div		{ border-bottom: 1px dashed #ddd; line-height:20px; padding-bottom:10px;padding-top:10px;}
 	.user_pinglun_div a		{float:none; text-align:left;width:auto;}
@@ -79,7 +79,6 @@
 	.delete_tc				{visibility:hidden;}
 	.tc_detail:hover .delete_tc{visibility:visible;}
 	.of_h						{overflow:hidden;}
-
 /* myActivity
  * ---------------------------------------------------------------------------------------- */	
  

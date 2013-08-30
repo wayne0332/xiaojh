@@ -73,7 +73,7 @@ public class OnlineActivityAction extends BaseAction{
 	@Action(value = "addOnlineActivity", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "success.jsp")})
 	public String add(){
-		club=Auth.getClubMemberFromSession().getClub();
+		club=Auth.getCluFromSession ();
 		merchant=Auth.getMerchantFromSession();
 		user=Auth.getUserFromSession();
 		boolean upimg=onlineActivityService.uploadImage(onlineactivity,uploadImage, uploadImageFileName, UPLOAD_IMAGE_PATH+uploadImageFileName);
@@ -133,7 +133,7 @@ public class OnlineActivityAction extends BaseAction{
 					@Result(name = SUCCESS, location = BaseAction.FOREPART + "myOnlineActivity.jsp")})
 		public String userOnlineActivity(){
 			user=Auth.getUserFromSession();
-			club=Auth.getClubMemberFromSession().getClub();
+			club=Auth.getCluFromSession ();
 			merchant=Auth.getMerchantFromSession();
 			pageAndoacs();
 			actionName="userOnlineActivity";
@@ -157,7 +157,7 @@ public class OnlineActivityAction extends BaseAction{
 		public String deleteClubNews(){
 			user=Auth.getUserFromSession();
 			merchant=Auth.getMerchantFromSession();
-			club=Auth.getClubMemberFromSession().getClub();
+			club=Auth.getCluFromSession ();
 			onlineactivity=onlineActivityService.findByHql(user,merchant,club,onlineactivity);
 			if(onlineactivity!=null){
 				onlineActivityService.delete(onlineactivity);
@@ -170,7 +170,7 @@ public class OnlineActivityAction extends BaseAction{
 		public String preModifyOnlineActivity(){
 			user=Auth.getUserFromSession();
 			merchant=Auth.getMerchantFromSession();
-			club=Auth.getClubMemberFromSession().getClub();
+			club=Auth.getCluFromSession ();
 			onlineactivity=onlineActivityService.findByHql(user,merchant,club,onlineactivity);
 			return SUCCESS;
 	}	
@@ -181,7 +181,7 @@ public class OnlineActivityAction extends BaseAction{
 			public String modifyOnlineActivity(){
 				user=Auth.getUserFromSession();
 				merchant=Auth.getMerchantFromSession();
-				club=Auth.getClubMemberFromSession().getClub();
+				club=Auth.getCluFromSession ();
 				OnlineActivity oldonlineactivity=onlineActivityService.findByHql(user,merchant,club,onlineactivity);
 				if(oldonlineactivity==null){
 					return ERROR;
