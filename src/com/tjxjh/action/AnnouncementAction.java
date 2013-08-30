@@ -18,7 +18,7 @@ import com.tjxjh.interceptor.AuthInterceptor.UserWithClubMemberAuth;
 import com.tjxjh.po.Announcement;
 import com.tjxjh.service.AnnouncementService;
 
-@ParentPackage("authController")
+@ParentPackage("myPackage")
 @Namespace("/")
 public class AnnouncementAction extends BaseAction
 {
