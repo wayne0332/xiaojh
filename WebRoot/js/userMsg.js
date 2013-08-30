@@ -8,11 +8,16 @@ function checkUserName(inputName, labelName, nameText) {
 					$.post("hadRegister?name="
 							+ encodeURIComponent($(this).val()),
 							function(json) {
-								if (json.hadRegister) {
-									$(labelName).html(nameText + "已注册");
+								if (json.error) {
+									$(labelName).html("非法名字");
 									$(labelName).css("display", "inline");
 								} else {
-									$(labelName).css("display", "none");
+									if (json.hadRegister) {
+										$(labelName).html(nameText + "已注册");
+										$(labelName).css("display", "inline");
+									} else {
+										$(labelName).css("display", "none");
+									}
 								}
 							});
 				} else {
