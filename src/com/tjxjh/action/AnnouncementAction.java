@@ -33,7 +33,6 @@ public class AnnouncementAction extends BaseAction
 	private String path = null;
 	private Page page = null;
 	
-	
 	@Actions({@Action(value = ADD_ANNOUNCEMENT_INPUT, results = {@Result(name = SUCCESS, location = MANAGE
 			+ ADD_ANNOUNCEMENT + JSP, params = {"path", "${path}"})})})
 	@Auth(type = ClubManagerAuth.class)
@@ -43,7 +42,8 @@ public class AnnouncementAction extends BaseAction
 	}
 	
 	@Action(value = ADD_ANNOUNCEMENT, results = {
-			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "${path}"),
+			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "${path}", params = {
+					"club.id", "${#request.clubMember.club.id}"}),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = ADD_ANNOUNCEMENT),
 			@Result(name = ERROR, location = FOREPART + ERROR_PAGE)})
 	@Auth(type = ClubManagerAuth.class)
