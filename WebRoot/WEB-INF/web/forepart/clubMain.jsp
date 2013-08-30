@@ -74,7 +74,10 @@
 				<s:if test="#request.clubMember != null">
 					<a href="addActivityJsp">发布活动</a>
 					<a href="preAddonlineActivity?club.id=<s:property value="club.id" />">发布线上活动</a>
-					
+					<a href="adminActivitys?flage=0">所有活动</a>
+					<a href="adminActivitys?flage=1">正在申请的活动</a>
+					<a href="adminActivitys?flage=2">已经通过审核的活动</a>
+					<a href="adminActivitys?flage=3">被拒绝的活动</a>
 					<s:if test="#request.clubMember.status.name() == 'NO_CHECK'">
 					等待确认
 					</s:if>

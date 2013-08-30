@@ -174,8 +174,8 @@ public class ClubAction extends BaseAction
 		}
 		clubPostList.setClubPostList(list);
 		getRequestMap().put("clubPostList", clubPostList);
-		page = activityService.adminGetOneClubPageByHql(6, 1, 0, club, null);
-		acs = activityService.adminFindOneClubActivityByHql(page, club, null,"datetime");
+		page = activityService.getOneClubPageByHql(6, 1, 0, club, null,2);
+		acs = activityService.getOneClubActivityByHql(page, club, null,"datetime",2);
 		getRequestMap().put("acs", acs);
 		/****************************************************/
 		super.getRequestMap().put("club", club);

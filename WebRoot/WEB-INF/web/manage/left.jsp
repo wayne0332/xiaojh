@@ -3,14 +3,11 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <base href="<%=basePath%>">
-    
     <title>My JSP 'left.jsp' starting page</title>
-    
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<script src="js/prototype.lite.js" type="text/javascript"></script>
@@ -145,8 +142,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		text-decoration: none;
 	}
 	</style>
-  </head>
-  
+</head>
 <body>
 <table width="100%" height="280" border="0" cellpadding="0" cellspacing="0" bgcolor="#EEF2FB">
   <tr>
@@ -186,6 +182,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </table>
         <ul class="MM">
           <li><a href="allActivityPost?pageNum=1" target="main">线上活动帖子总览</a></li>
+          <li><a href="allActivityPost?pageNum=1" target="main">活动总览</a></li>
         </ul>
       </div>
       </div>

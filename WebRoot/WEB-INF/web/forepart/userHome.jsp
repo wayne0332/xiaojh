@@ -73,13 +73,14 @@
 			<div class="l_box w240 p5 m5 cf shadow_l_10 radius_6 bg_box">
 				<s:iterator value="#request.focusClubList">
 					<div class="fl p5">
-						<s:if test="logoPath==''">
-							<a href="clubMain?club.id=${id}"><img src="<s:property value="portraitPath" />"
+						<s:if test="logoPath==null||logoPath.trim.equals('')">
+							<a href="clubMain?club.id=${id}"><img src="upload/portrait/auto_photo.png"
 								class="w50 h50 Clearfix" /></a>
 						</s:if>
 						<s:else>
-							<a href="clubMain?club.id=${id}"><img src="upload/portrait/auto_photo.png"
+							<a href="clubMain?club.id=${id}"><img src="<s:property value="logoPath" />"
 								class="w50 h50 Clearfix" /></a>
+							
 						</s:else>
 						<label class="Clearfix mb5 w50"> <s:property value="name" />
 						</label>
@@ -91,12 +92,15 @@
 			<div class="l_box w240 p5 m5 cf shadow_l_10 radius_6 bg_box">
 				<s:iterator value="#request.focusMerchantList">
 					<div class="fl">
-						<%-- <s:if test="portrait==''">
-									<img src="<s:property value="portraitPath" />" width="40px" />
-								</s:if>
-								<s:else>
-									<img src="upload/portrait/auto_photo.png" width="40px" />
-								</s:else> --%>
+						 	<s:if test="logoPath==null||logoPath.trim.equals('')">
+							<a href="merchantMain?merchantMain.id=${id}"><img src="upload/portrait/auto_photo.png"
+								class="w50 h50 Clearfix" /></a>
+							</s:if>
+							<s:else>
+								<a href="merchantMain?merchantMain.id=${id}"><img src="<s:property value="logoPath" />"
+								class="w50 h50 Clearfix" /></a>
+							
+							</s:else>
 						<label class="Clearfix mb10"> <s:property value="name" />
 						</label>
 					</div>
