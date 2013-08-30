@@ -148,21 +148,21 @@ public class ClubAction extends BaseAction
 		club = clubService.clubById(club);
 		/********************** fineTu ***********************/
 		club.getClubsForTargetClubId();
-		List<Club> focusClubList = clubService.getFocusList(Club.class, club);
+		Page page = new Page(1*10+1);
+		page.setEachPageNumber(10);
+		page.setCurrentPage(1);
+		List<Club> focusClubList = clubService.getFocusList(Club.class, club,page);
 		if(focusClubList.size() > 9)
 		{
 			focusClubList = focusClubList.subList(0, 9);
 		}
 		getRequestMap().put("focusClubList", focusClubList);
-		List<Club> focusMerchantList = clubService.getFocusList(Merchant.class,
-				club);
+		List<Club> focusMerchantList = clubService.getFocusList(Merchant.class,club,page);
 		if(focusMerchantList.size() > 9)
 		{
 			focusMerchantList = focusMerchantList.subList(0, 9);
 		}
 		getRequestMap().put("focusMerchantList", focusMerchantList);
-		Page page = new Page(1 * 7 + 1);
-		page.setCurrentPage(1);
 		ClubPostList clubPostList = new ClubPostList();
 		List<ClubPost> list = clubPostService.clubPostList(club.getId(), page);
 		for(ClubPost p : list)
@@ -316,16 +316,18 @@ public class ClubAction extends BaseAction
 		ClubMember clubMember = (ClubMember) getSessionMap().get("clubMember");
 		Club club = new Club();
 		club.setId(clubMember.getId().getClubId());
+		Page page = new Page(pageNum*10+1);
+		page.setEachPageNumber(10);
+		page.setCurrentPage(pageNum);
 		switch(type)
 		{
 			case (1):
 				List<Club> clubList = clubService
-						.getFocusList(Club.class, club);
+						.getFocusList(Club.class, club,page);
 				getRequestMap().put("focusList", clubList);
 				break;
 			case (2):
-				List<Merchant> merchantList = clubService.getFocusList(
-						Merchant.class, club);
+				List<Merchant> merchantList = clubService.getFocusList(Merchant.class, club,page);
 				getRequestMap().put("focusList", merchantList);
 				break;
 		}

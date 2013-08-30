@@ -297,7 +297,6 @@ public class ClubService extends BaseService
 		}
 		return true;
 	}
-	
 	public <T extends Comparable> List<T> getFocusList(Class objectClass, Club club)
 	{
 		List<T> list = new ArrayList<T>();
@@ -317,6 +316,14 @@ public class ClubService extends BaseService
 		Collections.sort(list);
 		return list;
 	}
+	
+	public <T extends Comparable> List<T> getFocusList(Class objectClass, Club club,Page page)
+	{
+		List<T> list = getFocusList(objectClass,club);
+		Collections.sort(list);
+		return list.subList(page.getCurrentPage()*page.getEachPageNumber(),(page.getCurrentPage()+1)*page.getEachPageNumber());
+	}
+	
 	private PersonalLetter sendLetter(User target, User source, String text)
 	{
 		return new PersonalLetter(target, source, "社团通知", text,
