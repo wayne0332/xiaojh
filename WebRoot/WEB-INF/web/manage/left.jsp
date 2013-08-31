@@ -158,6 +158,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
           <li><a href="allUser?pageNum=1" target="main">用户账号管理</a></li>
           <li><a href="allClub?pageNum=1" target="main">社团账号管理</a></li>
           <li><a href="allMerchant?pageNum=1" target="main">商家账号管理</a></li>
+          <li><a href="allKeyword" target="main">关键字管理</a></li>
         </ul>
       </div>
       <h1 class="type"><a href="javascript:void(0)">社团管理</a></h1>

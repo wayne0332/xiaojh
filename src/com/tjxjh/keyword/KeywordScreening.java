@@ -11,14 +11,9 @@ public class KeywordScreening
 	private Map<Character, HashMap> filterMap = new HashMap<Character, HashMap>(
 			1024);
 	
-	public KeywordScreening(String[] filterWordList)
+	public KeywordScreening(KeywordService service)
 	{
-		rebuildKeywordMap(filterWordList);
-	}
-	
-	public KeywordScreening(Iterable<String> filterWordList)
-	{
-		rebuildKeywordMap(filterWordList);
+		service.setKeywordScreening(this);
 	}
 	
 	public void rebuildKeywordMap(String[] filterWordList)

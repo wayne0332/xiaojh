@@ -6,6 +6,7 @@ import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 import com.tjxjh.annotation.Keyword;
 import com.tjxjh.keyword.KeywordScreening;
+import com.tjxjh.keyword.KeywordService;
 
 public class KeywordInterceptor extends AbstractInterceptor
 {
@@ -52,15 +53,13 @@ public class KeywordInterceptor extends AbstractInterceptor
 		return true;
 	}
 	
-	@Override
-	public void init()
-	{
-		// TODO:加载过滤词库
-		keywordScreening = new KeywordScreening(new String[] {"你妈"});
-	}
-	
 	public static KeywordScreening getKeywordScreening()
 	{
 		return keywordScreening;
+	}
+	
+	public static void registerService(KeywordService service)
+	{
+		keywordScreening = new KeywordScreening(service);
 	}
 }
