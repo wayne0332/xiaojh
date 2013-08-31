@@ -430,11 +430,14 @@ public class UserAction extends BaseAction
 	public String myFocus()
 	{
 		// List<User> focusList = sessionUser.getUsersForTargetUserId();
+		Page page = new Page(pageNum*10+1);
+		page.setEachPageNumber(10);
+		page.setCurrentPage(pageNum);
 		switch(type)
 		{
 			case (0):
 				List<User> userList = userService.getFocusList(User.class,
-						(User) getSessionMap().get("user"));
+						(User) getSessionMap().get("user"),page);
 				getRequestMap().put("focusList", userList);
 				// for(User u:userList){
 				// checkList.add(u.getId());
@@ -443,7 +446,7 @@ public class UserAction extends BaseAction
 				break;
 			case (1):
 				List<Club> clubList = userService.getFocusList(Club.class,
-						(User) getSessionMap().get("user"));
+						(User) getSessionMap().get("user"),page);
 				getRequestMap().put("focusList", clubList);
 				// for(Club u:clubList){
 				// checkList.add(u.getId());
@@ -452,7 +455,7 @@ public class UserAction extends BaseAction
 				break;
 			case (2):
 				List<Merchant> merchantList = userService.getFocusList(
-						Merchant.class, (User) getSessionMap().get("user"));
+						Merchant.class, (User) getSessionMap().get("user"),page);
 				getRequestMap().put("focusList", merchantList);
 				// for(Merchant u:merchantList){
 				// checkList.add(u.getId());

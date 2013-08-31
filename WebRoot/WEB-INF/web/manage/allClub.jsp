@@ -100,8 +100,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	</s:iterator>
     		<tr>
     			<td colspan="7" >
-    				<span><a href="allClub?pageNum=<s:property value="#request.clubList.page.currentPage-1" />">上一页</a></span>&nbsp;
-					<span><a href="allClub?pageNum=<s:property value="#request.clubList.page.currentPage+1" />">下一页</a></span>
+    				<span><a href="clubFocus?type=1&pageNum=<s:property value="#request.clubList.page.currentPage-1" />">上一页</a></span>&nbsp;
+					<span><a href="clubFocus?type=1&pageNum=<s:property value="#request.clubList.page.currentPage+1" />">下一页</a></span>
 					<span>共 <s:property value="#request.clubList.page.pageNumber" />页</span>
     			</td>
     		</tr>
