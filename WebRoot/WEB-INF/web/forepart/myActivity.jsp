@@ -18,7 +18,6 @@
 <link rel="stylesheet" type="text/css" href="css/common.css" />
 <link rel="stylesheet" type="text/css" href="css/page-user.css" />
 
-
 </head>
 
 <body>
@@ -64,7 +63,7 @@
 							<span id="zan${talking.id}"> <a href="javascript:void(0);"
 								onclick="zanTalking(${talking.id});">赞(${talking.shareDetails.praiseCount})</a>
 						</span><a href="#">我要参与</a></li>
-						<s:if test="actionName.equals('adminFindOneActivity')">
+						<s:if test="allowDelete.equals('yes')">
 							<a href="<%=path%>/deleteActivity?activity.id=${id}">删除</a>
 							<a href="preModifyActivity?activity.id=${id}">修改</a>
 						</s:if>

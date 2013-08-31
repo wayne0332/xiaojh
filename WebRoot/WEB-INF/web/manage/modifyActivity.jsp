@@ -53,10 +53,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	     	活动举办地点：<input type="text" name="activity.place" value="${activity.place}"/><br>
 	     	上传活动封面图片:<input type = "file" name="uploadImage"/><br>
 	     	上传活动视频:<input type = "file" name="uploadVideo"/><br>
-	     	<s:if test="allowDelete.equals('yes')">
-		     	活动状态:<s:select name="activity.status" list="@com.tjxjh.enumeration.ActivityStatus@values()"
+		         活动状态:<s:select name="activity.status" list="@com.tjxjh.enumeration.ActivityStatus@values()"
 				listKey="name()" listValue="name" />
-			</s:if>
 			<br>
 	     	<input type="submit" value="提交"/>
      	</form>

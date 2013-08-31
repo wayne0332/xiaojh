@@ -217,6 +217,19 @@ public class UserService extends BaseService
 		return list;
 	}
 	
+	public <T extends Comparable> List<T> getFocusList(Class objectClass, User user,Page page){
+		List<T> list = getFocusList(objectClass,user);
+		Collections.sort(list);
+		if(list.size()!=0){
+			return list.subList(
+					(page.getCurrentPage()-1)*page.getEachPageNumber(),
+					(page.getCurrentPage())*page.getEachPageNumber()<list.size()?(page.getCurrentPage()+1)*page.getEachPageNumber():(list.size()+1)
+					);
+		}else{
+			return list;
+		}
+	}
+	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean focusUser(User sourceUser, User targetUser)
 	{

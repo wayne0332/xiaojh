@@ -183,7 +183,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </table>
         <ul class="MM">
           <li><a href="allActivityPost?pageNum=1" target="main">线上活动帖子总览</a></li>
-          <li><a href="allActivityPost?pageNum=1" target="main">活动总览</a></li>
+          <li><a href="adminActivitys?pageNum=1&flage=0" target="main">活动总览</a></li>
+          <li><a href="adminActivitys?pageNum=1&flage=1" target="main">正在申请的活动</a></li>
+          <li><a href="adminActivitys?pageNum=1&flage=2" target="main">通过审核的活动</a></li>
+           <li><a href="adminActivitys?pageNum=1&flage=3" target="main">已经拒绝的活动</a></li>
         </ul>
       </div>
       </div>

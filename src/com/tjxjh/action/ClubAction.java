@@ -27,9 +27,11 @@ import com.tjxjh.po.Merchant;
 import com.tjxjh.po.User;
 import com.tjxjh.pojo.ClubList;
 import com.tjxjh.pojo.ClubPostList;
+import com.tjxjh.pojo.MerchantList;
 import com.tjxjh.service.ActivityService;
 import com.tjxjh.service.ClubPostService;
 import com.tjxjh.service.ClubService;
+import com.tjxjh.service.MerchantService;
 import com.tjxjh.service.SearchService;
 import com.tjxjh.util.CodeUtil;
 
@@ -37,6 +39,7 @@ import com.tjxjh.util.CodeUtil;
 @Namespace("/")
 public class ClubAction extends BaseAction
 {
+	static private int EACH_PAGE_NUM = 3;
 	static final String CHANGE_PROPRIETER_INPUT = "changeProprieterInput";
 	static final String CHANGE_PROPRIETER = "changeProprieter";
 	static final String UPDATE_MEMBER_TO_NORMAL = "updateMemberToNormal";
@@ -148,8 +151,8 @@ public class ClubAction extends BaseAction
 		club = clubService.clubById(club);
 		/********************** fineTu ***********************/
 		club.getClubsForTargetClubId();
-		Page page = new Page(1*10+1);
-		page.setEachPageNumber(10);
+		Page page = new Page(1*EACH_PAGE_NUM+1);
+		page.setEachPageNumber(EACH_PAGE_NUM);
 		page.setCurrentPage(1);
 		List<Club> focusClubList = clubService.getFocusList(Club.class, club,page);
 		if(focusClubList.size() > 9)
@@ -316,19 +319,24 @@ public class ClubAction extends BaseAction
 		ClubMember clubMember = (ClubMember) getSessionMap().get("clubMember");
 		Club club = new Club();
 		club.setId(clubMember.getId().getClubId());
-		Page page = new Page(pageNum*10+1);
-		page.setEachPageNumber(10);
+		Page page = new Page(EACH_PAGE_NUM,pageNum*EACH_PAGE_NUM+1);
 		page.setCurrentPage(pageNum);
 		switch(type)
 		{
 			case (1):
 				List<Club> clubList = clubService
 						.getFocusList(Club.class, club,page);
-				getRequestMap().put("focusList", clubList);
+				ClubList clubListPojo = new ClubList();
+				clubListPojo.setClubList(clubList);
+				clubListPojo.setPage(clubService.getFocusNum(Club.class,club,page));
+				getRequestMap().put("focusList", clubListPojo);
 				break;
 			case (2):
 				List<Merchant> merchantList = clubService.getFocusList(Merchant.class, club,page);
-				getRequestMap().put("focusList", merchantList);
+				MerchantList merchantListPojo = new MerchantList();
+				merchantListPojo.setMerchantList(merchantList);
+				merchantListPojo.setPage(clubService.getFocusNum(Merchant.class, club, page));
+				getRequestMap().put("focusList", merchantListPojo);
 				break;
 		}
 		return SUCCESS;

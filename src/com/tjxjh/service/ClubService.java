@@ -321,9 +321,24 @@ public class ClubService extends BaseService
 	{
 		List<T> list = getFocusList(objectClass,club);
 		Collections.sort(list);
-		return list.subList(page.getCurrentPage()*page.getEachPageNumber(),(page.getCurrentPage()+1)*page.getEachPageNumber());
+		if(list.size()!=0){
+			int beginIndex = (page.getCurrentPage()-1)*page.getEachPageNumber();
+			int toIndex = (page.getCurrentPage())*page.getEachPageNumber()<list.size()?(page.getCurrentPage()*page.getEachPageNumber()):(list.size());
+			return list.subList(beginIndex,toIndex);
+		}else{
+			return list;
+		}
 	}
-	
+	public Page getFocusNum(Class objectClass, Club club,Page page){
+		Club c = dao.findById(Club.class, club.getId());
+		int itemNum = 0;
+		if(objectClass == Club.class){
+			itemNum = c.getClubsForTargetClubId().size();
+		}else if(objectClass == Merchant.class){
+			itemNum = c.getFocusMerchants().size();
+		}
+		return new Page(page.getCurrentPage(),page.getEachPageNumber(),itemNum);
+	}
 	private PersonalLetter sendLetter(User target, User source, String text)
 	{
 		return new PersonalLetter(target, source, "社团通知", text,
