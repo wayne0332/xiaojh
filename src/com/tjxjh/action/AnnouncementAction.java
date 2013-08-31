@@ -22,6 +22,7 @@ import com.tjxjh.service.AnnouncementService;
 @Namespace("/")
 public class AnnouncementAction extends BaseAction
 {
+	static final String PUBLIC_ACCOUNCEMENTS = "publicAnnouncements";
 	static final String CLUB_ANNOUNCEMENTS = "clubAnnouncements";
 	static final String MY_ANNOUNCEMENTS = "myAnnouncements";
 	static final String ADD_ANNOUNCEMENT = "addAnnouncement";
@@ -35,7 +36,6 @@ public class AnnouncementAction extends BaseAction
 	
 	@Actions({@Action(value = ADD_ANNOUNCEMENT_INPUT, results = {@Result(name = SUCCESS, location = MANAGE
 			+ ADD_ANNOUNCEMENT + JSP, params = {"path", "${path}"})})})
-	@Auth(type = ClubManagerAuth.class)
 	public String page()
 	{
 		return SUCCESS;
@@ -46,7 +46,6 @@ public class AnnouncementAction extends BaseAction
 					"club.id", "${#request.clubMember.club.id}"}),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = ADD_ANNOUNCEMENT),
 			@Result(name = ERROR, location = FOREPART + ERROR_PAGE)})
-	@Auth(type = ClubManagerAuth.class)
 	public String addAnnouncement()
 	{
 		if(path == null)
@@ -75,13 +74,26 @@ public class AnnouncementAction extends BaseAction
 	{
 		if(page == null)
 		{
-			page = announcementService.announcementsPage(super.currentUser(),
-					true);
+			page = announcementService.clubAnnouncementsPage(
+					super.currentUser(), true);
 		}
 		super.getRequestMap().put(
 				MY_ANNOUNCEMENTS,
-				announcementService.announcements(super.currentUser(), page,
-						true));
+				announcementService.clubAnnouncements(super.currentUser(),
+						page, true));
+		return SUCCESS;
+	}
+	
+	@Action(value = PUBLIC_ACCOUNCEMENTS, results = {@Result(name = SUCCESS, location = MANAGE
+			+ PUBLIC_ACCOUNCEMENTS + JSP)})
+	public String publicAccouncements()
+	{
+		if(page == null)
+		{
+			page = announcementService.announcementsPage();
+		}
+		super.getRequestMap().put(MY_ANNOUNCEMENTS,
+				announcementService.announcements(page));
 		return SUCCESS;
 	}
 	
@@ -92,13 +104,13 @@ public class AnnouncementAction extends BaseAction
 	{
 		if(page == null)
 		{
-			page = announcementService.announcementsPage(super.currentUser(),
-					false);
+			page = announcementService.clubAnnouncementsPage(
+					super.currentUser(), false);
 		}
 		super.getRequestMap().put(
 				MY_ANNOUNCEMENTS,
-				announcementService.announcements(super.currentUser(), page,
-						false));
+				announcementService.clubAnnouncements(super.currentUser(),
+						page, false));
 		return SUCCESS;
 	}
 	
