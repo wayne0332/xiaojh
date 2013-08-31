@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import com.tjxjh.enumeration.ActivityStatus;
 import com.tjxjh.enumeration.TalkingUrlType;
+import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Activity;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubMember;
@@ -119,7 +120,7 @@ public class ActivityService extends BaseService{
 	public Activity findByHql(User user,Merchant merchant,Activity activity){
 			List<ClubMember> list=null;
 			activity=findById(activity.getId());
-			if(1==1){//管理员登录
+			if(user.getStatus()==UserStatus.ADMIN){//管理员登录
 				return activity;
 			}
 			Club club=activity.getClub();

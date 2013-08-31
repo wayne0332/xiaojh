@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
 import cn.cafebabe.websupport.util.SpringUtil;
 
+import com.tjxjh.interceptor.KeywordInterceptor;
 import com.tjxjh.service.MailService;
 
 public class CheckEmailServlet extends HttpServlet
@@ -41,7 +42,7 @@ public class CheckEmailServlet extends HttpServlet
 		if(email != null)
 		{
 			email = new String(email.getBytes("ISO8859-1"), "utf-8");
-			if(!(email = email.trim()).equals("")
+			if(!(email = email.trim()).equals("") && !KeywordInterceptor.getKeywordScreening().isHasFilterWord(email)
 					&& mailService.checkEmail(email))
 			{
 				json.accumulate("error", false);

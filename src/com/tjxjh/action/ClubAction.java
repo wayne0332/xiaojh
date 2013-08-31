@@ -35,7 +35,7 @@ import com.tjxjh.service.MerchantService;
 import com.tjxjh.service.SearchService;
 import com.tjxjh.util.CodeUtil;
 
-@ParentPackage("authController")
+@ParentPackage("myPackage")
 @Namespace("/")
 public class ClubAction extends BaseAction
 {
