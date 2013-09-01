@@ -18,22 +18,9 @@
 <body>
 	<jsp:include page="head.jsp" />
 	<s:if test="#session.clubMember.role.name() != 'NORMAL'">
-		<a href="addAnnouncementInput?path=clubAnnouncements">社团通告</a>
+		<a href="addAnnouncementInput?path=clubAnnouncements&club.id=${param['club.id'] }">发布社团通告</a>
 	</s:if>
-	<table>
-		<tr>
-			<td>标题</td>
-			<td>时间</td>
-			<td>内容</td>
-		</tr>
-		<s:iterator value="#request.myAnnouncements">
-			<tr>
-				<td><s:property value="title" /></td>
-				<td><s:date name="datetime" format="yyyy-MM-dd hh:mm:ss" /></td>
-				<td><s:property value="text" /></td>
-			</tr>
-		</s:iterator>
-	</table>
-	<wst:page url="myAnnouncements" />
+	<jsp:include page="announcementsDisplay.jsp"/>
+	<wst:page url="clubAnnouncements" />
 </body>
 </html>

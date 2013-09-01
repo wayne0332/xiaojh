@@ -14,6 +14,7 @@ import cn.cafebabe.autodao.pojo.Page;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.MerchantNews;
+import com.tjxjh.pojo.MerchantList;
 import com.tjxjh.service.MerchantService;
 import com.tjxjh.util.CodeUtil;
 import com.tjxjh.util.MerchantPurposeUtil;
@@ -40,6 +41,7 @@ public class MerchantAction extends BaseAction
 	private String mediaFileName = null;
 	private MerchantNews merchantNews = null;
 	private int type;
+	private int pageNum;
 	protected File logo = null;
 	protected String logoFileName = null;
 	
@@ -67,12 +69,12 @@ public class MerchantAction extends BaseAction
 		return super.successOrInput(merchantService.applyMerchant(merchant, logo));
 	}
 	
-	@Action(value = CHECK_MERCHANT, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = UserAction.LOGIN_INPUT)})
-	public String checkMerchant()
-	{
-		merchantService.checkMerchant(merchant, true);
-		return SUCCESS;
-	}
+//	@Action(value = CHECK_MERCHANT, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = UserAction.LOGIN_INPUT)})
+//	public String checkMerchant()
+//	{
+//		merchantService.checkMerchant(merchant, isPass==1?true:false);
+//		return SUCCESS;
+//	}
 	
 	@Action(value = MERCHANT_LOGIN, results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = MERCHANT_MAIN),
@@ -89,6 +91,21 @@ public class MerchantAction extends BaseAction
 		{
 			return INPUT;
 		}
+	}
+	
+	@Action(value = "allMerchant", results = {
+			@Result(name = SUCCESS, location = MANAGE+"allMerchant.jsp")})
+	public String allMerchant(){
+		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
+		page.setCurrentPage(pageNum);
+		MerchantList merchantList = new MerchantList();
+		merchantList.setMerchantList(merchantService.allMerchant(page));
+		for(Merchant m:merchantList.getMerchantList()){
+			m.getActivities().size();
+		}
+		merchantList.setPage(merchantService.merchantNum(page));
+		getRequestMap().put("merchantList", merchantList);
+		return SUCCESS;
 	}
 	
 	@Action(value = MERCHANT_MAIN, results = {@Result(name = SUCCESS, location = FOREPART
@@ -246,6 +263,14 @@ public class MerchantAction extends BaseAction
 		this.type = type;
 	}
 	
+	public int getPageNum() {
+		return pageNum;
+	}
+
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
+	}
+
 	public String getMediaFileName()
 	{
 		return mediaFileName;

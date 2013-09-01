@@ -4,7 +4,7 @@
  	
  	.index_Abt				{ position: absolute; top: 300px; border: none; left: 0; background: rgba(233,233,233,0.5); color: #666; }
  
- 	.index_update_panel		{ width: 730px; height: 330px; overflow-y: hidden; }
+ 	.index_update_panel		{ width: 730px; height: 180px; overflow-y: hidden; }
  	.activity_title			{ width: 705px; display: block; line-height: 30px; background-color: rgba(40,100,40,0.3); color: #eee; z- }
  	.index_activityBox		{  }
  	.index_sideCol			{  }
@@ -35,7 +35,7 @@
 	.campusList li a		{ text-decoration: none; display: block; }
 	.campusList li a:hover	{ background-color: #f8f8f8; }
 	.campusList_li1			{ background-color: #bbb; color: #f8f8f8; width: 230px; }
-
+	.logoImgcursor			{cursor:pointer;}
 
 /* left_bar_userHome
  * ---------------------------------------------------------------------------------------- */	
@@ -48,23 +48,37 @@
 	.l_search input			{ border: none; }
 	.l_search button		{ border: none; background-color: #777; }
 	
-	
-/* userHome
+/* userHome & userCenter
  * ---------------------------------------------------------------------------------------- */	
  
  	.w630					{ width: 630px; }
-
+	.w610					{ width: 610px; }
 	.userHome_box			{ background-color: #fff; }
 	
 	.userBox_title			{ display: block; line-height: 30px; background-color: rgba(40,100,40,0.3); color: #fff; margin: -10px 0 0 -10px; }
 	.userHome_box textarea	{ width: 687px; resize: none; }
+	.textarea				{ border:1px solid #DADADA;min-height:30px;word-wrap: break-word;overflow-y:visible; }
+	.textarea:hover 		{ border-color: #F5B93C; background-color: #FFFFFF; min-height:50px;overflow-y:visible;}
+	.submit					{ height:30px; width:100px; border:1px solid #DADADA;}
+	.submit:hover			{ cursor:pointer;}
 	.userHome_box button	{  }
 
-	.user_dongtai_div		{ border-bottom: 1px solid #ccc; }
+	.user_dongtai_div		{ border-bottom: 1px solid #ccc;margin-bottom:0px; }
 	.user_dongtai_div img	{  }
 	.user_dongtai_div label	{  }
 	.user_dongtai_div a		{ width: 80px; display: inline-block; text-align: right; float: right; }
-
+	
+	#talking_detail_div a	{float:none; text-align:left;width:auto;}
+	.user_talking_detail_div { overflow:hidden; }
+	.user_pinglun_div		{ border-bottom: 1px dashed #ddd; line-height:20px; padding-bottom:10px;padding-top:10px;}
+	.user_pinglun_div a		{float:none; text-align:left;width:auto;}
+	.user_name_color 		{color:#498B31}
+	.user_talking_share_div {border:1px #E1E1E1 solid; line-height:23px; padding-top:0px;}
+	.w560					{width:560px;}
+	.color_gray				{color:#bbb;}
+	.delete_tc				{visibility:hidden;}
+	.tc_detail:hover .delete_tc{visibility:visible;}
+	.of_h						{overflow:hidden;}
 /* myActivity
  * ---------------------------------------------------------------------------------------- */	
  

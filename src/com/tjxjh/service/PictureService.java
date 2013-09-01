@@ -1,11 +1,14 @@
 package com.tjxjh.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.tjxjh.po.Picture;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
@@ -113,6 +116,58 @@ public class PictureService extends BaseService{
 						"from Picture t order by datetime desc"
 						);
 	}
+	/*********************************************获取相关用户照片***************************/
+	@Transactional (propagation = Propagation.REQUIRED) 
+	public Page getRelativeByHql(Integer eachPageNumber,Integer currentPage,Integer totalPageNumber)
+	{
+		if(currentPage<=0){
+			currentPage=1;
+		}
+		if(totalPageNumber!=0){
+			return Page.getPage(currentPage, eachPageNumber, totalPageNumber);
+		}
+		ActionContext context = ActionContext.getContext();  
+	    Map<String, Object> session = context.getSession();
+		ArrayList<User> users=(ArrayList<User>) session.get("relativeUsers");
+		String Hql="select count(*) from Picture t where 1=1 ";
+		StringBuilder str3=new StringBuilder();
+		for(User u:users){
+			str3.append(u.getId()+",");
+		}
+		if(str3.length()>0){
+			Hql=Hql+"and t.user.id in ("+str3.substring(0, str3.length()-1)+")";
+		}
+		try{
+			Page page=dao.getPageByHql(eachPageNumber,Hql);
+			page.setCurrentPage(currentPage);
+			return page;
+		}catch (Exception e){
+			System.out.println("---------PictureService--getAllPageByHql--------"+e);
+			return null;
+		}
+	}
+	@SuppressWarnings("unchecked")
+	public List<Picture> findRelativePictureByHql(Page page)
+	{
+		if(page==null){
+			return null;
+		}
+		ActionContext context = ActionContext.getContext();  
+	    Map<String, Object> session = context.getSession();
+		ArrayList<User> users=(ArrayList<User>) session.get("relativeUsers");
+		String Hql="from Picture t where 1=1 ";
+		StringBuilder str3=new StringBuilder();
+		for(User u:users){
+			str3.append(u.getId()+",");
+		}
+		if(str3.length()>0){
+			Hql=Hql+"and t.user.id in ("+str3.substring(0, str3.length()-1)+") order by datetime desc";
+		}
+		return (List<Picture>) dao
+				.executeHql(page,Hql);
+	}
+	/****************************************************************************************************/
+	
 	@Transactional(readOnly = true, propagation=Propagation.SUPPORTS)   
 	public List<Picture> findAll(Page pageInfo){
 		return dao.findAll(Picture.class,pageInfo);

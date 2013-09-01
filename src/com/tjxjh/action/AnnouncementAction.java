@@ -10,15 +10,19 @@ import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
+import com.tjxjh.annotation.Auth;
 import com.tjxjh.enumeration.ClubMemberRole;
 import com.tjxjh.enumeration.UserStatus;
+import com.tjxjh.interceptor.AuthInterceptor.ClubManagerAuth;
+import com.tjxjh.interceptor.AuthInterceptor.UserWithClubMemberAuth;
 import com.tjxjh.po.Announcement;
 import com.tjxjh.service.AnnouncementService;
 
-@ParentPackage("struts-default")
+@ParentPackage("myPackage")
 @Namespace("/")
 public class AnnouncementAction extends BaseAction
 {
+	static final String PUBLIC_ACCOUNCEMENTS = "publicAnnouncements";
 	static final String CLUB_ANNOUNCEMENTS = "clubAnnouncements";
 	static final String MY_ANNOUNCEMENTS = "myAnnouncements";
 	static final String ADD_ANNOUNCEMENT = "addAnnouncement";
@@ -38,7 +42,8 @@ public class AnnouncementAction extends BaseAction
 	}
 	
 	@Action(value = ADD_ANNOUNCEMENT, results = {
-			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "${path}"),
+			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "${path}", params = {
+					"club.id", "${#request.clubMember.club.id}"}),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = ADD_ANNOUNCEMENT),
 			@Result(name = ERROR, location = FOREPART + ERROR_PAGE)})
 	public String addAnnouncement()
@@ -64,33 +69,48 @@ public class AnnouncementAction extends BaseAction
 	
 	@Action(value = MY_ANNOUNCEMENTS, results = {@Result(name = SUCCESS, location = FOREPART
 			+ MY_ANNOUNCEMENTS + JSP)})
+	@Auth(type = UserWithClubMemberAuth.class)
 	public String myAnnouncements()
 	{
 		if(page == null)
 		{
-			page = announcementService.announcementsPage(super.currentUser(),
-					true);
+			page = announcementService.clubAnnouncementsPage(
+					super.currentUser(), true);
 		}
 		super.getRequestMap().put(
 				MY_ANNOUNCEMENTS,
-				announcementService.announcements(super.currentUser(), page,
-						true));
+				announcementService.clubAnnouncements(super.currentUser(),
+						page, true));
+		return SUCCESS;
+	}
+	
+	@Action(value = PUBLIC_ACCOUNCEMENTS, results = {@Result(name = SUCCESS, location = MANAGE
+			+ PUBLIC_ACCOUNCEMENTS + JSP)})
+	public String publicAccouncements()
+	{
+		if(page == null)
+		{
+			page = announcementService.announcementsPage();
+		}
+		super.getRequestMap().put(MY_ANNOUNCEMENTS,
+				announcementService.announcements(page));
 		return SUCCESS;
 	}
 	
 	@Action(value = CLUB_ANNOUNCEMENTS, results = {@Result(name = SUCCESS, location = FOREPART
 			+ CLUB_ANNOUNCEMENTS + JSP)})
+	@Auth(type = ClubManagerAuth.class)
 	public String clubAnnouncements()
 	{
 		if(page == null)
 		{
-			page = announcementService.announcementsPage(super.currentUser(),
-					false);
+			page = announcementService.clubAnnouncementsPage(
+					super.currentUser(), false);
 		}
 		super.getRequestMap().put(
 				MY_ANNOUNCEMENTS,
-				announcementService.announcements(super.currentUser(), page,
-						false));
+				announcementService.clubAnnouncements(super.currentUser(),
+						page, false));
 		return SUCCESS;
 	}
 	

@@ -12,6 +12,8 @@ import cn.cafebabe.websupport.util.SpringUtil;
 import com.tjxjh.enumeration.Sex;
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.interceptor.AuthInterceptor;
+import com.tjxjh.interceptor.KeywordInterceptor;
+import com.tjxjh.keyword.KeywordService;
 import com.tjxjh.po.School;
 import com.tjxjh.po.User;
 import com.tjxjh.service.AdService;
@@ -63,9 +65,14 @@ public class ContextListener implements ServletContextListener
 				// + UserService.DEFAULT_PORTRAIT)));
 			}
 		}
-		/*初始化广告位信息*/
-		AdService adService = SpringUtil.springContext(context.getServletContext()).getBean(AdService.class);
-		context.getServletContext().setAttribute("adsList", adService.allAdsMap());
+		/* 初始化广告位信息 */
+		AdService adService = SpringUtil.springContext(
+				context.getServletContext()).getBean(AdService.class);
+		context.getServletContext().setAttribute("adsList",
+				adService.allAdsMap());
+		// 在KeywordService里注册拦截器
+		KeywordInterceptor.registerService(SpringUtil.springContext(
+				context.getServletContext()).getBean(KeywordService.class));
 	}
 	
 	private Map<Integer, School> schoolsMap(List<School> schools)

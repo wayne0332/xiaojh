@@ -56,6 +56,24 @@ public class ActivityPostAction extends BaseAction{
 		return SUCCESS;
 	}
 	
+	@Action(value = "allActivityPost", results = {
+			@Result(name = SUCCESS,location = MANAGE+"allActivityPost.jsp")})
+	public String allActivityPost(){
+		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
+		page.setCurrentPage(pageNum);
+		ActivityPostList activityPostList = new ActivityPostList();
+		activityPostList.setActivityPostList(service.allActivityPost(page));
+		activityPostList.setPage(service.activityPostNum(0, page));
+		for(ActivityPost c:activityPostList.getActivityPostList()){
+			c.getOnlineActivity().getTittle();
+			c.getUser().getName();
+			c.getActivityPostComments().size();
+		}
+		activityPostList.setPage(service.activityPostNum(0, page));
+		getRequestMap().put("activityPostList", activityPostList);
+		return SUCCESS;
+	}
+	
 	@Action(value = "activityPostList", results = {
 			@Result(name = SUCCESS, location = FOREPART+"activityPostList.jsp")})
 	public String activityPostList(){
@@ -92,6 +110,25 @@ public class ActivityPostAction extends BaseAction{
 			return INPUT;
 		}
 	}
+	
+	@Action(value = "deleteActivityPost", results = {
+			@Result(name = SUCCESS,type=REDIRECT_ACTION, location = "activityPostList", params={"activityId","${activityId}","pageNum","${pageNum}"})})
+	public String deleteActivityPost(){
+		if(service.deleteActivityPost(post)){
+			return SUCCESS;
+		}
+		return INPUT;
+	}
+	
+	@Action(value = "adminDeleteActivityPost", results = {
+			@Result(name = SUCCESS,type=REDIRECT_ACTION, location = "allActivityPost", params={"pageNum","${pageNum}"})})
+	public String adminDeleteActivityPost(){
+		if(service.deleteActivityPost(post)){
+			return SUCCESS;
+		}
+		return INPUT;
+	}
+	
 	@Action(value = "deleteActivityComment", results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "activityPostContent",params = {
 					"postId", "${#request.postId}","pageNum", "${#request.pageNum}"})})

@@ -28,7 +28,6 @@ public class AuthInterceptor extends AbstractInterceptor
 				.getMethod(ai.getProxy().getMethod()).getAnnotation(Auth.class)) != null)
 		{
 			Class<? extends UserAuth> authType = auth.type();
-			System.out.println(authType);
 			String result = (String) authType.getDeclaredMethod("check",
 					new Class[] {ActionInvocation.class}).invoke(null,
 					new Object[] {ai});

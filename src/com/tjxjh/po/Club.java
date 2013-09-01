@@ -26,7 +26,7 @@ import com.tjxjh.enumeration.ClubType;
  */
 @Entity
 @Table(name = "club", catalog = "xiaojh")
-public class Club implements java.io.Serializable
+public class Club implements java.io.Serializable,Comparable<Club>
 {
 	// Fields
 	private Integer id;
@@ -330,7 +330,8 @@ public class Club implements java.io.Serializable
 		this.announcements = announcements;
 	}
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "clubsForSourceClubId")
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable(name = "club_focus_club", catalog = "xiaojh", joinColumns = {@JoinColumn(name = "source_club_id", nullable = false, updatable = false)}, inverseJoinColumns = {@JoinColumn(name = "target_club_id", nullable = false, updatable = false)})
 	public Set<Club> getClubsForTargetClubId()
 	{
 		return this.clubsForTargetClubId;
@@ -341,8 +342,7 @@ public class Club implements java.io.Serializable
 		this.clubsForTargetClubId = clubsForTargetClubId;
 	}
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "club_focus_club", catalog = "xiaojh", joinColumns = {@JoinColumn(name = "target_club_id", nullable = false, updatable = false)}, inverseJoinColumns = {@JoinColumn(name = "source_club_id", nullable = false, updatable = false)})
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY,mappedBy = "clubsForTargetClubId")
 	public Set<Club> getClubsForSourceClubId()
 	{
 		return this.clubsForSourceClubId;
@@ -374,5 +374,11 @@ public class Club implements java.io.Serializable
 	public void setFocusMerchants(Set<Merchant> focusMerchants)
 	{
 		this.focusMerchants = focusMerchants;
+	}
+
+	@Override
+	public int compareTo(Club o) {
+		// TODO Auto-generated method stub
+		return o.getId()-this.getId();
 	}
 }

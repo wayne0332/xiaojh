@@ -6,10 +6,15 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
 import org.apache.struts2.ServletActionContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
+import cn.cafebabe.autodao.pojo.Page;
+import cn.cafebabe.websupport.service.BaseService;
+
 import com.tjxjh.enumeration.TalkingUrlType;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubNews;
@@ -19,14 +24,26 @@ import com.tjxjh.util.DeleteSource;
 import com.tjxjh.util.FileUtil;
 import com.tjxjh.util.ImageCutAndZoom;
 
-import cn.cafebabe.autodao.pojo.Page;
-import cn.cafebabe.websupport.service.BaseService;
-
 @Service
 public class ClubNewsService extends BaseService{
 	ClubNews clubnews;
 	@Resource
 	private TalkingService talkingService = null;
+	
+	public List<ClubNews> allClubNews(Page page){
+		String hql = "from ClubNews n order by n.datetime desc";
+		List<ClubNews> list = (List<ClubNews>) dao.executeHql(page,hql);
+		return list;
+	}
+	
+	public Page clubNewsNum(Page page){
+		String hql = "select count(*) from ClubNews";
+		List<Long> countL = null;
+		countL = (List<Long>)dao.executeHql(hql);
+		int itemNum = countL.get(0).intValue();
+		return new Page(page.getCurrentPage(),Page.getDefaultPageNumber(),itemNum);
+	}
+
 	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean add(Talking talking ,ClubNews clubnews){
 		talkingService.add(talking);

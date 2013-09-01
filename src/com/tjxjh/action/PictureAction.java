@@ -111,6 +111,21 @@ public class PictureAction extends BaseAction{
 		actionName="findAllPicture";
 		return SUCCESS;
 	}
+	
+	/**
+	 * 分页获取图片
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@Action(value = "relativePicture", results = {
+			@Result(name = SUCCESS, location = BaseAction.FOREPART + "photos.jsp")})
+	public String findRelativePicture(){
+		page=pictureService.getRelativeByHql(eachPageNumber,currentPage,totalPageNumber);
+		pics=pictureService.findRelativePictureByHql(page);
+		actionName="relativePicture";
+		return SUCCESS;
+	}
 	/**
 	 * 分页获取图片
 	 * 

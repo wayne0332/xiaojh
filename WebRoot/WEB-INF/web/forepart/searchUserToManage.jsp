@@ -17,11 +17,14 @@
 
 <body>
 	<jsp:include page="head.jsp" />
-	<form action="searchUserToManage?club.id=${club.id }" method="post">
+	<%-- <form action="searchUserToManage?club.id=${club.id }" method="post">
 		<s:textfield name="text" value="%{text}" />
 		<input type="submit" value="搜索">
+	</form> --%>
+	<form action="searchAll?club.id=${club.id }" method="post">
+		<s:textfield name="searchText" />
+		<input type="submit" value="搜索">
 	</form>
-
 	<table>
 		<tr>
 			<td>用户名</td>

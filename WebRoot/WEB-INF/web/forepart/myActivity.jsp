@@ -18,7 +18,6 @@
 <link rel="stylesheet" type="text/css" href="css/common.css" />
 <link rel="stylesheet" type="text/css" href="css/page-user.css" />
 
-
 </head>
 
 <body>
@@ -27,7 +26,7 @@
 		<div class="main fl cf mt75">
 			<div class="w fl">
 				<a href="<%=path%>/addActivityJsp"
-					class="single_bt1 w100 mt5 ml5 fl shadow_l_5">发表线下活动</a> <a href="myOnlineActivity"
+					class="single_bt1 w100 mt5 ml5 fl shadow_l_5">发表线下活动</a> <a href="relativeOnlineActivity"
 					class="single_bt2 w100 fl mt10 shadow_l_5">查看线上活动</a><br /><br /> <a
 					href="<%=path %>/${actionName}?condition=datetime&club.id=${club.id}&merchant.id=${merchant.id}"
 					class="fr mr20">时间排序</a> <a
@@ -50,7 +49,7 @@
 					<ul class="w335 fr mt10">
 						<li><label>组织单位：</label>${organizer}</li>
 						<li><label>主办单位：</label>${club.name}${merchant.name}</li>
-						<li><label>活动来源：</label>${ac.club.name}${ac.merchant.name}${datetime}</li>
+						<li><label>发布时间：</label>${datetime}</li>
 						<li><label>资金预算：</label>${budget}元</li>
 						<li><label>举办地点：</label>${place}</li>
 						<li><label>活动状态： </label>
@@ -64,7 +63,7 @@
 							<span id="zan${talking.id}"> <a href="javascript:void(0);"
 								onclick="zanTalking(${talking.id});">赞(${talking.shareDetails.praiseCount})</a>
 						</span><a href="#">我要参与</a></li>
-						<s:if test="actionName.equals('adminFindOneActivity')">
+						<s:if test="allowDelete.equals('yes')">
 							<a href="<%=path%>/deleteActivity?activity.id=${id}">删除</a>
 							<a href="preModifyActivity?activity.id=${id}">修改</a>
 						</s:if>

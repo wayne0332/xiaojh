@@ -21,7 +21,7 @@
 
 		<div class="left_bar mt75">
 			<div class="my_info w240 h90 p5 m5 shadow_l_10 bg_box">
-				<img src="images/head/head1.jpg"
+				<img src="<s:property value="#session.user.portraitPath"/>"
 					class="fl mt5 ml10 circle_80 shadow_l_5" />
 				<ul class="fl w135 p5 pl10 text_r">
 					<li class="w135 text_l f14"><a href="updateUserInput"><s:property
@@ -31,19 +31,18 @@
 					<li><s:property
 							value="#application.schools[#session.user.school.id].name" />
 					</li>
-					<li>凤凰社</li>
 				</ul>
 			</div>
 			<div class="w240 h300 p5 m5 shadow_l_10 bg_box cf">
 				<div class="mt30 ml5">
-					按热度排序：<a href="school?school.id=${school.id}">查看</a>
+					按热度排序：<a href="myClubs">查看</a>
 				</div>
 				<div class="club_category cf ml5">
 					<span>按类型查看：</span><br />
 					<s:iterator value="@com.tjxjh.enumeration.ClubType@values()"
 						id="ac">
 						<a class="shadow_l_5"
-							href="school?school.id=${school.id}&clubType=<s:property value="name()"/>">${name}</a>
+							href="myClubs?clubType=<s:property value="name()"/>">${name}</a>
 					</s:iterator>
 				</div>
 			</div>
@@ -72,7 +71,7 @@
 					<tbody class="clubList_tbody">
 						<s:iterator value="#request.myClubs">
 							<tr>
-								<td class="tl"><img src="images/head/head1.jpg" class="" />
+								<td class="tl"><img src="${club.logoPath}" class="" />
 								</td>
 								<td><s:property value="club.name" />
 								</td>

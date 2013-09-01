@@ -23,7 +23,7 @@ public class ClubPostAction extends BaseAction{
 	@Resource
 	private ClubPostService service = null;
 	private ClubPost post = null;
-	private int clubId;
+	private Club club;
 	private int postId;
 	private int pageNum;
 	private ClubPostComment comment = null;
@@ -34,7 +34,7 @@ public class ClubPostAction extends BaseAction{
 	}
 	
 	@Action(value = "addClubPost", results = {
-			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "clubPostList"),
+			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "clubPostList",params={"club.id","${club.id}"}),
 			@Result(name = INPUT, location = FOREPART+"historyBack.jsp")})
 	public String addClubPost(){
 		if(!(post==null
@@ -44,8 +44,6 @@ public class ClubPostAction extends BaseAction{
 				||post.getText()==null
 				||"".equals(post.getText())
 				||post.getText().length()>8000)){
-			Club club = new Club();
-			club.setId(clubId);
 			post.setClub(club);
 			post.setUser((User)getSessionMap().get("user"));
 			service.addClubPost(post);
@@ -55,13 +53,31 @@ public class ClubPostAction extends BaseAction{
 		return SUCCESS;
 	}
 	@Action(value = "clubPostList", results = {
-			@Result(name = SUCCESS, location = FOREPART+"clubPostList.jsp")})
+			@Result(name = SUCCESS,location = FOREPART+"clubPostList.jsp")})
 	public String clubPostList(){
 		Page page = new Page(pageNum*7+1);
 		page.setCurrentPage(pageNum);
 		ClubPostList clubPostList = new ClubPostList();
-		clubPostList.setClubPostList(service.clubPostList(clubId, page));
-		clubPostList.setPage(service.clubPostNum(clubId, page));
+		clubPostList.setClubPostList(service.clubPostList(club.getId(), page));
+		clubPostList.setPage(service.clubPostNum(club.getId(), page));
+		getRequestMap().put("clubPostList", clubPostList);
+		
+		return SUCCESS;
+	}
+	
+	@Action(value = "allClubPost", results = {
+			@Result(name = SUCCESS,location = MANAGE+"allClubPost.jsp")})
+	public String allClubPost(){
+		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
+		page.setCurrentPage(pageNum);
+		ClubPostList clubPostList = new ClubPostList();
+		clubPostList.setClubPostList(service.allClubPost(page));
+		for(ClubPost c:clubPostList.getClubPostList()){
+			c.getClub().getName();
+			c.getUser().getName();
+			c.getClubPostComments().size();
+		}
+		clubPostList.setPage(service.clubPostNum(0, page));
 		getRequestMap().put("clubPostList", clubPostList);
 		return SUCCESS;
 	}
@@ -88,6 +104,23 @@ public class ClubPostAction extends BaseAction{
 			return INPUT;
 		}
 	}
+	@Action(value = "deletePost", results = {
+			@Result(name = SUCCESS,type=REDIRECT_ACTION, location = "clubPostList", params={"club.id","${club.id}","pageNum","${pageNum}"})})
+	public String deleteClubPost(){
+		if(service.deleteClubPost(post)){
+			return SUCCESS;
+		}
+		return INPUT;
+	}
+	
+	@Action(value = "adminDeleteClubPost", results = {
+			@Result(name = SUCCESS,type=REDIRECT_ACTION, location = "allClubPost", params={"pageNum","${pageNum}"})})
+	public String adminDeleteClubPost(){
+		if(service.deleteClubPost(post)){
+			return SUCCESS;
+		}
+		return INPUT;
+	}
 	@Action(value = "deleteComment", results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "clubPostContent",params = {
 					"postId", "${#request.postId}","pageNum", "${#request.pageNum}"})})
@@ -111,12 +144,15 @@ public class ClubPostAction extends BaseAction{
 	public void setPost(ClubPost post) {
 		this.post = post;
 	}
-	public int getClubId() {
-		return clubId;
+	
+	public Club getClub() {
+		return club;
 	}
-	public void setClubId(int clubId) {
-		this.clubId = clubId;
+
+	public void setClub(Club club) {
+		this.club = club;
 	}
+
 	public int getPageNum() {
 		return pageNum;
 	}

@@ -16,11 +16,14 @@
 			<result>{1}.html</result>
 		</action>
 	</package>
-	<package name="authController" extends="struts-default">
+	<package name="myPackage" extends="struts-default">
 		<interceptors>
 			<interceptor name="authInterceptor" class="com.tjxjh.interceptor.AuthInterceptor" />
+			<interceptor name="keywordnterceptor"
+				class="com.tjxjh.interceptor.KeywordInterceptor" />
 			<interceptor-stack name="myInterceptors">
 				<interceptor-ref name="authInterceptor" />
+				<interceptor-ref name="keywordnterceptor" />
 				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 		</interceptors>

@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="/struts-tags" prefix="s" %>
+<%@ taglib uri="/webSupportTag" prefix="w" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -85,12 +86,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="main">
 				<div class="left">
 					<div class="list">
-						<s:property value="#request.focusList" />
+						<s:property value="#request.focusList.clubList" />
 						<s:property value="type" />
 						<s:if test="type==1">
-						<s:iterator value="#request.focusList">
+						<s:iterator value="#request.focusList.clubList">
 							<div class="listItem">
-							<div class="portrait_big">
+								<div class="portrait_big">
 									<s:if test="logoPath==''">
 										<img src="<s:property value="logoPath" />" width="40px" />
 									</s:if>	
@@ -120,9 +121,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    				</s:iterator>
 						</s:if>
 						<s:elseif test="type==2">
-						<s:iterator value="#request.focusList">
+						<s:iterator value="#request.focusList.clubList">
 							<div class="listItem">
 							<div class="portrait_big">
+									<s:if test="logoPath==''">
+										<img src="<s:property value="logoPath" />" width="40px" />
+									</s:if>	
+									<s:else>
+										<img src="upload/portrait/auto_photo.png" width="40px" />
+									</s:else>
 								</div>
 								<div class="userItem">
 									<div class="infoItem">
@@ -147,7 +154,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<input id="<s:property value="id" />" type="button" value="取消社团关注" onclick="cancelFocus(<s:property value="id" />,2)" />
 	    					</div>
 	    				</s:iterator>
+	    					
 						</s:elseif>
+						<div>
+		    				<span><a href="clubFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage-1" />">上一页</a></span>&nbsp;
+							<span><a href="clubFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage+1" />">下一页</a></span>
+							<span>共 <s:property value="#request.focusList.page.pageNumber" />页</span>
+	    				</div>
 					</div>
 				</div>
 				<div class="right">

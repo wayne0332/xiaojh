@@ -30,7 +30,7 @@ import com.tjxjh.enumeration.UserStatus;
  */
 @Entity
 @Table(name = "user", catalog = "xiaojh", uniqueConstraints = @UniqueConstraint(columnNames = "name"))
-public class User implements java.io.Serializable
+public class User implements java.io.Serializable,Comparable<User>
 {
 	// Fields
 	private Integer id;
@@ -596,4 +596,11 @@ public class User implements java.io.Serializable
 	{
 		this.usersForSourceUserId = usersForSourceUserId;
 	}
+
+	@Override
+	public int compareTo(User u) {
+		// TODO Auto-generated method stub
+		return u.getId()-this.getId();
+	}
+	
 }

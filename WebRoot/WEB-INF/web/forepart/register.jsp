@@ -22,7 +22,8 @@
 		for ( var i = 0; i != 9; ++i) {
 			gradeAddOption(select, currentYear - i);
 		}
-		checkUserName("input[name='user.name']", "label", "用户");
+		checkUserName("input[name='user.name']", "#userMsg", "用户");
+		checkEmail("input[name='user.email']", "#userEmail");
 		$("#user").css("display", "none");
 		$("input:radio[name='registerType']").click(function() {
 			$("div").css("display", "inline");
@@ -51,13 +52,13 @@
 	<div id="merchant">
 		<wst:parameter value="msg" />
 		<form action="register" method="post" enctype="multipart/form-data">
-			用户名:<input type="text" name="user.name"><label
+			用户名:<input type="text" name="user.name"><label id="userMsg"
 				style="display:none;color:red;"></label><br> 密码:<input
 				type="text" name="user.password"><br> 学校:
 			<s:select name="user.school.id" list="#application.schools"
 				listKey="key" listValue="value.name" />
-			<br> 邮箱(这个要填好 不然注册不了- -):<input type="text" name="user.email"><br>
-			性别:
+			<br> 邮箱(这个要填好 不然注册不了- -):<input type="text" name="user.email"><label
+				id="userEmail" style="display:none;color:red;"></label><br> 性别:
 			<s:select name="user.sex" list="@com.tjxjh.enumeration.Sex@values()"
 				listKey="name()" listValue="name" />
 			<br>入学年份:<select name="user.grade"></select><br>

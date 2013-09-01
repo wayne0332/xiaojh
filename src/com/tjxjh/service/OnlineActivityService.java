@@ -1,9 +1,9 @@
 package com.tjxjh.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
+import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.struts2.ServletActionContext;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.tjxjh.enumeration.OnlineActivityStatus;
 import com.tjxjh.enumeration.TalkingUrlType;
 import com.tjxjh.po.OnlineActivity;
@@ -51,7 +52,10 @@ public class OnlineActivityService extends BaseService{
 		System.out.println("----------------------"+talking.getId());
 		activity.setTalking(talking);
 		activity.setStatus(OnlineActivityStatus.UNDERWAY);
-		return super.save(activity);
+		super.save(activity);
+		talking.setText("<a href='getOnlineActivityById?onlineactivity.id="+activity.getId()+"' target='_blank'>"+activity.getTittle()+"</a>");
+		talkingService.update(talking);
+		return true;
 	}
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly = true, propagation=Propagation.SUPPORTS)   
@@ -179,7 +183,7 @@ public class OnlineActivityService extends BaseService{
 	}
 	/**************************************************根据用户所在社团、关注社团、关注商家 查询在线活动*******************************************************/
 	@Transactional (propagation = Propagation.REQUIRED) 
-	public Page getMyOnlineActivityPageByHql(User user,Integer eachPageNumber,Integer currentPage,Integer totalPageNumber)
+	public Page getRelativeOnlineActivityPageByHql(User user,Integer eachPageNumber,Integer currentPage,Integer totalPageNumber)
 	{
 		if(currentPage<=0){
 			currentPage=1;
@@ -188,85 +192,50 @@ public class OnlineActivityService extends BaseService{
 			return Page.getPage(currentPage, eachPageNumber, totalPageNumber);
 		}
 		user=dao.findById(User.class, user.getId());
-		String sql="select count(*) from OnlineActivity c where 1=1 and (c.user.id in (select club.user.id from ClubMember cl where cl.user.id=?) ";
-		//关注的社团
-		Set<Club> clubs=user.getFocusClubs();
-		StringBuilder str=new StringBuilder();
-		for(Club c:clubs){
-			str.append(c.getUser().getId()+",");
-		}
-		if(str.length()>0){
-			sql=sql+"or c.user.id in ("+str.substring(0, str.length()-1)+")";
-		}
+		String sql="select count(*) from OnlineActivity c where 1=1 ";
+		ActionContext context = ActionContext.getContext();  
+	    Map<String, Object> session = context.getSession();
+		ArrayList<User> users=(ArrayList<User>) session.get("relativeUsers");
 		
-		//关注的用户
-		Set<User> users=user.getUsersForTargetUserId();
 		StringBuilder str3=new StringBuilder();
 		for(User u:users){
 			str3.append(u.getId()+",");
 		}
 		if(str3.length()>0){
-			sql=sql+"or c.user.id in ("+str3.substring(0, str3.length()-1)+")";
+			sql=sql+"and c.user.id in ("+str3.substring(0, str3.length()-1)+")";
 		}
 		
-		//关注的商家
-		Set<Merchant> merchants=user.getMerchants();
-		StringBuilder str2=new StringBuilder();
-		for(Merchant m:merchants){
-			str2.append(m.getUser().getId()+",");
-		}
-		if(str2.length()>0){
-			sql=sql+" or c.user.id in ("+str2.substring(0, str2.length()-1)+")";
-		}
-		sql=sql+")";
 		try{
-			Page page= dao.getPageByHql(eachPageNumber,sql,user.getId());
+			Page page= dao.getPageByHql(eachPageNumber,sql);
 			page.setCurrentPage(currentPage);
 			return page;
 		}catch(Exception e){
-			System.out.println("---------OnlineActivityService--getMyPageByHql--------"+e);
+			System.out.println("---------OnlineActivityService--getRelativeOnlineActivityPageByHql--------"+e);
 			return null;
 		}
 	}
 	@SuppressWarnings("unchecked")
-	public List<OnlineActivity> findMyOnlineActivityByHql(Page page,User  user)
+	public List<OnlineActivity> findRelativeOnlineActivityByHql(Page page,User  user)
 	{
 		if(page==null){
 			return null;
 		}
 		user=dao.findById(User.class, user.getId());
-		String sql="from OnlineActivity  c where  1=1 and (c.user.id in (select club.user.id from ClubMember cl where cl.user.id=? ) ";
-		//关注的社团
-		Set<Club> clubs=user.getFocusClubs();
-		StringBuilder str=new StringBuilder();
-		for(Club c:clubs){
-			str.append(c.getUser().getId()+",");
-		}
-		if(str.length()>0){
-			sql=sql+"or c.user.id in ("+str.substring(0, str.length()-1)+")";
-		}
-		//关注的用户
-		Set<User> users=user.getUsersForTargetUserId();
+		String sql="from OnlineActivity  c where  1=1 ";
+		
+		ActionContext context = ActionContext.getContext();  
+	    Map<String, Object> session = context.getSession();
+		ArrayList<User> users=(ArrayList<User>) session.get("relativeUsers");
+		
 		StringBuilder str3=new StringBuilder();
 		for(User u:users){
 			str3.append(u.getId()+",");
 		}
 		if(str3.length()>0){
-			sql=sql+"or c.user.id in ("+str3.substring(0, str3.length()-1)+")";
+			sql=sql+"and c.user.id in ("+str3.substring(0, str3.length()-1)+") order by datetime desc";
 		}
-		//关注的商家
-		Set<Merchant> merchants=user.getMerchants();
-		StringBuilder str2=new StringBuilder();
-		for(Merchant m:merchants){
-			str2.append(m.getUser().getId()+",");
-		}
-		if(str2.length()>0){
-			sql=sql+" or c.user.id in ("+str2.substring(0, str2.length()-1)+")";
-		}
-		sql=sql+") order by datetime desc";
-		
 		try{
-			return (List<OnlineActivity>) dao.executeHql(page,sql,user.getId()); 
+			return (List<OnlineActivity>) dao.executeHql(page,sql); 
 		}catch(Exception e){
 			System.out.println(e);
 			return null;

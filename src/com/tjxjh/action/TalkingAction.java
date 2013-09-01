@@ -18,7 +18,9 @@ import cn.cafebabe.autodao.pojo.Page;
 
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
+import com.tjxjh.pojo.IndexTalking;
 import com.tjxjh.service.TaklingAndMerchantNewsUpload;
+import com.tjxjh.service.TalkingCommentService;
 import com.tjxjh.service.TalkingService;
 import com.tjxjh.util.Auth;
 import com.tjxjh.util.GetRequsetResponse;
@@ -32,7 +34,7 @@ public class TalkingAction extends BaseAction
 	protected final static String UPLOAD_IMAGE_PATH="/upload/images/";
 	private static final String ERROR_PAGE=FOREPART+"success.jsp";
 	protected HttpServletRequest request=ServletActionContext.getRequest();
-	private List<Talking> taks=new ArrayList<Talking>();
+	private List<IndexTalking> taks=new ArrayList<IndexTalking>();
 	private Talking talking=new Talking();
 	private Talking origntalking=new Talking();
 	private User user=new User();
@@ -53,9 +55,10 @@ public class TalkingAction extends BaseAction
 	private File uploadImage;
 	private String uploadImageFileName;// 文件名
 	private String uploadImageContentType;// 文件类型
-	
+	@Resource
+	private TalkingCommentService talkingCommentService = null;
 	@Action(value = "addTalking", results = {
-	@Result(name = SUCCESS, type = REDIRECT_ACTION,location ="/myTalking"),
+	@Result(name = SUCCESS, type = REDIRECT_ACTION,location ="/userCenter"),
 	@Result(name = INPUT, location = ERROR_PAGE),
 	@Result(name = ERROR, location = ERROR_PAGE)})
 	public String add()
@@ -74,19 +77,44 @@ public class TalkingAction extends BaseAction
 		}
 		return ERROR;
 	}
-
-	@Action(value = "myTalking", results = {
+	//根据user id查找未删除的说说
+	@Action(value = "talking", results = {
 	@Result(name = SUCCESS, location = BaseAction.FOREPART + "myTalking.jsp"),
 	@Result(name = INPUT, location = ERROR_PAGE)})
-	public String myTalking()
+	public String talking()
 	{
-		//根据user id查找未删除的说说
-		user=Auth.getUserFromSession();
+		if(user==null||user.getId()==null){
+			user=Auth.getUserFromSession();
+		}
 		page=talkingService.getMyPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
-		taks=talkingService.findMyTalkingByHql(page,user);
-		actionName="myTalking";
+		List<Talking> temp = talkingService.findMyTalkingByHql(page,user);
+		for(Talking t:temp){
+			IndexTalking it=new IndexTalking();
+			it.setTcs(talkingCommentService.findByHql(t.getId()));
+			it.setT(t);
+			taks.add(it);
+		}
+		actionName="talking";
 		return SUCCESS;
 	}
+	@Action(value = "relativeTalking", results = {
+			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myTalking.jsp"),
+			@Result(name = INPUT, location = ERROR_PAGE)})
+			public String relativeTalking()
+			{
+				//根据user id查找未删除的说说
+				user=Auth.getUserFromSession();
+				page=talkingService.getRelativePageByHql(user,eachPageNumber,currentPage,totalPageNumber);
+				List<Talking> temp =talkingService.findRelativeTalkingByHql(page,user);
+				for(Talking t:temp){
+					IndexTalking it=new IndexTalking();
+					it.setTcs(talkingCommentService.findByHql(t.getId()));
+					it.setT(t);
+					taks.add(it);
+				}
+				actionName="relativeTalking";
+				return SUCCESS;
+			}
 	
 	@Action(value = "allTalking", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myTalking.jsp"),
@@ -95,7 +123,14 @@ public class TalkingAction extends BaseAction
 			{
 				user=Auth.getUserFromSession();
 				page=talkingService.getAllPageByHql(eachPageNumber,currentPage,totalPageNumber);
-				taks=talkingService.findAllTalkingByHql(page);
+				page=talkingService.getRelativePageByHql(user,eachPageNumber,currentPage,totalPageNumber);
+				List<Talking> temp =talkingService.findAllTalkingByHql(page);
+				for(Talking t:temp){
+					IndexTalking it=new IndexTalking();
+					it.setTcs(talkingCommentService.findByHql(t.getId()));
+					it.setT(t);
+					taks.add(it);
+				}
 				actionName="allTalking";
 				return SUCCESS;
 			}
@@ -252,15 +287,6 @@ public class TalkingAction extends BaseAction
 	public void setUploadImageContentType(String uploadImageContentType) {
 		this.uploadImageContentType = uploadImageContentType;
 	}
-
-	public List<Talking> getTaks() {
-		return taks;
-	}
-
-	public void setTaks(List<Talking> taks) {
-		this.taks = taks;
-	}
-	
 	public Integer getTalkingid() {
 		return talkingid;
 	}
@@ -294,6 +320,18 @@ public class TalkingAction extends BaseAction
 
 	public void setRequest(HttpServletRequest request) {
 		this.request = request;
+	}
+	public List<IndexTalking> getTaks() {
+		return taks;
+	}
+	public void setTaks(List<IndexTalking> taks) {
+		this.taks = taks;
+	}
+	public TalkingCommentService getTalkingCommentService() {
+		return talkingCommentService;
+	}
+	public void setTalkingCommentService(TalkingCommentService talkingCommentService) {
+		this.talkingCommentService = talkingCommentService;
 	}
 	
 	

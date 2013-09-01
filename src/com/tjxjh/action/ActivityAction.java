@@ -16,6 +16,7 @@ import org.apache.struts2.convention.annotation.Result;
 import cn.cafebabe.autodao.pojo.Page;
 
 import com.tjxjh.enumeration.ActivityStatus;
+import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Activity;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
@@ -41,6 +42,7 @@ public class ActivityAction extends BaseAction{
 	protected HttpServletRequest request=ServletActionContext.getRequest();
 	private Activity  activity=new Activity();
 	private Merchant merchant =new Merchant();
+	private String allowDelete ="no";
 	private Club club =new Club();
 	private List<Activity> acs=new ArrayList<Activity>();
 	@Resource
@@ -56,21 +58,21 @@ public class ActivityAction extends BaseAction{
 	private Integer totalPageNumber=0;
 	User user=new User();
 	private String actionName;
+	private Integer flage=0;//flage=0表示查看所有所动，1表示查看尚未审核活动，2是查看已经审核的活动，3查看已经拒绝的活动
 	/**
 	 * 活动尚未关联到社团对应的虚拟用户
 	 * 社团、商家发布活动 action
 	 * 执行功能：上传图片，缩放，裁剪生成缩略图
 	 * 
-	 * 所有用户尚未从session中获取，直接关联到id为1的用户上
+	 * 
 	 * @return
 	 * @throws Exception
 	 */
 	@Action(value = "addActivity", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "success.jsp")})
 	public String add(){
-		club=Auth.getClubFromSession();
+		club=Auth.getCluFromSession ();
 		merchant=Auth.getMerchantFromSession();
-		user=Auth.getUserFromSession();
 		boolean upimg=activityService.uploadImage(activity,uploadImage, uploadImageFileName, UPLOAD_IMAGE_PATH+uploadImageFileName);
 		activityService.uploadVideo(activity,uploadVideo, uploadVideoFileName, UPLOAD_IMAGE_PATH+uploadVideoFileName);
 		if(upimg){
@@ -91,14 +93,7 @@ public class ActivityAction extends BaseAction{
 			return ERROR;
 		}
 	}
-	//activityid 查找一个activity
-			@Action(value = "activity", results = {
-					@Result(name = SUCCESS, location = BaseAction.FOREPART + "activity.jsp")})
-			public String activity(){
-				activity=activityService.findById(activity.getId());
-				return SUCCESS;
-				
-			}
+	
 	/**
 	 * 校江湖管理人员发布的活动
 	 * @return
@@ -107,7 +102,6 @@ public class ActivityAction extends BaseAction{
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "success.jsp")})
 	public String addByAdmin(){
 		//校江湖管理人员判断
-		
 		boolean upimg=activityService.uploadImage(activity,uploadImage, uploadImageFileName, UPLOAD_IMAGE_PATH+uploadImageFileName);
 		activityService.uploadVideo(activity,uploadVideo, uploadVideoFileName, UPLOAD_IMAGE_PATH+uploadVideoFileName);
 		if(upimg){
@@ -119,44 +113,64 @@ public class ActivityAction extends BaseAction{
 			return ERROR;
 		}
 	}
+	@Action(value = "activity", results = {
+			@Result(name = SUCCESS, location = BaseAction.FOREPART + "activity.jsp")})
+	public String activity(){
+		activity=activityService.findById(activity.getId());
+		return SUCCESS;
+		
+	}
 	//根据用户所在社团，所关注的社团，关注的商家 查出发布的activity
-	@Action(value = "myActivity", results = {
+	@Action(value = "relativeActivity", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
-	public String findMyActivity(){
+	public String relativeActivity(){
 		user=Auth.getUserFromSession();
-		page=activityService.getMyActivityPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
-		acs=activityService.findMyActivityByHql(page,user,condition);
-		actionName="myActivity";
+		page=activityService.getRelativeActivityPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
+		acs=activityService.findRelativeActivityByHql(page,user,condition);
+		actionName="relativeActivity";
 		return SUCCESS;
 		
 	}
 	//用户根据社团id，商家id 查出社团发布的activity 
-	@Action(value = "oneActivity", results = {
+	@Action(value = "activitys", results = {
 				@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
-		public String findOneActivity(){
-			//club.setId(1);
-			//merchant.setId(1);
-			page=activityService.getOneClubPageByHql(eachPageNumber,currentPage,totalPageNumber,club,merchant);
-			acs=activityService.findOneClubActivityByHql(page,club,merchant,condition);
-			actionName="oneActivity";
+		public String activitys(){
+			if(merchant.getId()==null&&club.getId()==null){
+				merchant=Auth.getMerchantFromSession();
+				club=Auth.getCluFromSession();
+				allowDelete="yes";
+			}else{
+				flage=2;
+			}
+			if(merchant!=null||club!=null){
+				page=activityService.getOneClubPageByHql(eachPageNumber,currentPage,totalPageNumber,club,merchant,flage);
+				acs=activityService.getOneClubActivityByHql(page,club,merchant,condition,flage);
+				if(allowDelete.equals("yes")){
+					merchant=null;club=null;
+				}
+			}
+			actionName="activitys";
 			return SUCCESS;
 			
 	}
-	//商家，管理人员根据社团id，查出社团发布的activity 需要添加拦截器，非管理人员不能查看
-	@Action(value = "adminFindOneActivity", results = {
-			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
-		public String adminFindOneClubActivity(){
-			//club=Auth.getClubFromSession();
-			//merchant=Auth.getMerchantFromSession();
-			page=activityService.adminGetOneClubPageByHql(eachPageNumber,currentPage,totalPageNumber,club,merchant);
-			acs=activityService.adminFindOneClubActivityByHql(page,club,merchant,condition);
-			actionName="adminFindOneActivity";
+	//校江湖管理人员
+	@Action(value = "adminActivitys", results = {
+			@Result(name = SUCCESS, location = BaseAction.MANAGE + "allActivitys.jsp")})
+		public String adminActivitys()
+	  	{
+			if(Auth.getUserFromSession().getStatus()==UserStatus.ADMIN){
+				page=activityService.
+						getOneClubPageByHql(eachPageNumber,currentPage,totalPageNumber,club,merchant,flage);
+				acs=activityService.
+						getOneClubActivityByHql(page,club,merchant,condition,flage);
+			}
+			actionName="adminActivitys";
 			return SUCCESS;
 				
-	}
-	//管理员删除所在社团的Activity
+	  	}
+	//商家、社团管理人员删除所Activity
 	@Action(value = "deleteActivity", results = {
-			@Result(name = SUCCESS,type = REDIRECT_ACTION, location ="adminFindOneActivity")})
+			@Result(name = SUCCESS,type = REDIRECT_ACTION, location ="activitys")})
 		public String deleteClubNews(){
 			user=Auth.getUserFromSession();
 			merchant=Auth.getMerchantFromSession();
@@ -164,21 +178,32 @@ public class ActivityAction extends BaseAction{
 			activityService.delete(activity);
 			return SUCCESS;
 	}	
+		//校江湖管理员删除所在社团的Activity
+		@Action(value = "adminDeleteActivity", results = {
+				@Result(name = SUCCESS,type = CHAIN, location ="adminActivitys")})
+			public String adminDeleteClubNews(){
+				user=Auth.getUserFromSession();
+				activity=activityService.findByHql(user,null, activity);
+				activityService.delete(activity);
+				return SUCCESS;
+		}	
+	
 	//管理员、商家 、社团 修改社团发布的Activity
 	@Action(value = "preModifyActivity", results = {
-			@Result(name = SUCCESS, location = BaseAction.FOREPART + "modifyActivity.jsp")})
+			@Result(name = SUCCESS, location = BaseAction.FOREPART + "modifyActivity.jsp"),
+			@Result(name = SUCCESS, location = BaseAction.MANAGE + "modifyActivity.jsp")})
 		public String preModifyActivity(){
 			user=Auth.getUserFromSession();
 			merchant=Auth.getMerchantFromSession();
 			activity=activityService.findByHql(user,merchant, activity);
-			if(1==1){//判断用户是否为校江湖管理人员
-				actionName="admin";
+			if(user.getStatus()==UserStatus.ADMIN){//判断用户是否为校江湖管理人员
+				return "admin";
 			}
 			return SUCCESS;
 		}	
 		//商家 、社团 修改社团发布的Activity
 		@Action(value = "modifyActivity", results = {
-				@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
+				@Result(name = SUCCESS, location = REDIRECT_ACTION + "activitys")})
 			public String modifyActivity(){
 				user=Auth.getUserFromSession();
 				merchant=Auth.getMerchantFromSession();
@@ -188,11 +213,11 @@ public class ActivityAction extends BaseAction{
 				if(oldactivity==null||!oldactivity.getStatus().equals(ActivityStatus.APPLY)){
 					return ERROR;//在活动审核通过或拒绝之后，商家不可以再改动
 				}
-					boolean upimg=activityService.uploadImage(activity,uploadImage, uploadImageFileName, UPLOAD_IMAGE_PATH+uploadImageFileName);
-					activityService.uploadVideo(activity,uploadVideo, uploadVideoFileName, UPLOAD_IMAGE_PATH+uploadVideoFileName);
-					if(!upimg){
-						return ERROR;
-					}
+				boolean upimg=activityService.uploadImage(activity,uploadImage, uploadImageFileName, UPLOAD_IMAGE_PATH+uploadImageFileName);
+				activityService.uploadVideo(activity,uploadVideo, uploadVideoFileName, UPLOAD_IMAGE_PATH+uploadVideoFileName);
+				if(!upimg){
+					return ERROR;
+				}
 					activity.setTalking(oldactivity.getTalking());
 					activity.setClub(oldactivity.getClub());
 					activity.setStatus(oldactivity.getStatus());
@@ -200,15 +225,14 @@ public class ActivityAction extends BaseAction{
 					activity.setDatetime(oldactivity.getDatetime());
 					activity.setHeat(oldactivity.getHeat());
 					activity.setParticipantCount(oldactivity.getParticipantCount());
-				activityService.update(activity);
+					activityService.update(activity);
 				return SUCCESS;
 			}	
-		//校江湖管理修改社团发布的Activity
+		//校江湖管理人员修改社团发布的Activity
 		@Action(value = "adminModifyActivity", results = {
-				@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
+				@Result(name = SUCCESS, location = REDIRECT_ACTION + "adminActivitys")})
 			public String adminModifyActivity(){
 				user=Auth.getUserFromSession();
-				//merchant=Auth.getMerchantFromSession();
 				Activity oldactivity=new Activity();
 				oldactivity.setId(activity.getId());
 				oldactivity=activityService.findByHql(user,merchant, oldactivity);
@@ -233,7 +257,7 @@ public class ActivityAction extends BaseAction{
 					Talking talking=activityService.initTalking(activity, oldactivity);
 					activityService.addOrUpdate(talking, activity);
 				}
-				//activityService.update(activity);
+				activityService.update(activity);
 				return SUCCESS;
 			}	
 	public File getUploadImage() {
@@ -350,6 +374,20 @@ public class ActivityAction extends BaseAction{
 	}
 	public void setCondition(String condition) {
 		this.condition = condition;
+	}
+	public Integer getFlage() {
+		return flage;
+	}
+	public void setFlage(Integer flage) {
+		this.flage = flage;
+	}
+
+	public String getAllowDelete() {
+		return allowDelete;
+	}
+
+	public void setAllowDelete(String allowDelete) {
+		this.allowDelete = allowDelete;
 	}
 	
 

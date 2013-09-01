@@ -21,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      	<!-- 尚未被分享过的原始说说 -->
      	<s:if test="origntalking.talking==null">
      		<input type="hidden" name="talkingid" value="${origntalking.id}"/>
-	     	说说内容：<textarea  name="talking.text" cols="20" rows="5">#@${origntalking.user.name}:${origntalking.text}#</textarea><br>
+	     	说说内容：<textarea  name="talking.text" cols="20" rows="5">@${origntalking.user.name}:${message}</textarea><br/>
 			<br>
 			原始说说：
 			<div style="background:#dddddd; border:1px; width:80%;margin:0 auto;">

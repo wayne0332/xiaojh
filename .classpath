@@ -73,11 +73,11 @@
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/persistence.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/slf4j-api-1.5.8.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/slf4j-log4j12-1.5.8.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2-convention-plugin-2.2.1.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2-convention-plugin-2.2.1.jar" sourcepath="C:/Users/finetu/.m2/repository/org/apache/struts/struts2-convention-plugin/2.2.1/struts2-convention-plugin-2.2.1-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2-core-2.2.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2-dojo-plugin-2.2.1.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/struts2-spring-plugin-2.2.1.jar"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/websupport.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/websupport.jar" sourcepath="/websupport"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/wstx-asl-3.2.7.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xapool.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/xmlunit-1.2.jar"/>

@@ -19,7 +19,7 @@ import javax.persistence.Table;
     ,catalog="xiaojh"
 )
 
-public class TalkingComment  implements java.io.Serializable {
+public class TalkingComment  implements java.io.Serializable,Comparable<TalkingComment> {
 
 
     // Fields    
@@ -100,6 +100,10 @@ public class TalkingComment  implements java.io.Serializable {
         this.text = text;
     }
    
+    @Override
+   	public int compareTo(TalkingComment u) {
+   		return u.getId()-this.getId();
+   	}
 
 
 

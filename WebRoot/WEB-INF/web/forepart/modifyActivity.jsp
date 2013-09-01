@@ -42,7 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      		<form action="adminModifyActivity?activity.id=${activity.id}" method="post" enctype="multipart/form-data">
      	</s:if>
      	<s:else>
-     		<form action="modifyActivity?activity.id=${activity.id}" method="post" enctype="multipart/form-data">
+     		<form action="<s:if test="allowDelete.equals('yes')">adminModifyActivity</s:if><s:else>modifyActivity</s:else>?activity.id=${activity.id}" method="post" enctype="multipart/form-data">
      	</s:else>
 	 		活动标题:<input type="text" name="activity.tittle" value="${activity.tittle}"/><br>
 	     	新闻内容：<textarea id="editor" name="activity.text" id="ncontent" style="width:100%;height:400px;">${activity.text}</textarea><br>
@@ -53,7 +53,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	     	活动举办地点：<input type="text" name="activity.place" value="${activity.place}"/><br>
 	     	上传活动封面图片:<input type = "file" name="uploadImage"/><br>
 	     	上传活动视频:<input type = "file" name="uploadVideo"/><br>
-	     	<s:if test="actionName.equals('admin')">
+	     	<s:if test="allowDelete.equals('yes')">
 		     	活动状态:<s:select name="activity.status" list="@com.tjxjh.enumeration.ActivityStatus@values()"
 				listKey="name()" listValue="name" />
 			</s:if>

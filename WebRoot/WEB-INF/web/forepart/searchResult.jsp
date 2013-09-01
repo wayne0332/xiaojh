@@ -21,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-	<script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript">
 	function focusUser(userId) {
   		$.post("focusUser?id="+userId,
@@ -62,8 +62,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			}
   		, "xml");
 	};
-	function clubFocusClub(clubId) {
-  		$.post("clubFocusClub?id="+clubId,
+	function clubFocusClub(sourceId,clubId) {
+  		$.post("clubFocusClub?id="+clubId+"&club.id="+sourceId,
   			function(xml){
   				var aLink = $("#c_"+clubId);
   				if ($(xml).find("isSuccess").text()=="1") {
@@ -75,8 +75,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			}
   		, "xml");
 	};
-	function clubFocusMerchant(merchantId) {
-  		$.post("clubFocusMerchant?id="+merchantId,
+	function clubFocusMerchant(sourceId,merchantId) {
+  		$.post("clubFocusMerchant?id="+merchantId+"&club.id="+sourceId,
   			function(xml){
   				var aLink = $("#c_"+merchantId);
   				if ($(xml).find("isSuccess").text()=="1") {
@@ -119,7 +119,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
 	<body>
 		<div>
-			<s:property value="#request.type" />
 			<s:if test="%{#request.type==0}">
 				<table>
     				<tr>
@@ -145,23 +144,74 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     					<td>
     						<s:property value="signature" />
     					</td>
-    					<td>
-    					<s:if test="%{#request.userMap[id]==null}">
-    						<input id="<s:property value="id" />" type="button" value="关注" onclick="focusUser(<s:property value="id" />)"/>
+    					<td >
+    					<!-- 如果从club页面进入，有club操作   -->
+    					<s:if test="#request.clubMember != null">
+    						<s:if test="#request.clubMember.role.name() == 'NORMAL'">
+								无
+							</s:if> <s:else>
+								<s:if test="#request.clubMembers[id] == null">
+									<s:a
+										href="clubAddUser?user.id=%{id}&text=%{#request.searchText}&club.id=%{club.id}&pageNum=%{searchResult.page.currentPage}">添加</s:a>
+								</s:if>
+								<s:elseif test="#request.clubMembers[id].role.name() == 'NORMAL'">
+									<s:if test="#request.clubMembers[id].status.name() == 'NO_CHECK'">
+										<s:if
+											test="#request.clubMembers[id].source.name() == 'CLUB_TO_USER'">
+											已发出邀请
+										</s:if>
+										<s:else>
+											<s:a href="clubAcceptInvited?user.id=%{id}&text=%{#request.searchText}&club.id=%{club.id}&pageNum=%{searchResult.page.currentPage}">接受申请</s:a>
+											<s:a href="clubRefuseInvited?user.id=%{id}&text=%{#request.searchText}&club.id=%{club.id}&pageNum=%{searchResult.page.currentPage}">拒绝</s:a>
+										</s:else>
+									</s:if>
+									<s:else>
+										<s:if test="#request.clubMember.role.name() == 'PROPRIETER'">
+											<s:a
+												href="updateMemberToManager?user.id=%{id}&club.id=%{club.id}">变为管理员</s:a>
+										</s:if>
+										<s:a href="fireClubMember?user.id=%{id}&club.id=%{club.id}">开除</s:a>
+									</s:else>
+								</s:elseif>
+								<s:else>
+									<s:if test="#request.clubMember.role.name() != 'PROPRIETER'">
+										无
+									</s:if>
+									<s:else>
+										<s:if
+											test="#request.clubMembers[id].role.name() == 'PROPRIETER'">
+											<a href="changeProprieterInput?club.id=${club.id }">换社长</a>
+										</s:if>
+										<s:else>
+											<s:a
+												href="updateMemberToNormal?user.id=%{id}&club.id=%{club.id}">取消管理权限</s:a>
+											<s:a href="fireClubMember?user.id=%{id}&club.id=%{club.id}">开除</s:a>
+										</s:else>
+									</s:else>
+								</s:else>
+							</s:else>
     					</s:if>
-    					<s:else>
-    						<input id="<s:property value="id" />" type="button" disabled="disabled" value="已关注"/>
-    					</s:else>
+    					<!-- 否则，从其他入口进入，无club操作 -->
+    					<s:elseif test="%{#session.user.id!=id}">
+    						<s:if test="%{#request.userMap[id]==null}">
+	    						<input id="<s:property value="id" />" type="button" value="关注" onclick="focusUser(<s:property value="id" />)"/>
+	    					</s:if>
+	    					<s:else>
+	    						<input id="<s:property value="id" />" type="button" disabled="disabled" value="已关注"/>
+	    					</s:else>
+    					</s:elseif>
     					</td>
     					<td>
+    					<s:if test="%{#session.user.id!=id}">
     						<s:a href="personalLetterInput?targetUser.id=%{id}&targetUser.name=%{name}" >发私信</s:a>
+    					</s:if>
     					</td>
     				</tr>
     				</s:iterator>
     			</table>
 				<div id="pageController">
-					<span><a href="searchUser?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage-1" />">上一页</a></span>&nbsp;
-					<span><a href="searchUser?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage+1" />">下一页</a></span>
+					<span><a href="searchUser?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage-1" />&club.id=<s:property value="club.id"/>">上一页</a></span>&nbsp;
+					<span><a href="searchUser?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage+1" />&club.id=<s:property value="club.id"/>">下一页</a></span>
 					<span>共 <s:property value="searchResult.page.pageNumber" />页</span>
 					<%-- <s:if test="#request.searchResult.userList.size() != 0">
 						<s:if test="%{#request.searchResult.page.currentPage != 1}">
@@ -211,20 +261,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     					</td>
     					<td>
     					<s:if test="%{#session.user!=null}" >
-	    					<s:if test="%{id in #request.checkList}">
-	    						<input id="u_<s:property value="id" />" type="button" disabled="disabled" value="已关注"/>
-	    					</s:if>
-	    					<s:else>
-	    						<input id="u_<s:property value="id" />" type="button" value="关注" onclick="focusClub(<s:property value="id" />)"/>
-	    					</s:else>
-	    					<s:if test="%{#session.clubMember!=null&&#session.clubMember.role.name()!='NORMAL'}">
+    						<!-- 若入口为社团页，且role不是普通社员，则显示社团操作 -->
+	    					<s:if test="%{#request.clubMember != null&&club.id != id&&#request.clubMember.role.name()!='NORMAL'}">
 	    						<s:if test="id in #request.clubCheckList">
 	    							<input id="c_<s:property value="id" />" type="button" disabled="disabled" value="社团已关注"/>
 	    						</s:if>
 	    						<s:else>
-	    							<input id="c_<s:property value="id" />" type="button" value="社团关注" onclick="clubFocusClub(<s:property value="id" />)"/>
+	    							<input id="c_<s:property value="id" />" type="button" value="社团关注" onclick="clubFocusClub(<s:property value="club.id" />,<s:property value="id" />)"/>
 	    						</s:else>
 	    					</s:if>
+	    					<!-- 否则非社团入口，用户操作 -->
+	    					<s:else>
+	    						<s:if test="%{id in #request.checkList}">
+		    						<input id="u_<s:property value="id" />" type="button" disabled="disabled" value="已关注"/>
+		    					</s:if>
+		    					<s:else>
+		    						<input id="u_<s:property value="id" />" type="button" value="关注" onclick="focusClub(<s:property value="id" />)"/>
+		    					</s:else>
+	    					</s:else>
     					</s:if>
     					<s:elseif test="%{#session.merchant!=null}">
     						<s:if test="%{id in #request.checkList}">
@@ -239,8 +293,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     				</s:iterator>
     			</table>
     			<div>
-					<span><a href="searchClub?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage-1" />">上一页</a></span>&nbsp;
-					<span><a href="searchClub?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage+1" />">下一页</a></span>
+					<span><a href="searchClub?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage-1" />&club.id=<s:property value="club.id"/>">上一页</a></span>&nbsp;
+					<span><a href="searchClub?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage+1" />&club.id=<s:property value="club.id"/>">下一页</a></span>
 					<span>共 <s:property value="searchResult.page.pageNumber" />页</span>
 				</div>
 			</s:elseif>
@@ -271,22 +325,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     				</td>
     				<td>
     				<s:if test="%{#session.user!=null}" >
-    					<s:if test="%{id in #request.checkList}">
-	    					<input id="u_<s:property value="id" />" type="button" disabled="disabled" value="已关注"/>
-	    				</s:if>
-	    				<s:else>
-	    					<input id="u_<s:property value="id" />" type="button" value="关注" onclick="focusMerchant(<s:property value="id" />)"/>
-	    				</s:else>
-	    				<s:if test="%{#session.clubMember!=null&&#session.clubMember.role.name()!='NORMAL'}">
+    					
+	    				<s:if test="%{#request.clubMember!=null&&#request.clubMember.role.name()!='NORMAL'}">
 	    					<s:if test="id in #request.clubCheckList">
 	    						<input id="c_<s:property value="id" />" type="button" disabled="disabled" value="社团已关注"/>
 	    					</s:if>
 	    					<s:else>
-	    						<input id="c_<s:property value="id" />" type="button" value="社团关注" onclick="clubFocusMerchant(<s:property value="id" />)"/>
+	    						<input id="c_<s:property value="id" />" type="button" value="社团关注" onclick="clubFocusMerchant(<s:property value="club.id" />,<s:property value="id" />)"/>
 	    					</s:else>
 	    				</s:if>
+	    				<s:else>
+	    					<s:if test="%{id in #request.checkList}">
+		    					<input id="u_<s:property value="id" />" type="button" disabled="disabled" value="已关注"/>
+		    				</s:if>
+		    				<s:else>
+		    					<input id="u_<s:property value="id" />" type="button" value="关注" onclick="focusMerchant(<s:property value="id" />)"/>
+		    				</s:else>
+	    				</s:else>
     				</s:if>
-    				<s:elseif test="%{#session.merchant!=null}">
+    				<s:elseif test="%{#session.merchant!=null&&#session.merchant.id!=id}">
     					<s:if test="%{id in #request.checkList}">
 	    					<input id="m_<s:property value="id" />" type="button" disabled="disabled" value="已关注"/>
 	    				</s:if>
@@ -299,8 +356,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			</s:iterator>
     		</table>
     		<div>
-				<span><a href="searchMerchant?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage-1" />">上一页</a></span>&nbsp;
-				<span><a href="searchMerchant?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage+1" />">下一页</a></span>
+				<span><a href="searchMerchant?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage-1" />&club.id=<s:property value="club.id"/>">上一页</a></span>&nbsp;
+				<span><a href="searchMerchant?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage+1" />&club.id=<s:property value="club.id"/>">下一页</a></span>
 				<span>共 <s:property value="searchResult.page.pageNumber" />页</span>
 			</div>
 			</s:elseif>

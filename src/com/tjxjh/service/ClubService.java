@@ -3,6 +3,7 @@ package com.tjxjh.service;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -24,7 +25,6 @@ import com.tjxjh.enumeration.ClubType;
 import com.tjxjh.enumeration.PersonalLetterStatus;
 import com.tjxjh.enumeration.Sex;
 import com.tjxjh.enumeration.UserStatus;
-import com.tjxjh.po.Activity;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubMember;
 import com.tjxjh.po.ClubMemberId;
@@ -37,6 +37,19 @@ import com.tjxjh.po.User;
 public class ClubService extends BaseService
 {
 	private static final String CLUBMEMBERS_WITHOUT_PROPRIETER_HQL = "from ClubMember where club.id=? and status=? and user.id<>?";
+	
+	public List<Club> allClub(Page page){
+		String hql = "from Club c";
+		return (List<Club>) dao.executeHql(page, hql);
+	}
+	
+	public Page clubNum(Page page){
+		String hql = "select count(*) from Club order by id desc";
+		List<Long> countL = null;
+		countL = (List<Long>)dao.executeHql(hql);
+		int itemNum = countL.get(0).intValue();
+		return new Page(page.getCurrentPage(),Page.getDefaultPageNumber(),itemNum);
+	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean applyClub(Club club, User proprieterUser, File logo)
@@ -157,6 +170,24 @@ public class ClubService extends BaseService
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
+	public boolean changeClubStatus(Club targetClub,ClubStatus status){
+		try{
+			if(!exist(targetClub)){
+				throw new Exception();
+			}
+			else{
+				Club club = dao.findById(Club.class, targetClub.getId());
+				club.setStatus(status);
+				dao.flush();
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean changeMemberRole(User user, ClubMember proprieter,
 			ClubMemberRole oriRole, ClubMemberRole targetRole)
 	{
@@ -266,8 +297,7 @@ public class ClubService extends BaseService
 		}
 		return true;
 	}
-	
-	public <T> List<T> getFocusList(Class objectClass, Club club)
+	public <T extends Comparable> List<T> getFocusList(Class objectClass, Club club)
 	{
 		List<T> list = new ArrayList<T>();
 		Club c = dao.findById(Club.class, club.getId());
@@ -283,7 +313,31 @@ public class ClubService extends BaseService
 		{
 			list.add(it.next());
 		}
+		Collections.sort(list);
 		return list;
+	}
+	
+	public <T extends Comparable> List<T> getFocusList(Class objectClass, Club club,Page page)
+	{
+		List<T> list = getFocusList(objectClass,club);
+		Collections.sort(list);
+		if(list.size()!=0){
+			int beginIndex = (page.getCurrentPage()-1)*page.getEachPageNumber();
+			int toIndex = (page.getCurrentPage())*page.getEachPageNumber()<list.size()?(page.getCurrentPage()*page.getEachPageNumber()):(list.size());
+			return list.subList(beginIndex,toIndex);
+		}else{
+			return list;
+		}
+	}
+	public Page getFocusNum(Class objectClass, Club club,Page page){
+		Club c = dao.findById(Club.class, club.getId());
+		int itemNum = 0;
+		if(objectClass == Club.class){
+			itemNum = c.getClubsForTargetClubId().size();
+		}else if(objectClass == Merchant.class){
+			itemNum = c.getFocusMerchants().size();
+		}
+		return new Page(page.getCurrentPage(),page.getEachPageNumber(),itemNum);
 	}
 	private PersonalLetter sendLetter(User target, User source, String text)
 	{
@@ -399,7 +453,7 @@ public class ClubService extends BaseService
 	@SuppressWarnings("unchecked")
 	public List<Club> findHeatClubByHql()
 	{
-		Page page=Page.getPage(1, 10, 1);
+		Page page=Page.getPage(1, 12, 1);
 		return (List<Club>) dao.executeHql(page,"from Club cl where cl.status='PASSED' order by popularity desc");
 	}
 	/**********************************************************查看某个学校的社团的，按热度排序*****************************************************/

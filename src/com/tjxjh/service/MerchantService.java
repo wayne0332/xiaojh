@@ -3,6 +3,7 @@ package com.tjxjh.service;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -41,14 +42,55 @@ public class MerchantService extends BaseService
 	{
 		md5Password(merchant);
 		User user = new User(null, merchant.getName(), merchant.getPassword(),
-				null, null, merchant.getName(), Sex.MAN, null, null, null,
-				Calendar.getInstance().get(Calendar.YEAR), null, null, null,
-				null, null, null, null, UserStatus.SYSTEM, null);
+				null, null, merchant.getConnectorEmail(), Sex.MAN, null, null,
+				null, Calendar.getInstance().get(Calendar.YEAR), null, null,
+				null, null, null, null, null, UserStatus.SYSTEM, null);
 		dao.persist(user);
 		merchant.setUser(user);
 		merchant.setStatus(MerchantStatus.NO_CHECK);
 		UserService.savePortrait(merchant.getLogoPath(), logo, 280);
 		return super.save(merchant);
+	}
+	
+	public List<Merchant> allMerchant(Page page)
+	{
+		return (List<Merchant>) dao.executeHql(page, "from Merchant");
+	}
+	
+	public Page merchantNum(Page page)
+	{
+		String hql = "select count(*) from Merchant";
+		List<Long> countL = null;
+		countL = (List<Long>) dao.executeHql(hql);
+		int itemNum = countL.get(0).intValue();
+		return new Page(page.getCurrentPage(), Page.getDefaultPageNumber(),
+				itemNum);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public boolean changeMerchantStatus(Merchant targetMerchant,
+			MerchantStatus status)
+	{
+		try
+		{
+			if(!exist(targetMerchant))
+			{
+				throw new Exception();
+			}
+			else
+			{
+				Merchant merchant = dao.findById(Merchant.class,
+						targetMerchant.getId());
+				merchant.setStatus(status);
+				dao.flush();
+			}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -86,7 +128,10 @@ public class MerchantService extends BaseService
 		try
 		{
 			Assert.notNull(merchant.getName(), "商家登陆名不能为空");
-			return super.login(md5Password(merchant));
+			return (Merchant) super.getFistObjectOfList(dao.executeHql(
+					"from Merchant where name=? and user.password=?",
+					merchant.getName(), CodeUtil.md5(merchant.getPassword())));
+			// return super.login(md5Password(merchant));
 		}
 		catch(Exception e)
 		{
@@ -184,18 +229,24 @@ public class MerchantService extends BaseService
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public boolean focusClub(Merchant merchant,Club targetClub){
-		try{
-			if(!exist(targetClub)){
+	public boolean focusClub(Merchant merchant, Club targetClub)
+	{
+		try
+		{
+			if(!exist(targetClub))
+			{
 				throw new Exception();
-			}else{
+			}
+			else
+			{
 				Club c = dao.findById(Club.class, targetClub.getId());
 				Merchant m = dao.findById(Merchant.class, merchant.getId());
 				m.getFocusClubs().add(c);
 				dao.flush();
 			}
 		}
-		catch(Exception e){
+		catch(Exception e)
+		{
 			e.printStackTrace();
 			return false;
 		}
@@ -203,17 +254,24 @@ public class MerchantService extends BaseService
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public boolean cancelFocusClub(Merchant merchant, Club targetClub){
-		try{
-			if(!exist(targetClub)){
+	public boolean cancelFocusClub(Merchant merchant, Club targetClub)
+	{
+		try
+		{
+			if(!exist(targetClub))
+			{
 				throw new Exception();
-			}else{
+			}
+			else
+			{
 				Club c = dao.findById(Club.class, targetClub.getId());
 				Merchant m = dao.findById(Merchant.class, merchant.getId());
 				m.getFocusClubs().remove(c);
 				dao.flush();
 			}
-		}catch(Exception e){
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 			return false;
 		}
@@ -221,17 +279,24 @@ public class MerchantService extends BaseService
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public boolean focusMerchant(Merchant merchant,Merchant target){
-		try{
-			if(!exist(target)){
+	public boolean focusMerchant(Merchant merchant, Merchant target)
+	{
+		try
+		{
+			if(!exist(target))
+			{
 				throw new Exception();
-			}else{
+			}
+			else
+			{
 				Merchant m = dao.findById(Merchant.class, target.getId());
 				Merchant sm = dao.findById(Merchant.class, merchant.getId());
 				sm.getMerchantsForMerchantId1().add(m);
 				dao.flush();
 			}
-		}catch(Exception e){
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 			return false;
 		}
@@ -239,32 +304,42 @@ public class MerchantService extends BaseService
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public boolean cancelFocusMerchant(Merchant merchant,Merchant target){
-		try{
-			if(!exist(target)){
+	public boolean cancelFocusMerchant(Merchant merchant, Merchant target)
+	{
+		try
+		{
+			if(!exist(target))
+			{
 				throw new Exception();
-			}else{
+			}
+			else
+			{
 				Merchant m = dao.findById(Merchant.class, target.getId());
 				Merchant sm = dao.findById(Merchant.class, merchant.getId());
 				sm.getMerchantsForMerchantId1().remove(m);
 				dao.flush();
 			}
-		}catch(Exception e){
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
 	
-	public <T> List<T> getFocusList(Class objectClass, Merchant merchant)
+	public <T extends Comparable> List<T> getFocusList(Class objectClass,
+			Merchant merchant)
 	{
 		List<T> list = new ArrayList<T>();
 		Merchant m = dao.findById(Merchant.class, merchant.getId());
 		Set<T> focusSet = null;
-		if(objectClass == Club.class){
+		if(objectClass == Club.class)
+		{
 			focusSet = (Set<T>) m.getFocusClubs();
 		}
-		else if(objectClass == Merchant.class){
+		else if(objectClass == Merchant.class)
+		{
 			focusSet = (Set<T>) m.getMerchantsForMerchantId1();
 		}
 		Iterator<T> it = focusSet.iterator();
@@ -272,6 +347,7 @@ public class MerchantService extends BaseService
 		{
 			list.add(it.next());
 		}
+		Collections.sort(list);
 		return list;
 	}
 	
@@ -280,10 +356,13 @@ public class MerchantService extends BaseService
 		merchant.setPassword(CodeUtil.md5(merchant.getPassword()));
 		return merchant;
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Merchant> findHeatMerchantByHql()
 	{
-		Page page=Page.getPage(1, 10, 1);
-		return (List<Merchant>) dao.executeHql(page,"from Merchant cl where cl.status='PASSED' order by popularity desc");
+		Page page = Page.getPage(1, 12, 1);
+		return (List<Merchant>) dao
+				.executeHql(page,
+						"from Merchant cl where cl.status='PASSED' order by popularity desc");
 	}
 }

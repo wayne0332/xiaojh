@@ -2,6 +2,7 @@ package com.tjxjh.service;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import cn.cafebabe.autodao.pojo.Page;
 import cn.cafebabe.websupport.service.BaseService;
 
 import com.tjxjh.action.UserAction;
@@ -33,7 +35,7 @@ public class UserService extends BaseService
 	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean register(User user, File portrait)
 	{
-		user.setStatus(UserStatus.VALIDATED);
+		user.setStatus(UserStatus.NO_VALIDATE);
 		if(portrait != null)
 		{
 			savePortrait(user.getPortraitPath(), portrait, 280);
@@ -44,6 +46,12 @@ public class UserService extends BaseService
 					.getPortraitPath()));
 		}
 		return super.save(md5Password(user));
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public User findById(Integer id)
+	{
+		return dao.findById(User.class, id);
 	}
 	
 	private String replaceToDefaultPortrait(String portraitPath)
@@ -68,6 +76,13 @@ public class UserService extends BaseService
 			savePortrait(user.getPortraitPath(), portrait, 280);
 		}
 		return super.update(user, "id") != 0;
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void changeUserPassword(User user, String newPsd)
+	{
+		dao.executeUpdateHql("update User set password=? where id=?",
+				CodeUtil.md5(newPsd), user.getId());
 	}
 	
 	public User refresh(User user)
@@ -97,11 +112,36 @@ public class UserService extends BaseService
 		}
 	}
 	
-	public List<User> allUsers()
+	public List<User> allUsers(Page page)
 	{
-		return dao.findAll(User.class);
+		return (List<User>) dao.executeHql(page,"from User u where u.status!='SYSTEM' order by u.id desc");
 	}
 	
+	public Page userNum(Page page){
+		String hql = "select count(*) from User u";
+		List<Long> countL = null;
+		countL = (List<Long>)dao.executeHql(hql);
+		int itemNum = countL.get(0).intValue();
+		return new Page(page.getCurrentPage(),Page.getDefaultPageNumber(),itemNum);
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public boolean changeUserStatus(User targetUser,UserStatus status){
+		try{
+			if(!exist(targetUser)){
+				throw new Exception();
+			}
+			else{
+				User user = dao.findById(User.class, targetUser.getId());
+				user.setStatus(status);
+				dao.flush();
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 	public boolean isRegister(String name)
 	{
 		return (Long) dao.executeHql("select count(*) from User where name=?",
@@ -150,7 +190,7 @@ public class UserService extends BaseService
 		return userList;
 	}
 	
-	public <T> List<T> getFocusList(Class objectClass, User user)
+	public <T extends Comparable> List<T> getFocusList(Class objectClass, User user)
 	{
 		List<T> list = new ArrayList<T>();
 		User p = dao.findById(User.class, user.getId());
@@ -167,12 +207,27 @@ public class UserService extends BaseService
 		{
 			focusSet = (Set<T>) p.getMerchants();
 		}
+		
 		Iterator<T> it = focusSet.iterator();
 		while(it.hasNext())
 		{
 			list.add(it.next());
 		}
+		Collections.sort(list);
 		return list;
+	}
+	
+	public <T extends Comparable> List<T> getFocusList(Class objectClass, User user,Page page){
+		List<T> list = getFocusList(objectClass,user);
+		Collections.sort(list);
+		if(list.size()!=0){
+			return list.subList(
+					(page.getCurrentPage()-1)*page.getEachPageNumber(),
+					(page.getCurrentPage())*page.getEachPageNumber()<list.size()?(page.getCurrentPage()+1)*page.getEachPageNumber():(list.size()+1)
+					);
+		}else{
+			return list;
+		}
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)

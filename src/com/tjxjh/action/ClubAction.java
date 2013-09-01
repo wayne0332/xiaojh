@@ -25,17 +25,21 @@ import com.tjxjh.po.ClubMember;
 import com.tjxjh.po.ClubPost;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.User;
+import com.tjxjh.pojo.ClubList;
 import com.tjxjh.pojo.ClubPostList;
+import com.tjxjh.pojo.MerchantList;
 import com.tjxjh.service.ActivityService;
 import com.tjxjh.service.ClubPostService;
 import com.tjxjh.service.ClubService;
+import com.tjxjh.service.MerchantService;
 import com.tjxjh.service.SearchService;
 import com.tjxjh.util.CodeUtil;
 
-@ParentPackage("authController")
+@ParentPackage("myPackage")
 @Namespace("/")
 public class ClubAction extends BaseAction
 {
+	static private int EACH_PAGE_NUM = 3;
 	static final String CHANGE_PROPRIETER_INPUT = "changeProprieterInput";
 	static final String CHANGE_PROPRIETER = "changeProprieter";
 	static final String UPDATE_MEMBER_TO_NORMAL = "updateMemberToNormal";
@@ -70,7 +74,23 @@ public class ClubAction extends BaseAction
 	private String text = null;
 	private User user = null;
 	private int type;
+	private int pageNum;
 	private List<Activity> acs = null;
+	@Actions({@Action(value = "allClub", results = {@Result(name = SUCCESS, location = MANAGE
+			+ "allClub.jsp")})})
+	public String allClub(){
+		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
+		page.setCurrentPage(pageNum);
+		ClubList clubList = new ClubList();
+		clubList.setClubList(clubService.allClub(page));
+		for(Club c:clubList.getClubList()){
+			c.getProprieter().getName();
+			c.getSchool().getName();
+		}
+		clubList.setPage(clubService.clubNum(page));
+		getRequestMap().put("clubList", clubList);
+		return SUCCESS;
+	}
 	//排序方式
 	@Actions({@Action(value = APPLY_CLUB_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
 			+ APPLY_CLUB + JSP)})})
@@ -80,8 +100,7 @@ public class ClubAction extends BaseAction
 		return SUCCESS;
 	}
 	
-	@Action(value = APPLY_CLUB, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CHECK_CLUB, params = {
-			"club.id", "${club.id}"})})
+	@Action(value = APPLY_CLUB, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = MY_CLUBS)})
 	@Auth
 	public String applyClub()
 	{
@@ -94,13 +113,13 @@ public class ClubAction extends BaseAction
 		return SUCCESS;
 	}
 	
-	@Action(value = CHECK_CLUB, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = MY_CLUBS)})
-	@Auth
-	public String checkClub()
-	{
-		clubService.checkClub(club, true);
-		return SUCCESS;
-	}
+//	@Action(value = CHECK_CLUB, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = MY_CLUBS)})
+//	@Auth
+//	public String checkClub()
+//	{
+//		clubService.checkClub(club, true);
+//		return SUCCESS;
+//	}
 	
 	@Action(value = MY_CLUBS, results = {@Result(name = SUCCESS, location = FOREPART
 			+ MY_CLUBS + JSP)})
@@ -132,21 +151,21 @@ public class ClubAction extends BaseAction
 		club = clubService.clubById(club);
 		/********************** fineTu ***********************/
 		club.getClubsForTargetClubId();
-		List<Club> focusClubList = clubService.getFocusList(Club.class, club);
+		Page page = new Page(1*EACH_PAGE_NUM+1);
+		page.setEachPageNumber(EACH_PAGE_NUM);
+		page.setCurrentPage(1);
+		List<Club> focusClubList = clubService.getFocusList(Club.class, club,page);
 		if(focusClubList.size() > 9)
 		{
 			focusClubList = focusClubList.subList(0, 9);
 		}
 		getRequestMap().put("focusClubList", focusClubList);
-		List<Club> focusMerchantList = clubService.getFocusList(Merchant.class,
-				club);
+		List<Club> focusMerchantList = clubService.getFocusList(Merchant.class,club,page);
 		if(focusMerchantList.size() > 9)
 		{
 			focusMerchantList = focusMerchantList.subList(0, 9);
 		}
 		getRequestMap().put("focusMerchantList", focusMerchantList);
-		Page page = new Page(1 * 7 + 1);
-		page.setCurrentPage(1);
 		ClubPostList clubPostList = new ClubPostList();
 		List<ClubPost> list = clubPostService.clubPostList(club.getId(), page);
 		for(ClubPost p : list)
@@ -158,8 +177,8 @@ public class ClubAction extends BaseAction
 		}
 		clubPostList.setClubPostList(list);
 		getRequestMap().put("clubPostList", clubPostList);
-		page = activityService.adminGetOneClubPageByHql(6, 1, 0, club, null);
-		acs = activityService.adminFindOneClubActivityByHql(page, club, null,"datetime");
+		page = activityService.getOneClubPageByHql(6, 1, 0, club, null,2);
+		acs = activityService.getOneClubActivityByHql(page, club, null,"datetime",2);
 		getRequestMap().put("acs", acs);
 		/****************************************************/
 		super.getRequestMap().put("club", club);
@@ -219,9 +238,10 @@ public class ClubAction extends BaseAction
 	}
 	
 	@Action(value = CLUB_ADD_USER, results = {
-			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = SEARCH_USER_TO_MANAGE, params = {
-					"text", "${text}", "club.id", "${club.id}"}),
-			@Result(name = INPUT, type = REDIRECT_ACTION, location = SEARCH_USER_TO_MANAGE)})
+			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "searchUser", params = {
+					"searchText", "${text}", "club.id", "${club.id}","pageNum","${pageNum}"}),
+			@Result(name = INPUT, type = REDIRECT_ACTION, location = "searchUser", params = {
+					"searchText", "${text}", "club.id", "${club.id}","pageNum","${pageNum}"})})
 	@Auth(type = ClubManagerAuth.class)
 	public String clubAddUser()
 	{
@@ -299,17 +319,24 @@ public class ClubAction extends BaseAction
 		ClubMember clubMember = (ClubMember) getSessionMap().get("clubMember");
 		Club club = new Club();
 		club.setId(clubMember.getId().getClubId());
+		Page page = new Page(EACH_PAGE_NUM,pageNum*EACH_PAGE_NUM+1);
+		page.setCurrentPage(pageNum);
 		switch(type)
 		{
 			case (1):
 				List<Club> clubList = clubService
-						.getFocusList(Club.class, club);
-				getRequestMap().put("focusList", clubList);
+						.getFocusList(Club.class, club,page);
+				ClubList clubListPojo = new ClubList();
+				clubListPojo.setClubList(clubList);
+				clubListPojo.setPage(clubService.getFocusNum(Club.class,club,page));
+				getRequestMap().put("focusList", clubListPojo);
 				break;
 			case (2):
-				List<Merchant> merchantList = clubService.getFocusList(
-						Merchant.class, club);
-				getRequestMap().put("focusList", merchantList);
+				List<Merchant> merchantList = clubService.getFocusList(Merchant.class, club,page);
+				MerchantList merchantListPojo = new MerchantList();
+				merchantListPojo.setMerchantList(merchantList);
+				merchantListPojo.setPage(clubService.getFocusNum(Merchant.class, club, page));
+				getRequestMap().put("focusList", merchantListPojo);
 				break;
 		}
 		return SUCCESS;
@@ -459,6 +486,14 @@ public class ClubAction extends BaseAction
 	public void setActivityService(ActivityService activityService)
 	{
 		this.activityService = activityService;
+	}
+
+	public int getPageNum() {
+		return pageNum;
+	}
+
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
 	}
 	
 }
