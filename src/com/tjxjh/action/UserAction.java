@@ -22,7 +22,9 @@ import com.tjxjh.po.OnlineActivity;
 import com.tjxjh.po.Picture;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
+import com.tjxjh.pojo.ClubList;
 import com.tjxjh.pojo.IndexTalking;
+import com.tjxjh.pojo.MerchantList;
 import com.tjxjh.pojo.UserList;
 import com.tjxjh.service.ClubService;
 import com.tjxjh.service.MailService;
@@ -432,15 +434,18 @@ public class UserAction extends BaseAction
 	public String myFocus()
 	{
 		// List<User> focusList = sessionUser.getUsersForTargetUserId();
-		Page page = new Page(pageNum*10+1);
-		page.setEachPageNumber(10);
+		Page page = new Page(pageNum*eachPageNumber+1);
+		page.setEachPageNumber(eachPageNumber);
 		page.setCurrentPage(pageNum);
 		switch(type)
 		{
 			case (0):
 				List<User> userList = userService.getFocusList(User.class,
 						(User) getSessionMap().get("user"),page);
-				getRequestMap().put("focusList", userList);
+				UserList userListPojo = new UserList();
+				userListPojo.setUserList(userList);
+				userListPojo.setPage(userService.getFocusNum(User.class, (User) getSessionMap().get("user"), page));
+				getRequestMap().put("focusList", userListPojo);
 				// for(User u:userList){
 				// checkList.add(u.getId());
 				// }
@@ -449,7 +454,10 @@ public class UserAction extends BaseAction
 			case (1):
 				List<Club> clubList = userService.getFocusList(Club.class,
 						(User) getSessionMap().get("user"),page);
-				getRequestMap().put("focusList", clubList);
+				ClubList clubListPojo = new ClubList();
+				clubListPojo.setClubList(clubList);
+				clubListPojo.setPage(userService.getFocusNum(Club.class, (User) getSessionMap().get("user"), page));
+				getRequestMap().put("focusList", clubListPojo);
 				// for(Club u:clubList){
 				// checkList.add(u.getId());
 				// }
@@ -458,7 +466,11 @@ public class UserAction extends BaseAction
 			case (2):
 				List<Merchant> merchantList = userService.getFocusList(
 						Merchant.class, (User) getSessionMap().get("user"),page);
-				getRequestMap().put("focusList", merchantList);
+				MerchantList merchantListPojo = new MerchantList();
+				merchantListPojo.setMerchantList(merchantList);
+				merchantListPojo.setPage(userService.getFocusNum(Merchant.class, (User) getSessionMap().get("user"), page));
+				getRequestMap().put("focusList", merchantListPojo);
+				
 				// for(Merchant u:merchantList){
 				// checkList.add(u.getId());
 				// }

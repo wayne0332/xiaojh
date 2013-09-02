@@ -182,6 +182,8 @@ H1 a {
 							</li>
 							<li><a href="publicAnnouncements" target="main">系统通告</a>
 							</li>
+							<li><a href="allMerchantNews?pageNum=1" target="main">商家新闻管理</a>
+							</li>
 						</ul>
 					</div>
 					<h1 class="type">

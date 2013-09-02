@@ -221,13 +221,25 @@ public class UserService extends BaseService
 		List<T> list = getFocusList(objectClass,user);
 		Collections.sort(list);
 		if(list.size()!=0){
-			return list.subList(
-					(page.getCurrentPage()-1)*page.getEachPageNumber(),
-					(page.getCurrentPage())*page.getEachPageNumber()<list.size()?(page.getCurrentPage()+1)*page.getEachPageNumber():(list.size()+1)
-					);
+			int beginIndex = (page.getCurrentPage()-1)*page.getEachPageNumber();
+			int toIndex = (page.getCurrentPage())*page.getEachPageNumber()<list.size()?(page.getCurrentPage()*page.getEachPageNumber()):(list.size());
+			return list.subList(beginIndex,toIndex);
 		}else{
 			return list;
 		}
+	}
+	
+	public Page getFocusNum(Class objectClass, User user,Page page){
+		User u = dao.findById(User.class, user.getId());
+		int itemNum = 0;
+		if(objectClass == Club.class){
+			itemNum = u.getFocusClubs().size();
+		}else if(objectClass == Merchant.class){
+			itemNum = u.getMerchants().size();
+		}else if(objectClass == User.class){
+			itemNum = u.getUsersForTargetUserId().size();
+		}
+		return new Page(page.getCurrentPage(),page.getEachPageNumber(),itemNum);
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
