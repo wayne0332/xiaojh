@@ -60,10 +60,10 @@
 
 <body>
 	<div class="container">
-		<!-- <jsp:include page="head.jsp" /> -->
+		<jsp:include page="head.jsp" />
 
-		<div class="main fl cf">
-			<div class="club_secNav w pl5 pr5">
+		<div class="main fl cf mt75">
+			<div class="club_secNav w pl5 pr5 shadow_l_3">
 				<a
 					href="clubPostList?club.id=<s:property value="club.id" />&pageNum=1">进入贴吧</a>
 				<s:a href="clubMembers?club.id=%{club.id}">社团成员<s:if
@@ -89,7 +89,7 @@
 					<s:a href="userAddClub?club.id=%{club.id}">申请加入</s:a>
 				</s:else>
 			</div>
-			<div class="club_panel fl m5 p10 bg_fff">
+			<div class="club_panel fl m5 p10 bg_fff shadow_l_3">
 				<div>
 					<s:property value="club.name" />
 				</div>
@@ -98,7 +98,7 @@
 					<s:property value="club.introduction" />
 				</div>
 			</div>
-			<div class="club_panel fl m5 p10 bg_fff">
+			<div class="club_panel fl m5 p10 bg_fff shadow_l_3">
 				<div>活动展示</div>
 				<s:iterator value="acs" id="ac">
 					<div
@@ -119,7 +119,7 @@
 					</div>
 				</s:iterator>
 			</div>
-			<div class="club_panel fl m5 p10 bg_fff">
+			<div class="club_panel fl m5 p10 bg_fff shadow_l_3">
 				<div>社团贴吧</div>
 				<s:iterator value="#request.clubPostList.clubPostList">
 					<div class="title">
@@ -130,7 +130,7 @@
 					</div>
 				</s:iterator>
 			</div>
-			<div class="club_panel fl m5 p10 bg_fff">
+			<div class="club_panel fl m5 p10 bg_fff shadow_l_3">
 				<div>
 					关注商家： <a href="clubFocus?type=2">更多</a>
 				</div>
@@ -145,7 +145,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="left_bar fr cf">
+	<div class="left_bar fr cf mt75 shadow_l_3">
 		<div class="rightBlock">
 			<div>
 				关注社团&nbsp;&nbsp;&nbsp;&nbsp;<a href="clubFocus?type=1&pageNum=1">更多</a>

@@ -7,12 +7,13 @@
 %>
 <%@taglib prefix="s" uri="/struts-tags"%>
 <%@taglib prefix="ads" uri="fineTu/ads"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
 <base href="<%=basePath%>" />
 
-<title>校江湖 - 线上活动</title>
+<title>校江湖 - 说说</title>
 
 <link rel="stylesheet" type="text/css" href="css/base-min.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
@@ -27,10 +28,10 @@
 
 		<div class="main fl cf mt75">
 			<div class="w fl">
-				<a href="relativeTalking" class="single_bt1 w100 mt5 ml5 fl shadow_l_5">说说首页</a> 
-				<a href="talking?user.id=${user.id}" class="single_bt2 w100 fl mt10 shadow_l_5">我的说说</a><br /><br /><br />
+				<a href="relativeTalking" class="single_bt1 w100 mt5 ml5 fl shadow_l_3">说说首页</a> 
+				<a href="talking?user.id=${user.id}" class="single_bt2 w100 fl mt10 shadow_l_3">我的说说</a><br /><br /><br />
 			</div>
-			<div class="cf fl shadow_l_10 w700 bg_fff mt15">
+			<div class="cf fl shadow_l_10 w700 bg_fff mt15 ml5 pl10 pr10">
 				<!-- 说说 -->
 				<s:iterator value="taks" id="tak">
 					<div id="${t.id}" class="user_dongtai_div cf w700 mt10 pt10 pb15">
