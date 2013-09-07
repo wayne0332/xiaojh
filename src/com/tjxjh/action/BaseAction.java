@@ -25,8 +25,9 @@ public class BaseAction extends BaseStruts2Action
 	
 	protected void clearSession()
 	{
-		super.getSessionMap().remove(USER);
-		super.getSessionMap().remove(MERCHANT);
+		super.getSessionMap().clear();
+		//super.getSessionMap().remove(USER);
+		//super.getSessionMap().remove(MERCHANT);
 	}
 	
 	protected void saveClubMember(ClubMember clubMember)

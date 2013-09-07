@@ -191,12 +191,13 @@ public class ActivityAction extends BaseAction{
 	//管理员、商家 、社团 修改社团发布的Activity
 	@Action(value = "preModifyActivity", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "modifyActivity.jsp"),
-			@Result(name = SUCCESS, location = BaseAction.MANAGE + "modifyActivity.jsp")})
+			@Result(name = "admin", location = BaseAction.MANAGE + "modifyActivity.jsp")})
 		public String preModifyActivity(){
 			user=Auth.getUserFromSession();
 			merchant=Auth.getMerchantFromSession();
 			activity=activityService.findByHql(user,merchant, activity);
 			if(user.getStatus()==UserStatus.ADMIN){//判断用户是否为校江湖管理人员
+				actionName="admin";
 				return "admin";
 			}
 			return SUCCESS;
@@ -230,7 +231,7 @@ public class ActivityAction extends BaseAction{
 			}	
 		//校江湖管理人员修改社团发布的Activity
 		@Action(value = "adminModifyActivity", results = {
-				@Result(name = SUCCESS, location = REDIRECT_ACTION + "adminActivitys")})
+				@Result(name = SUCCESS, type = REDIRECT_ACTION,location = "adminActivitys")})
 			public String adminModifyActivity(){
 				user=Auth.getUserFromSession();
 				Activity oldactivity=new Activity();
