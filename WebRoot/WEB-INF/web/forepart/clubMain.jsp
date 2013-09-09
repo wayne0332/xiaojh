@@ -78,6 +78,7 @@
 					<a href="activitys?flage=1">正在申请的活动</a>
 					<a href="activitys?flage=2">已经通过审核的活动</a>
 					<a href="activitys?flage=3">被拒绝的活动</a>
+					<a href="addClubNewsJsp">添加社团新闻</a>
 					<s:if test="#request.clubMember.status.name() == 'NO_CHECK'">
 					等待确认
 					</s:if>
