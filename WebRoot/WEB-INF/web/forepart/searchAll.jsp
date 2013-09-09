@@ -218,7 +218,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<tr>
     				<td colspan="7">找商家：</td>
     				<td>
-    					<a href="searchMerchant?searchText=<s:property value="searchText" />&pageNum=1">更多结果</a>
+    					<a href="searchMerchant?searchText=<s:property value="searchText" />&pageNum=1&club.id=<s:property value="club.id" />">更多结果</a>
     				</td>
     			</tr>
     			<s:iterator value="#request.searchResult.merchantList" >

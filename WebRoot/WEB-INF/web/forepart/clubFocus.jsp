@@ -121,7 +121,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    				</s:iterator>
 						</s:if>
 						<s:elseif test="type==2">
-						<s:iterator value="#request.focusList.clubList">
+						<s:iterator value="#request.focusList.merchantList">
 							<div class="listItem">
 							<div class="portrait_big">
 									<s:if test="logoPath==''">

@@ -25,6 +25,7 @@ import com.tjxjh.enumeration.TalkingUrlType;
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Activity;
 import com.tjxjh.po.Club;
+import com.tjxjh.po.ClubNews;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.MerchantNews;
 import com.tjxjh.po.User;
@@ -138,6 +139,20 @@ public class MerchantService extends BaseService
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public List<MerchantNews> allMerchantNews(Page page){
+		String hql = "from MerchantNews n order by n.datetime desc";
+		List<MerchantNews> list = (List<MerchantNews>) dao.executeHql(page,hql);
+		return list;
+	}
+	
+	public Page merchantNewsNum(Page page){
+		String hql = "select count(*) from MerchantNews";
+		List<Long> countL = null;
+		countL = (List<Long>)dao.executeHql(hql);
+		int itemNum = countL.get(0).intValue();
+		return new Page(page.getCurrentPage(),Page.getDefaultPageNumber(),itemNum);
 	}
 	
 	public Page merchantNewsPage(Merchant merchant)

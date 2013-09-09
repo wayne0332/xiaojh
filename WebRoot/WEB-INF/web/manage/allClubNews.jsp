@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<td><s:property value="club.name" /></td>
     			<td><a href="javascript:void()" ><s:property value="tittle" /></a></td>
     			<td><s:property value="datetime" /></td>
-    			<td><a href="javascript:if(confirm('确认删除吗?'))document.location='adminDeleteClubNews?clubnews.id=<s:property value="id" />'" >删帖</a></td>
+    			<td><a href="javascript:if(confirm('确认删除吗?'))document.location='adminDeleteClubNews?clubnews.id=<s:property value="id" />&pageNum=<s:property value="#request.clubNewsList.page.currentPage" />'" >删帖</a></td>
     		</tr>
     	</s:iterator>
     		<tr>

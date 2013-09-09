@@ -45,7 +45,7 @@
 			</form>
 
 			<label class="Clearfix w250 ml5 mt50">我的门客<a
-				href="myFocus?type=0" class="fr">更多</a> </label>
+				href="myFocus?type=0&pageNum=1" class="fr">更多</a> </label>
 			<div class="l_box w240 p5 m5 cf shadow_l_10 radius_6 bg_box">
 				<s:iterator value="#request.focusUserList">
 					<div class="fl p5">
@@ -62,7 +62,7 @@
 			</div>
 
 			<label class="Clearfix w250 ml5 mt20">关注社团 <a
-				href="myFocus?type=1" class="fr">更多</a> </label>
+				href="myFocus?type=1&pageNum=1" class="fr">更多</a> </label>
 			<div class="l_box w240 p5 m5 cf shadow_l_10 radius_6 bg_box">
 				<s:iterator value="#request.focusClubList">
 					<div class="fl p5">
@@ -81,7 +81,7 @@
 				</s:iterator>
 			</div>
 			<label class="Clearfix w250 ml5 mt20">关注商家 <a
-				href="myFocus?type=2" class="fr">更多</a> </label>
+				href="myFocus?type=2&pageNum=1" class="fr">更多</a> </label>
 			<div class="l_box w240 p5 m5 cf shadow_l_10 radius_6 bg_box">
 				<s:iterator value="#request.focusMerchantList">
 					<div class="fl">
