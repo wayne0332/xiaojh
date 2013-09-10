@@ -8,6 +8,7 @@ import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 import com.tjxjh.action.BaseAction;
 import com.tjxjh.annotation.Auth;
 import com.tjxjh.enumeration.ClubMemberRole;
+import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubMember;
 import com.tjxjh.po.User;
@@ -19,6 +20,7 @@ public class AuthInterceptor extends AbstractInterceptor
 	private static final long serialVersionUID = -1636166010472122647L;
 	// 我擦 init方法压根就取不到ServletContext 只能在listener里面往这里塞了
 	private static ClubService clubService = null;
+	private static final String MAIN = "main", ADMIN_LOGIN = "adminLogin";
 	
 	@Override
 	public String intercept(ActionInvocation ai) throws Exception
@@ -60,7 +62,7 @@ public class AuthInterceptor extends AbstractInterceptor
 		AuthInterceptor.clubService = clubService;
 	}
 	
-	/** 登陆了才能能访问 */
+	/** 登陆了才能访问 */
 	public static class UserAuth
 	{
 		private UserAuth()
@@ -173,7 +175,27 @@ public class AuthInterceptor extends AbstractInterceptor
 			if(((ClubMember) getRequestMap().get(BaseAction.CLUB_MEMBER))
 					.getRole() != ClubMemberRole.PROPRIETER)
 			{
-				return "main";
+				return MAIN;
+			}
+			return null;
+		}
+	}
+	
+	public static class AdminAuth extends UserWithClubMemberAuth
+	{
+		private AdminAuth()
+		{}
+		
+		static String check(ActionInvocation ai)
+		{
+			String result = UserWithClubMemberAuth.check(ai);
+			if(result != null)
+			{
+				return result;
+			}
+			if(((User) getSessionMap().get(BaseAction.USER)).getStatus() != UserStatus.ADMIN)
+			{
+				return ADMIN_LOGIN;
 			}
 			return null;
 		}

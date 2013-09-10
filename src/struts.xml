@@ -31,6 +31,7 @@
 		<global-results>
 			<result name="login" type="redirectAction">index</result>
 			<result name="main" type="redirectAction">index</result>
+			<result name="adminLogin" type="redirectAction">index</result>
 		</global-results>
 	</package>
 </struts>

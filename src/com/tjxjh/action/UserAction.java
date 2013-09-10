@@ -14,8 +14,10 @@ import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
+import com.tjxjh.annotation.Auth;
 import com.tjxjh.annotation.Keyword;
 import com.tjxjh.enumeration.UserStatus;
+import com.tjxjh.interceptor.AuthInterceptor.AdminAuth;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.OnlineActivity;
@@ -95,6 +97,7 @@ public class UserAction extends BaseAction
 	
 	@Action(value = "allUser", results = {@Result(name = SUCCESS, location = MANAGE
 			+ "allUser.jsp")})
+	@Auth(type = AdminAuth.class)
 	public String allUser()
 	{
 		Page page = new Page(pageNum * Page.getDefaultPageNumber() + 1);
@@ -434,17 +437,18 @@ public class UserAction extends BaseAction
 	public String myFocus()
 	{
 		// List<User> focusList = sessionUser.getUsersForTargetUserId();
-		Page page = new Page(pageNum*eachPageNumber+1);
+		Page page = new Page(pageNum * eachPageNumber + 1);
 		page.setEachPageNumber(eachPageNumber);
 		page.setCurrentPage(pageNum);
 		switch(type)
 		{
 			case (0):
 				List<User> userList = userService.getFocusList(User.class,
-						(User) getSessionMap().get("user"),page);
+						(User) getSessionMap().get("user"), page);
 				UserList userListPojo = new UserList();
 				userListPojo.setUserList(userList);
-				userListPojo.setPage(userService.getFocusNum(User.class, (User) getSessionMap().get("user"), page));
+				userListPojo.setPage(userService.getFocusNum(User.class,
+						(User) getSessionMap().get("user"), page));
 				getRequestMap().put("focusList", userListPojo);
 				// for(User u:userList){
 				// checkList.add(u.getId());
@@ -453,10 +457,11 @@ public class UserAction extends BaseAction
 				break;
 			case (1):
 				List<Club> clubList = userService.getFocusList(Club.class,
-						(User) getSessionMap().get("user"),page);
+						(User) getSessionMap().get("user"), page);
 				ClubList clubListPojo = new ClubList();
 				clubListPojo.setClubList(clubList);
-				clubListPojo.setPage(userService.getFocusNum(Club.class, (User) getSessionMap().get("user"), page));
+				clubListPojo.setPage(userService.getFocusNum(Club.class,
+						(User) getSessionMap().get("user"), page));
 				getRequestMap().put("focusList", clubListPojo);
 				// for(Club u:clubList){
 				// checkList.add(u.getId());
@@ -465,12 +470,14 @@ public class UserAction extends BaseAction
 				break;
 			case (2):
 				List<Merchant> merchantList = userService.getFocusList(
-						Merchant.class, (User) getSessionMap().get("user"),page);
+						Merchant.class, (User) getSessionMap().get("user"),
+						page);
 				MerchantList merchantListPojo = new MerchantList();
 				merchantListPojo.setMerchantList(merchantList);
-				merchantListPojo.setPage(userService.getFocusNum(Merchant.class, (User) getSessionMap().get("user"), page));
+				merchantListPojo.setPage(userService.getFocusNum(
+						Merchant.class, (User) getSessionMap().get("user"),
+						page));
 				getRequestMap().put("focusList", merchantListPojo);
-				
 				// for(Merchant u:merchantList){
 				// checkList.add(u.getId());
 				// }
@@ -495,11 +502,17 @@ public class UserAction extends BaseAction
 					+ CHANGE_USER_PASSWORD + JSP)}),
 			@Action(value = FIND_USER_PASSWORD_INPUT, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 					+ FIND_USER_PASSWORD + JSP)}),
-			@Action(value = "manageIndex", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/index.jsp")}),
 			@Action(value = "manageTop", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/admin_top.jsp")}),
 			@Action(value = "manageLeft", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/left.jsp")}),
 			@Action(value = "manageRight", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/right.jsp")})})
 	public String page()
+	{
+		return SUCCESS;
+	}
+	
+	@Action(value = "manageIndex", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/index.jsp")})
+//	@Auth(type = AdminAuth.class)
+	public String adminAuth()
 	{
 		return SUCCESS;
 	}
