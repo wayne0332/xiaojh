@@ -10,6 +10,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 import com.tjxjh.action.BaseAction;
+import com.tjxjh.auth.AuthEnum;
 import com.tjxjh.enumeration.ClubMemberRole;
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Club;
@@ -34,9 +35,18 @@ public class AuthInterceptor extends AbstractInterceptor
 				.getMethod(ai.getProxy().getMethod())
 				.getAnnotation(com.tjxjh.annotation.Auth.class)) != null)
 		{
-			if(auth.user().getAuth().isPass(ai)
-					&& auth.admin().getAuth().isPass(ai)
-					&& auth.merchant().getAuth().isPass(ai))
+			AuthEnum[] auths = null;
+			if((auths = auth.auths()).length > 0)
+			{
+				for(AuthEnum authEnum : auths)
+				{
+					if(!authEnum.getAuth().isPass(ai))
+					{
+						return HAVE_NO_AUTH;
+					}
+				}
+			}
+			else
 			{
 				Class<? extends BaseAuth> authType = auth.type();
 				String result = (String) authType.getDeclaredMethod("check",
@@ -46,10 +56,6 @@ public class AuthInterceptor extends AbstractInterceptor
 				{
 					return result;
 				}
-			}
-			else
-			{
-				return HAVE_NO_AUTH;
 			}
 		}
 		return ai.invoke();
