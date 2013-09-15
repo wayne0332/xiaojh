@@ -39,7 +39,7 @@ import com.tjxjh.util.CodeUtil;
 @Namespace("/")
 public class ClubAction extends BaseAction
 {
-	static private int EACH_PAGE_NUM = 3;
+	static private int EACH_PAGE_NUM = 10;
 	static final String CHANGE_PROPRIETER_INPUT = "changeProprieterInput";
 	static final String CHANGE_PROPRIETER = "changeProprieter";
 	static final String UPDATE_MEMBER_TO_NORMAL = "updateMemberToNormal";
@@ -313,6 +313,7 @@ public class ClubAction extends BaseAction
 	
 	@Action(value = "clubFocus", results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 			+ "clubFocus.jsp")})
+	@Auth(type = UserWithClubMemberAuth.class)
 	public String myFocus()
 	{
 		// List<User> focusList = sessionUser.getUsersForTargetUserId();
@@ -324,8 +325,7 @@ public class ClubAction extends BaseAction
 		switch(type)
 		{
 			case (1):
-				List<Club> clubList = clubService
-						.getFocusList(Club.class, club,page);
+				List<Club> clubList = clubService.getFocusList(Club.class, club,page);
 				ClubList clubListPojo = new ClubList();
 				clubListPojo.setClubList(clubList);
 				clubListPojo.setPage(clubService.getFocusNum(Club.class,club,page));

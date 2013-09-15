@@ -182,6 +182,8 @@ H1 a {
 							</li>
 							<li><a href="publicAnnouncements" target="main">系统通告</a>
 							</li>
+							<li><a href="allMerchantNews?pageNum=1" target="main">商家新闻管理</a>
+							</li>
 						</ul>
 					</div>
 					<h1 class="type">
@@ -225,6 +227,23 @@ H1 a {
 							</li>
 							<li><a href="adminActivitys?pageNum=1&flage=3" target="main">已经拒绝的活动</a>
 							</li>
+						</ul>
+					</div>
+					<h1 class="type">
+						<a href="javascript:void(0)">说说管理</a>
+					</h1>
+					<div class="content">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0">
+							<tr>
+								<td><img src="images/menu_topline.gif" width="182"
+									height="5" />
+								</td>
+							</tr>
+						</table>
+						<ul class="MM">
+							<li><a href="allTalking?pageNum=1" target="main">说说总览</a>
+							</li>
+							
 						</ul>
 					</div>
 				</div> <script type="text/javascript">

@@ -48,7 +48,7 @@
 				<s:property value="type" /> -->
 
 				<s:if test="type==0">
-					<s:iterator value="#request.focusList">
+					<s:iterator value="#request.focusList.userList">
 						<div class="friendBox">
 							<s:if test="portrait==''">
 								<img src="images/head/head1.jpg" class="fl logoImg" />
@@ -70,7 +70,7 @@
 					</s:iterator>
 				</s:if>
 				<s:elseif test="type==1">
-					<s:iterator value="#request.focusList">
+					<s:iterator value="#request.focusList.clubList">
 						<div class="listItem">
 							<div class="portrait_big">
 								<s:if test="logoPath==''">
@@ -103,7 +103,7 @@
 					</s:iterator>
 				</s:elseif>
 				<s:elseif test="type==2">
-					<s:iterator value="#request.focusList">
+					<s:iterator value="#request.focusList.merchantList">
 						<div class="listItem">
 							<div class="portrait_big">
 								<s:if test="portrait==''">
@@ -137,7 +137,13 @@
 								onclick="cancelFocus(<s:property value="id" />,2)" />
 						</div>
 					</s:iterator>
+						
 				</s:elseif>
+				<div>
+		    		<span><a href="myFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage-1" />">上一页</a></span>&nbsp;
+					<span><a href="myFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage+1" />">下一页</a></span>
+					<span>共 <s:property value="#request.focusList.page.pageNumber" />页</span>
+	    		</div>
 			</div>
 		</div>
 		<div class="left_bar fr cf"></div>

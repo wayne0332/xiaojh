@@ -15,7 +15,9 @@ import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.MerchantNews;
 import com.tjxjh.pojo.MerchantList;
+import com.tjxjh.pojo.MerchantNewsList;
 import com.tjxjh.service.MerchantService;
+import com.tjxjh.util.Auth;
 import com.tjxjh.util.CodeUtil;
 import com.tjxjh.util.MerchantPurposeUtil;
 
@@ -115,6 +117,22 @@ public class MerchantAction extends BaseAction
 		return SUCCESS;
 	}
 	
+	@Action(value = "allMerchantNews", results = {
+			@Result(name = SUCCESS,location = MANAGE+"allMerchantNews.jsp")})
+	public String allMerchantNews(){
+		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
+		page.setCurrentPage(pageNum);
+		MerchantNewsList merchantNewsList = new MerchantNewsList();
+		merchantNewsList.setMerchantNewsList(merchantService.allMerchantNews(page));
+		merchantNewsList.setPage(merchantService.merchantNewsNum(page));
+		for(MerchantNews c:merchantNewsList.getMerchantNewsList()){
+			c.getMerchant().getName();
+			c.getMerchant().getId();
+		}
+		getRequestMap().put("merchantNewsList", merchantNewsList);
+		return SUCCESS;
+	}
+	
 	@Action(value = MERCHANT_NEWS, results = {@Result(name = SUCCESS, location = FOREPART
 			+ MERCHANT_NEWS + JSP)})
 	public String merchantNews()
@@ -165,7 +183,15 @@ public class MerchantAction extends BaseAction
 		return super.successOrInput(merchantService
 				.deleteMerchantNews(merchantNews));
 	}
-	
+	//后台管理方法
+	@Action(value = "adminDeleteMerhcantNews", results = {
+			@Result(name = SUCCESS,type = REDIRECT_ACTION, location ="allMerchantNews", params={"pageNum","${pageNum}"})})
+	public String adminDeleteMerhcantNews(){
+		merchantNews.setMerchant(merchant);
+		merchantService.deleteMerchantNews(merchantNews);
+		return SUCCESS;
+	}
+			
 	@Action(value = "merchantFocus", results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 			+ "merchantFocus.jsp")})
 	public String merchantFocus()

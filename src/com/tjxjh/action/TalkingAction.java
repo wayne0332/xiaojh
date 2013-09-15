@@ -16,6 +16,7 @@ import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
+import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
 import com.tjxjh.pojo.IndexTalking;
@@ -117,7 +118,7 @@ public class TalkingAction extends BaseAction
 			}
 	
 	@Action(value = "allTalking", results = {
-			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myTalking.jsp"),
+			@Result(name = SUCCESS, location = BaseAction.MANAGE + "allTalking.jsp"),
 			@Result(name = INPUT, location = ERROR_PAGE)})
 			public String allTalking()
 			{
@@ -140,8 +141,8 @@ public class TalkingAction extends BaseAction
 			@Result(name = INPUT, location = ERROR_PAGE)})
 			public String preShare()
 			{
-				//模拟数据，用户id为2
-				origntalking=talkingService.preShare(talking.getId(),4);
+				
+				origntalking=talkingService.preShare(talking.getId(),Auth.getUserFromSession().getId());
 				if(origntalking!=null)
 				{
 					return SUCCESS;
@@ -175,7 +176,11 @@ public class TalkingAction extends BaseAction
 			{
 				PrintWriter out =GetRequsetResponse.getAjaxPrintWriter();
 				user=Auth.getUserFromSession();
-				talking=talkingService.findByHql(new Object[]{user.getId(),talking.getId()});
+				if(Auth.getUserFromSession().getStatus()!=UserStatus.ADMIN){
+					talking=talkingService.findByHql(new Object[]{user.getId(),talking.getId()});
+				}else{
+					talking=talkingService.findById(talking.getId());
+				}
 				talking=talkingService.delete(talking);
 				if(talking!=null){
 					out.print("true");

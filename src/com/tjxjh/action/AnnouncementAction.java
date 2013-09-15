@@ -13,6 +13,7 @@ import cn.cafebabe.autodao.pojo.Page;
 import com.tjxjh.annotation.Auth;
 import com.tjxjh.enumeration.ClubMemberRole;
 import com.tjxjh.enumeration.UserStatus;
+import com.tjxjh.interceptor.AuthInterceptor.AdminAuth;
 import com.tjxjh.interceptor.AuthInterceptor.ClubManagerAuth;
 import com.tjxjh.interceptor.AuthInterceptor.UserWithClubMemberAuth;
 import com.tjxjh.po.Announcement;
@@ -46,6 +47,7 @@ public class AnnouncementAction extends BaseAction
 					"club.id", "${#request.clubMember.club.id}"}),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = ADD_ANNOUNCEMENT),
 			@Result(name = ERROR, location = FOREPART + ERROR_PAGE)})
+	@Auth(type = UserWithClubMemberAuth.class)
 	public String addAnnouncement()
 	{
 		if(path == null)

@@ -2,12 +2,17 @@ package com.tjxjh.interceptor;
 
 import java.util.Map;
 
+import org.apache.struts2.ServletActionContext;
+
+import cn.cafebabe.websupport.util.SpringUtil;
+
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 import com.tjxjh.action.BaseAction;
-import com.tjxjh.annotation.Auth;
+import com.tjxjh.auth.AuthEnum;
 import com.tjxjh.enumeration.ClubMemberRole;
+import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubMember;
 import com.tjxjh.po.User;
@@ -18,22 +23,39 @@ public class AuthInterceptor extends AbstractInterceptor
 {
 	private static final long serialVersionUID = -1636166010472122647L;
 	// 我擦 init方法压根就取不到ServletContext 只能在listener里面往这里塞了
-	private static ClubService clubService = null;
+	static final String HAVE_NO_AUTH = "main", MAIN = HAVE_NO_AUTH,
+			ADMIN_LOGIN = HAVE_NO_AUTH;
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public String intercept(ActionInvocation ai) throws Exception
 	{
-		Auth auth = null;
+		com.tjxjh.annotation.Auth auth = null;
 		if((auth = ai.getAction().getClass()
-				.getMethod(ai.getProxy().getMethod()).getAnnotation(Auth.class)) != null)
+				.getMethod(ai.getProxy().getMethod())
+				.getAnnotation(com.tjxjh.annotation.Auth.class)) != null)
 		{
-			Class<? extends UserAuth> authType = auth.type();
-			String result = (String) authType.getDeclaredMethod("check",
-					new Class[] {ActionInvocation.class}).invoke(null,
-					new Object[] {ai});
-			if(result != null)
+			AuthEnum[] auths = null;
+			if((auths = auth.auths()).length > 0)
 			{
-				return result;
+				for(AuthEnum authEnum : auths)
+				{
+					if(!authEnum.getAuth().isPass(ai))
+					{
+						return HAVE_NO_AUTH;
+					}
+				}
+			}
+			else
+			{
+				Class<? extends BaseAuth> authType = auth.type();
+				String result = (String) authType.getDeclaredMethod("check",
+						new Class[] {ActionInvocation.class}).invoke(null,
+						new Object[] {ai});
+				if(result != null)
+				{
+					return result;
+				}
 			}
 		}
 		return ai.invoke();
@@ -55,13 +77,26 @@ public class AuthInterceptor extends AbstractInterceptor
 		return (Map<String, Object>) ActionContext.getContext().get("request");
 	}
 	
-	public static void setClubService(ClubService clubService)
+	static ClubService getClubService(ActionInvocation ai)
 	{
-		AuthInterceptor.clubService = clubService;
+		return SpringUtil.springContext(
+				ServletActionContext.getServletContext()).getBean(
+				ClubService.class);
 	}
 	
-	/** 登陆了才能能访问 */
-	public static class UserAuth
+	public static class BaseAuth
+	{
+		private BaseAuth()
+		{}
+		
+		static String check(ActionInvocation ai)
+		{
+			return null;
+		}
+	}
+	
+	/** 登陆了才能访问 */
+	public static class UserAuth extends BaseAuth
 	{
 		private UserAuth()
 		{}
@@ -70,7 +105,7 @@ public class AuthInterceptor extends AbstractInterceptor
 		{
 			if(getSessionMap().get(BaseAction.USER) == null)
 			{
-				return "login";
+				return MAIN;
 			}
 			return null;
 		}
@@ -91,7 +126,7 @@ public class AuthInterceptor extends AbstractInterceptor
 					.getParameters();
 			String[] clubId = (String[]) params.get("club.id");
 			if(clubId != null && clubId.length > 0
-					&& !StringUtil.isEmpty(clubId[0]))
+					&& StringUtil.isNotEmpty(clubId[0]))
 			{
 				Integer _clubId = null;
 				try
@@ -101,12 +136,12 @@ public class AuthInterceptor extends AbstractInterceptor
 				catch(NumberFormatException e)
 				{
 					e.printStackTrace();
-					return "main";
+					return MAIN;
 				}
 				Club club = new Club();
 				club.setId(_clubId);
-				ClubMember member = clubService.userClub((User) getSessionMap()
-						.get(BaseAction.USER), club);
+				ClubMember member = getClubService(ai).userClub(
+						(User) getSessionMap().get(BaseAction.USER), club);
 				getRequestMap().put(BaseAction.CLUB_MEMBER, member);
 				getSessionMap().put(BaseAction.CLUB_MEMBER, member);
 			}
@@ -129,7 +164,7 @@ public class AuthInterceptor extends AbstractInterceptor
 			}
 			if(getRequestMap().get(BaseAction.CLUB_MEMBER) == null)
 			{
-				return "main";
+				return MAIN;
 			}
 			return null;
 		}
@@ -151,7 +186,7 @@ public class AuthInterceptor extends AbstractInterceptor
 			if(((ClubMember) getRequestMap().get(BaseAction.CLUB_MEMBER))
 					.getRole() == ClubMemberRole.NORMAL)
 			{
-				return "main";
+				return MAIN;
 			}
 			return null;
 		}
@@ -173,7 +208,27 @@ public class AuthInterceptor extends AbstractInterceptor
 			if(((ClubMember) getRequestMap().get(BaseAction.CLUB_MEMBER))
 					.getRole() != ClubMemberRole.PROPRIETER)
 			{
-				return "main";
+				return MAIN;
+			}
+			return null;
+		}
+	}
+	
+	public static class AdminAuth extends UserWithClubMemberAuth
+	{
+		private AdminAuth()
+		{}
+		
+		static String check(ActionInvocation ai)
+		{
+			String result = UserWithClubMemberAuth.check(ai);
+			if(result != null)
+			{
+				return result;
+			}
+			if(((User) getSessionMap().get(BaseAction.USER)).getStatus() != UserStatus.ADMIN)
+			{
+				return ADMIN_LOGIN;
 			}
 			return null;
 		}
