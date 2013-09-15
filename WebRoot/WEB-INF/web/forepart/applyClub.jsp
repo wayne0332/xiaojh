@@ -27,48 +27,46 @@
 				</thead>
 				<tbody>
 					<tr>
-						<th class="pt30"><label>名称：</label>
-						</th>
+						<th class="pt30"><label>名称：</label></th>
 						<td class="pt30"><input type="text" name="club.name"
-							class="applyClubTable_text"><label
-								class="alertLabel none"></label>
+							class="applyClubTable_text" /><label class="alertLabel none"></label>
 						</td>
 					</tr>
 					<tr>
-						<th><label>学校：</label>
-						</th>
+						<th><label>学校：</label></th>
 						<td><s:property
 								value="#application.schools[#session.user.school.id].name" /> <s:hidden
-								name="club.school.id" value="%{#session.user.school.id}" /></td>
+								name="club.school.id" value="%{#session.user.school.id}" />
+						</td>
 					</tr>
 					<tr>
-						<th><label>类型：</label>
-						</th>
+						<th><label>类型：</label></th>
 						<td><s:select name="club.type"
 								list="@com.tjxjh.enumeration.ClubType@values()" listKey="name()"
-								listValue="name" /></td>
+								listValue="name" />
+						</td>
 					</tr>
 					<tr>
-						<th><label>Logo：</label>
-						</th>
+						<th><label>Logo：</label></th>
 						<td><input type="file" name="logo">
 						</td>
 					</tr>
 					<tr>
-						<th><label>简介：</label>
-						</th>
+						<th><label>简介：</label></th>
 						<td><textarea rows="5" cols="20"
-								name="club.briefIntroduction"></textarea></td>
+								name="club.briefIntroduction"></textarea>
+						</td>
 					</tr>
 					<tr>
-						<th><label>详细介绍：</label>
-						</th>
+						<th><label>详细介绍：</label></th>
 						<td><textarea rows="10" cols="20" name="club.introduction"></textarea>
 						</td>
 					</tr>
 					<tr>
 						<th></th>
-						<td><button type="submit" class="applyClubTable_submit shadow_l_5 hov">提交</button></td>
+						<td><button type="submit"
+								class="applyClubTable_submit shadow_l_5 hov">提交</button>
+						</td>
 					</tr>
 					<tr></tr>
 				</tbody>

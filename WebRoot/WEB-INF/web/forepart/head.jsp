@@ -3,7 +3,7 @@
 <%@ taglib prefix="ads" uri="fineTu/ads"%>
 
 <div class="header shadow_d_3">
-	<div class="logo w200 h800">
+	<div class="logo">
 		<img src="images/icon/logo.png" id="logo_img" class="w135" />
 	</div>
 

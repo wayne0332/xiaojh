@@ -6,6 +6,8 @@
 	h2					{ font: 15px/1.5 Tahoma,Verdana,"Microsoft Yahei"; }
 	
 	.hov:hover			{ cursor: pointer; }
+	.clear_a:hover,
+	.clear_sub a:hover	{ text-decoration: none; cursor: pointer; }
 	
 	.input_radio		{ vertical-align: middle; }
 
@@ -28,6 +30,8 @@
 	
 	.bg_fff				{ background-color: #fff; }
 	.bg_box				{ background-color: rgba(245,245,245,0.7); }
+	.people_box			{ margin: 10px 3px 5px 10px; }
+	.people_box label	{ white-space: nowrap; }
 	
 	.text_r				{ text-align: right; }
 	.text_l				{ text-align: left; }
@@ -61,7 +65,7 @@
 /* header
  * ------------------------------------------------------------------------------------------ */	
  
-	.logo				{ position: absolute; top: 50px; margin-left: 10px; z-index: 2500; }
+	.logo				{ position: absolute; top: 50px; margin-left: 10px; z-index: 2500; width: 135px; }
 	.top_bar			{ width: 1000px; height: 55px; overflow: hidden; }
 	.nav_bar			{ width: 100%; height: 40px;  }
 	.nav_bar li			{ float: left; }
