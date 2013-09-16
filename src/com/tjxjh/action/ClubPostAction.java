@@ -9,6 +9,8 @@ import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
+import com.tjxjh.annotation.Auth;
+import com.tjxjh.auth.AuthEnum;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubPost;
 import com.tjxjh.po.ClubPostComment;
@@ -17,7 +19,7 @@ import com.tjxjh.pojo.ClubPostContent;
 import com.tjxjh.pojo.ClubPostList;
 import com.tjxjh.service.ClubPostService;
 
-@ParentPackage("struts-default")
+@ParentPackage("myPackage")
 @Namespace("/")
 public class ClubPostAction extends BaseAction{
 	@Resource
@@ -29,6 +31,7 @@ public class ClubPostAction extends BaseAction{
 	private ClubPostComment comment = null;
 	@Action(value = "initAddClubPost", results = {
 			@Result(name = SUCCESS, location = FOREPART+"addClubPost.jsp")})
+	@Auth(auths={AuthEnum.CLUB_MEMBER})
 	public String initAddClubPost(){
 		return SUCCESS;
 	}
@@ -36,6 +39,7 @@ public class ClubPostAction extends BaseAction{
 	@Action(value = "addClubPost", results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "clubPostList",params={"club.id","${club.id}"}),
 			@Result(name = INPUT, location = FOREPART+"historyBack.jsp")})
+	@Auth(auths={AuthEnum.CLUB_MEMBER})
 	public String addClubPost(){
 		if(!(post==null
 				||post.getTittle()==null
@@ -54,6 +58,7 @@ public class ClubPostAction extends BaseAction{
 	}
 	@Action(value = "clubPostList", results = {
 			@Result(name = SUCCESS,location = FOREPART+"clubPostList.jsp")})
+	@Auth(auths={AuthEnum.AUTO_CLUB_MEMBER})
 	public String clubPostList(){
 		Page page = new Page(pageNum*7+1);
 		page.setCurrentPage(pageNum);
@@ -67,6 +72,7 @@ public class ClubPostAction extends BaseAction{
 	
 	@Action(value = "allClubPost", results = {
 			@Result(name = SUCCESS,location = MANAGE+"allClubPost.jsp")})
+	@Auth(auths={AuthEnum.ADMIN})
 	public String allClubPost(){
 		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
 		page.setCurrentPage(pageNum);
@@ -83,6 +89,7 @@ public class ClubPostAction extends BaseAction{
 	}
 	@Action(value = "clubPostContent", results = {
 			@Result(name = SUCCESS, location = FOREPART+"clubPost.jsp")})
+	@Auth(auths={AuthEnum.AUTO_CLUB_MEMBER})
 	public String clubPostContent(){
 		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
 		page.setCurrentPage(pageNum);
@@ -93,6 +100,7 @@ public class ClubPostAction extends BaseAction{
 	@Action(value = "addComment", results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "clubPostContent",params = {
 					"postId", "${#request.postId}","pageNum", "${#request.pageNum}"})})
+	@Auth(auths={AuthEnum.CLUB_MEMBER})
 	public String addComment(){
 		comment.setUser((User)getSessionMap().get("user"));
 		ClubPost targetPost = new ClubPost();
@@ -106,6 +114,7 @@ public class ClubPostAction extends BaseAction{
 	}
 	@Action(value = "deletePost", results = {
 			@Result(name = SUCCESS,type=REDIRECT_ACTION, location = "clubPostList", params={"club.id","${club.id}","pageNum","${pageNum}"})})
+	@Auth(auths={AuthEnum.CLUB_MANAGER})
 	public String deleteClubPost(){
 		if(service.deleteClubPost(post)){
 			return SUCCESS;
@@ -115,6 +124,7 @@ public class ClubPostAction extends BaseAction{
 	
 	@Action(value = "adminDeleteClubPost", results = {
 			@Result(name = SUCCESS,type=REDIRECT_ACTION, location = "allClubPost", params={"pageNum","${pageNum}"})})
+	@Auth(auths={AuthEnum.ADMIN})
 	public String adminDeleteClubPost(){
 		if(service.deleteClubPost(post)){
 			return SUCCESS;
@@ -124,6 +134,7 @@ public class ClubPostAction extends BaseAction{
 	@Action(value = "deleteComment", results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "clubPostContent",params = {
 					"postId", "${#request.postId}","pageNum", "${#request.pageNum}"})})
+	@Auth(auths={AuthEnum.CLUB_MANAGER})
 	public String deleteComment(){
 		
 		if(service.deleteComment(comment)){

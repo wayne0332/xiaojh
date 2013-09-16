@@ -7,20 +7,25 @@ import javax.annotation.Resource;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Actions;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
+import com.tjxjh.annotation.Auth;
+import com.tjxjh.auth.AuthEnum;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.MerchantNews;
 import com.tjxjh.pojo.MerchantList;
 import com.tjxjh.pojo.MerchantNewsList;
 import com.tjxjh.service.MerchantService;
-import com.tjxjh.util.Auth;
 import com.tjxjh.util.CodeUtil;
 import com.tjxjh.util.MerchantPurposeUtil;
 
+@ParentPackage("myPackage")
+@Namespace("/")
 public class MerchantAction extends BaseAction
 {
 	static final String DELETE_MERCHANT_NEWS = "deleteMerchantNews";
@@ -52,6 +57,7 @@ public class MerchantAction extends BaseAction
 					+ APPLY_MERCHANT + JSP)}),
 			@Action(value = ADD_MERCHANT_NEWS_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
 					+ ADD_MERCHANT_NEWS + JSP)})})
+	@Auth(auths={AuthEnum.NO_NEED})
 	public String page()
 	{
 		return SUCCESS;
@@ -61,6 +67,7 @@ public class MerchantAction extends BaseAction
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CHECK_MERCHANT, params = {
 					"merchant.id", "${merchant.id}"}),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = APPLY_MERCHANT_INPUT)})
+	@Auth(auths={AuthEnum.NO_NEED})
 	public String applyMerchant()
 	{
 		merchant.setLogoPath(new StringBuilder("upload/merchantLogo/")
@@ -81,6 +88,7 @@ public class MerchantAction extends BaseAction
 	@Action(value = MERCHANT_LOGIN, results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = MERCHANT_MAIN),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = UserAction.LOGIN_INPUT)})
+	@Auth(auths={AuthEnum.NO_NEED})
 	public String merchantLogin()
 	{
 		super.clearSession();
@@ -97,6 +105,7 @@ public class MerchantAction extends BaseAction
 	
 	@Action(value = "allMerchant", results = {
 			@Result(name = SUCCESS, location = MANAGE+"allMerchant.jsp")})
+	@Auth(auths={AuthEnum.ADMIN})
 	public String allMerchant(){
 		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
 		page.setCurrentPage(pageNum);
@@ -112,6 +121,7 @@ public class MerchantAction extends BaseAction
 	
 	@Action(value = MERCHANT_MAIN, results = {@Result(name = SUCCESS, location = FOREPART
 			+ MERCHANT_MAIN + JSP)})
+	@Auth(auths={AuthEnum.USER})
 	public String merchantMain()
 	{
 		return SUCCESS;
@@ -119,6 +129,7 @@ public class MerchantAction extends BaseAction
 	
 	@Action(value = "allMerchantNews", results = {
 			@Result(name = SUCCESS,location = MANAGE+"allMerchantNews.jsp")})
+	@Auth(auths={AuthEnum.ADMIN})
 	public String allMerchantNews(){
 		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
 		page.setCurrentPage(pageNum);
@@ -135,6 +146,7 @@ public class MerchantAction extends BaseAction
 	
 	@Action(value = MERCHANT_NEWS, results = {@Result(name = SUCCESS, location = FOREPART
 			+ MERCHANT_NEWS + JSP)})
+	@Auth(auths={AuthEnum.USER})
 	public String merchantNews()
 	{
 		if(page == null)
@@ -149,6 +161,7 @@ public class MerchantAction extends BaseAction
 	@Action(value = ADD_MERCHANT_NEWS, results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = MERCHANT_NEWS),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = ADD_MERCHANT_NEWS_INPUT)})
+	@Auth(auths={AuthEnum.MERCHANT})
 	public String addMerchantNews()
 	{
 		merchantNews.setMerchant(super.currentMerchant());
@@ -159,6 +172,7 @@ public class MerchantAction extends BaseAction
 			@Result(name = SUCCESS, location = FOREPART + MERCHANT_NEWS_DETAILS
 					+ JSP),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = MERCHANT_NEWS)})
+	@Auth(auths={AuthEnum.USER})
 	public String merchantNewsDetails()
 	{
 		if(isMerchantNewsEmpty())
@@ -173,6 +187,7 @@ public class MerchantAction extends BaseAction
 	@Action(value = DELETE_MERCHANT_NEWS, results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = MERCHANT_NEWS),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = MERCHANT_NEWS)})
+	@Auth(auths={AuthEnum.MERCHANT})
 	public String deleteMerchantNews()
 	{
 		if(isMerchantNewsEmpty())
@@ -186,6 +201,7 @@ public class MerchantAction extends BaseAction
 	//后台管理方法
 	@Action(value = "adminDeleteMerhcantNews", results = {
 			@Result(name = SUCCESS,type = REDIRECT_ACTION, location ="allMerchantNews", params={"pageNum","${pageNum}"})})
+	@Auth(auths={AuthEnum.ADMIN})
 	public String adminDeleteMerhcantNews(){
 		merchantNews.setMerchant(merchant);
 		merchantService.deleteMerchantNews(merchantNews);
@@ -194,6 +210,7 @@ public class MerchantAction extends BaseAction
 			
 	@Action(value = "merchantFocus", results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 			+ "merchantFocus.jsp")})
+	@Auth(auths={AuthEnum.USER})
 	public String merchantFocus()
 	{
 		// List<User> focusList = sessionUser.getUsersForTargetUserId();

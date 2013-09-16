@@ -12,13 +12,15 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.tjxjh.annotation.Auth;
+import com.tjxjh.auth.AuthEnum;
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.User;
 import com.tjxjh.service.UserService;
 
-@ParentPackage("struts-default")
+@ParentPackage("myPackage")
 @Namespace("/")
 public class UserFocusAjax extends BaseAction{
 	@Resource
@@ -26,6 +28,7 @@ public class UserFocusAjax extends BaseAction{
 	private int id;
 	@Action(value = "focusUser", results = {
 			@Result(name = SUCCESS, type = "xslt")})
+	@Auth(auths={AuthEnum.USER})
 	public String focusUser(){
 		int flag = 1;
 		User user = (User)getSessionMap().get("user");
@@ -59,6 +62,7 @@ public class UserFocusAjax extends BaseAction{
 	}
 	@Action(value = "cancelFocusUser", results = {
 			@Result(name = SUCCESS, type = "xslt")})
+	@Auth(auths={AuthEnum.USER})
 	public String cancelFocus(){
 		int flag = 1;
 		User user = (User)getSessionMap().get("user");
@@ -93,6 +97,7 @@ public class UserFocusAjax extends BaseAction{
 	
 	@Action(value = "focusClub", results = {
 			@Result(name = SUCCESS, type = "xslt")})
+	@Auth(auths={AuthEnum.USER})
 	public String focusClub(){
 		int flag = 1;
 		User user = (User)getSessionMap().get("user");
@@ -127,6 +132,7 @@ public class UserFocusAjax extends BaseAction{
 	
 	@Action(value = "cancelFocusClub", results = {
 			@Result(name = SUCCESS, type = "xslt")})
+	@Auth(auths={AuthEnum.USER})
 	public String cancelFocusClub(){
 		int flag = 1;
 		User user = (User)getSessionMap().get("user");
@@ -161,6 +167,7 @@ public class UserFocusAjax extends BaseAction{
 	
 	@Action(value = "focusMerchant", results = {
 			@Result(name = SUCCESS, type = "xslt")})
+	@Auth(auths={AuthEnum.USER})
 	public String focusMerchant(){
 		int flag = 1;
 		User user = (User)getSessionMap().get("user");
@@ -195,6 +202,7 @@ public class UserFocusAjax extends BaseAction{
 	
 	@Action(value = "cancelFocusMerchant", results = {
 			@Result(name = SUCCESS, type = "xslt")})
+	@Auth(auths={AuthEnum.USER})
 	public String cancelFocusMerchant(){
 		int flag = 1;
 		User user = (User)getSessionMap().get("user");
@@ -228,6 +236,7 @@ public class UserFocusAjax extends BaseAction{
 	}
 	
 	@Action(value = "denyUser", results = {@Result(name = SUCCESS, type = "xslt")})
+	@Auth(auths={AuthEnum.ADMIN})
 		public String denyUser(){
 			int flag = 1;
 			User target = new User();

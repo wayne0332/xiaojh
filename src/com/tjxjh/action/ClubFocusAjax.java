@@ -12,13 +12,15 @@ import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.tjxjh.annotation.Auth;
+import com.tjxjh.auth.AuthEnum;
 import com.tjxjh.enumeration.ClubStatus;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubMember;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.service.ClubService;
 
-@ParentPackage("struts-default")
+@ParentPackage("myPackage")
 @Namespace("/")
 public class ClubFocusAjax extends BaseAction{
 	@Resource
@@ -29,6 +31,7 @@ public class ClubFocusAjax extends BaseAction{
 	
 	@Action(value = "clubFocusClub", results = {
 			@Result(name = SUCCESS, type = "xslt")})
+	@Auth(auths={AuthEnum.CLUB_MANAGER})
 	public String focusClub(){
 		int flag = 1;
 		ClubMember clubMember = (ClubMember)getSessionMap().get("clubMember");
@@ -63,6 +66,7 @@ public class ClubFocusAjax extends BaseAction{
 	
 	@Action(value = "clubCancelFocusClub", results = {
 			@Result(name = SUCCESS, type = "xslt")})
+	@Auth(auths={AuthEnum.CLUB_MANAGER})
 	public String cancelFocusClub(){
 		int flag = 1;
 		ClubMember clubMember = (ClubMember)getSessionMap().get("clubMember");
@@ -98,6 +102,7 @@ public class ClubFocusAjax extends BaseAction{
 	
 	@Action(value = "clubFocusMerchant", results = {
 			@Result(name = SUCCESS, type = "xslt")})
+	@Auth(auths={AuthEnum.CLUB_MANAGER})
 	public String focusMerchant(){
 		int flag = 1;
 		ClubMember clubMember = (ClubMember)getSessionMap().get("clubMember");
@@ -132,6 +137,7 @@ public class ClubFocusAjax extends BaseAction{
 	
 	@Action(value = "clubCancelFocusMerchant",  results = {
 			@Result(name = SUCCESS, type = "xslt")})
+	@Auth(auths={AuthEnum.CLUB_MANAGER})
 	public String cancelFocusMerchant(){
 		int flag = 1;
 		ClubMember clubMember = (ClubMember)getSessionMap().get("clubMember");
@@ -165,6 +171,7 @@ public class ClubFocusAjax extends BaseAction{
 	}
 	
 	@Action(value = "denyClub", results = {@Result(name = SUCCESS, type = "xslt")})
+	@Auth(auths={AuthEnum.ADMIN})
 	public String denyClub(){
 		int flag = 1;
 		Club target = new Club();
@@ -197,6 +204,7 @@ public class ClubFocusAjax extends BaseAction{
 	}
 	
 	@Action(value = "checkClub", results = {@Result(name = SUCCESS, type = "xslt")})
+	@Auth(auths={AuthEnum.ADMIN})
 	public String checkClub()
 	{
 		
