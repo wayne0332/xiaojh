@@ -30,7 +30,7 @@
 					class="fl mt5 ml10 circle_80 shadow_l_5" />
 				<ul class="fl w135 p5 pl10 text_r">
 					<li class="w135 text_l f14"><a href="updateUserInput"><s:property
-								value="#session.user.name" /> </a></li>
+								value="#session.user.name" />(修改信息) </a></li>
 					<li><s:property value="#session.user.grade" />
 					</li>
 					<li><s:property
