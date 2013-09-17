@@ -1,8 +1,13 @@
 
+	.input_list li				{ margin-bottom: 5px; height: 30px; line-height: 30px; }
+	.input_list li:FIRST-CHILD	{ background-color: #eee; text-align: center; color: #333; }
+	.input_list 
+	.input_list_text			{ width: 100%; height: 30px; border: none;}
+
 /* index
  * ---------------------------------------------------------------------------------------- */	
  	
- 	.index_Abt				{ position: absolute; top: 300px; border: none; left: 0; background: rgba(233,233,233,0.5); color: #666; }
+ 	.index_Abt				{ position: absolute; top: 300px; border: none; left: 5px; background: rgba(233,233,233,0.5); color: #666; }
  
  	.index_update_panel		{ width: 730px; height: 180px; overflow-y: hidden; }
  	.activity_title			{ width: 705px; display: block; line-height: 30px; background-color: rgba(40,100,40,0.3); color: #eee; z- }
@@ -48,6 +53,20 @@
 	.l_search input			{ border: none; }
 	.l_search button		{ border: none; background-color: #777; }
 	
+	
+/* register
+ * ---------------------------------------------------------------------------------------- */
+ 
+ 	.signinPanel			{ margin: 30px 0 10px 10px; width: 800px; background-color: rgba(255,255,255,0.8); }
+ 	.signinPanel li			{ height: 36px; }
+	.signinPanel li span	{ display: inline-block; width: 220px; height: 36px; background-color: #fafafa; padding-right: 10px; line-height: 36px; text-align: right; color: #333; }
+	html .input_text		{ margin-left: 10px; width: 230px; height: 28px; border: 1px solid #ddd; padding-left: 5px; }
+	html .input_select,
+	.signinPanel select   	{ margin-left: 10px; width: 150px; padding: 6px 5px; border: 1px solid #ddd; }
+	.input_file				{ margin-left: 10px; }
+	.input_submit			{ height: 36px; border: none; background-color: #c99700; padding: 0 30px; color: #fff; }
+	#purpose-1				{ margin-left: 10px; border: 1px solid #ddd; vertical-align: middle; }
+	
 /* userHome & userCenter
  * ---------------------------------------------------------------------------------------- */	
  
@@ -68,17 +87,18 @@
 	.user_dongtai_div label	{  }
 	.user_dongtai_div a		{ width: 80px; display: inline-block; text-align: right; float: right; }
 	
-	#talking_detail_div a	{float:none; text-align:left;width:auto;}
-	.user_talking_detail_div { overflow:hidden; }
-	.user_pinglun_div		{ border-bottom: 1px dashed #ddd; line-height:20px; padding-bottom:10px;padding-top:10px;}
-	.user_pinglun_div a		{float:none; text-align:left;width:auto;}
-	.user_name_color 		{color:#498B31}
-	.user_talking_share_div {border:1px #E1E1E1 solid; line-height:23px; padding-top:0px;}
-	.w560					{width:560px;}
-	.color_gray				{color:#bbb;}
-	.delete_tc				{visibility:hidden;}
-	.tc_detail:hover .delete_tc{visibility:visible;}
-	.of_h						{overflow:hidden;}
+	#talking_detail_div a	{ float:none; text-align:left;width:auto; }
+	.user_talking_detail_div{ overflow:hidden; }
+	.user_pinglun_div		{ border-bottom: 1px dashed #ddd; line-height:20px; padding-bottom:10px; padding-top:10px; }
+	.user_pinglun_div a		{ float:none; text-align:left; width:auto; }
+	.user_name_color 		{ color:#498B31; }
+	.user_talking_share_div { border:1px #E1E1E1 solid; line-height:23px; padding-top:0px; }
+	.w560					{ width:560px; }
+	.color_gray				{ color:#bbb; }
+	.delete_tc				{ visibility:hidden; }
+	.tc_detail:hover .delete_tc{ visibility:visible; }
+	.of_h					{ overflow:hidden; }
+	
 /* myActivity
  * ---------------------------------------------------------------------------------------- */	
  
@@ -89,13 +109,15 @@
 /* club
  * ---------------------------------------------------------------------------------------- */	
  
- 	.club_secNav			{ background-color: #f8f8f8; line-height: 30px; }
- 	.club_panel				{ width: 330px; height: 250px; overflow-y: scroll; }
+ 	.club_secNav			{ margin: 5px; width: 700px; background-color: #f8f8f8; line-height: 30px; }
+ 	.club_secNav a			{ display: inline-block; margin-left: -5px; height: 30px; background-color: #f1f1f1; padding: 0 6px; color: #7a7256; }
+ 	.club_secNav a:hover	{  background-color: #e8e8e8;  }
+ 	.club_panel				{ width: 330px; height: 350px; overflow-y: scroll; }
  	
  	.clubList_thead			{ background-color: #f3f3f3; line-height: 35px; }
  	.clubList_tbody	tr		{ height: 80px; border-top: 1px solid #f3f3f3; text-align: center; }
  	.clubList_tbody	img		{ height: 80px; }
- 	.club_category a		{ line-height: 35px; display: block; float: left; padding: 0 10px; margin: 4px 0 2px 3px; background-color: #fff; }
+ 	.club_category a		{ line-height: 35px; display: block; float: left; padding: 0 14px; margin: 4px 0 2px 3px; background-color: #fff; }
  	
  
 /* frienfBox

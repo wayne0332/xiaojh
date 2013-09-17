@@ -20,7 +20,7 @@
 		<jsp:include page="head.jsp" />
 
 		<div class="left_bar mt75">
-			<div class="my_info w240 h90 p5 m5 shadow_l_10 bg_box">
+			<div class="my_info w240 h90 p5 m5 shadow_l_3 bg_box">
 				<img src="<s:property value="#session.user.portraitPath"/>"
 					class="fl mt5 ml10 circle_80 shadow_l_5" />
 				<ul class="fl w135 p5 pl10 text_r">
@@ -33,7 +33,7 @@
 					</li>
 				</ul>
 			</div>
-			<div class="w240 h300 p5 m5 shadow_l_10 bg_box cf">
+			<div class="w240 h300 p5 m5 shadow_l_3 bg_box cf">
 				<div class="mt30 ml5">
 					按热度排序：<a href="myClubs">查看</a>
 				</div>
@@ -51,7 +51,7 @@
 		<div class="main mt75">
 			<div class="cf">
 				<a href="applyClubInput"
-					class="single_bt1 w100 mt5 ml5 fl shadow_l_5">申请社团</a>
+					class="single_bt1 w100 mt5 ml5 mb5 fl shadow_l_3">申请社团</a>
 				<s:if
 					test="#request.clubInviteCount != null && #request.clubInviteCount != 0">
 					<a href="myInvited" class=""> 我的邀请(<s:property

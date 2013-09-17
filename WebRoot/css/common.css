@@ -5,6 +5,10 @@
 	
 	h2					{ font: 15px/1.5 Tahoma,Verdana,"Microsoft Yahei"; }
 	
+	.hov:hover			{ cursor: pointer; }
+	.clear_a:hover,
+	.clear_sub a:hover	{ text-decoration: none; cursor: pointer; }
+	
 	.input_radio		{ vertical-align: middle; }
 
 	.a_bt				{ display: block; padding: 0 13px; line-height: 40px; color: #f8f8f8; background-color: #444; }
@@ -12,6 +16,7 @@
 	.a_no				{ color: #333; }
 	.a_no:hover,
 	.a_no:visited		{ text-decoration: none; }
+	.alertLabel			{ color: red; margin-left: 10px; }
 	
 	.single_bt1			{ display: block; line-height: 35px; background-color: #c99700; text-align: center; color: #fff; }
 	.single_bt2			{ display: block; line-height: 30px; background-color: #eee; text-align: center; color: #555; }
@@ -25,13 +30,17 @@
 	
 	.bg_fff				{ background-color: #fff; }
 	.bg_box				{ background-color: rgba(245,245,245,0.7); }
+	.people_box			{ margin: 10px 3px 5px 10px; }
+	.people_box label	{ white-space: nowrap; }
 	
 	.text_r				{ text-align: right; }
 	.text_l				{ text-align: left; }
 	
+	.shadow_l_3			{ -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2); -moz-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2); box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2); }
 	.shadow_l_5			{ -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); }
 	.shadow_l_10		{ -webkit-box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2); -moz-box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2); box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.2); }
 	.shadow_n_5			{ -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5); box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5); }
+	.shadow_d_3			{ -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.8); -moz-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.8); box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.8); }
 	.shadow_n_5b		{ -webkit-box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.5); box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.5); }
 	
 	.circle_80			{ width: 80px; height: 80px; line-height: 80px; -moz-border-radius: 40px; -webkit-border-radius: 40px; border-radius: 40px; } 
@@ -56,7 +65,7 @@
 /* header
  * ------------------------------------------------------------------------------------------ */	
  
-	.logo				{ position: absolute; top: 50px; margin-left: 10px; z-index: 2500; }
+	.logo				{ position: absolute; top: 50px; margin-left: 10px; z-index: 2500; width: 135px; }
 	.top_bar			{ width: 1000px; height: 55px; overflow: hidden; }
 	.nav_bar			{ width: 100%; height: 40px;  }
 	.nav_bar li			{ float: left; }
