@@ -1,0 +1,18 @@
+
+/* applyclub
+ * ---------------------------------------------------------------------------------------- */	
+ 
+ 	.applyClubTable				{ position: relative; margin: 100px auto; width: 600px; background-color: rgba(255,255,255,0.8); }
+ 	.applyClubTable tr			{ height: 40px; }
+ 	.applyClubTable th			{ width: 120px; padding-right: 6px; text-align: right; font-weight: normal; color: #333; vertical-align: top; }
+ 	.applyClubTable th label	{ display: block; margin-top: 9px; }
+ 	.applyClubTable thead th    { background-color: #eee; text-align: center; vertical-align: middle; }
+ 	.applyClubTable td			{ color: #666; }
+ 	.applyClubTable_text		{ width: 200px; height: 30px; border: 1px solid #eee; padding-left: 6px; }
+ 	.applyClubTable_readOL		{ width: 120px; height: 30px; border: 1px solid #eee; background-color: #f8f8f8; padding-left: 6px; color: #777; }
+ 	.applyClubTable select      { width: 120px; padding: 7px 2px; border: 1px solid #eee; }
+ 	.applyClubTable textarea	{ margin-bottom: 8px; width: 400px; height: 100px; resize: none; border: 1px solid #eee; }
+ 	.applyClubTable_submit		{ width: 100px; height: 30px; border: none; background-color: #c99700; color: #fff; }
+ 	
+ 	
+ 	
