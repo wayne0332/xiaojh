@@ -138,7 +138,8 @@
 									<img src="${titleImgPath}" class="w40 h50" />
 								</div>
 								<div class="fl  ml5">
-									标题：<a href="activity?activity.id=${id}">${tittle}</a><br />发布时间：${datetime}&nbsp;参与人数：${participantCount}
+									标题：<a href="activity?activity.id=${id}">${tittle}</a>商家：<a href="merchant?merchant.id=${merchant.id}" target="_blank">${merchant.name}</a>
+									<br />发布时间：${datetime}&nbsp;参与人数：${participantCount}
 								</div>
 							</div>
 						</s:iterator>

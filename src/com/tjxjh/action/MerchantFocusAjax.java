@@ -8,13 +8,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 
+import com.tjxjh.annotation.Auth;
+import com.tjxjh.auth.AuthEnum;
 import com.tjxjh.enumeration.MerchantStatus;
+import com.tjxjh.interceptor.AuthInterceptor.UserWithClubMemberAuth;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.service.MerchantService;
-
+@ParentPackage("myPackage")
+@Namespace("/")
 public class MerchantFocusAjax extends BaseAction{
 	@Resource
 	private MerchantService service = null;
@@ -23,6 +29,7 @@ public class MerchantFocusAjax extends BaseAction{
 	private int isPass;
 	@Action(value = "merchantFocusClub", results = {
 			@Result(name = SUCCESS, type = "xslt")})
+	@Auth(auths={AuthEnum.MERCHANT})
 	public String focusClub(){
 		int flag = 1;
 		Merchant merchant = (Merchant)getSessionMap().get("merchant");
@@ -57,6 +64,7 @@ public class MerchantFocusAjax extends BaseAction{
 	
 	@Action(value = "merchantCancelFocusClub", results = {
 			@Result(name = SUCCESS, type = "xslt")})
+	@Auth(auths={AuthEnum.MERCHANT})
 	public String cancelFocusClub(){
 		int flag = 1;
 		Merchant merchant = (Merchant)getSessionMap().get("merchant");
@@ -92,6 +100,7 @@ public class MerchantFocusAjax extends BaseAction{
 	
 	@Action(value = "merchantFocusMerchant", results = {
 			@Result(name = SUCCESS, type = "xslt")})
+	@Auth(auths={AuthEnum.MERCHANT})
 	public String focusMerchant(){
 		int flag = 1;
 		Merchant merchant = (Merchant)getSessionMap().get("merchant");
@@ -126,6 +135,7 @@ public class MerchantFocusAjax extends BaseAction{
 	
 	@Action(value = "merchantCancelFocusMerchant",  results = {
 			@Result(name = SUCCESS, type = "xslt")})
+	@Auth(auths={AuthEnum.MERCHANT})
 	public String cancelFocusMerchant(){
 		int flag = 1;
 		Merchant merchant = (Merchant)getSessionMap().get("merchant");
@@ -159,6 +169,7 @@ public class MerchantFocusAjax extends BaseAction{
 	}
 	
 	@Action(value = "denyMerchant", results = {@Result(name = SUCCESS, type = "xslt")})
+	@Auth(auths={AuthEnum.ADMIN})
 	public String denyMerchant(){
 		int flag = 1;
 		Merchant target = new Merchant();
@@ -191,6 +202,7 @@ public class MerchantFocusAjax extends BaseAction{
 	}
 	
 	@Action(value = "checkMerchant", results = {@Result(name = SUCCESS, type = "xslt")})
+	@Auth(auths={AuthEnum.ADMIN})
 	public String checkMerchant(){
 		int flag = 1;
 		if(merchant.getId()==0){

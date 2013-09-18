@@ -15,7 +15,7 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
-
+import com.tjxjh.auth.AuthEnum;
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
@@ -139,9 +139,9 @@ public class TalkingAction extends BaseAction
 			@Action(value = "preShareTalking", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "shareTalking.jsp"),
 			@Result(name = INPUT, location = ERROR_PAGE)})
+			@com.tjxjh.annotation.Auth(auths={AuthEnum.NO_NEED})
 			public String preShare()
 			{
-				
 				origntalking=talkingService.preShare(talking.getId(),Auth.getUserFromSession().getId());
 				if(origntalking!=null)
 				{
