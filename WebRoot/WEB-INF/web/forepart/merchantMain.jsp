@@ -16,7 +16,7 @@
 
 <body>
 	<div style="border:1px;">
-	商家名称：${merchant.name}
+	商家名称：${merchant.name}&nbsp;&nbsp;<a href="focusMerchant?id=${merchant.id}">关注</a>
 	<br>商家logo:<img src="${merchant.logoPath }">
 	</div>
 	<a href="merchantNews">更多新闻</a>
