@@ -24,9 +24,9 @@
 	<div class="container cf">
 		<jsp:include page="head.jsp" />
 		<div class="cityMap w mt75 mb50 fl">
-				<button class="index_Abt circle_100 mt50 shadow_l_5 fl"
+				<button class="index_Abt circle_100 mt50 shadow_l_5 fl hov"
 					id="advToMap" <s:if test="#session.user == null">style="display: none;"</s:if>>切换到地图</button>
-				<button class="index_Abt circle_100 shadow_l_5 fl <s:if test="#session.user != null">none</s:if>" id="mapToAdv">切换到活动</button>
+				<button class="index_Abt circle_100 hov shadow_l_5 fl <s:if test="#session.user != null">none</s:if>" id="mapToAdv">切换到活动</button>
 				<ul class="cityMapUl w700 h400 fl cf <s:if test="#session.user != null">none</s:if>" id="mapPanel">
 					<li class="cityMap_nankai circle_200 shadow_l_5">南开 和平</li>
 					<li class="cityMap_hexi circle_150 shadow_l_5">河西 大港</li>

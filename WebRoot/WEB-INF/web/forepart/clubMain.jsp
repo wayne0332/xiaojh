@@ -15,55 +15,14 @@
 <link rel="stylesheet" type="text/css" href="css/common.css" />
 <link rel="stylesheet" type="text/css" href="css/page-user.css" />
 
-<style type="text/css">
-.rectRow {
-	background-color: #dde;
-}
-
-.rectBlock {
-	float: left;
-	width: 340px;
-}
-
-.rectBlock a {
-	text-decoration: none;
-}
-
-.left {
-	float: left;
-	width: 680px;
-}
-
-.right {
-	float: right;
-	margin: 0 0;
-	padding: 0 0;
-	width: 220px;
-}
-
-.rightBlock {
-	float: left;
-}
-
-.portrait {
-	width: 44px;
-	float: left;
-	margin-top: 20px;
-}
-
-.portraitImg {
-	padding-top: 5px;
-}
-</style>
-
 </head>
 
 <body>
 	<div class="container">
-		<!-- <jsp:include page="head.jsp" /> -->
+		<jsp:include page="head.jsp" />
 
-		<div class="main fl cf">
-			<div class="club_secNav w pl5 pr5">
+		<div class="main fl cf mt75">
+			<div class="club_secNav w pl5 pr5 shadow_l_3 clear_sub">
 				<a
 					href="clubPostList?club.id=<s:property value="club.id" />&pageNum=1">进入贴吧</a>
 				<s:a href="clubMembers?club.id=%{club.id}">社团成员<s:if
@@ -73,7 +32,8 @@
 				</s:a>
 				<s:if test="#request.clubMember != null">
 					<a href="addActivityJsp">发布活动</a>
-					<a href="preAddonlineActivity?club.id=<s:property value="club.id" />">发布线上活动</a>
+					<a
+						href="preAddonlineActivity?club.id=<s:property value="club.id" />">发布线上活动</a>
 					<a href="activitys?flage=0">所有活动</a>
 					<a href="activitys?flage=1">正在申请的活动</a>
 					<a href="activitys?flage=2">已经通过审核的活动</a>
@@ -90,7 +50,7 @@
 					<s:a href="userAddClub?club.id=%{club.id}">申请加入</s:a>
 				</s:else>
 			</div>
-			<div class="club_panel fl m5 p10 bg_fff">
+			<div class="club_panel fl m5 p10 bg_fff shadow_l_3">
 				<div>
 					<s:property value="club.name" />
 				</div>
@@ -99,16 +59,16 @@
 					<s:property value="club.introduction" />
 				</div>
 			</div>
-			<div class="club_panel fl m5 p10 bg_fff">
+			<div class="club_panel fl m5 p10 bg_fff shadow_l_3">
 				<div>活动展示</div>
 				<s:iterator value="acs" id="ac">
 					<div
 						style="display: inline-block; border:1px solid;width:80%;margin:20px; overflow:hidden;">
 						活动标题：
 						<s:property value="tittle" />
-						<br /> ${text}<br/> 活动举办地点：${place}<br />
-						参与人数：${participantCount} <br /> 活动主办方：${club.name}${merchant.name}
-						<br /> &nbsp;<a
+						<br /> ${text}<br /> 活动举办地点：${place}<br />
+						参与人数：${participantCount} <br />
+						活动主办方：${club.name}${merchant.name} <br /> &nbsp;<a
 							href="<%=path %>/preShareTalking?talking.id=${talking.id}">分享</a>
 						<span id="zan${talking.id}"> <a href="javascript:void(0);"
 							onclick="zanTalking(${talking.id});">赞(${talking.shareDetails.praiseCount})</a>
@@ -120,7 +80,7 @@
 					</div>
 				</s:iterator>
 			</div>
-			<div class="club_panel fl m5 p10 bg_fff">
+			<div class="club_panel fl m5 p10 bg_fff shadow_l_3">
 				<div>社团贴吧</div>
 				<s:iterator value="#request.clubPostList.clubPostList">
 					<div class="title">
@@ -131,7 +91,7 @@
 					</div>
 				</s:iterator>
 			</div>
-			<div class="club_panel fl m5 p10 bg_fff">
+			<div class="club_panel fl m5 p10 bg_fff shadow_l_3">
 				<div>
 					关注商家： <a href="clubFocus?type=2">更多</a>
 				</div>
@@ -146,29 +106,23 @@
 			</div>
 		</div>
 	</div>
-	<div class="left_bar fr cf">
-		<div class="rightBlock">
-			<div>
-				关注社团&nbsp;&nbsp;&nbsp;&nbsp;<a href="clubFocus?type=1&pageNum=1">更多</a>
-				<s:property value="" />
-			</div>
-			<div>
-				<s:iterator value="#request.focusClubList">
-					<div class="portrait">
-						<div class="portraitImg">
-							<s:if test="logoPath==''">
-								<img src="<s:property value="portraitPath" />" width="40px" />
-							</s:if>
-							<s:else>
-								<img src="upload/portrait/auto_photo.png" width="40px" />
-							</s:else>
-						</div>
-						<div class="userName">
-							<s:property value="name" />
-						</div>
-					</div>
-				</s:iterator>
-			</div>
+	<div class="left_bar fr cf mt75">
+		<label class="Clearfix w250 ml5 mt20">关注社团<a
+			href="clubFocus?type=1&pageNum=1" class="fr">更多</a> </label>
+		<div class="bg_box shadow_l_3 m5 cf">
+			<s:iterator value="#request.focusClubList">
+				<div class="fl people_box">
+					<s:if test="logoPath==''">
+						<img src="<s:property value="portraitPath" />"
+							class="w50 h50 Clearfix" />
+					</s:if>
+					<s:else>
+						<img src="upload/portrait/auto_photo.png" class="w50 h50 Clearfix" />
+					</s:else>
+					<label class="Clearfix mb5 w50"> <s:property value="name" />
+					</label>
+				</div>
+			</s:iterator>
 		</div>
 	</div>
 </body>

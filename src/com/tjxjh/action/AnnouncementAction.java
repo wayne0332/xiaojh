@@ -23,6 +23,7 @@ import com.tjxjh.service.AnnouncementService;
 @Namespace("/")
 public class AnnouncementAction extends BaseAction
 {
+	static final String ADD_CLUB_ANNOUNCEMENT_INPUT = "addClubAnnouncementInput";
 	static final String PUBLIC_ACCOUNCEMENTS = "publicAnnouncements";
 	static final String CLUB_ANNOUNCEMENTS = "clubAnnouncements";
 	static final String MY_ANNOUNCEMENTS = "myAnnouncements";
@@ -35,8 +36,12 @@ public class AnnouncementAction extends BaseAction
 	private String path = null;
 	private Page page = null;
 	
-	@Actions({@Action(value = ADD_ANNOUNCEMENT_INPUT, results = {@Result(name = SUCCESS, location = MANAGE
-			+ ADD_ANNOUNCEMENT + JSP, params = {"path", "${path}"})})})
+	@Actions({
+			@Action(value = ADD_ANNOUNCEMENT_INPUT, results = {@Result(name = SUCCESS, location = MANAGE
+					+ ADD_ANNOUNCEMENT + JSP, params = {"path", "${path}"})}),
+			@Action(value = ADD_CLUB_ANNOUNCEMENT_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
+					+ ADD_CLUB_ANNOUNCEMENT_INPUT + JSP, params = {"path",
+					"${path}"})})})
 	public String page()
 	{
 		return SUCCESS;
