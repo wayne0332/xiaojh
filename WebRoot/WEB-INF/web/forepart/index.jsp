@@ -135,7 +135,7 @@
 						<s:iterator value="acs" status="child">
 							<div class="index_activityBox cf m7 ml10 mr10 bg_fff shadow_l_5 radius_6">
 								<div class="fr">
-									<img src="${titleImgPath}" class="w40 h50" />
+									<a href="merchant?merchant.id=${merchant.id}" target="_blank"><img src="${titleImgPath}" class="w40 h50" /></a>
 								</div>
 								<div class="fl  ml5">
 									标题：<a href="activity?activity.id=${id}">${tittle}</a><br />发布时间：${datetime}&nbsp;参与人数：${participantCount}

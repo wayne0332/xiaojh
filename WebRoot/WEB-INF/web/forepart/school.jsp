@@ -65,8 +65,7 @@
 					<s:if test="name().equals(clubType)">${name}<br />
 					</s:if>
 				</s:iterator>
-				<s:property
-					value="@com.tjxjh.enumeration.ClubType@getChineseName(clubType)" />
+		
 				<br />
 				<s:iterator value="clubs" id="ac">
 					<img src="${logoPath}" width="80px" height="80px" />
