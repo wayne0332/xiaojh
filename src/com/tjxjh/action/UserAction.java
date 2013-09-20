@@ -367,11 +367,9 @@ public class UserAction extends BaseAction
 		if(user==null||user.getId()==null){
 			user=(User) getSessionMap().get("user");
 			user = userService.findById(user.getId());
-			String temp=user.getSchool().getName();
 			getRequestMap().put("my", "yes");
 		}else{
 			user = userService.findById(user.getId());
-			String temp=user.getSchool().getName();
 			User tmep=(User) getSessionMap().get("user");
 			int i=user.getId();
 			int j=tmep.getId();
@@ -380,6 +378,11 @@ public class UserAction extends BaseAction
 			}else{
 				getRequestMap().put("my", "no");
 			}
+			
+		}
+		try{
+			String temp=user.getSchool().getName();
+		}catch(Exception e){
 			
 		}
 		/************************** TT *******************************************/
