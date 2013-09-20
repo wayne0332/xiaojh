@@ -121,7 +121,7 @@ public class MerchantAction extends BaseAction
 	
 	@Action(value = MERCHANT_MAIN, results = {@Result(name = SUCCESS, location = FOREPART
 			+ MERCHANT_MAIN + JSP)})
-	@Auth(auths={AuthEnum.USER})
+	@Auth(auths={AuthEnum.MERCHANT})
 	public String merchantMain()
 	{
 		return SUCCESS;
@@ -146,7 +146,7 @@ public class MerchantAction extends BaseAction
 	
 	@Action(value = MERCHANT_NEWS, results = {@Result(name = SUCCESS, location = FOREPART
 			+ MERCHANT_NEWS + JSP)})
-	@Auth(auths={AuthEnum.USER})
+	@Auth(auths={AuthEnum.MERCHANT})
 	public String merchantNews()
 	{
 		if(page == null)
@@ -172,7 +172,7 @@ public class MerchantAction extends BaseAction
 			@Result(name = SUCCESS, location = FOREPART + MERCHANT_NEWS_DETAILS
 					+ JSP),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = MERCHANT_NEWS)})
-	@Auth(auths={AuthEnum.USER})
+	@Auth(auths={AuthEnum.MERCHANT})
 	public String merchantNewsDetails()
 	{
 		if(isMerchantNewsEmpty())
@@ -210,7 +210,7 @@ public class MerchantAction extends BaseAction
 			
 	@Action(value = "merchantFocus", results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 			+ "merchantFocus.jsp")})
-	@Auth(auths={AuthEnum.USER})
+	@Auth(auths={AuthEnum.MERCHANT})
 	public String merchantFocus()
 	{
 		// List<User> focusList = sessionUser.getUsersForTargetUserId();
