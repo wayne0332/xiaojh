@@ -28,7 +28,7 @@
 		<div class="main w730 cf mt75">
 			<!-- 导航-->
 			<div class="userHome_box w700 m5 p10 cf shadow_l_10 radius_6">
-				<a href="javascript:void(0)" ><label>相册</label> </a> <a href="<%=path%>/userHome?user.id=${user.id}"><label>说说</label>
+				<a href="javascript:void(0)" ><label>相册</label> </a> <a href="<%=path%>/talking?user.id=${user.id}"><label>说说</label>
 				</a> <a href="#"><label>活动</label> </a>
 			</div>
 			<!-- END:相册-->
