@@ -15,7 +15,13 @@
 </head>
 
 <body>
-	<a href="merchantNews">新闻</a>
-	<img src="<s:property value="#session.merchant.logoPath"/>">
+	<div style="border:1px;">
+	商家名称：${merchant.name}&nbsp;&nbsp;<a href="focusMerchant?id=${merchant.id}">关注</a>
+	<br>商家logo:<img src="${merchant.logoPath }">
+	</div>
+	<a href="merchantNews">更多新闻</a>
+	<jsp:include page="merchantNews.jsp" />
+	<jsp:include page="includeNoPageActivitys.jsp" />
+	
 </body>
 </html>

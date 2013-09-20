@@ -387,7 +387,7 @@ public class ActivityService extends BaseService{
 			return null;
 		}
 		try{
-			if(club.getId()!=null){
+			if(club!=null&&club.getId()!=null){
 				if(flage==0){
 					return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.club.id=? order by "+condition+" desc",club.getId());
 				}else if(flage==1){
@@ -399,7 +399,7 @@ public class ActivityService extends BaseService{
 				}else{
 					return null;
 				}
-			}else if(merchant.getId()!=null){
+			}else if(merchant!=null&&merchant.getId()!=null){
 				if(flage==0){
 					return (List<Activity>) dao.executeHql(page,"from Activity cl where cl.merchant.id=? order by "+condition+" desc",merchant.getId());
 				}else if(flage==1){

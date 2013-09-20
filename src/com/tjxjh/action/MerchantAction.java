@@ -1,6 +1,7 @@
 package com.tjxjh.action;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -15,11 +16,13 @@ import cn.cafebabe.autodao.pojo.Page;
 
 import com.tjxjh.annotation.Auth;
 import com.tjxjh.auth.AuthEnum;
+import com.tjxjh.po.Activity;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.MerchantNews;
 import com.tjxjh.pojo.MerchantList;
 import com.tjxjh.pojo.MerchantNewsList;
+import com.tjxjh.service.ActivityService;
 import com.tjxjh.service.MerchantService;
 import com.tjxjh.util.CodeUtil;
 import com.tjxjh.util.MerchantPurposeUtil;
@@ -41,6 +44,9 @@ public class MerchantAction extends BaseAction
 	private static final long serialVersionUID = -4939845530658262045L;
 	@Resource
 	private MerchantService merchantService = null;
+	@Resource
+	private ActivityService activityService = null;
+	
 	private Merchant merchant = null;
 	private String[] purpose = null;
 	private Page page = null;
@@ -51,6 +57,7 @@ public class MerchantAction extends BaseAction
 	private int pageNum;
 	protected File logo = null;
 	protected String logoFileName = null;
+	private List<Activity> acs=new ArrayList<Activity>();
 	
 	@Actions({
 			@Action(value = APPLY_MERCHANT_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
@@ -124,6 +131,22 @@ public class MerchantAction extends BaseAction
 	@Auth(auths={AuthEnum.MERCHANT})
 	public String merchantMain()
 	{
+		return SUCCESS;
+	}
+	//商家主页
+	@Action(value = "merchant", results = {@Result(name = SUCCESS, location = FOREPART
+			+ MERCHANT_MAIN + JSP)})
+	public String merchant()
+	{
+		merchant=merchantService.merchantById(merchant);
+		if(page == null)
+		{
+			page = merchantService.merchantNewsPage(merchant);
+		}
+		super.getRequestMap().put(MERCHANT_NEWS,
+				merchantService.merchantNews(merchant, page));
+		page=activityService.getOneClubPageByHql(8,0,1,null,merchant,2);
+		acs=activityService.getOneClubActivityByHql(page,null,merchant,"datetime",2);
 		return SUCCESS;
 	}
 	
@@ -343,4 +366,13 @@ public class MerchantAction extends BaseAction
 	{
 		this.logoFileName = logoFileName;
 	}
+
+	public List<Activity> getAcs() {
+		return acs;
+	}
+
+	public void setAcs(List<Activity> acs) {
+		this.acs = acs;
+	}
+	
 }
