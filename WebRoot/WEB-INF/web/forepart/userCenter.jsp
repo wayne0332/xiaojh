@@ -18,6 +18,9 @@
 <link rel="stylesheet" type="text/css" href="css/base-min.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
 <link rel="stylesheet" type="text/css" href="css/page-user.css" />
+
+<script type='text/javascript'
+	src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js?ver=1.3.2'></script>
 <script type="text/javascript" src="<%=path%>/js/ajax.js"></script>
 </head>
 
@@ -30,12 +33,11 @@
 					class="fl mt5 ml10 circle_80 shadow_l_5" />
 				<ul class="fl w135 p5 pl10 text_r">
 					<li class="w135 text_l f14"><a href="updateUserInput"><s:property
-								value="#session.user.name" />(修改信息) </a></li>
-					<li><s:property value="#session.user.grade" />
+								value="#session.user.name" /> </a>
 					</li>
+					<li><s:property value="#session.user.grade" /></li>
 					<li><s:property
-							value="#application.schools[#session.user.school.id].name" />
-					</li>
+							value="#application.schools[#session.user.school.id].name" /></li>
 				</ul>
 			</div>
 			<form action="searchAll" method="post"
@@ -45,7 +47,6 @@
 			</form>
 
 			<label class="Clearfix w250 ml5 mt50">我的门客<a
-
 				href="myFocus?type=0&pageNum=1" class="fr">更多</a> </label>
 			<div class="l_box w240 p5 m5 cf shadow_l_10 radius_6 bg_box">
 				<s:iterator value="#request.focusUserList">
@@ -100,7 +101,6 @@
 							<a href="merchantMain?merchantMain.id=${id}"><img
 								src="<s:property value="logoPath" />" class="w50 h50 Clearfix" />
 							</a>
-
 						</s:else>
 						<label class="Clearfix mb10"> <s:property value="name" />
 						</label>
@@ -126,15 +126,10 @@
 			</form>
 			<!--END： 发布说说-->
 			<!-- 相册-->
-			<div class="userHome_box w700 m5 p10 cf shadow_l_10 radius_6">
+			<div class="w700 m5 p10 cf radius_6">
 				<label>最新相册</label>
-				<s:iterator value="pics">
-					<span style="display: inline-block;"> <a
-						href="<%=path%><s:property  value="path.replace('st_', '')" />"
-						target="_blank"><img src="<%=path%>/${path}" width="190px" />
-					</a> <br /> ${name}&nbsp; From:<a href="#">${user.name}</a> </span>
-				</s:iterator>
-				<a href="<%=path%>/findAllPicture" target="_self" class="fr">更多</a>
+
+				<jsp:include page="photoBook.jsp" />
 			</div>
 			<!-- END:相册-->
 			<!-- 说说 -->
@@ -290,6 +285,5 @@
 		}
 	</script>
 
-	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
 </body>
 </html>

@@ -14,7 +14,6 @@ import org.apache.struts2.convention.annotation.Result;
 import cn.cafebabe.autodao.pojo.Page;
 
 import com.tjxjh.annotation.Auth;
-import com.tjxjh.auth.AuthEnum;
 import com.tjxjh.enumeration.ClubMemberRole;
 import com.tjxjh.enumeration.ClubMemberSource;
 import com.tjxjh.interceptor.AuthInterceptor.ClubManagerAuth;
@@ -79,7 +78,6 @@ public class ClubAction extends BaseAction
 	private List<Activity> acs = null;
 	@Actions({@Action(value = "allClub", results = {@Result(name = SUCCESS, location = MANAGE
 			+ "allClub.jsp")})})
-	@Auth(auths={AuthEnum.ADMIN})
 	public String allClub(){
 		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
 		page.setCurrentPage(pageNum);
@@ -96,14 +94,14 @@ public class ClubAction extends BaseAction
 	//排序方式
 	@Actions({@Action(value = APPLY_CLUB_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
 			+ APPLY_CLUB + JSP)})})
-	@Auth(auths={AuthEnum.USER})
+	@Auth
 	public String page()
 	{
 		return SUCCESS;
 	}
 	
 	@Action(value = APPLY_CLUB, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = MY_CLUBS)})
-	@Auth(auths={AuthEnum.USER})
+	@Auth
 	public String applyClub()
 	{
 		club.setLogoPath(new StringBuilder("upload/clubLogo/school_")
@@ -125,7 +123,7 @@ public class ClubAction extends BaseAction
 	
 	@Action(value = MY_CLUBS, results = {@Result(name = SUCCESS, location = FOREPART
 			+ MY_CLUBS + JSP)})
-	@Auth(auths={AuthEnum.USER})
+	@Auth
 	public String myClubs()
 	{
 		super.getRequestMap().put("clubInviteCount",
@@ -200,7 +198,7 @@ public class ClubAction extends BaseAction
 	
 	@Action(value = CLUB_REQUEST, results = {@Result(name = SUCCESS, location = FOREPART
 			+ CLUB_REQUEST + JSP)})
-	@Auth(auths={AuthEnum.AUTO_CLUB_MEMBER})
+	@Auth
 	public String myInvited()
 	{
 		super.getRequestMap().put(CLUB_REQUEST, clubService.clubRequest(club));
@@ -257,7 +255,7 @@ public class ClubAction extends BaseAction
 	
 	@Action(value = USER_ADD_CLUB, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MAIN, params = {
 			"club.id", "${club.id}"})})
-	@Auth(auths={AuthEnum.CLUB_MANAGER})
+	@Auth
 	public String userAddClub()
 	{
 		if(isClubEmpty())
@@ -271,7 +269,7 @@ public class ClubAction extends BaseAction
 	
 	@Action(value = USER_ACCEPT_INVITED, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MAIN, params = {
 			"club.id", "${club.id}"})})
-	@Auth(auths={AuthEnum.AUTO_CLUB_MEMBER})
+	@Auth
 	public String userAcceptInvited()
 	{
 		clubService.acceptInvited(super.currentUser(), club);
@@ -279,7 +277,7 @@ public class ClubAction extends BaseAction
 	}
 	
 	@Action(value = USER_REFUSE_INVITED, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = UserAction.MY_INVITED)})
-	@Auth(auths={AuthEnum.AUTO_CLUB_MEMBER})
+	@Auth
 	public String userRefuseInvited()
 	{
 		clubService.refuseInvited(super.currentUser(), club);

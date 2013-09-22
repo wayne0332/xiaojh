@@ -17,19 +17,19 @@
 	<div class="container cf zoom">
 		<jsp:include page="head.jsp" />
 		<div class="mt100">
-			<input type="radio" name="registerType" value="user"
+			<input type="radio" name="registerType" value="user" class="userRadio"
 				checked="checked" />普通用户 <input type="radio" name="registerType"
-				value="merchant" />商家用户
+				value="merchant" class="merchantRadio" />商家用户
 
 		</div>
-		<div id="merchant" class="shadow_l_5 signinPanel">
+		<div id="user" class="shadow_l_5 signinPanel">
 			<wst:parameter value="msg" />
 			<form action="register" method="post" enctype="multipart/form-data">
 				<ul>
 					<li><span>用户名:</span> <input type="text" name="user.name"
 						class="input_text" /><label id="userMsg" class="alertLabel"></label>
 					</li>
-					<li><span>密码:</span> <input type="text" name="user.password"
+					<li><span>密码:</span> <input type="password" name="user.password"
 						class="input_text" /></li>
 					<li><span>学校:</span> <s:select name="user.school.id"
 							list="#application.schools" listKey="key" listValue="value.name" />
@@ -73,12 +73,12 @@
 			</form>
 		</div>
 
-		<div id="user" class="shadow_l_5 signinPanel">
+		<div id="merchant" class="shadow_l_5 signinPanel none">
 			<jsp:include page="applyMerchant.jsp" />
 		</div>
 	</div>
 
-	<script type="text/javascript" src="js/jquery-1.8.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="js/userMsg.js"></script>
 	<script type="text/javascript" src="My97DatePicker/WdatePicker.js"></script>
 	<script type="text/javascript">
@@ -90,10 +90,13 @@
 			}
 			checkUserName("input[name='user.name']", "#userMsg", "用户");
 			checkEmail("input[name='user.email']", "#userEmail");
-			$("#user").css("display", "none");
-			$("input:radio[name='registerType']").click(function() {
-				$("#user").css("display", "block");
-				$("#" + $(this).val()).css("display", "none");
+			$(".merchantRadio").click(function() {
+				$("#merchant").delay(300).slideDown(300);
+				$("#user").hide(300);
+			});
+			$(".userRadio").click(function() {
+				$("#user").delay(300).slideDown(300);
+				$("#merchant").hide(300);
 			});
 		});
 

@@ -9,10 +9,6 @@ import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
-import com.tjxjh.annotation.Auth;
-import com.tjxjh.auth.AuthEnum;
-import com.tjxjh.interceptor.AuthInterceptor.AdminAuth;
-import com.tjxjh.interceptor.AuthInterceptor.ClubMemberAuth;
 import com.tjxjh.po.ActivityPost;
 import com.tjxjh.po.ActivityPostComment;
 import com.tjxjh.po.OnlineActivity;
@@ -21,7 +17,7 @@ import com.tjxjh.pojo.ActivityPostContent;
 import com.tjxjh.pojo.ActivityPostList;
 import com.tjxjh.service.ActivityPostService;
 
-@ParentPackage("myPackage")
+@ParentPackage("struts-default")
 @Namespace("/")
 public class ActivityPostAction extends BaseAction{
 	@Resource
@@ -34,7 +30,6 @@ public class ActivityPostAction extends BaseAction{
 	
 	@Action(value = "initAddActivityPost", results = {
 			@Result(name = SUCCESS, location = FOREPART+"addActivityPost.jsp")})
-	@Auth(type = ClubMemberAuth.class )
 	public String initAddActivityPost(){
 		return SUCCESS;
 	}
@@ -42,7 +37,6 @@ public class ActivityPostAction extends BaseAction{
 	@Action(value = "addActivityPost", results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "activityPostList"),
 			@Result(name = INPUT, location = FOREPART+"historyBack.jsp")})
-	@Auth(type = ClubMemberAuth.class )
 	public String addActivityPost(){
 		if(!(post==null
 				||post.getTitle()==null
@@ -64,7 +58,6 @@ public class ActivityPostAction extends BaseAction{
 	
 	@Action(value = "allActivityPost", results = {
 			@Result(name = SUCCESS,location = MANAGE+"allActivityPost.jsp")})
-	@Auth(type = AdminAuth.class )
 	public String allActivityPost(){
 		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
 		page.setCurrentPage(pageNum);
@@ -83,7 +76,6 @@ public class ActivityPostAction extends BaseAction{
 	
 	@Action(value = "activityPostList", results = {
 			@Result(name = SUCCESS, location = FOREPART+"activityPostList.jsp")})
-	@Auth(auths={AuthEnum.USER,AuthEnum.MERCHANT})
 	public String activityPostList(){
 		Page page = new Page(pageNum*7+1);
 		page.setCurrentPage(pageNum);
@@ -96,7 +88,6 @@ public class ActivityPostAction extends BaseAction{
 	
 	@Action(value = "activityPostContent", results = {
 			@Result(name = SUCCESS, location = FOREPART+"activityPost.jsp")})
-	@Auth(auths={AuthEnum.USER,AuthEnum.MERCHANT})
 	public String activityPostContent(){
 		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
 		page.setCurrentPage(pageNum);
@@ -108,7 +99,6 @@ public class ActivityPostAction extends BaseAction{
 	@Action(value = "addActivityComment", results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "activityPostContent",params = {
 					"postId", "${#request.postId}","pageNum", "${#request.pageNum}"})})
-	@Auth(auths={AuthEnum.CLUB_MEMBER})
 	public String addComment(){
 		comment.setUser((User)getSessionMap().get("user"));
 		ActivityPost targetPost = new ActivityPost();
@@ -123,7 +113,6 @@ public class ActivityPostAction extends BaseAction{
 	
 	@Action(value = "deleteActivityPost", results = {
 			@Result(name = SUCCESS,type=REDIRECT_ACTION, location = "activityPostList", params={"activityId","${activityId}","pageNum","${pageNum}"})})
-	@Auth(auths={AuthEnum.CLUB_MANAGER})
 	public String deleteActivityPost(){
 		if(service.deleteActivityPost(post)){
 			return SUCCESS;
@@ -133,7 +122,6 @@ public class ActivityPostAction extends BaseAction{
 	
 	@Action(value = "adminDeleteActivityPost", results = {
 			@Result(name = SUCCESS,type=REDIRECT_ACTION, location = "allActivityPost", params={"pageNum","${pageNum}"})})
-	@Auth(auths={AuthEnum.ADMIN})
 	public String adminDeleteActivityPost(){
 		if(service.deleteActivityPost(post)){
 			return SUCCESS;
@@ -144,7 +132,6 @@ public class ActivityPostAction extends BaseAction{
 	@Action(value = "deleteActivityComment", results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "activityPostContent",params = {
 					"postId", "${#request.postId}","pageNum", "${#request.pageNum}"})})
-	@Auth(auths={AuthEnum.ADMIN,AuthEnum.CLUB_MANAGER})
 	public String deleteComment(){
 		
 		if(service.deleteComment(comment)){
