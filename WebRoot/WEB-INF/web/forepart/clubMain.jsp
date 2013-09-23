@@ -45,6 +45,10 @@
 					<s:else>
 						<s:a href="clubAnnouncements?club.id=%{club.id}">社团通告</s:a>
 					</s:else>
+					
+					<s:if test="#request.clubMember.role.name() == 'PROPRIETER'">
+						<s:a href="updateClubInput?club.id=%{club.id}">修改社团信息</s:a>
+					</s:if>
 				</s:if>
 				<s:else>
 					<s:a href="userAddClub?club.id=%{club.id}">申请加入</s:a>
