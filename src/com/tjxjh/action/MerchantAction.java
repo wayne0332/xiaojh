@@ -18,8 +18,10 @@ import com.tjxjh.annotation.Auth;
 import com.tjxjh.auth.AuthEnum;
 import com.tjxjh.po.Activity;
 import com.tjxjh.po.Club;
+import com.tjxjh.po.ClubPost;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.MerchantNews;
+import com.tjxjh.pojo.ClubPostList;
 import com.tjxjh.pojo.MerchantList;
 import com.tjxjh.pojo.MerchantNewsList;
 import com.tjxjh.service.ActivityService;
@@ -31,6 +33,7 @@ import com.tjxjh.util.MerchantPurposeUtil;
 @Namespace("/")
 public class MerchantAction extends BaseAction
 {
+	static private int EACH_PAGE_NUM = 10;
 	static final String DELETE_MERCHANT_NEWS = "deleteMerchantNews";
 	static final String MERCHANT_NEWS_DETAILS = "merchantNewsDetails";
 	static final String ADD_MERCHANT_NEWS = "addMerchantNews";
@@ -147,6 +150,22 @@ public class MerchantAction extends BaseAction
 				merchantService.merchantNews(merchant, page));
 		page=activityService.getOneClubPageByHql(8,0,1,null,merchant,2);
 		acs=activityService.getOneClubActivityByHql(page,null,merchant,"datetime",2);
+		/********************** fineTu ***********************/
+		Page page = new Page(1*EACH_PAGE_NUM+1);
+		page.setEachPageNumber(EACH_PAGE_NUM);
+		page.setCurrentPage(1);
+		List<Club> focusClubList = merchantService.getFocusList(Club.class, merchant,page);
+		if(focusClubList.size() > 9)
+		{
+			focusClubList = focusClubList.subList(0, 9);
+		}
+		getRequestMap().put("focusClubList", focusClubList);
+		List<Club> focusMerchantList = merchantService.getFocusList(Merchant.class,merchant,page);
+		if(focusMerchantList.size() > 9)
+		{
+			focusMerchantList = focusMerchantList.subList(0, 9);
+		}
+		getRequestMap().put("focusMerchantList", focusMerchantList);
 		return SUCCESS;
 	}
 	
@@ -237,17 +256,23 @@ public class MerchantAction extends BaseAction
 	public String merchantFocus()
 	{
 		// List<User> focusList = sessionUser.getUsersForTargetUserId();
-		Merchant merchant = (Merchant) getSessionMap().get("merchant");
+		Merchant m = null;
+		if(merchant != null){
+			m = merchant;
+		}else{
+			m = (Merchant) getSessionMap().get("merchant");
+		}
+		Page page = new Page(EACH_PAGE_NUM,pageNum*EACH_PAGE_NUM+1);
+		page.setCurrentPage(pageNum);
 		switch(type)
 		{
 			case (1):
-				List<Club> clubList = merchantService.getFocusList(Club.class,
-						merchant);
+				List<Club> clubList = merchantService.getFocusList(Club.class,m,page);
 				getRequestMap().put("focusList", clubList);
 				break;
 			case (2):
 				List<Merchant> merchantList = merchantService.getFocusList(
-						Merchant.class, merchant);
+						Merchant.class, m,page);
 				getRequestMap().put("focusList", merchantList);
 				break;
 		}
