@@ -17,6 +17,7 @@ import cn.cafebabe.autodao.pojo.Page;
 import com.tjxjh.po.Picture;
 import com.tjxjh.po.User;
 import com.tjxjh.service.PictureService;
+import com.tjxjh.service.UserService;
 import com.tjxjh.util.Auth;
 import com.tjxjh.util.FileUtil;
 import com.tjxjh.util.ImageCutAndZoom;
@@ -126,21 +127,7 @@ public class PictureAction extends BaseAction{
 		actionName="relativePicture";
 		return SUCCESS;
 	}
-	/**
-	 * 分页获取图片
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@Action(value = "findMyPicture", results = {
-			@Result(name = SUCCESS, location = BaseAction.FOREPART + "photos.jsp")})
-	public String findMyPicture(){
-		user=Auth.getUserFromSession();
-		page=pictureService.getMyPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
-		pics=pictureService.findMyPictureByHql(page,user);
-		actionName="findMyPicture";
-		return SUCCESS;
-	}
+	
 	/**
 	 * pre重命名图片
 	 * @return

@@ -51,10 +51,10 @@
 					<s:iterator value="#request.focusList.userList">
 						<div class="friendBox">
 							<s:if test="portrait==''">
-								<img src="images/head/head1.jpg" class="fl logoImg" />
+								<a href="userHome?user.id=${id}"><img src="images/head/head1.jpg" class="fl logoImg" /></a>
 							</s:if>
 							<s:else>
-								<img src="images/head/head1.jpg"  class="fl logoImg" />
+								<a href="userHome?user.id=${id}"><img src="images/head/head1.jpg"  class="fl logoImg" /></a>
 							</s:else>
 							<ul class="fl">
 								<li class="infoItem"><s:property value="name" /></li>

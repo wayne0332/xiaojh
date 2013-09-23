@@ -1,5 +1,6 @@
 package com.tjxjh.util;
 
+import java.util.List;
 import java.util.Map;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -53,5 +54,4 @@ public class Auth {
 		}
 		return f;
 	}
-
 }

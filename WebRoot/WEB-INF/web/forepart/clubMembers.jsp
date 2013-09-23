@@ -17,7 +17,13 @@
 
 <body>
 	<jsp:include page="head.jsp" />
-	<s:a href="searchUserToManage?club.id=%{club.id}">搜索人员</s:a>
+	<form action="searchUser">
+		<input type="hidden" name="pageNum" value="1" />
+		<input type="hidden" name="club.id" value="<s:property value="club.id" />" />
+		<input name="searchText" type="text"/><input type="submit" value="搜索人员" />
+		<!-- <s:a href="searchUserToManage?club.id=%{club.id}">搜索人员</s:a> -->
+	</form>
+	
 	<table>
 		<tr>
 			<td>名字</td>

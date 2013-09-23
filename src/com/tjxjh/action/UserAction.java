@@ -3,6 +3,7 @@ package com.tjxjh.action;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -14,6 +15,7 @@ import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.tjxjh.annotation.Auth;
 import com.tjxjh.annotation.Keyword;
 import com.tjxjh.enumeration.UserStatus;
@@ -310,52 +312,44 @@ public class UserAction extends BaseAction
 		super.clearSession();
 		return SUCCESS;
 	}
-	
+	/**
+	 * 我的相册或根据id查看好友相册
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@Action(value = "photos", results = {
+			@Result(name = SUCCESS, location = BaseAction.FOREPART + "userHomePhotos.jsp")})
+	public String findMyPicture(){
+		if(user==null||user.getId()==null){
+			user=(User) getSessionMap().get("user");
+			user = userService.findById(user.getId());
+			String temp=user.getSchool().getName();
+			getRequestMap().put("my", "yes");
+		}else{
+			user = userService.findById(user.getId());
+			String temp=user.getSchool().getName();
+			User tmep=(User) getSessionMap().get("user");
+			int i=user.getId();
+			int j=tmep.getId();
+			if(i==j){
+				getRequestMap().put("my", "yes");
+			}else{
+				getRequestMap().put("my", "no");
+			}
+			
+		}
+		page=pictureService.getMyPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
+		pics=pictureService.findMyPictureByHql(page,user);
+		return SUCCESS;
+	}
 	// main :userHome
 	@Action(value = MAIN, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 			+ MAIN + JSP)})
 	public String home()
 	{
-		/************************** TT *******************************************/
-		List<User> focusUserList = userService.getFocusList(User.class,
-				(User) getSessionMap().get("user"));
-		if(focusUserList.size() > 9)
-		{
-			focusUserList = focusUserList.subList(0, 9);
-		}
-		getRequestMap().put("focusUserList", focusUserList);
-		List<Club> focusClubList = userService.getFocusList(Club.class,
-				(User) getSessionMap().get("user"));
-		if(focusClubList.size() > 9)
-		{
-			focusClubList = focusClubList.subList(0, 9);
-		}
-		getRequestMap().put("focusClubList", focusClubList);
-		List<Merchant> focusMerchantList = userService.getFocusList(
-				Merchant.class, (User) getSessionMap().get("user"));
-		if(focusMerchantList.size() > 9)
-		{
-			focusMerchantList = focusMerchantList.subList(0, 9);
-		}
-		getRequestMap().put("focusMerchantList", focusMerchantList);
-		// super.getRequestMap().put("allUsers", userService.allUsers());
-		if(null == user || null == user.getId())
-		{
-			user = (User) getSessionMap().get("user");
-			user = userService.findById(user.getId());
-		}
-		else
-		{
-			user = userService.findById(user.getId());
-		}
-		/************************** 指定用户相册 *******************************************/
-		page = pictureService.getMyPageByHql(user, 1, currentPage, 1);
-		pics = pictureService.findMyPictureByHql(page, user);
-		/*************************** 指定用户线上活动 *****************************************/
-		page = onlineActivityService.getOneOnlineActivityPageByHql(4,
-				currentPage, 1, null, null, user);
-		onlineActs = onlineActivityService.findOneClubOnlineActivityByHql(page,
-				null, null, user);
+		initUserHome();
+		
 		/************************** 指定用户说说说说 *******************************************/
 		page = talkingService.getMyPageByHql(user, 10, currentPage, 1);
 		List<Talking> temp = talkingService.findMyTalkingByHql(page, user);
@@ -367,6 +361,59 @@ public class UserAction extends BaseAction
 			taks.add(it);
 		}
 		return SUCCESS;
+	}
+
+	private void initUserHome() {
+		if(user==null||user.getId()==null){
+			user=(User) getSessionMap().get("user");
+			user = userService.findById(user.getId());
+			getRequestMap().put("my", "yes");
+		}else{
+			user = userService.findById(user.getId());
+			User tmep=(User) getSessionMap().get("user");
+			int i=user.getId();
+			int j=tmep.getId();
+			if(i==j){
+				getRequestMap().put("my", "yes");
+			}else{
+				getRequestMap().put("my", "no");
+			}
+			
+		}
+		try{
+			String temp=user.getSchool().getName();
+		}catch(Exception e){
+			
+		}
+		/************************** TT *******************************************/
+		List<User> focusUserList = userService.getFocusList(User.class,user);
+		if(focusUserList.size() > 9)
+		{
+			focusUserList = focusUserList.subList(0, 9);
+		}
+		getRequestMap().put("focusUserList", focusUserList);
+		List<Club> focusClubList = userService.getFocusList(Club.class,user);
+		if(focusClubList.size() > 9)
+		{
+			focusClubList = focusClubList.subList(0, 9);
+		}
+		getRequestMap().put("focusClubList", focusClubList);
+		List<Merchant> focusMerchantList = userService.getFocusList(Merchant.class, user);
+		if(focusMerchantList.size() > 9)
+		{
+			focusMerchantList = focusMerchantList.subList(0, 9);
+		}
+		getRequestMap().put("focusMerchantList", focusMerchantList);
+		/************************** 指定用户相册 *******************************************/
+		page = pictureService.getMyPageByHql(user, 1, currentPage, 1);
+		pics = pictureService.findMyPictureByHql(page, user);
+		
+		/*************************** 指定用户线上活动 *****************************************/
+		page = onlineActivityService.getOneOnlineActivityPageByHql(4,
+				currentPage, 1, null, null, user);
+		onlineActs = onlineActivityService.findOneClubOnlineActivityByHql(page,
+				null, null, user);
+		getRequestMap().put("onlineActs", onlineActs);
 	}
 	
 	@Action(value = CENTER, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART

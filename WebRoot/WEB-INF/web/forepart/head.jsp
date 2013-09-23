@@ -36,6 +36,9 @@
 				<li><a href="relativeOnlineActivity" class="a_bt">线上活动</a></li>
 				<li><a href="relativeTalking" class="a_bt">说说</a></li>
 				<li><a href="relativePicture" class="a_bt">相册</a></li>
+				<li><a href="photos" class="a_bt">我的相册</a></li>
+				
+				
 				<li><a href="myFocus?type=0" class="a_bt">好友</a></li>
 				<li><a href="userHome" class="a_bt">个人主页</a></li>
 				<li><a href="receivedLetters" class="a_bt">飞鸽传书 (<s:property
