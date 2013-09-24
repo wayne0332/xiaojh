@@ -127,7 +127,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     				<s:iterator value="#request.searchResult.userList">
     				<tr>	
     					<td>
-    						<s:property value="name" />
+    						<a href="userHome?user.id=<s:property value="id" />" ><s:property value="name" /></a>
     					</td>
     					<td>
     						<s:property value="sex" />
@@ -224,7 +224,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<s:iterator value="#request.searchResult.merchantList" >
     			<tr>	
     				<td>
-    					<s:property value="name" />
+    					<a href="merchant?merchant.id=<s:property value="id" />" ><s:property value="name" /></a>
     				</td>
     				<td>
     					<s:property value="type" />

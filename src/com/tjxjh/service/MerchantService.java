@@ -25,7 +25,6 @@ import com.tjxjh.enumeration.TalkingUrlType;
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Activity;
 import com.tjxjh.po.Club;
-import com.tjxjh.po.ClubNews;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.MerchantNews;
 import com.tjxjh.po.User;
@@ -365,7 +364,18 @@ public class MerchantService extends BaseService
 		Collections.sort(list);
 		return list;
 	}
-	
+	public <T extends Comparable> List<T> getFocusList(Class objectClass, Merchant merchant,Page page)
+	{
+		List<T> list = getFocusList(objectClass,merchant);
+		Collections.sort(list);
+		if(list.size()!=0){
+			int beginIndex = (page.getCurrentPage()-1)*page.getEachPageNumber();
+			int toIndex = (page.getCurrentPage())*page.getEachPageNumber()<list.size()?(page.getCurrentPage()*page.getEachPageNumber()):(list.size());
+			return list.subList(beginIndex,toIndex);
+		}else{
+			return list;
+		}
+	}
 	static Merchant md5Password(Merchant merchant)
 	{
 		merchant.setPassword(CodeUtil.md5(merchant.getPassword()));
