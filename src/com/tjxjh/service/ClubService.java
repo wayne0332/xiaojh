@@ -622,5 +622,12 @@ public class ClubService extends BaseService
 						"from Club cl where cl.status='PASSED' and cl.type=? and cl.school.id=? order by popularity desc",
 						ClubType.valueOf(type), school.getId());
 	}
+	
 	/********************************************************** 查看某个学校的某个类型的社团 *****************************************************/
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void updateClub(Club club, File logo)
+	{
+		UserService.savePortrait(club.getLogoPath(), logo, 280);
+		super.update(club, "id");
+	}
 }

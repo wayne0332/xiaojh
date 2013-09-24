@@ -15,7 +15,6 @@ import cn.cafebabe.autodao.pojo.Page;
 
 import com.tjxjh.annotation.Auth;
 import com.tjxjh.auth.AuthEnum;
-import com.tjxjh.enumeration.AuthType;
 import com.tjxjh.enumeration.ClubMemberRole;
 import com.tjxjh.enumeration.ClubMemberSource;
 import com.tjxjh.interceptor.AuthInterceptor.ClubManagerAuth;
@@ -33,8 +32,8 @@ import com.tjxjh.pojo.MerchantList;
 import com.tjxjh.service.ActivityService;
 import com.tjxjh.service.ClubPostService;
 import com.tjxjh.service.ClubService;
-import com.tjxjh.service.MerchantService;
 import com.tjxjh.service.SearchService;
+import com.tjxjh.service.UserService;
 import com.tjxjh.util.CodeUtil;
 
 @ParentPackage("myPackage")
@@ -113,13 +112,18 @@ public class ClubAction extends BaseAction
 	@Auth(auths = {AuthEnum.USER})
 	public String applyClub()
 	{
+		fillLogoPathToClub();
+		clubService.applyClub(club, super.currentUser(), logo);
+		return SUCCESS;
+	}
+	
+	private void fillLogoPathToClub()
+	{
 		club.setLogoPath(new StringBuilder("upload/clubLogo/school_")
 				.append(club.getSchool().getId()).append("_")
 				.append(CodeUtil.md5(club.getName()))
 				.append(logoFileName.substring(logoFileName.indexOf('.')))
 				.toString());
-		clubService.applyClub(club, super.currentUser(), logo);
-		return SUCCESS;
 	}
 	
 	// @Action(value = CHECK_CLUB, results = {@Result(name = SUCCESS, type =
@@ -416,9 +420,17 @@ public class ClubAction extends BaseAction
 		return SUCCESS;
 	}
 	
-	@Action(value = UPDATE_CLUB, results = {})
+	@Action(value = UPDATE_CLUB, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MAIN, params = {
+			"club.id", "${club.id}"})})
 	public String updateClub()
 	{
+		if(logo != null)
+		{
+			club = currentClubMember().getClub();
+			UserService.deleteOldPortraitPath(club.getLogoPath());
+			fillLogoPathToClub();
+		}
+		clubService.updateClub(club, logo);
 		return SUCCESS;
 	}
 	

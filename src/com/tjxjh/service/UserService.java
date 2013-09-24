@@ -148,7 +148,7 @@ public class UserService extends BaseService
 				name).get(0) > 0l;
 	}
 	
-	public void deleteOldPortraitPath(String oldPortraitPath)
+	public static void deleteOldPortraitPath(String oldPortraitPath)
 	{
 		if(oldPortraitPath != null && !oldPortraitPath.trim().equals(""))
 		{
