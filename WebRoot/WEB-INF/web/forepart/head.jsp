@@ -7,7 +7,7 @@
 		<img src="images/icon/logo.png" id="logo_img" class="w135" />
 	</div>
 
-	<s:if test="#session.user == null">
+	<s:if test="#session.user == null && #session.merchant == nll">
 		<div class="nav_bar bc">
 			<ul class="fr">
 				<!-- 暂时加的 以后要删 -->
@@ -19,7 +19,7 @@
 		</div>
 	</s:if>
 
-	<s:else>
+	<s:elseif test="#session.user != null">
 		<div class="nav_bar bc">
 			<ul class="fr">
 				<li><a href="logout" class="a_bt">注销</a></li>
@@ -45,5 +45,8 @@
 							value="#session.user.receiveLetterCount" />)</a></li>
 			</ul>
 		</div>
-	</s:else>
+	</s:elseif>
+	<s:elseif test="#session.merchant != null">
+		弄一个商家的专门的头部啊
+	</s:elseif>
 </div>
