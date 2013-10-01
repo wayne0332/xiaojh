@@ -346,31 +346,5 @@ public class TalkingService extends BaseService{
 				.executeHql(
 						page,Hql);
 	}
-	/******************************End:我相关的说说***************************************************************************************/
-	@Transactional (propagation = Propagation.REQUIRED) 
-	public List<User> preGetRelativeUserId(User user){
-		List<User> users=new ArrayList<User>();
-		//查找用户所在社团对应的id号
-		users.addAll((List<User>) dao.executeHql("select club.user from ClubMember cl where cl.user.id=?", user.getId()));
-		//关注的社团
-		Set<Club> clubs=user.getFocusClubs();
-		for(Club c:clubs){
-			users.add(c.getUser());
-		}
-		//将自己放入
-		ActionContext context = ActionContext.getContext();  
-	    Map<String, Object> session = context.getSession();
-		users.add((User)session.get("user"));
-		//关注的用户
-		Set<User> users2=user.getUsersForTargetUserId();
-		for(User u:users2){
-			users.add(u);
-		}
-		//关注的商家
-		Set<Merchant> merchants=user.getMerchants();
-		for(Merchant m:merchants){
-			users.add(m.getUser());
-		}
-		return users;
-	}
+
 }

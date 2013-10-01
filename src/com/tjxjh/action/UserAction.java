@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -12,6 +13,8 @@ import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import cn.cafebabe.autodao.pojo.Page;
 
@@ -138,11 +141,37 @@ public class UserAction extends BaseAction
 	protected void saveUser(User user)
 	{
 		// 将相关的用户id存入session
+		user=userService.findById(user.getId());
 		super.saveUser(user);
-		super.getSessionMap().put("relativeUsers",
-				talkingService.preGetRelativeUserId(user));
+		List<User> us=preGetRelativeUserId(user);
+		super.getSessionMap().put("relativeUsers",us);
 	}
-	
+	/******************************End:我相关的说说***************************************************************************************/
+	public List<User> preGetRelativeUserId(User user){
+		List<User> users=new ArrayList<User>();
+		//查找用户所在社团对应的id号
+		users.addAll(userService.clubUsers(user));
+		//关注的社团
+		Set<Club> clubs=user.getFocusClubs();
+		for(Club c:clubs){
+			users.add(userService.findById(c.getUser().getId()));
+		}
+		//将自己放入
+		ActionContext context = ActionContext.getContext();  
+	    Map<String, Object> session = context.getSession();
+		users.add((User)session.get("user"));
+		//关注的用户
+		Set<User> users2=user.getUsersForTargetUserId();
+		for(User u:users2){
+			users.add(userService.findById(u.getId()));
+		}
+		//关注的商家
+		Set<Merchant> merchants=user.getMerchants();
+		for(Merchant m:merchants){
+			users.add(userService.findById(m.getUser().getId()));
+		}
+		return users;
+	}
 	@Action(value = MANAGER_LOGIN, results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "manageIndex"),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = MANAGER_LOGIN_INPUT, params = {

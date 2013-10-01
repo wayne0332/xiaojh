@@ -28,8 +28,13 @@
 		<div class="main w730 cf mt75">
 			<!-- 导航-->
 			<div class="userHome_box w700 m5 p10 cf shadow_l_10 radius_6">
-				<a href="javascript:void(0)" ><label>相册</label> </a> <a href="<%=path%>/talking?user.id=${user.id}"><label>说说</label>
+				<a href="javascript:void(0)" ><label>相册</label> </a>
+				<a href="<%=path%>/talking?user.id=${user.id}"><label>说说</label>
 				</a> <a href="#"><label>活动</label> </a>
+				<form action="addPicture" method= "post" enctype="multipart/form-data" style="display:inline;">
+ 					选择照片：<input type = "file" name="uploadImage"/>
+ 					<input type="submit" value="上传照片"/>
+ 				</form><s:property value="message" />
 			</div>
 			<!-- END:相册-->
 			<!-- 说说 -->
@@ -64,6 +69,7 @@
 
 			</div>
 		</div>
+		
 		<div class="clearfloat"></div>
 		<div class="footer"></div>
 	</div>
