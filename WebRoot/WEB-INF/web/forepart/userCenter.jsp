@@ -18,6 +18,9 @@
 <link rel="stylesheet" type="text/css" href="css/base-min.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
 <link rel="stylesheet" type="text/css" href="css/page-user.css" />
+
+<script type='text/javascript'
+	src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js?ver=1.3.2'></script>
 <script type="text/javascript" src="<%=path%>/js/ajax.js"></script>
 </head>
 
@@ -33,6 +36,7 @@
 								value="#session.user.name" />(修改信息) </a></li>
 					<li><s:property value="#session.user.grade" />
 					</li>
+					<li><s:property value="#session.user.grade" /></li>
 					<li><s:property
 							value="#application.schools[#session.user.school.id].name" />
 					</li>
@@ -128,13 +132,8 @@
 			<!-- 相册-->
 			<div class="userHome_box w700 m5 p10 cf shadow_l_10 radius_6">
 				<label>最新相册</label>
-				<s:iterator value="pics">
-					<span style="display: inline-block;"> <a
-						href="<%=path%><s:property  value="path.replace('st_', '')" />"
-						target="_blank"><img src="<%=path%>/${path}" width="190px" />
-					</a> <br /> ${name}&nbsp; From:<a href="#">${user.name}</a> </span>
-				</s:iterator>
-				<a href="<%=path%>/findAllPicture" target="_self" class="fr">更多</a>
+
+				<jsp:include page="photoBook.jsp" />
 			</div>
 			<!-- END:相册-->
 			<jsp:include page="userHomeTalking.jsp" />
@@ -142,6 +141,23 @@
 		<div class="clearfloat"></div>
 		<div class="footer"></div>
 	</div>
+
+
+	<script type="text/javascript">
+	
+		function huifu(id,name,userid){
+			var pl_t='#pl_t'+id;
+			var user_id='#user_id'+id;
+			$(pl_t).val("@"+name+":");
+			$(user_id).val(userid);
+			$(pl_t).focus();
+		}
+		
+		function loading(){
+			$("#loading").css('display','block'); 
+			return true;
+		}
+	</script>
 
 </body>
 </html>

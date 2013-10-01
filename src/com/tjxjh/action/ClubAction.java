@@ -82,7 +82,7 @@ public class ClubAction extends BaseAction
 	
 	@Actions({@Action(value = "allClub", results = {@Result(name = SUCCESS, location = MANAGE
 			+ "allClub.jsp")})})
-	@Auth(auths = {AuthEnum.ADMIN})
+	@Auth(auths = {AuthEnum.ADMIN,AuthEnum.MERCHANT})
 	public String allClub()
 	{
 		Page page = new Page(pageNum * Page.getDefaultPageNumber() + 1);

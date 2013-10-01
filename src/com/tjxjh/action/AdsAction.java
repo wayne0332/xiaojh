@@ -12,15 +12,12 @@ import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
-import com.tjxjh.annotation.Auth;
-import com.tjxjh.auth.AuthEnum;
-import com.tjxjh.interceptor.AuthInterceptor.UserWithClubMemberAuth;
 import com.tjxjh.po.Advertisement;
 import com.tjxjh.po.AdvertisementContent;
 import com.tjxjh.service.AdService;
 import com.tjxjh.util.FileUtil;
 
-@ParentPackage("myPackage")
+@ParentPackage("struts-default")
 @Namespace("/")
 public class AdsAction extends BaseAction{
 	protected final static String UPLOAD_PATH="/upload/ads/";
@@ -38,7 +35,6 @@ public class AdsAction extends BaseAction{
 	private List<AdvertisementContent> contentList = null;
 	@Action(value = "adsList", results = {
 			@Result(name = SUCCESS, location = MANAGE + "adsList.jsp")})
-	@Auth(auths={AuthEnum.ADMIN})
 	public String adsList(){
 		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
 		page.setCurrentPage(pageNum);
@@ -48,7 +44,6 @@ public class AdsAction extends BaseAction{
 	
 	@Action(value = "addAds", results = {
 			@Result(name = SUCCESS,type = REDIRECT_ACTION, location = "adsList",params = {"pageNum","1"})})
-	@Auth(type = UserWithClubMemberAuth.class)
 	public String addAds(){
 		if(ads!=null&&ads.getName()!=null&&ads.getType()!=null&&ads.getHeight()!=null&&ads.getWidth()!=null){
 			if(service.addAds(ads)){
@@ -61,7 +56,6 @@ public class AdsAction extends BaseAction{
 	
 	@Action(value = "removeAds", results = {
 			@Result(name = SUCCESS,type = REDIRECT_ACTION, location = "adsList",params = {"pageNum","1"})})
-	@Auth(type = UserWithClubMemberAuth.class)
 	public String removeAds(){
 		if(service.removeAds(adsId)){
 			refreshApplication();
@@ -73,7 +67,6 @@ public class AdsAction extends BaseAction{
 	
 	@Action(value = "contentList", results = {
 			@Result(name = SUCCESS, location = MANAGE + "contentList.jsp")})
-	@Auth(type = UserWithClubMemberAuth.class)
 	public String contentList(){
 		contentList = service.contentList(adsId);
 		return SUCCESS;
@@ -81,7 +74,6 @@ public class AdsAction extends BaseAction{
 	
 	@Action(value = "addContent", results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "contentList",params={"adsId","${adsId}","type","${type}"})})
-	@Auth(type = UserWithClubMemberAuth.class)
 	public String addContent(){
 		String fileType = null;
 		if(uploadFile != null){
@@ -104,7 +96,6 @@ public class AdsAction extends BaseAction{
 	
 	@Action(value = "removeContent", results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "contentList",params={"adsId","${adsId}","type","${type}"})})
-	@Auth(type = UserWithClubMemberAuth.class)
 	public String removeContent(){
 		if(adsId != 0&&(type.equals("SWF")||type.equals("IMG")||type.equals("JS"))){
 			if(service.removeContent(contentId)){
@@ -114,6 +105,7 @@ public class AdsAction extends BaseAction{
 		}
 		return INPUT;
 	}
+	
 	
 	private void refreshApplication() {
 		if(getApplicationMap().get("adsList")!=null){
