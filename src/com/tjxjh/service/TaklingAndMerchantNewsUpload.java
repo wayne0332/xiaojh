@@ -113,7 +113,7 @@ public class TaklingAndMerchantNewsUpload
 					return false;
 				}
 			}
-			else if(StringUtil.isNotEmpty(merchantNews.getUrl()))
+			else if(merchantNews!=null&&StringUtil.isNotEmpty(merchantNews.getUrl()))
 			{
 				TalkingUrlType type = FileUtil.testFileType(talking.getUrl());
 				if(type != null)
