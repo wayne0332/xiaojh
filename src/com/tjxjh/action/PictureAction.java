@@ -17,6 +17,7 @@ import cn.cafebabe.autodao.pojo.Page;
 import com.tjxjh.po.Picture;
 import com.tjxjh.po.User;
 import com.tjxjh.service.PictureService;
+import com.tjxjh.service.UserService;
 import com.tjxjh.util.Auth;
 import com.tjxjh.util.FileUtil;
 import com.tjxjh.util.ImageCutAndZoom;
@@ -49,7 +50,7 @@ public class PictureAction extends BaseAction{
 	 * @throws Exception
 	 */
 	@Action(value = "addPicture", results = {
-			@Result(name = SUCCESS, location = BaseAction.FOREPART + "success.jsp")})
+			@Result(name = SUCCESS,  type = REDIRECT_ACTION,location = "photos")})
 	public String addPicture(){
 		String imagePath =UPLOAD_IMAGE_PATH+uploadImageFileName;//上传图片相对地址
 		boolean flage=false;
@@ -83,7 +84,7 @@ public class PictureAction extends BaseAction{
 	 * @throws Exception
 	 */
 	@Action(value = "deletePicture", results = {
-			@Result(name = SUCCESS, location = BaseAction.FOREPART + "success.jsp")})
+			@Result(name = SUCCESS, type = REDIRECT_ACTION,location = "photos")})
 	public String deletePicture(){
 			user=Auth.getUserFromSession();
 			picture=pictureService.findByHql(new Object[]{user.getId(),picture.getId()});
@@ -126,21 +127,7 @@ public class PictureAction extends BaseAction{
 		actionName="relativePicture";
 		return SUCCESS;
 	}
-	/**
-	 * 分页获取图片
-	 * 
-	 * @return
-	 * @throws Exception
-	 */
-	@Action(value = "findMyPicture", results = {
-			@Result(name = SUCCESS, location = BaseAction.FOREPART + "photos.jsp")})
-	public String findMyPicture(){
-		user=Auth.getUserFromSession();
-		page=pictureService.getMyPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
-		pics=pictureService.findMyPictureByHql(page,user);
-		actionName="findMyPicture";
-		return SUCCESS;
-	}
+	
 	/**
 	 * pre重命名图片
 	 * @return
@@ -165,7 +152,7 @@ public class PictureAction extends BaseAction{
 	 */
 	
 	@Action(value = "updatePicture", results = {
-			@Result(name = SUCCESS, type = REDIRECT_ACTION,location = "findAllPicture")})
+			@Result(name = SUCCESS, type = REDIRECT_ACTION,location = "photos")})
 	public String update(){
 		user=Auth.getUserFromSession();
 		Picture temppicture=pictureService.findByHql(new Object[]{user.getId(),picture.getId()});

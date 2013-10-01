@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'clubFocus.jsp' starting page</title>
+    <title>My JSP 'merchantFocus.jsp' starting page</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -148,6 +148,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    					</div>
 	    				</s:iterator>
 						</s:elseif>
+						<div>
+		    				<span><a href="merchantFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage-1" />">上一页</a></span>&nbsp;
+							<span><a href="merchantFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage+1" />">下一页</a></span>
+							<span>共 <s:property value="#request.focusList.page.pageNumber" />页</span>
+	    				</div>
 					</div>
 				</div>
 				<div class="right">

@@ -38,17 +38,20 @@ public class ClubService extends BaseService
 {
 	private static final String CLUBMEMBERS_WITHOUT_PROPRIETER_HQL = "from ClubMember where club.id=? and status=? and user.id<>?";
 	
-	public List<Club> allClub(Page page){
+	public List<Club> allClub(Page page)
+	{
 		String hql = "from Club c";
 		return (List<Club>) dao.executeHql(page, hql);
 	}
 	
-	public Page clubNum(Page page){
+	public Page clubNum(Page page)
+	{
 		String hql = "select count(*) from Club order by id desc";
 		List<Long> countL = null;
-		countL = (List<Long>)dao.executeHql(hql);
+		countL = (List<Long>) dao.executeHql(hql);
 		int itemNum = countL.get(0).intValue();
-		return new Page(page.getCurrentPage(),Page.getDefaultPageNumber(),itemNum);
+		return new Page(page.getCurrentPage(), Page.getDefaultPageNumber(),
+				itemNum);
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -170,17 +173,23 @@ public class ClubService extends BaseService
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public boolean changeClubStatus(Club targetClub,ClubStatus status){
-		try{
-			if(!exist(targetClub)){
+	public boolean changeClubStatus(Club targetClub, ClubStatus status)
+	{
+		try
+		{
+			if(!exist(targetClub))
+			{
 				throw new Exception();
 			}
-			else{
+			else
+			{
 				Club club = dao.findById(Club.class, targetClub.getId());
 				club.setStatus(status);
 				dao.flush();
 			}
-		}catch(Exception e){
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 			return false;
 		}
@@ -225,19 +234,27 @@ public class ClubService extends BaseService
 		}
 		return false;
 	}
+	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public boolean focusClub(ClubMember clubMember,Club targetClub){
-		try{
-			if(!exist(targetClub)){
+	public boolean focusClub(ClubMember clubMember, Club targetClub)
+	{
+		try
+		{
+			if(!exist(targetClub))
+			{
 				throw new Exception();
-			}else{
+			}
+			else
+			{
 				Club c = dao.findById(Club.class, targetClub.getId());
-				Club sc = dao.findById(Club.class, clubMember.getId().getClubId());
+				Club sc = dao.findById(Club.class, clubMember.getId()
+						.getClubId());
 				sc.getClubsForTargetClubId().add(c);
 				dao.flush();
 			}
 		}
-		catch(Exception e){
+		catch(Exception e)
+		{
 			e.printStackTrace();
 			return false;
 		}
@@ -245,17 +262,25 @@ public class ClubService extends BaseService
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public boolean cancelFocusClub(ClubMember clubMember, Club targetClub){
-		try{
-			if(!exist(targetClub)){
+	public boolean cancelFocusClub(ClubMember clubMember, Club targetClub)
+	{
+		try
+		{
+			if(!exist(targetClub))
+			{
 				throw new Exception();
-			}else{
+			}
+			else
+			{
 				Club c = dao.findById(Club.class, targetClub.getId());
-				Club sc = dao.findById(Club.class, clubMember.getId().getClubId());
+				Club sc = dao.findById(Club.class, clubMember.getId()
+						.getClubId());
 				dao.refresh(sc).getClubsForTargetClubId().remove(c);
 				dao.flush();
 			}
-		}catch(Exception e){
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 			return false;
 		}
@@ -263,17 +288,25 @@ public class ClubService extends BaseService
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public boolean focusMerchant(ClubMember clubMember,Merchant merchant){
-		try{
-			if(!exist(merchant)){
+	public boolean focusMerchant(ClubMember clubMember, Merchant merchant)
+	{
+		try
+		{
+			if(!exist(merchant))
+			{
 				throw new Exception();
-			}else{
+			}
+			else
+			{
 				Merchant c = dao.findById(Merchant.class, merchant.getId());
-				Club sc = dao.findById(Club.class, clubMember.getId().getClubId());
+				Club sc = dao.findById(Club.class, clubMember.getId()
+						.getClubId());
 				sc.getFocusMerchants().add(c);
 				dao.flush();
 			}
-		}catch(Exception e){
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 			return false;
 		}
@@ -281,31 +314,43 @@ public class ClubService extends BaseService
 	}
 	
 	@Transactional(propagation = Propagation.REQUIRED)
-	public boolean cancelFocusMerchant(ClubMember clubMember, Merchant merchant){
-		try{
-			if(!exist(merchant)){
+	public boolean cancelFocusMerchant(ClubMember clubMember, Merchant merchant)
+	{
+		try
+		{
+			if(!exist(merchant))
+			{
 				throw new Exception();
-			}else{
+			}
+			else
+			{
 				Merchant c = dao.findById(Merchant.class, merchant.getId());
-				Club sc = dao.findById(Club.class, clubMember.getId().getClubId());
+				Club sc = dao.findById(Club.class, clubMember.getId()
+						.getClubId());
 				dao.refresh(sc).getFocusMerchants().remove(c);
 				dao.flush();
 			}
-		}catch(Exception e){
+		}
+		catch(Exception e)
+		{
 			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
-	public <T extends Comparable> List<T> getFocusList(Class objectClass, Club club)
+	
+	public <T extends Comparable> List<T> getFocusList(Class objectClass,
+			Club club)
 	{
 		List<T> list = new ArrayList<T>();
 		Club c = dao.findById(Club.class, club.getId());
 		Set<T> focusSet = null;
-		if(objectClass == Club.class){
+		if(objectClass == Club.class)
+		{
 			focusSet = (Set<T>) c.getClubsForTargetClubId();
 		}
-		else if(objectClass == Merchant.class){
+		else if(objectClass == Merchant.class)
+		{
 			focusSet = (Set<T>) c.getFocusMerchants();
 		}
 		Iterator<T> it = focusSet.iterator();
@@ -317,28 +362,42 @@ public class ClubService extends BaseService
 		return list;
 	}
 	
-	public <T extends Comparable> List<T> getFocusList(Class objectClass, Club club,Page page)
+	public <T extends Comparable> List<T> getFocusList(Class objectClass,
+			Club club, Page page)
 	{
-		List<T> list = getFocusList(objectClass,club);
+		List<T> list = getFocusList(objectClass, club);
 		Collections.sort(list);
-		if(list.size()!=0){
-			int beginIndex = (page.getCurrentPage()-1)*page.getEachPageNumber();
-			int toIndex = (page.getCurrentPage())*page.getEachPageNumber()<list.size()?(page.getCurrentPage()*page.getEachPageNumber()):(list.size());
-			return list.subList(beginIndex,toIndex);
-		}else{
+		if(list.size() != 0)
+		{
+			int beginIndex = (page.getCurrentPage() - 1)
+					* page.getEachPageNumber();
+			int toIndex = (page.getCurrentPage()) * page.getEachPageNumber() < list
+					.size() ? (page.getCurrentPage() * page.getEachPageNumber())
+					: (list.size());
+			return list.subList(beginIndex, toIndex);
+		}
+		else
+		{
 			return list;
 		}
 	}
-	public Page getFocusNum(Class objectClass, Club club,Page page){
+	
+	public Page getFocusNum(Class objectClass, Club club, Page page)
+	{
 		Club c = dao.findById(Club.class, club.getId());
 		int itemNum = 0;
-		if(objectClass == Club.class){
+		if(objectClass == Club.class)
+		{
 			itemNum = c.getClubsForTargetClubId().size();
-		}else if(objectClass == Merchant.class){
+		}
+		else if(objectClass == Merchant.class)
+		{
 			itemNum = c.getFocusMerchants().size();
 		}
-		return new Page(page.getCurrentPage(),page.getEachPageNumber(),itemNum);
+		return new Page(page.getCurrentPage(), page.getEachPageNumber(),
+				itemNum);
 	}
+	
 	private PersonalLetter sendLetter(User target, User source, String text)
 	{
 		return new PersonalLetter(target, source, "社团通知", text,
@@ -391,6 +450,12 @@ public class ClubService extends BaseService
 	public List<ClubMember> userClubs(User user, Page page)
 	{
 		return dao.findByExample(clubOfUser(user, null, null, null), page);
+	}
+	
+	public List<Club> userNoCheckClubs(User user, Page page)
+	{
+		return dao.findByExample(new Club(null, user, null, null, null, null,
+				null, ClubStatus.NO_CHECK, null, null, null, null));
 	}
 	
 	public Page clubMembersPage(Club club)
@@ -450,72 +515,119 @@ public class ClubService extends BaseService
 						.getId(), ClubStatus.PASSED, proprieter.getUser()
 						.getId());
 	}
+	
 	@SuppressWarnings("unchecked")
 	public List<Club> findHeatClubByHql()
 	{
-		Page page=Page.getPage(1, 12, 1);
-		return (List<Club>) dao.executeHql(page,"from Club cl where cl.status='PASSED' order by popularity desc");
+		Page page = Page.getPage(1, 12, 1);
+		return (List<Club>) dao
+				.executeHql(page,
+						"from Club cl where cl.status='PASSED' order by popularity desc");
 	}
-	/**********************************************************查看某个学校的社团的，按热度排序*****************************************************/
-	@Transactional (propagation = Propagation.REQUIRED) 
-	public Page findSchoolClubPageByHet(Integer eachPageNumber,Integer currentPage,Integer totalPageNumber,School school)
+	
+	/********************************************************** 查看某个学校的社团的，按热度排序 *****************************************************/
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Page findSchoolClubPageByHet(Integer eachPageNumber,
+			Integer currentPage, Integer totalPageNumber, School school)
 	{
-		if(currentPage<=0){
-			currentPage=1;
+		if(currentPage <= 0)
+		{
+			currentPage = 1;
 		}
-		if(totalPageNumber!=0){
+		if(totalPageNumber != 0)
+		{
 			return Page.getPage(currentPage, eachPageNumber, totalPageNumber);
 		}
-		try{
-			Page page=null;
-			if(school!=null&&school.getId()!=null){
-				page=dao.getPageByHql(eachPageNumber,"select count(*) from Club cl  where cl.status='PASSED' and cl.school.id=?",
+		try
+		{
+			Page page = null;
+			if(school != null && school.getId() != null)
+			{
+				page = dao
+						.getPageByHql(
+								eachPageNumber,
+								"select count(*) from Club cl  where cl.status='PASSED' and cl.school.id=?",
+								school.getId());
+			}
+			else
+			{
+				return null;
+			}
+			page.setCurrentPage(currentPage);
+			return page;
+		}
+		catch(Exception e)
+		{
+			System.out.println("---------findSchoolClubPageByHet---------" + e);
+			return null;
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Club> findSchoolHeatClubByHql(School school, Page page)
+	{
+		return (List<Club>) dao
+				.executeHql(
+						page,
+						"from Club cl where cl.status='PASSED' and cl.school.id=? order by popularity desc",
 						school.getId());
-			}else{
-				return null;
-			}
-			page.setCurrentPage(currentPage);
-			return page;
-		}catch (Exception e){
-			System.out.println("---------findSchoolClubPageByHet---------"+e);
-			return null;
-		}
 	}
-	@SuppressWarnings("unchecked")
-	public List<Club> findSchoolHeatClubByHql(School school,Page page)
+	
+	/********************************************************** 查看某个学校的某个类型的社团 *****************************************************/
+	@Transactional(propagation = Propagation.REQUIRED)
+	public Page findSchoolClubPageByType(Integer eachPageNumber,
+			Integer currentPage, Integer totalPageNumber, School school,
+			String type)
 	{
-		return (List<Club>) dao.executeHql(page,"from Club cl where cl.status='PASSED' and cl.school.id=? order by popularity desc",school.getId());
-	}
-	/**********************************************************查看某个学校的某个类型的社团*****************************************************/
-	@Transactional (propagation = Propagation.REQUIRED) 
-	public Page findSchoolClubPageByType(Integer eachPageNumber,Integer currentPage,Integer totalPageNumber,School school,String type)
-	{
-		if(currentPage<=0){
-			currentPage=1;
+		if(currentPage <= 0)
+		{
+			currentPage = 1;
 		}
-		if(totalPageNumber!=0){
+		if(totalPageNumber != 0)
+		{
 			return Page.getPage(currentPage, eachPageNumber, totalPageNumber);
 		}
-		try{
-			Page page=null;
-			if(school!=null&&school.getId()!=null){
-				page=dao.getPageByHql(eachPageNumber,"select count(*) from Club cl  where cl.status='PASSED' and cl.type=? and cl.school.id=?",
-						ClubType.valueOf(type),school.getId());
-			}else{
+		try
+		{
+			Page page = null;
+			if(school != null && school.getId() != null)
+			{
+				page = dao
+						.getPageByHql(
+								eachPageNumber,
+								"select count(*) from Club cl  where cl.status='PASSED' and cl.type=? and cl.school.id=?",
+								ClubType.valueOf(type), school.getId());
+			}
+			else
+			{
 				return null;
 			}
 			page.setCurrentPage(currentPage);
 			return page;
-		}catch (Exception e){
-			System.out.println("---------findSchoolClubPageByType---------"+e);
+		}
+		catch(Exception e)
+		{
+			System.out
+					.println("---------findSchoolClubPageByType---------" + e);
 			return null;
 		}
 	}
+	
 	@SuppressWarnings("unchecked")
-	public List<Club> findSchoolClubByType(School school,String type,Page page)
+	public List<Club> findSchoolClubByType(School school, String type, Page page)
 	{
-		return (List<Club>) dao.executeHql(page,"from Club cl where cl.status='PASSED' and cl.type=? and cl.school.id=? order by popularity desc",
-				ClubType.valueOf(type),school.getId());
+		return (List<Club>) dao
+				.executeHql(
+						page,
+						"from Club cl where cl.status='PASSED' and cl.type=? and cl.school.id=? order by popularity desc",
+						ClubType.valueOf(type), school.getId());
 	}
-	/**********************************************************查看某个学校的某个类型的社团*****************************************************/
+	
+	/********************************************************** 查看某个学校的某个类型的社团 *****************************************************/
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void updateClub(Club club, File logo)
+	{
+		UserService.savePortrait(club.getLogoPath(), logo, 280);
+		super.update(club, "id");
+	}
 }

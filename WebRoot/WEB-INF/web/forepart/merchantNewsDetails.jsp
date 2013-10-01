@@ -18,35 +18,26 @@
 	<table>
 		<tr>
 			<td>标题:</td>
-			<td><s:property value="merchantNews.tittle" />
-			</td>
+			<td><s:property value="merchantNews.tittle" /></td>
 		</tr>
 		<tr>
 			<td>时间:</td>
-			<td><s:date name="merchantNews.datetime" format="yyyy-MM-dd hh:mm:ss" />
-			</td>
+			<td><s:date name="merchantNews.datetime"
+					format="yyyy-MM-dd hh:mm:ss" /></td>
 		</tr>
 		<tr>
 			<td>内容:</td>
-			<td><s:property value="merchantNews.text" />
-			</td>
-		</tr>
-		<tr>
-			<td>上传:</td>
-			<td>媒体链接:<input type="text" name="merchantNews.url" /><br>
-				媒体上传:<input type="file" name="media" /><br>
-			</td>
+			<td><s:property value="merchantNews.text" /></td>
 		</tr>
 		<tr>
 			<td>媒体:</td>
-			<td>
-			<s:if test="merchantNews.url!=null&&!merchantNews.url.trim().equals('')&&merchantNews.urlType.toString()=='PICTURE'">
-			     <img src="${merchantNews.url}" />
-			</s:if>
-			<s:elseif test="merchantNews.url!=null&&!merchantNews.url.trim().equals('')&&merchantNews.urlType.toString()=='VIDEO'">
+			<td><s:if
+					test="merchantNews.url!=null&&!merchantNews.url.trim().equals('')&&merchantNews.urlType.toString()=='PICTURE'">
+					<img src="${merchantNews.url}" />
+				</s:if> <s:elseif
+					test="merchantNews.url!=null&&!merchantNews.url.trim().equals('')&&merchantNews.urlType.toString()=='VIDEO'">
 			     ${merchantNews.url}
-			</s:elseif>
-			</td>
+			</s:elseif></td>
 		</tr>
 	</table>
 </body>

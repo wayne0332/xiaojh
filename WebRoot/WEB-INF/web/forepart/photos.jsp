@@ -24,8 +24,7 @@
 		<jsp:include page="head.jsp" />
 		<!-- 提示信息 -->
 		<div class="mt75">
-			<s:property value="message" />
-			<a href="uploadPictureJsp" target="_self">上传照片</a>
+			
 		</div>
 		<!-- 删除相片导致相册页数与真实页数不一致 ，将当总页数减一，并跳转至上一页-->
 		<s:if test="pics.size()==0&&currentPage!=1">
@@ -38,12 +37,11 @@
 			<span style="display: inline-block;"> <a
 				href="<%=path%><s:property  value="path.replace('st_', '')" />"
 				target="_blank"><img src="<%=path%>/${path}" /> </a> <br />
-				${name}&nbsp; <s:if test="actionName.equals('relativePicture')">
+				${name}&nbsp; 
+				<s:if test="actionName.equals('relativePicture')">
      			From:<a href="userHome?user.id=${user.id}">${user.name}</a>
-				</s:if> <s:else>
-					<a href="<%=path%>/deletePicture?picture.id=${id}">删除</a>
-					<a href="<%=path%>/preUpdatePicture?picture.id=${id}">重命名</a>
-				</s:else> </span>
+				</s:if> 
+			</span>
 		</s:iterator>
 
 		<br /> 当当前第${page.currentPage}页&nbsp;共${page.pageNumber}页 <a

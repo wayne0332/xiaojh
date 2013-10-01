@@ -87,6 +87,29 @@
 				</table>
 			</div>
 			<wst:page url="myClubs" />
+			<s:if test="#request.myNoCheckClubs.size != 0">
+			<div>
+				<label>未审核社团(可以做我的社团和未审核社团的切换按钮和效果)</label>
+				<table class="w">
+					<thead class="clubList_thead">
+						<tr>
+							<th>Logo</th>
+							<th>社团名字</th>
+						</tr>
+					</thead>
+					<tbody class="clubList_tbody">
+						<s:iterator value="#request.myNoCheckClubs">
+							<tr>
+								<td class="tl"><img src="${logoPath}" class="" />
+								</td>
+								<td><s:property value="name" />
+								</td>
+							</tr>
+						</s:iterator>
+					</tbody>
+				</table>
+			</div>
+		</s:if>
 		</div>
 	</div>
 </body>

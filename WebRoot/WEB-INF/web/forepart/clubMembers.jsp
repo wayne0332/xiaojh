@@ -2,24 +2,30 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="wst" uri="/webSupportTag"%>
 
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<title>My JSP 'clubMembers.jsp' starting page</title>
 
-<title>校江湖</title>
-
-<link rel="stylesheet" type="text/css" href="css/base-min.css" />
-<link rel="stylesheet" type="text/css" href="css/common.css" />
-<link rel="stylesheet" type="text/css" href="css/page-user.css" />
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="This is my page">
 
 </head>
 
 <body>
-
 	<div class="container cf zoom">
 		<jsp:include page="head.jsp" />
 		<div class="mt75">
-			<s:a href="searchUserToManage?club.id=%{club.id}">搜索人员</s:a>
+			<form action="searchUser">
+				<input type="hidden" name="pageNum" value="1" /> <input
+					type="hidden" name="club.id" value="<s:property value="club.id" />" />
+				<input name="searchText" type="text" /><input type="submit"
+					value="搜索人员" />
+				<!-- <s:a href="searchUserToManage?club.id=%{club.id}">搜索人员</s:a> -->
+			</form>
 			<table>
 				<tr>
 					<td>名字</td>
