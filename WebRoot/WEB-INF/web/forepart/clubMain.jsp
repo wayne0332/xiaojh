@@ -60,7 +60,7 @@
 				</div>
 				<img src="<s:property value="club.logoPath" />" class="logoImg" />
 				<div>
-					<s:property value="club.introduction" />
+					<s:property value="club.briefIntroduction" />
 				</div>
 			</div>
 			<div class="club_panel fl m5 p10 bg_fff shadow_l_3">
