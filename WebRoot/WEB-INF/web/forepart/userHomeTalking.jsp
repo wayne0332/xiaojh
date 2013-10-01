@@ -164,6 +164,5 @@
 		}
 
 	</script>
-<script type="text/javascript" src="<%=path%>/js/jquery.min.js"></script>
 </body>
 </html>
