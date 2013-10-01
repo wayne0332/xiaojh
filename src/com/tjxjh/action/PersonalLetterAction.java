@@ -58,7 +58,7 @@ public class PersonalLetterAction extends BaseAction
 	
 	@Action(value = SEND_LETTER, results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = UserAction.REFRESH_USER
-					+ UserAction.MAIN),
+					+ UserAction.CENTER),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = PERSONAL_LETTER_INPUT)})
 	public String sendLetter()
 	{

@@ -203,6 +203,5 @@
 	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript" src="js/page_action.js"></script>
 	<script type="text/javascript" src="js/index2.js"></script>
-	<div><s:debug></s:debug></div>
 </body>
 </html>

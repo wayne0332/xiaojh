@@ -66,6 +66,7 @@
 							</ul>
 							<input id="<s:property value="id" />" type="button" value="取消关注"
 								onclick="cancelFocus(<s:property value="id" />,0)" />
+								<a href="personalLetterInput?targetUser.id=${id }&targetUser.name=${name}">发私信</a>
 						</div>
 					</s:iterator>
 				</s:if>
