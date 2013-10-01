@@ -19,7 +19,12 @@
 	<div class="container cf zoom">
 		<jsp:include page="head.jsp" />
 		<div class="mt75">
-			<a href="initSearch">写私信</a>
+			<!-- <a href="initSearch">写私信</a> -->
+			<form action="searchAll" method="post" class="mt75">
+			<input name="searchText" type="text" /> <input type="submit"
+				value="找个小伙伴发信息" />
+				<a href="myFocus?type=0&pageNum=1">给小伙伴发信息</a>
+		</form>
 			<table>
 				<tr>
 					<td>序号</td>
