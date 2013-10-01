@@ -33,6 +33,8 @@ import com.tjxjh.util.MerchantPurposeUtil;
 @Namespace("/")
 public class MerchantAction extends BaseAction
 {
+	static final String UPDATE_MERCHANT = "updateMerchant";
+	static final String UPDATE_MERCHANT_INPUT = "updateMerchantInput";
 	static final String MERCHANT_NEWS_MEDIA_PATH = "upload/merchantNewsMedia/";
 	static private int EACH_PAGE_NUM = 10;
 	static final String DELETE_MERCHANT_NEWS = "deleteMerchantNews";
@@ -62,13 +64,27 @@ public class MerchantAction extends BaseAction
 	protected String logoFileName = null;
 	private List<Activity> acs = new ArrayList<Activity>();
 	
-	@Actions({
-			@Action(value = APPLY_MERCHANT_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
-					+ APPLY_MERCHANT + JSP)}),
-			@Action(value = ADD_MERCHANT_NEWS_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
-					+ ADD_MERCHANT_NEWS + JSP)})})
+	@Actions({@Action(value = APPLY_MERCHANT_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
+			+ APPLY_MERCHANT + JSP)})})
 	@Auth(auths = {AuthEnum.NO_NEED})
 	public String page()
+	{
+		return SUCCESS;
+	}
+	
+	@Actions({
+			@Action(value = ADD_MERCHANT_NEWS_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
+					+ ADD_MERCHANT_NEWS + JSP)}),
+			@Action(value = UPDATE_MERCHANT_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
+					+ UPDATE_MERCHANT + JSP)})})
+	@Auth(auths = {AuthEnum.MERCHANT})
+	public String merchantAuth()
+	{
+		return SUCCESS;
+	}
+	
+	@Action(value = UPDATE_MERCHANT, results = {})
+	public String updateMerchant()
 	{
 		return SUCCESS;
 	}
