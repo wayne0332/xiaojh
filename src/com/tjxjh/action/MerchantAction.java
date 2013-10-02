@@ -76,7 +76,7 @@ public class MerchantAction extends BaseAction
 			@Action(value = ADD_MERCHANT_NEWS_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
 					+ ADD_MERCHANT_NEWS + JSP)}),
 			@Action(value = UPDATE_MERCHANT_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
-					+ "" + JSP)})})
+					+ UPDATE_MERCHANT + JSP)})})
 	@Auth(auths = {AuthEnum.MERCHANT})
 	public String merchantAuth()
 	{

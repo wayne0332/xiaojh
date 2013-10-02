@@ -3,6 +3,7 @@
 <struts>
 	<constant name="struts.action.extension" value=",action,do,jsp" />
 	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
 	<constant name="struts.convention.package.locators.basePackage"
 		value="com.tjxjh.action" />
 	<constant name="struts.ui.theme" value="simple" />

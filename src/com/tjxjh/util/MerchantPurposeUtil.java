@@ -16,7 +16,7 @@ public class MerchantPurposeUtil
 		StringBuilder _purposes = new StringBuilder();
 		for(String purpose : purposes)
 		{
-			_purposes.append(purpose).append(",");
+			_purposes.append(processPurpose(purpose)).append(",");
 		}
 		if(_purposes.length() != 0)
 		{
@@ -26,5 +26,16 @@ public class MerchantPurposeUtil
 		{
 			return "";
 		}
+	}
+	
+	private static String processPurpose(String purpose)
+	{
+		return new StringBuilder("'").append(purpose).append("'").toString();
+	}
+	
+	public static boolean isContainsPurpose(String merchantPurposes,
+			String thePurpose)
+	{
+		return merchantPurposes.contains(processPurpose(thePurpose));
 	}
 }
