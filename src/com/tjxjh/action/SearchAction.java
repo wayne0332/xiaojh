@@ -52,9 +52,8 @@ public class SearchAction extends BaseAction
 	@Action(value = "searchAll", results = {
 			@Result(name = SUCCESS, location = FOREPART + "searchAll.jsp"),
 			@Result(name = INPUT, location = "error_500.jsp")})
-	@Auth(auths = {AuthEnum.AUTO_CLUB_MEMBER})
-	public String SearchAll()
-	{
+	@Auth(auths = {AuthEnum.AUTO_CLUB_MEMBER,AuthEnum.MERCHANT})
+	public String SearchAll(){
 		Page page = new Page(1);
 		page.setCurrentPage(1);
 		User sessionUser = (User) getSessionMap().get("user");
@@ -106,10 +105,9 @@ public class SearchAction extends BaseAction
 	@Action(value = "searchUser", results = {
 			@Result(name = SUCCESS, location = FOREPART + "searchResult.jsp"),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = "error_500.jsp")})
-	@Auth(type = UserWithClubMemberAuth.class)
-	public String SearchUser()
-	{
-		Page page = new Page(pageNum * 7 + 1);
+	@Auth(auths = {AuthEnum.AUTO_CLUB_MEMBER,AuthEnum.MERCHANT})
+	public String SearchUser(){
+		Page page = new Page(pageNum*7+1);
 		page.setCurrentPage(pageNum);
 		if(searchText != null)
 		{
@@ -147,10 +145,9 @@ public class SearchAction extends BaseAction
 	@Action(value = "searchClub", results = {
 			@Result(name = SUCCESS, location = FOREPART + "searchResult.jsp"),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = "error_500.jsp")})
-	@Auth(type = UserWithClubMemberAuth.class)
-	public String SearchClub()
-	{
-		Page page = new Page(pageNum * 7 + 1);
+	@Auth(auths = {AuthEnum.AUTO_CLUB_MEMBER,AuthEnum.MERCHANT})
+	public String SearchClub(){
+		Page page = new Page(pageNum*7+1);
 		page.setCurrentPage(pageNum);
 		if(searchText != null)
 		{
@@ -216,10 +213,9 @@ public class SearchAction extends BaseAction
 	@Action(value = "searchMerchant", results = {
 			@Result(name = SUCCESS, location = FOREPART + "searchResult.jsp"),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = "error_500.jsp")})
-	@Auth(type = UserWithClubMemberAuth.class)
-	public String SearchMerchant()
-	{
-		Page page = new Page(pageNum * 7 + 1);
+	@Auth(auths = {AuthEnum.AUTO_CLUB_MEMBER,AuthEnum.MERCHANT})
+	public String SearchMerchant(){
+		Page page = new Page(pageNum*7+1);
 		page.setCurrentPage(pageNum);
 		if(searchText != null)
 		{
@@ -275,12 +271,10 @@ public class SearchAction extends BaseAction
 		setType(MERCHANT);
 		return SUCCESS;
 	}
-	
-	@Action(value = "initSearch", results = {@Result(name = SUCCESS, location = FOREPART
-			+ "search.jsp")})
-	@Auth(auths = {AuthEnum.AUTO_CLUB_MEMBER, AuthEnum.MERCHANT})
-	public String initSearch()
-	{
+	@Action(value = "initSearch", results = {
+			@Result(name = SUCCESS, location = FOREPART + "search.jsp")})
+	@Auth(auths = {AuthEnum.AUTO_CLUB_MEMBER,AuthEnum.MERCHANT})
+	public String initSearch(){
 		return SUCCESS;
 	}
 	

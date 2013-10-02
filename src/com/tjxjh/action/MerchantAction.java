@@ -153,6 +153,24 @@ public class MerchantAction extends BaseAction
 	@Auth(auths = {AuthEnum.MERCHANT})
 	public String merchantMain()
 	{
+		/********************** fineTu ***********************/
+		Page page = new Page(1 * EACH_PAGE_NUM + 1);
+		page.setEachPageNumber(EACH_PAGE_NUM);
+		page.setCurrentPage(1);
+		List<Club> focusClubList = merchantService.getFocusList(Club.class,
+				merchant, page);
+		if(focusClubList.size() > 9)
+		{
+			focusClubList = focusClubList.subList(0, 9);
+		}
+		getRequestMap().put("focusClubList", focusClubList);
+		List<Club> focusMerchantList = merchantService.getFocusList(
+				Merchant.class, merchant, page);
+		if(focusMerchantList.size() > 9)
+		{
+			focusMerchantList = focusMerchantList.subList(0, 9);
+		}
+		getRequestMap().put("focusMerchantList", focusMerchantList);
 		return SUCCESS;
 	}
 	

@@ -82,7 +82,7 @@ public class ClubAction extends BaseAction
 	
 	@Actions({@Action(value = "allClub", results = {@Result(name = SUCCESS, location = MANAGE
 			+ "allClub.jsp")})})
-	@Auth(auths = {AuthEnum.ADMIN,AuthEnum.MERCHANT})
+	@Auth(auths = {AuthEnum.ADMIN, AuthEnum.MERCHANT})
 	public String allClub()
 	{
 		Page page = new Page(pageNum * Page.getDefaultPageNumber() + 1);
@@ -136,7 +136,7 @@ public class ClubAction extends BaseAction
 	// }
 	@Action(value = MY_CLUBS, results = {@Result(name = SUCCESS, location = FOREPART
 			+ MY_CLUBS + JSP)})
-	@Auth(auths = {AuthEnum.USER})
+	@Auth(auths = {AuthEnum.AUTO_CLUB_MEMBER})
 	public String myClubs()
 	{
 		super.getRequestMap().put("clubInviteCount",
@@ -155,7 +155,7 @@ public class ClubAction extends BaseAction
 	@Action(value = CLUB_MAIN, results = {
 			@Result(name = SUCCESS, location = FOREPART + CLUB_MAIN + JSP),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = UserAction.MAIN)})
-	@Auth(type = UserWithClubMemberAuth.class)
+	@Auth(auths = {AuthEnum.AUTO_CLUB_MEMBER,AuthEnum.MERCHANT})
 	public String clubMain()
 	{
 		if(isClubEmpty())
@@ -225,7 +225,7 @@ public class ClubAction extends BaseAction
 	
 	@Action(value = CLUB_MEMBERS, results = {@Result(name = SUCCESS, location = FOREPART
 			+ CLUB_MEMBERS + JSP)})
-	@Auth(type = UserWithClubMemberAuth.class)
+	@Auth(auths = {AuthEnum.AUTO_CLUB_MEMBER,AuthEnum.MERCHANT})
 	public String clubMembers()
 	{
 		// super.saveClubMember(currentClubMember());
