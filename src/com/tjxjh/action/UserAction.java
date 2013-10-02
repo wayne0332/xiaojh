@@ -59,7 +59,7 @@ public class UserAction extends BaseAction
 	static final String LOGOUT = "logout";
 	static final String UPDATE_USER_INPUT = "updateUserInput";
 	static final String UPDATE_USER = "updateUser";
-	static final String REFRESH_USER = "refresh";
+	static final String REFRESH_USER = "refreshUser";
 	static final String REGISTER = "register";
 	static final String USER_LOGIN = "userLogin";
 	static final String REGISTER_INPUT = "registerInput";
@@ -141,37 +141,43 @@ public class UserAction extends BaseAction
 	protected void saveUser(User user)
 	{
 		// 将相关的用户id存入session
-		user=userService.findById(user.getId());
+		user = userService.findById(user.getId());
 		super.saveUser(user);
-		List<User> us=preGetRelativeUserId(user);
-		super.getSessionMap().put("relativeUsers",us);
+		List<User> us = preGetRelativeUserId(user);
+		super.getSessionMap().put("relativeUsers", us);
 	}
-	/******************************End:我相关的说说***************************************************************************************/
-	public List<User> preGetRelativeUserId(User user){
-		List<User> users=new ArrayList<User>();
-		//查找用户所在社团对应的id号
+	
+	/****************************** End:我相关的说说 ***************************************************************************************/
+	public List<User> preGetRelativeUserId(User user)
+	{
+		List<User> users = new ArrayList<User>();
+		// 查找用户所在社团对应的id号
 		users.addAll(userService.clubUsers(user));
-		//关注的社团
-		Set<Club> clubs=user.getFocusClubs();
-		for(Club c:clubs){
+		// 关注的社团
+		Set<Club> clubs = user.getFocusClubs();
+		for(Club c : clubs)
+		{
 			users.add(userService.findById(c.getUser().getId()));
 		}
-		//将自己放入
-		ActionContext context = ActionContext.getContext();  
-	    Map<String, Object> session = context.getSession();
-		users.add((User)session.get("user"));
-		//关注的用户
-		Set<User> users2=user.getUsersForTargetUserId();
-		for(User u:users2){
+		// 将自己放入
+		ActionContext context = ActionContext.getContext();
+		Map<String, Object> session = context.getSession();
+		users.add((User) session.get("user"));
+		// 关注的用户
+		Set<User> users2 = user.getUsersForTargetUserId();
+		for(User u : users2)
+		{
 			users.add(userService.findById(u.getId()));
 		}
-		//关注的商家
-		Set<Merchant> merchants=user.getMerchants();
-		for(Merchant m:merchants){
+		// 关注的商家
+		Set<Merchant> merchants = user.getMerchants();
+		for(Merchant m : merchants)
+		{
 			users.add(userService.findById(m.getUser().getId()));
 		}
 		return users;
 	}
+	
 	@Action(value = MANAGER_LOGIN, results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "manageIndex"),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = MANAGER_LOGIN_INPUT, params = {
@@ -242,6 +248,7 @@ public class UserAction extends BaseAction
 		}
 	}
 	
+	@SuppressWarnings("static-access")
 	@Action(value = UPDATE_USER, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = REFRESH_USER
 			+ MAIN)})
 	public String updateUser()
@@ -341,44 +348,52 @@ public class UserAction extends BaseAction
 		super.clearSession();
 		return SUCCESS;
 	}
+	
 	/**
 	 * 我的相册或根据id查看好友相册
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	@Action(value = "photos", results = {
-			@Result(name = SUCCESS, location = BaseAction.FOREPART + "userHomePhotos.jsp")})
-	public String findMyPicture(){
-		if(user==null||user.getId()==null){
-			user=(User) getSessionMap().get("user");
+	@Action(value = "photos", results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
+			+ "userHomePhotos.jsp")})
+	public String findMyPicture()
+	{
+		if(user == null || user.getId() == null)
+		{
+			user = (User) getSessionMap().get("user");
 			user = userService.findById(user.getId());
-			String temp=user.getSchool().getName();
+			String temp = user.getSchool().getName();
 			getRequestMap().put("my", "yes");
-		}else{
+		}
+		else
+		{
 			user = userService.findById(user.getId());
-			String temp=user.getSchool().getName();
-			User tmep=(User) getSessionMap().get("user");
-			int i=user.getId();
-			int j=tmep.getId();
-			if(i==j){
+			String temp = user.getSchool().getName();
+			User tmep = (User) getSessionMap().get("user");
+			int i = user.getId();
+			int j = tmep.getId();
+			if(i == j)
+			{
 				getRequestMap().put("my", "yes");
-			}else{
+			}
+			else
+			{
 				getRequestMap().put("my", "no");
 			}
-			
 		}
-		page=pictureService.getMyPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
-		pics=pictureService.findMyPictureByHql(page,user);
+		page = pictureService.getMyPageByHql(user, eachPageNumber, currentPage,
+				totalPageNumber);
+		pics = pictureService.findMyPictureByHql(page, user);
 		return SUCCESS;
 	}
+	
 	// main :userHome
 	@Action(value = MAIN, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 			+ MAIN + JSP)})
 	public String home()
 	{
 		initUserHome();
-		
 		/************************** 指定用户说说说说 *******************************************/
 		page = talkingService.getMyPageByHql(user, 10, currentPage, 1);
 		List<Talking> temp = talkingService.findMyTalkingByHql(page, user);
@@ -391,43 +406,51 @@ public class UserAction extends BaseAction
 		}
 		return SUCCESS;
 	}
-
-	private void initUserHome() {
-		if(user==null||user.getId()==null){
-			user=(User) getSessionMap().get("user");
+	
+	private void initUserHome()
+	{
+		if(user == null || user.getId() == null)
+		{
+			user = (User) getSessionMap().get("user");
 			user = userService.findById(user.getId());
 			getRequestMap().put("my", "yes");
-		}else{
+		}
+		else
+		{
 			user = userService.findById(user.getId());
-			User tmep=(User) getSessionMap().get("user");
-			int i=user.getId();
-			int j=tmep.getId();
-			if(i==j){
+			User tmep = (User) getSessionMap().get("user");
+			int i = user.getId();
+			int j = tmep.getId();
+			if(i == j)
+			{
 				getRequestMap().put("my", "yes");
-			}else{
+			}
+			else
+			{
 				getRequestMap().put("my", "no");
 			}
-			
 		}
-		try{
-			String temp=user.getSchool().getName();
-		}catch(Exception e){
-			
+		try
+		{
+			String temp = user.getSchool().getName();
 		}
+		catch(Exception e)
+		{}
 		/************************** TT *******************************************/
-		List<User> focusUserList = userService.getFocusList(User.class,user);
+		List<User> focusUserList = userService.getFocusList(User.class, user);
 		if(focusUserList.size() > 9)
 		{
 			focusUserList = focusUserList.subList(0, 9);
 		}
 		getRequestMap().put("focusUserList", focusUserList);
-		List<Club> focusClubList = userService.getFocusList(Club.class,user);
+		List<Club> focusClubList = userService.getFocusList(Club.class, user);
 		if(focusClubList.size() > 9)
 		{
 			focusClubList = focusClubList.subList(0, 9);
 		}
 		getRequestMap().put("focusClubList", focusClubList);
-		List<Merchant> focusMerchantList = userService.getFocusList(Merchant.class, user);
+		List<Merchant> focusMerchantList = userService.getFocusList(
+				Merchant.class, user);
 		if(focusMerchantList.size() > 9)
 		{
 			focusMerchantList = focusMerchantList.subList(0, 9);
@@ -436,7 +459,6 @@ public class UserAction extends BaseAction
 		/************************** 指定用户相册 *******************************************/
 		page = pictureService.getMyPageByHql(user, 1, currentPage, 1);
 		pics = pictureService.findMyPictureByHql(page, user);
-		
 		/*************************** 指定用户线上活动 *****************************************/
 		page = onlineActivityService.getOneOnlineActivityPageByHql(4,
 				currentPage, 1, null, null, user);
@@ -587,7 +609,7 @@ public class UserAction extends BaseAction
 	}
 	
 	@Action(value = "manageIndex", results = {@Result(name = SUCCESS, location = "/WEB-INF/web/manage/index.jsp")})
-//	@Auth(type = AdminAuth.class)
+	// @Auth(type = AdminAuth.class)
 	public String adminAuth()
 	{
 		return SUCCESS;

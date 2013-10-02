@@ -52,6 +52,16 @@ public class MerchantService extends BaseService
 		return super.save(merchant);
 	}
 	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public boolean update(Merchant merchant, File logo)
+	{
+		if(logo != null)
+		{
+			UserService.savePortrait(merchant.getLogoPath(), logo, 280);
+		}
+		return super.update(merchant, "id") != 0;
+	}
+	
 	public List<Merchant> allMerchant(Page page)
 	{
 		return (List<Merchant>) dao.executeHql(page, "from Merchant");
@@ -140,18 +150,22 @@ public class MerchantService extends BaseService
 		}
 	}
 	
-	public List<MerchantNews> allMerchantNews(Page page){
+	public List<MerchantNews> allMerchantNews(Page page)
+	{
 		String hql = "from MerchantNews n order by n.datetime desc";
-		List<MerchantNews> list = (List<MerchantNews>) dao.executeHql(page,hql);
+		List<MerchantNews> list = (List<MerchantNews>) dao
+				.executeHql(page, hql);
 		return list;
 	}
 	
-	public Page merchantNewsNum(Page page){
+	public Page merchantNewsNum(Page page)
+	{
 		String hql = "select count(*) from MerchantNews";
 		List<Long> countL = null;
-		countL = (List<Long>)dao.executeHql(hql);
+		countL = (List<Long>) dao.executeHql(hql);
 		int itemNum = countL.get(0).intValue();
-		return new Page(page.getCurrentPage(),Page.getDefaultPageNumber(),itemNum);
+		return new Page(page.getCurrentPage(), Page.getDefaultPageNumber(),
+				itemNum);
 	}
 	
 	public Page merchantNewsPage(Merchant merchant)
@@ -364,18 +378,27 @@ public class MerchantService extends BaseService
 		Collections.sort(list);
 		return list;
 	}
-	public <T extends Comparable> List<T> getFocusList(Class objectClass, Merchant merchant,Page page)
+	
+	public <T extends Comparable> List<T> getFocusList(Class objectClass,
+			Merchant merchant, Page page)
 	{
-		List<T> list = getFocusList(objectClass,merchant);
+		List<T> list = getFocusList(objectClass, merchant);
 		Collections.sort(list);
-		if(list.size()!=0){
-			int beginIndex = (page.getCurrentPage()-1)*page.getEachPageNumber();
-			int toIndex = (page.getCurrentPage())*page.getEachPageNumber()<list.size()?(page.getCurrentPage()*page.getEachPageNumber()):(list.size());
-			return list.subList(beginIndex,toIndex);
-		}else{
+		if(list.size() != 0)
+		{
+			int beginIndex = (page.getCurrentPage() - 1)
+					* page.getEachPageNumber();
+			int toIndex = (page.getCurrentPage()) * page.getEachPageNumber() < list
+					.size() ? (page.getCurrentPage() * page.getEachPageNumber())
+					: (list.size());
+			return list.subList(beginIndex, toIndex);
+		}
+		else
+		{
 			return list;
 		}
 	}
+	
 	static Merchant md5Password(Merchant merchant)
 	{
 		merchant.setPassword(CodeUtil.md5(merchant.getPassword()));
@@ -389,5 +412,17 @@ public class MerchantService extends BaseService
 		return (List<Merchant>) dao
 				.executeHql(page,
 						"from Merchant cl where cl.status='PASSED' order by popularity desc");
+	}
+	
+	public Merchant refresh(Merchant currentMerchant)
+	{
+		if(currentMerchant != null && currentMerchant.getId() != null)
+		{
+			return dao.refresh(currentMerchant);
+		}
+		else
+		{
+			return null;
+		}
 	}
 }

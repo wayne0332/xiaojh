@@ -36,9 +36,9 @@
 					<li class="cityMap_wuqing circle_120 shadow_n_5">武清 宝坻 蓟县</li>
 					<li class="cityMap_dongli circle_100 shadow_l_5">东丽 塘沽</li>
 				</ul>
-				<div class="mapBar w300 fl <s:if test="#session.user != null && #session.merchant == nll">none</s:if>" id="mapBar">
+				<div class="mapBar w300 fl <s:if test="#session.user != null && #session.merchant == null">none</s:if>" id="mapBar">
 					<div class="w250 mt50 ml30 cf shadow_l_5">
-						<s:if test="#session.user == null && #session.merchant == nll">
+						<s:if test="#session.user == null && #session.merchant == null">
 							<jsp:include page="login.jsp" />
 						</s:if>
 						<s:else>
@@ -91,7 +91,7 @@
 					</ul>
 				</div>
 				<div class="p10 m5 mt30 cf shadow_l_5" id="advPanel"
-					<s:if test="#session.user == null && #session.merchant == nll">style="display: none;"</s:if>>
+					<s:if test="#session.user == null || #session.merchant == null">style="display: none;"</s:if>>
 					<ads:adver contentId="0" adsId="1"></ads:adver>
 				</div>
 		</div>
