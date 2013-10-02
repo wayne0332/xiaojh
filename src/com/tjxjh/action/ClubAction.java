@@ -155,11 +155,7 @@ public class ClubAction extends BaseAction
 	@Action(value = CLUB_MAIN, results = {
 			@Result(name = SUCCESS, location = FOREPART + CLUB_MAIN + JSP),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = UserAction.MAIN)})
-<<<<<<< HEAD
 	@Auth(auths = {AuthEnum.AUTO_CLUB_MEMBER,AuthEnum.MERCHANT})
-=======
-	@Auth(auths = {AuthEnum.AUTO_CLUB_MEMBER})
->>>>>>> branch 'master' of https://github.com/wayne0332/xiaojh.git
 	public String clubMain()
 	{
 		if(isClubEmpty())
