@@ -30,43 +30,47 @@
 					class="fl mt5 ml10 circle_80 shadow_l_5" />
 				<ul class="fl w135 p5 pl10 text_r">
 					<li class="w135 text_l f14"><a href="updateUserInput"><s:property
-								value="#session.user.name" /> </a></li>
-					<li><s:property value="#session.user.grade" />
+								value="#session.user.name" /> </a>
 					</li>
+					<li><s:property value="#session.user.grade" /></li>
 					<li><s:property
-							value="#application.schools[#session.user.school.id].name" />
-					</li>
+							value="#application.schools[#session.user.school.id].name" /></li>
 					<li>凤凰社</li>
 				</ul>
 			</div>
 		</div>
 
 		<div class="main cf mt75">
-			<div class="friendList cf shadow_l_10 m10 mt5 bg_fff">
+			<div class="friendList cf">
 				<!-- 
 				<s:property value="#request.focusList" />
 				<s:property value="type" /> -->
 
 				<s:if test="type==0">
 					<s:iterator value="#request.focusList.userList">
-						<div class="friendBox">
+						<div class="friendBox shadow_l_3 frd_gongda">
 							<s:if test="portrait==''">
-								<a href="userHome?user.id=${id}"><img src="images/head/head1.jpg" class="fl logoImg" /></a>
+								<a href="userHome?user.id=${id}"><img
+									src="images/head/head1.jpg" class="fl logoImg" />
+								</a>
 							</s:if>
 							<s:else>
-								<a href="userHome?user.id=${id}"><img src="images/head/head1.jpg"  class="fl logoImg" /></a>
+								<a href="userHome?user.id=${id}"><img
+									src="images/head/head1.jpg" class="fl logoImg" />
+								</a>
 							</s:else>
-							<ul class="fl">
-								<li class="infoItem"><s:property value="name" /></li>
-								<li><s:property value="sex" /></li>
-								<li><s:property value="school.name" /></li>
-								<li><s:property value="profession" /></li>
-								<li><s:property value="grade" /></li>
-								<li><s:property value="signature" /></li>
+							<ul class="frd_box_info">
+								<li class="frd_name"><s:property value="name" />
+								</li>
+								<li><s:property value="school.name" />
+								</li>
+								<li><s:property value="grade" />
+								</li>
 							</ul>
-							<input id="<s:property value="id" />" type="button" value="取消关注"
-								onclick="cancelFocus(<s:property value="id" />,0)" />
-								<a href="personalLetterInput?targetUser.id=${id }&targetUser.name=${name}">发私信</a>
+							<a class="send_msg clear_a"
+								href="personalLetterInput?targetUser.id=${id }&targetUser.name=${name}">发私信</a>
+							<span class="no_focus"><a class="hov" id="<s:property value="id" />"  onclick="cancelFocus(<s:property value="id" />,0)">取消关注</a></span>
+
 						</div>
 					</s:iterator>
 				</s:if>
@@ -111,7 +115,7 @@
 									<img src="images/head/head1.jpg" class="fl logoImg" />
 								</s:if>
 								<s:else>
-									<img src="images/head/head1.jpg"  class="fl logoImg" />
+									<img src="images/head/head1.jpg" class="fl logoImg" />
 								</s:else>
 							</div>
 							<div class="userItem">
@@ -138,13 +142,16 @@
 								onclick="cancelFocus(<s:property value="id" />,2)" />
 						</div>
 					</s:iterator>
-						
+
 				</s:elseif>
 				<div>
-		    		<span><a href="myFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage-1" />">上一页</a></span>&nbsp;
-					<span><a href="myFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage+1" />">下一页</a></span>
-					<span>共 <s:property value="#request.focusList.page.pageNumber" />页</span>
-	    		</div>
+					<span><a
+						href="myFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage-1" />">上一页</a>
+					</span>&nbsp; <span><a
+						href="myFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage+1" />">下一页</a>
+					</span> <span>共 <s:property
+							value="#request.focusList.page.pageNumber" />页</span>
+				</div>
 			</div>
 		</div>
 		<div class="left_bar fr cf"></div>
