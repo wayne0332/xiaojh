@@ -32,10 +32,10 @@
 					<li class="w135 text_l f14"><a href="updateUserInput"><s:property
 								value="#session.user.name" /> </a>
 					</li>
-					<li><s:property value="#session.user.grade" /></li>
+					<li><s:property value="#session.user.grade % 2000" />级</li>
 					<li><s:property
 							value="#application.schools[#session.user.school.id].name" /></li>
-					<li>凤凰社</li>
+					<!-- <li>凤凰社</li> -->
 				</ul>
 			</div>
 		</div>
@@ -48,7 +48,7 @@
 
 				<s:if test="type==0">
 					<s:iterator value="#request.focusList.userList">
-						<div class="friendBox shadow_l_3 frd_gongda">
+						<div class="friendBox shadow_l_3 ${school.id }">
 							<s:if test="portrait==''">
 								<a href="userHome?user.id=${id}"><img
 									src="images/head/head1.jpg" class="fl logoImg" />
