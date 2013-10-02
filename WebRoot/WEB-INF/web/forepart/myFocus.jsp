@@ -48,7 +48,7 @@
 
 				<s:if test="type==0">
 					<s:iterator value="#request.focusList.userList">
-						<div class="friendBox shadow_l_3 ${school.id }">
+						<div class="friendBox shadow_l_3 school_${school.id }">
 							<s:if test="portrait==''">
 								<a href="userHome?user.id=${id}"><img
 									src="images/head/head1.jpg" class="fl logoImg" />

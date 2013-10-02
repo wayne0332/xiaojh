@@ -1,7 +1,11 @@
 package com.tjxjh.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 
 public class MerchantPurposeUtil
 {
@@ -37,5 +41,15 @@ public class MerchantPurposeUtil
 			String thePurpose)
 	{
 		return merchantPurposes.contains(processPurpose(thePurpose));
+	}
+	
+	public static List<String> purposeToList(String purposes)
+	{
+		List<String> result = new ArrayList<String>();
+		for(String purpose : StringUtils.split(purposes,","))
+		{
+			result.add(StringUtils.remove(purpose, "'"));
+		} 
+		return result;
 	}
 }

@@ -22,11 +22,13 @@ import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.MerchantNews;
 import com.tjxjh.pojo.ClubList;
+import com.tjxjh.po.User;
 import com.tjxjh.pojo.MerchantList;
 import com.tjxjh.pojo.MerchantNewsList;
 import com.tjxjh.service.ActivityService;
 import com.tjxjh.service.MerchantService;
 import com.tjxjh.service.TaklingAndMerchantNewsUpload;
+import com.tjxjh.service.UserService;
 import com.tjxjh.util.CodeUtil;
 import com.tjxjh.util.MerchantPurposeUtil;
 
@@ -34,6 +36,8 @@ import com.tjxjh.util.MerchantPurposeUtil;
 @Namespace("/")
 public class MerchantAction extends BaseAction
 {
+	static final String REFRESH_MERCHANT = "refreshMerchant";
+	private static final String UPLOAD_MERCHANT_LOGO = "upload/merchantLogo/";
 	static final String UPDATE_MERCHANT = "updateMerchant";
 	static final String UPDATE_MERCHANT_INPUT = "updateMerchantInput";
 	static final String MERCHANT_NEWS_MEDIA_PATH = "upload/merchantNewsMedia/";
@@ -84,10 +88,26 @@ public class MerchantAction extends BaseAction
 		return SUCCESS;
 	}
 	
-	@Action(value = UPDATE_MERCHANT, results = {})
+	@Action(value = UPDATE_MERCHANT, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = REFRESH_MERCHANT
+			+ MERCHANT_MAIN)})
 	public String updateMerchant()
 	{
-		return SUCCESS;
+		if(logo != null)
+		{
+			Merchant currentMerchant = currentMerchant();
+			UserService.deleteOldPortraitPath(currentMerchant.getLogoPath());
+			fillLogoPathToMerchant(currentMerchant);
+		}
+		merchant.setPurpose(MerchantPurposeUtil.transformPurpose(purpose));
+		return super.successOrInput(merchantService.update(merchant, logo));
+	}
+	
+	private void fillLogoPathToMerchant(Merchant currentMerchant)
+	{
+		merchant.setLogoPath(new StringBuilder(UPLOAD_MERCHANT_LOGO)
+				.append(CodeUtil.md5(currentMerchant.getName()))
+				.append(logoFileName.substring(logoFileName.indexOf('.')))
+				.toString());
 	}
 	
 	@Action(value = APPLY_MERCHANT, results = {
@@ -97,10 +117,7 @@ public class MerchantAction extends BaseAction
 	@Auth(auths = {AuthEnum.NO_NEED})
 	public String applyMerchant()
 	{
-		merchant.setLogoPath(new StringBuilder("upload/merchantLogo/")
-				.append(CodeUtil.md5(merchant.getName()))
-				.append(logoFileName.substring(logoFileName.indexOf('.')))
-				.toString());
+		fillLogoPathToMerchant(merchant);
 		merchant.setPurpose(MerchantPurposeUtil.transformPurpose(purpose));
 		return super.successOrInput(merchantService.applyMerchant(merchant,
 				logo));
@@ -356,6 +373,13 @@ public class MerchantAction extends BaseAction
 				getRequestMap().put("focusList",focusMerchants);
 				break;
 		}
+		return SUCCESS;
+	}
+	
+	@Action(value = REFRESH_MERCHANT + "*", results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "{1}")})
+	public String refreshUser()
+	{
+		super.saveMerchant(merchantService.refresh(currentMerchant()));
 		return SUCCESS;
 	}
 	
