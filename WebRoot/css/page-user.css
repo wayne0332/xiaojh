@@ -120,10 +120,14 @@
  	.club_category a		{ line-height: 35px; display: block; float: left; padding: 0 14px; margin: 4px 0 2px 3px; background-color: #fff; }
  	
  
-/* frienfBox
+/* friendBox
  * ---------------------------------------------------------------------------------------- */	
  
- 	.friendList				{ margin: 0 0 0 10px; padding-top: 5px; }
+ 	.friendList				{ margin: 0 0 0 10px; padding-top: 3px; }
+ 	.friendList .frd_form	{ margin: 2px 0 20px 10px; width: 450px; }
+ 	.friendList .frd_inputText	{ display: block; float: left; width: 400px; border: 0; padding: 7px; }
+ 	.friendList .frd_submit	{ display: block; float: right; width: 35px; border: 0; background-color: #eee; padding: 7px 0; text-align: center; color: #999; }
+ 	
  	.friendBox				{ margin: 0 0 30px 10px; width: 220px; height: 90px; float: left; }
  	.friendBox .logoImg		{ float: left; width: 65px; height: 65px; }
  	.friendBox .frd_box_info{ float: left; margin: 0 0 0 10px; width: 140px; height: 65px; color: #666; }
@@ -131,8 +135,17 @@
  	.friendBox .send_msg	{ display: block; float: left; width: 65px; height: 25px; background-color: #b3df6e; line-height: 25px; text-align: center; color: #fff; }
  	.friendBox .no_focus	{ display: block; float: left; width: 155px; height: 25px; background-color: rgba(233,233,233,0.2); border: 0; line-height: 25px; text-align: left; color: #999; text-indent: 10px; }
  	
- 	.friendList	.frd_gongda { background: url("../images/bg/frd_box_bg.png") #fff; }
+ 	.friendList	.school_3	{ background: url("../images/bg/frd_box_bg.png") #fff; }
  	
+/* letter_box
+ * ---------------------------------------------------------------------------------------- */	
  	
+ 	.letter_list{ margin: 5px 10px 0 20px; color: #666; }
+ 	.letter_box{ margin: 0 0 30px 0; }
+ 	.letter_box .lette_box_left{ float: left; margin: 2px 0 3px 0; }
+ 	.letter_box .lette_box_right{ float: left; margin: 2px 0 3px 10px; width: 600px; background-color: #fff; }
+ 	.letter_box .letter_name{ display: block; float: left; width: 565px; height: 26px; line-height: 26px; background-color: #fcfcfc; text-indent: 10px; color: #333; }
+ 	.letter_box .letter_state{ display: block; float: left; width: 35px; height: 26px; line-height: 26px; background-color: #fd6d52; text-align: center; color: #fff; }
+ 	.letter_box .letter_content{ margin: 10px; }
  	
- 	
+ 	.sendToFrd{ float: right; margin: 10px 13px 0 0; height: 30px; line-height: 30px; padding: 0 15px; }

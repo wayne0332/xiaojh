@@ -30,11 +30,12 @@
 					class="fl mt5 ml10 circle_80 shadow_l_5" />
 				<ul class="fl w135 p5 pl10 text_r">
 					<li class="w135 text_l f14"><a href="updateUserInput"><s:property
-								value="#session.user.name" /> </a>
+								value="#session.user.name" /> </a></li>
+					<li><s:property value="#session.user.grade" />
 					</li>
-					<li><s:property value="#session.user.grade" /></li>
 					<li><s:property
-							value="#application.schools[#session.user.school.id].name" /></li>
+							value="#application.schools[#session.user.school.id].name" />
+					</li>
 					<li>凤凰社</li>
 				</ul>
 			</div>
@@ -47,29 +48,31 @@
 				<s:property value="type" /> -->
 
 				<s:if test="type==0">
+					<form action="searchAll" method="post" class="cf frd_form shadow_l_3">
+						<input name="searchText" type="text" class="frd_inputText" /> <input class="frd_submit hov" type="submit"
+							value="找" />
+					</form>
 					<s:iterator value="#request.focusList.userList">
-						<div class="friendBox shadow_l_3 frd_gongda">
+						<div class="friendBox shadow_l_3 school_3">
 							<s:if test="portrait==''">
 								<a href="userHome?user.id=${id}"><img
-									src="images/head/head1.jpg" class="fl logoImg" />
-								</a>
+									src="images/head/head1.jpg" class="fl logoImg" /> </a>
 							</s:if>
 							<s:else>
 								<a href="userHome?user.id=${id}"><img
-									src="images/head/head1.jpg" class="fl logoImg" />
-								</a>
+									src="images/head/head1.jpg" class="fl logoImg" /> </a>
 							</s:else>
 							<ul class="frd_box_info">
-								<li class="frd_name"><s:property value="name" />
-								</li>
-								<li><s:property value="school.name" />
-								</li>
-								<li><s:property value="grade" />
-								</li>
+								<li class="frd_name"><s:property value="name" /></li>
+								<li><s:property value="school.name" /></li>
+								<li><s:property value="grade" /></li>
 							</ul>
-							<a class="send_msg clear_a"
+							<a class="send_msg clear_a op_btn_yellow_green hov"
 								href="personalLetterInput?targetUser.id=${id }&targetUser.name=${name}">发私信</a>
-							<span class="no_focus"><a class="hov" id="<s:property value="id" />"  onclick="cancelFocus(<s:property value="id" />,0)">取消关注</a></span>
+							<span class="no_focus"><a class="hov"
+								id="<s:property value="id" />"
+								onclick="cancelFocus(<s:property value="id" />,0)">取消关注</a>
+							</span>
 
 						</div>
 					</s:iterator>
