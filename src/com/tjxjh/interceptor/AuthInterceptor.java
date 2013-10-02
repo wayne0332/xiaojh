@@ -40,11 +40,12 @@ public class AuthInterceptor extends AbstractInterceptor
 			{
 				for(AuthEnum authEnum : auths)
 				{
-					if(!authEnum.getAuth().isPass(ai))
+					if(authEnum.getAuth().isPass(ai))
 					{
-						return HAVE_NO_AUTH;
+						return ai.invoke();
 					}
 				}
+				return HAVE_NO_AUTH;
 			}
 			else
 			{

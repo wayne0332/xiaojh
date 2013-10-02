@@ -1,31 +1,30 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
-    <title>My JSP 'search.jsp' starting page</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
+<head>
 
-  </head>
-  
-	<body>
-		<form action="searchAll" method="post">
-			<input name="searchText" type="text" />
-			<input type="submit" value="搜索"/>
+<title>校江湖</title>
+
+<link rel="stylesheet" type="text/css" href="css/base-min.css" />
+<link rel="stylesheet" type="text/css" href="css/common.css" />
+<link rel="stylesheet" type="text/css" href="css/page-user.css" />
+
+</head>
+
+<body>
+	<div class="container cf zoom">
+		<jsp:include page="head.jsp" />
+		<form action="searchAll" method="post" class="mt75">
+			<input name="searchText" type="text" /> <input type="submit"
+				value="搜索" />
 		</form>
-	</body>
+	</div>
+</body>
 </html>

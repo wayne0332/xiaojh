@@ -116,6 +116,10 @@ public class UserService extends BaseService
 	{
 		return (List<User>) dao.executeHql(page,"from User u where u.status!='SYSTEM' order by u.id desc");
 	}
+	public List<User> clubUsers(User user)
+	{
+		return (List<User>) dao.executeHql("select club.user from ClubMember cl where cl.user.id=?", user.getId());
+	}
 	
 	public Page userNum(Page page){
 		String hql = "select count(*) from User u";
@@ -148,7 +152,7 @@ public class UserService extends BaseService
 				name).get(0) > 0l;
 	}
 	
-	public void deleteOldPortraitPath(String oldPortraitPath)
+	public static void deleteOldPortraitPath(String oldPortraitPath)
 	{
 		if(oldPortraitPath != null && !oldPortraitPath.trim().equals(""))
 		{

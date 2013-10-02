@@ -15,7 +15,6 @@ import cn.cafebabe.autodao.pojo.Page;
 
 import com.tjxjh.annotation.Auth;
 import com.tjxjh.auth.AuthEnum;
-import com.tjxjh.enumeration.AuthType;
 import com.tjxjh.enumeration.ClubMemberRole;
 import com.tjxjh.enumeration.ClubMemberSource;
 import com.tjxjh.interceptor.AuthInterceptor.ClubManagerAuth;
@@ -33,7 +32,6 @@ import com.tjxjh.pojo.MerchantList;
 import com.tjxjh.service.ActivityService;
 import com.tjxjh.service.ClubPostService;
 import com.tjxjh.service.ClubService;
-import com.tjxjh.service.MerchantService;
 import com.tjxjh.service.SearchService;
 import com.tjxjh.service.UserService;
 import com.tjxjh.util.CodeUtil;
@@ -84,7 +82,7 @@ public class ClubAction extends BaseAction
 	
 	@Actions({@Action(value = "allClub", results = {@Result(name = SUCCESS, location = MANAGE
 			+ "allClub.jsp")})})
-	@Auth(auths = {AuthEnum.ADMIN})
+	@Auth(auths = {AuthEnum.ADMIN, AuthEnum.MERCHANT})
 	public String allClub()
 	{
 		Page page = new Page(pageNum * Page.getDefaultPageNumber() + 1);
@@ -157,7 +155,11 @@ public class ClubAction extends BaseAction
 	@Action(value = CLUB_MAIN, results = {
 			@Result(name = SUCCESS, location = FOREPART + CLUB_MAIN + JSP),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = UserAction.MAIN)})
+<<<<<<< HEAD
 	@Auth(auths = {AuthEnum.AUTO_CLUB_MEMBER,AuthEnum.MERCHANT})
+=======
+	@Auth(auths = {AuthEnum.AUTO_CLUB_MEMBER})
+>>>>>>> branch 'master' of https://github.com/wayne0332/xiaojh.git
 	public String clubMain()
 	{
 		if(isClubEmpty())

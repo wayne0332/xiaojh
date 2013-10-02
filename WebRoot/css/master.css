@@ -1,0 +1,16 @@
+nav { background: #333; -moz-border-radius: 8px; -webkit-border-radius: 10px; }
+nav a { color: #fff; padding: 15px; display: block; border-right: solid #666 1px; }
+nav a:hover { background-color: #000; }
+nav ul { list-style: none; }
+nav ul li { float: left; font-size: 16px; }
+
+nav #primaryNav { margin-left: 10px; }
+
+nav #secondaryNav li { float:right; }
+nav #secondaryNav a { border-left:solid #666 1px; border-right:none; }
+nav #secondaryNav { margin-right: 10px; }
+
+
+a.polaroid { -moz-transition: all 0.2s ease-in-out; -webkit-transition: all 0.2s ease-in-out; display: block; background: #fff; padding: 8px; margin:5px 0; -moz-box-shadow: #ccc 5px 5px 20px; -webkit-box-shadow: #ccc 5px 5px 20px; margin-bottom:1em; }
+a.polaroid img { width: 200px; }
+a.polaroid:hover { -moz-box-shadow: #666 5px 5px 20px; -webkit-box-shadow: #666 5px 5px 20px; }

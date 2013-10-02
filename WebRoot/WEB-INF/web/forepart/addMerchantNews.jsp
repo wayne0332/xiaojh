@@ -1,4 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="wst" uri="/webSupportTag"%>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -14,7 +16,9 @@
 </head>
 
 <body>
-	<form action="addMerchantNews" method="post" enctype="multipart/form-data">
+	<wst:parameter value="msg" />
+	<form action="addMerchantNews" method="post"
+		enctype="multipart/form-data">
 		<table>
 			<tr>
 				<td>标题:</td>

@@ -17,7 +17,7 @@
 <link rel="stylesheet" type="text/css" href="css/base-min.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
 <link rel="stylesheet" type="text/css" href="css/page-user.css" />
-<script type="text/javascript" src="<%=path%>/js/ajax.js"></script>
+
 </head>
 
 <body>
