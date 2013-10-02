@@ -15,13 +15,14 @@
 </head>
 
 <body>
+	<jsp:include page="head.jsp" />
 	<div style="border:1px;">
-	商家名称：${merchant.name}&nbsp;&nbsp;<a href="focusMerchant?id=${merchant.id}">关注</a>
-	<br>商家logo:<img src="${merchant.logoPath }">
+		商家名称：${merchant.name}&nbsp;&nbsp;<a
+			href="focusMerchant?id=${merchant.id}">关注</a> <br>商家logo:<img
+			src="${merchant.logoPath }">
 	</div>
 	<a href="merchantNews">更多新闻</a>
-	<jsp:include page="merchantNews.jsp" />
-	<jsp:include page="includeNoPageActivitys.jsp" />
+	
 	<div class="left_bar fr cf mt75">
 		<label class="Clearfix w250 ml5 mt20">关注社团<a
 			href="merchantFocus?type=1&pageNum=1" class="fr">更多</a> </label>
