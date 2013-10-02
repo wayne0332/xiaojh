@@ -364,6 +364,7 @@ public class MerchantService extends BaseService
 		Collections.sort(list);
 		return list;
 	}
+	
 	public <T extends Comparable> List<T> getFocusList(Class objectClass, Merchant merchant,Page page)
 	{
 		List<T> list = getFocusList(objectClass,merchant);
@@ -376,6 +377,23 @@ public class MerchantService extends BaseService
 			return list;
 		}
 	}
+	
+	public Page getFocusNum(Class objectClass, Merchant merchant, Page page)
+	{
+		Merchant m = dao.findById(Merchant.class, merchant.getId());
+		int itemNum = 0;
+		if(objectClass == Club.class)
+		{
+			itemNum = m.getFocusClubs().size();
+		}
+		else if(objectClass == Merchant.class)
+		{
+			itemNum = m.getMerchantsForMerchantId1().size();
+		}
+		return new Page(page.getCurrentPage(), page.getEachPageNumber(),
+				itemNum);
+	}
+	
 	static Merchant md5Password(Merchant merchant)
 	{
 		merchant.setPassword(CodeUtil.md5(merchant.getPassword()));

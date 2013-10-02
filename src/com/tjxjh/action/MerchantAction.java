@@ -21,6 +21,7 @@ import com.tjxjh.po.Activity;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.MerchantNews;
+import com.tjxjh.pojo.ClubList;
 import com.tjxjh.pojo.MerchantList;
 import com.tjxjh.pojo.MerchantNewsList;
 import com.tjxjh.service.ActivityService;
@@ -332,17 +333,27 @@ public class MerchantAction extends BaseAction
 		}
 		Page page = new Page(EACH_PAGE_NUM, pageNum * EACH_PAGE_NUM + 1);
 		page.setCurrentPage(pageNum);
+		Page itemPage = null;
 		switch(type)
 		{
 			case (1):
+				ClubList focusClubs = new ClubList();
+				itemPage = merchantService.getFocusNum(Club.class, m, page);
+				focusClubs.setPage(itemPage);
 				List<Club> clubList = merchantService.getFocusList(Club.class,
-						m, page);
-				getRequestMap().put("focusList", clubList);
+						m, itemPage);
+				focusClubs.setClubList(clubList);
+				getRequestMap().put("focusList", focusClubs);
 				break;
 			case (2):
+				MerchantList focusMerchants = new MerchantList();
+				itemPage = merchantService.getFocusNum(Merchant.class, m, page);
+				focusMerchants.setPage(itemPage);
 				List<Merchant> merchantList = merchantService.getFocusList(
-						Merchant.class, m, page);
-				getRequestMap().put("focusList", merchantList);
+						Merchant.class, m, itemPage);
+				focusMerchants.setMerchantList(merchantList);
+				
+				getRequestMap().put("focusList",focusMerchants);
 				break;
 		}
 		return SUCCESS;
