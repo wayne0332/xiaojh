@@ -158,7 +158,7 @@ public class MerchantAction extends BaseAction
 		page.setEachPageNumber(EACH_PAGE_NUM);
 		page.setCurrentPage(1);
 		List<Club> focusClubList = merchantService.getFocusList(Club.class,
-				merchant, page);
+				(merchant = super.currentMerchant()), page);
 		if(focusClubList.size() > 9)
 		{
 			focusClubList = focusClubList.subList(0, 9);
@@ -361,11 +361,6 @@ public class MerchantAction extends BaseAction
 	public void setMerchant(Merchant merchant)
 	{
 		this.merchant = merchant;
-	}
-	
-	public MerchantService getMerchantService()
-	{
-		return merchantService;
 	}
 	
 	public void setMerchantService(MerchantService merchantService)
