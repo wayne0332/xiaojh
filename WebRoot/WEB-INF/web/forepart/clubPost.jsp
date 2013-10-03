@@ -28,7 +28,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      	<div style="display: inline-block; border:1px solid;width:80%;margin:20px; overflow:hidden;">
      		<s:if test="#request.clubPostContent.page.currentPage==1">
      			<div><s:property value="#request.clubPostContent.clubPost.tittle" />&nbsp;&nbsp;<s:property value="#request.clubPostContent.clubPost.user.name" />&nbsp;&nbsp;&nbsp;<s:date name="#request.clubPost.datetime"/></div>
-     			<div><s:property value="#request.clubPostContent.clubPost.text" /></div>
+     			<div>${requestScope.clubPostContent.clubPost.text}
+     			<!-- <s:property value="#request.clubPostContent.clubPost.text" /> -->
+     			</div>
      			<hr/>
      		</s:if>
      		<div>
