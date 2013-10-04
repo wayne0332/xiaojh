@@ -54,5 +54,23 @@
 			</div>
 		</s:iterator>
 	</div>
+	<table class="商家新闻">
+		<tr>
+			<td>标题</td>
+			<td>时间</td>
+			<td>操作</td>
+		</tr>
+		<s:iterator value="#request.merchantNews" status="status">
+			<tr>
+				<td><s:a href="merchantNewsDetails?merchantNews.id=%{id}">
+						<s:property value="tittle" />
+					</s:a>
+				</td>
+				<td><s:date name="datetime" format="yyyy-MM-dd hh:mm:ss" /></td>
+				<td><s:a href="deleteMerchantNews?merchantNews.id=%{id}">删除</s:a>
+				</td>
+			</tr>
+		</s:iterator>
+	</table>
 </body>
 </html>
