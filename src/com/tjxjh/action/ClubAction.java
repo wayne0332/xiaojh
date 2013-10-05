@@ -87,14 +87,15 @@ public class ClubAction extends BaseAction
 	{
 		Page page = new Page(pageNum * Page.getDefaultPageNumber() + 1);
 		page.setCurrentPage(pageNum);
+		Page itemPage = clubService.clubNum(page);
 		ClubList clubList = new ClubList();
-		clubList.setClubList(clubService.allClub(page));
+		clubList.setClubList(clubService.allClub(itemPage));
 		for(Club c : clubList.getClubList())
 		{
 			c.getProprieter().getName();
 			c.getSchool().getName();
 		}
-		clubList.setPage(clubService.clubNum(page));
+		clubList.setPage(itemPage);
 		getRequestMap().put("clubList", clubList);
 		return SUCCESS;
 	}

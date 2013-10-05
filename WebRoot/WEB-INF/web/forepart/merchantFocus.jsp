@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="/struts-tags" prefix="s" %>
+<%@ taglib uri="fineTu/page" prefix="f" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -147,9 +148,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    				</s:iterator>
 						</s:elseif>
 						<div>
-		    				<span><a href="merchantFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage-1" />">上一页</a></span>&nbsp;
+		    				<%-- <span><a href="merchantFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage-1" />">上一页</a></span>&nbsp;
 							<span><a href="merchantFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage+1" />">下一页</a></span>
-							<span>共 <s:property value="#request.focusList.page.pageNumber" />页</span>
+							<span>共 <s:property value="#request.focusList.page.pageNumber" />页</span> --%>
+							<f:pageCtrl pageCtrl="${pageCtrl}" submitAction="merchantFocus?type=${type}" paramName="pageNum"/>
 	    				</div>
 					</div>
 				</div>

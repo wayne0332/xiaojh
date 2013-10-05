@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.0" 
+xmlns="http://java.sun.com/xml/ns/j2ee" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd ">
+ 	<tlib-version>1.0</tlib-version>
+ 	<short-name>page</short-name>
+ 	<uri>fineTu/page</uri>
+ 	<tag>
+ 		<name>pageCtrl</name>
+ 		<tag-class>com.tjxjh.util.PageCtrlLinkTag</tag-class>
+ 		<body-content>empty</body-content>
+ 		<attribute>
+ 			<name>pageCtrl</name>
+ 			<required>true</required>
+ 			<rtexprvalue>true</rtexprvalue>
+ 		</attribute>
+ 		<attribute>
+ 			<name>submitAction</name>
+ 			<required>true</required>
+ 			<rtexprvalue>true</rtexprvalue>
+ 		</attribute>
+ 		<attribute>
+ 			<name>paramName</name>
+ 			<required>true</required>
+ 		</attribute>
+ 	</tag>
+</taglib>
