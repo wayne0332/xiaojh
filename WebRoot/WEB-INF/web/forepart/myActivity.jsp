@@ -26,8 +26,8 @@
 		<div class="main fl cf mt75">
 			<div class="w fl">
 				<a href="<%=path%>/addActivityJsp"
-					class="single_bt1 w100 mt5 ml5 fl shadow_l_3">发表线下活动</a> <a href="relativeOnlineActivity"
-					class="single_bt2 w100 fl mt10 shadow_l_3">查看线上活动</a><br /><br /> <a
+					class="single_bt1 w100 mt5 ml5 fl shadow_l_3 clear_a">发表线下活动</a> <a href="relativeOnlineActivity"
+					class="single_bt2 w100 fl mt10 shadow_l_3 clear_a">查看线上活动</a><br /><br /> <a
 					href="<%=path %>/${actionName}?condition=datetime&club.id=${club.id}&merchant.id=${merchant.id}"
 					class="fr mr20">时间排序</a> <a
 					href="<%=path %>/${actionName}?condition=heat&club.id=${club.id}&merchant.id=${merchant.id}"
@@ -38,7 +38,7 @@
 
 			<s:iterator value="acs" id="ac">
 				<div
-					class="myActivity_box w700 mt15 ml5 p10 cf fl shadow_l_10 bg_fff">
+					class="myActivity_box w700 mt15 ml5 p10 cf fl shadow_l_3 bg_fff">
 					<h2 class="w335 fr">
 						<a href="activity?activity.id=${id}" class="f16 a_no"><s:property
 								value="tittle" /> </a>
