@@ -42,9 +42,12 @@
 							<%-- <s:a href="personalLetter?letter.id=%{id}">
 								<s:property value="title" />
 							</s:a> 标题不用了 --%>
-							<img alt="头像" title="头像" src="images/head/head1.jpg"
-								class="logoImg shadow_l_3" />
-							<s:property value="userBySourceUserId.name" />
+							<s:a href="personalLetter?letter.id=%{id}">
+								<img alt="头像" title="头像" src="images/head/head1.jpg"
+									class="logoImg shadow_l_3" />
+								<s:property value="userBySourceUserId.name" />
+								<s:date name="datetime" format="MM/dd HH:mm" />
+							</s:a>
 						</div>
 						<div class="lette_box_right shadow_l_3">
 							<div>
@@ -55,16 +58,14 @@
 							<div>
 								<span class="letter_name"> <span> <s:a
 											href="personalLetterInput?targetUser.id=%{userBySourceUserId.id}&targetUser.name=%{userBySourceUserId.name}">回复</s:a>
-										<s:a href="deleteLetter?letter.id=%{id}">删除</s:a> </span> <span>
-										<s:date name="datetime" format="MM/dd" /> <s:date
-											name="datetime" format="HH:mm" /> </span> </span> <span
+										<s:a href="deleteLetter?letter.id=%{id}">删除</s:a> </span> </span> <span
 									class="letter_state"> <s:property value="status.name" />
 								</span>
 							</div>
 						</div></li>
 				</s:iterator>
 			</ul>
-			<s:property value="page.pageNumber"/>
+			<s:property value="page.pageNumber" />
 			<wst:page url="receivedLetters" />
 		</div>
 	</div>
