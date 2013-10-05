@@ -36,6 +36,8 @@ import com.tjxjh.po.User;
 @Service
 public class ClubService extends BaseService
 {
+	private static final String COUNT_HQL = "select count(*) ";
+	private static final String USER_CLUB_MEMBERS_HQL = "from ClubMember cm where cm.user.id=? and cm.status=? and cm.club.status=? and cm.club.type=?";
 	private static final String CLUBMEMBERS_WITHOUT_PROPRIETER_HQL = "from ClubMember where club.id=? and status=? and user.id<>?";
 	
 	public List<Club> allClub(Page page)
@@ -442,14 +444,33 @@ public class ClubService extends BaseService
 		return dao.findById(Club.class, club.getId());
 	}
 	
-	public Page userClubsPage(User user)
+	public Page userClubsPage(User user, Club club)
 	{
-		return dao.getPageByExample(clubOfUser(user, null, null, null));
+		if(club != null && club.getType() != null)
+		{
+			return dao.getPageByHql(COUNT_HQL + USER_CLUB_MEMBERS_HQL,
+					user.getId(), ClubMemberStatus.PASSED, ClubStatus.PASSED,
+					club.getType());
+		}
+		else
+		{
+			return dao.getPageByExample(clubOfUser(user, null, null, null));
+		}
 	}
 	
-	public List<ClubMember> userClubs(User user, Page page)
+	@SuppressWarnings("unchecked")
+	public List<ClubMember> userClubs(User user, Club club, Page page)
 	{
-		return dao.findByExample(clubOfUser(user, null, null, null), page);
+		if(club != null && club.getType() != null)
+		{
+			return (List<ClubMember>) dao.executeHql(page,
+					USER_CLUB_MEMBERS_HQL, user.getId(),
+					ClubMemberStatus.PASSED, ClubStatus.PASSED, club.getType());
+		}
+		else
+		{
+			return dao.findByExample(clubOfUser(user, null, null, null), page);
+		}
 	}
 	
 	public List<Club> userNoCheckClubs(User user, Page page)
@@ -501,9 +522,9 @@ public class ClubService extends BaseService
 	
 	public Page clubMembersWithoutProprieterpage(ClubMember proprieter)
 	{
-		return dao.getPageByHql("select count(*) "
-				+ CLUBMEMBERS_WITHOUT_PROPRIETER_HQL, proprieter.getClub()
-				.getId(), ClubStatus.PASSED, proprieter.getUser().getId());
+		return dao.getPageByHql(COUNT_HQL + CLUBMEMBERS_WITHOUT_PROPRIETER_HQL,
+				proprieter.getClub().getId(), ClubStatus.PASSED, proprieter
+						.getUser().getId());
 	}
 	
 	@SuppressWarnings("unchecked")

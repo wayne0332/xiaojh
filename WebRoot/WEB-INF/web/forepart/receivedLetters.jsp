@@ -7,7 +7,7 @@
 <html>
 <head>
 
-<title>校江湖 </title>
+<title>校江湖</title>
 
 <link rel="stylesheet" type="text/css" href="css/base-min.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
@@ -18,53 +18,53 @@
 <body>
 	<div class="container cf zoom">
 		<jsp:include page="head.jsp" />
-		<div class="mt75">
-			<!-- <a href="initSearch">写私信</a> -->
-			<form action="searchAll" method="post" class="mt75">
-			<input name="searchText" type="text" /> <input type="submit"
-				value="找个小伙伴发信息" />
-				<a href="myFocus?type=0&pageNum=1">给小伙伴发信息</a>
-		</form>
-			<table>
-				<tr>
-					<td>序号</td>
-					<td>标题</td>
-					<td>头像</td>
-					<td>时间</td>
-					<td>发布人姓名</td>
-					<td>内容</td>
-					<td>状态</td>
-					<td>操作</td>
-				</tr>
+		<div class="left_bar w270 cf mt75">
+			<div class="my_info w240 h90 p5 m5 shadow_l_3 bg_box">
+				<img src="<s:property value="#session.user.portraitPath"/>"
+					class="fl mt5 ml10 circle_80 shadow_l_5" />
+				<ul class="fl w135 p5 pl10 text_r">
+					<li class="w135 text_l f14"><a href="updateUserInput"><s:property
+								value="#session.user.name" /> </a>
+					</li>
+					<li><s:property value="#session.user.grade" /></li>
+					<li><s:property
+							value="#application.schools[#session.user.school.id].name" /></li>
+				</ul>
+			</div>
+			<a class="sendToFrd op_btn_yellow_green hov clear_a"
+				href="myFocus?type=0&pageNum=1">给小伙伴发信息</a>
+		</div>
+		<div class="main mt75">
+			<ul class="letter_list">
 				<s:iterator value="#request.receivedLetters" status="status">
-					<tr>
-						<td><s:property
-								value="(page.currentPage - 1) * page.eachPageNumber + #status.count" />
-						</td>
-						<td><s:a href="personalLetter?letter.id=%{id}">
+					<li class="letter_box cf">
+						<div class="lette_box_left">
+							<%-- <s:a href="personalLetter?letter.id=%{id}">
 								<s:property value="title" />
-							</s:a>
-						</td>
-						<td><img alt="头像" title="头像"
-							src="<s:property value="userBySourceUserId.portraitPath"/>" />
-						</td>
-						<td><s:date name="datetime" format="yyyy-MM-dd" /> <br /> <s:date
-								name="datetime" format="HH:mm:ss" />
-						</td>
-						<td><s:property value="userBySourceUserId.name" />
-						</td>
-						<td><s:property value="text" />
-						</td>
-						<td><s:property value="status.name" />
-						</td>
-						<td><s:a href="deleteLetter?letter.id=%{id}">
-						删除
-					</s:a> <s:a
-								href="personalLetterInput?targetUser.id=%{userBySourceUserId.id}&targetUser.name=%{userBySourceUserId.name}">回复</s:a>
-						</td>
-					</tr>
+							</s:a> 标题不用了 --%>
+							<img alt="头像" title="头像" src="images/head/head1.jpg"
+								class="logoImg shadow_l_3" />
+							<s:property value="userBySourceUserId.name" />
+						</div>
+						<div class="lette_box_right shadow_l_3">
+							<div>
+								<p class="letter_content">
+									<s:property value="text" />
+								</p>
+							</div>
+							<div>
+								<span class="letter_name"> <span> <s:a
+											href="personalLetterInput?targetUser.id=%{userBySourceUserId.id}&targetUser.name=%{userBySourceUserId.name}">回复</s:a>
+										<s:a href="deleteLetter?letter.id=%{id}">删除</s:a> </span> <span>
+										<s:date name="datetime" format="MM/dd" /> <s:date
+											name="datetime" format="HH:mm" /> </span> </span> <span
+									class="letter_state"> <s:property value="status.name" />
+								</span>
+							</div>
+						</div></li>
 				</s:iterator>
-			</table>
+			</ul>
+			<s:property value="page.pageNumber"/>
 			<wst:page url="receivedLetters" />
 		</div>
 	</div>

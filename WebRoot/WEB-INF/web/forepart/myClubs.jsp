@@ -41,8 +41,8 @@
 					<span>按类型查看：</span><br />
 					<s:iterator value="@com.tjxjh.enumeration.ClubType@values()"
 						id="ac">
-						<a class="shadow_l_5"
-							href="myClubs?clubType=<s:property value="name()"/>">${name}</a>
+						<s:a class="shadow_l_5"
+							href="myClubs?club.type=%{name() }">${name}</s:a>
 					</s:iterator>
 				</div>
 			</div>

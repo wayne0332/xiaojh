@@ -13,14 +13,13 @@ import org.apache.struts2.convention.annotation.Actions;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import cn.cafebabe.autodao.pojo.Page;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.tjxjh.annotation.Auth;
 import com.tjxjh.annotation.Keyword;
+import com.tjxjh.auth.AuthEnum;
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.interceptor.AuthInterceptor.AdminAuth;
 import com.tjxjh.po.Club;
@@ -264,17 +263,33 @@ public class UserAction extends BaseAction
 	}
 	
 	@Action(value = CHANGE_USER_PASSWORD, results = {
-			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = REFRESH_USER
-					+ CENTER),
+			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "${#request.path}"),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = CHANGE_USER_PASSWORD_INPUT, params = {
 					"msg", "密码错误!"})})
+	@Auth(auths = {AuthEnum.USER, AuthEnum.MERCHANT})
 	public String changeUserPassword()
 	{
-		user.setId(super.currentUser().getId());
+		if(super.currentUser() != null)
+		{
+			user.setId(super.currentUser().getId());
+			super.getRequestMap().put("path", REFRESH_USER + CENTER);
+		}
+		else if(super.currentMerchant() != null)
+		{
+			user.setId(super.currentMerchant().getUser().getId());
+			super.getRequestMap().put(
+					"path",
+					MerchantAction.REFRESH_MERCHANT
+							+ MerchantAction.UPDATE_MERCHANT_INPUT);
+		}
+		else
+		{
+			return ERROR;
+		}
 		user.setPassword(CodeUtil.md5(user.getPassword()));
 		if(userService.exist(user))
 		{
-			userService.changeUserPassword(super.currentUser(), code);
+			userService.changeUserPassword(user, code);
 			return SUCCESS;
 		}
 		return INPUT;

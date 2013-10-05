@@ -134,7 +134,8 @@ public class MerchantAction extends BaseAction
 	// }
 	@Action(value = MERCHANT_LOGIN, results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = MERCHANT_MAIN),
-			@Result(name = INPUT, type = REDIRECT_ACTION, location = IndexAction.INDEX)})
+			@Result(name = INPUT, type = REDIRECT_ACTION, location = IndexAction.INDEX, params = {
+					"msg", "用户名或密码错误!"})})
 	@Auth(auths = {AuthEnum.NO_NEED})
 	public String merchantLogin()
 	{
@@ -173,6 +174,12 @@ public class MerchantAction extends BaseAction
 	@Auth(auths = {AuthEnum.MERCHANT})
 	public String merchantMain()
 	{
+		/********************** CAFEBABE ***********************/
+		super.getRequestMap().put(
+				MERCHANT_NEWS,
+				merchantService.merchantNews(super.currentMerchant(), new Page(
+						10)));
+		/********************** CAFEBABE ***********************/
 		/********************** fineTu ***********************/
 		Page page = new Page(1 * EACH_PAGE_NUM + 1);
 		page.setEachPageNumber(EACH_PAGE_NUM);
