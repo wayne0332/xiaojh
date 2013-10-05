@@ -85,10 +85,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="main">
 				<div class="left">
 					<div class="list">
-						<s:property value="#request.focusList" />
-						<s:property value="type" />
 						<s:if test="type==1">
-						<s:iterator value="#request.focusList">
+						<s:iterator value="#request.focusList.clubList">
 							<div class="listItem">
 							<div class="portrait_big">
 									<s:if test="logoPath==''">
@@ -120,7 +118,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    				</s:iterator>
 						</s:if>
 						<s:elseif test="type==2">
-						<s:iterator value="#request.focusList">
+						<s:iterator value="#request.focusList.merchantList">
 							<div class="listItem">
 							<div class="portrait_big">
 								</div>

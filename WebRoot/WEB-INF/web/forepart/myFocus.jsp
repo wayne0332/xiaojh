@@ -33,10 +33,11 @@
 								value="#session.user.name" /> </a></li>
 					<li><s:property value="#session.user.grade" />
 					</li>
+
+					<li><s:property value="#session.user.grade % 2000" />级</li>
 					<li><s:property
-							value="#application.schools[#session.user.school.id].name" />
-					</li>
-					<li>凤凰社</li>
+							value="#application.schools[#session.user.school.id].name" /></li>
+					<!-- <li>凤凰社</li> -->
 				</ul>
 			</div>
 		</div>
@@ -53,7 +54,8 @@
 							value="找" />
 					</form>
 					<s:iterator value="#request.focusList.userList">
-						<div class="friendBox shadow_l_3 school_3">
+
+						<div class="friendBox shadow_l_3 school_${school.id }">
 							<s:if test="portrait==''">
 								<a href="userHome?user.id=${id}"><img
 									src="images/head/head1.jpg" class="fl logoImg" /> </a>

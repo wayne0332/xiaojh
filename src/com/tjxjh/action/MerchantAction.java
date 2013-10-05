@@ -21,11 +21,13 @@ import com.tjxjh.po.Activity;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.MerchantNews;
+import com.tjxjh.pojo.ClubList;
 import com.tjxjh.pojo.MerchantList;
 import com.tjxjh.pojo.MerchantNewsList;
 import com.tjxjh.service.ActivityService;
 import com.tjxjh.service.MerchantService;
 import com.tjxjh.service.TaklingAndMerchantNewsUpload;
+import com.tjxjh.service.UserService;
 import com.tjxjh.util.CodeUtil;
 import com.tjxjh.util.MerchantPurposeUtil;
 
@@ -33,6 +35,8 @@ import com.tjxjh.util.MerchantPurposeUtil;
 @Namespace("/")
 public class MerchantAction extends BaseAction
 {
+	static final String REFRESH_MERCHANT = "refreshMerchant";
+	private static final String UPLOAD_MERCHANT_LOGO = "upload/merchantLogo/";
 	static final String UPDATE_MERCHANT = "updateMerchant";
 	static final String UPDATE_MERCHANT_INPUT = "updateMerchantInput";
 	static final String MERCHANT_NEWS_MEDIA_PATH = "upload/merchantNewsMedia/";
@@ -76,17 +80,33 @@ public class MerchantAction extends BaseAction
 			@Action(value = ADD_MERCHANT_NEWS_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
 					+ ADD_MERCHANT_NEWS + JSP)}),
 			@Action(value = UPDATE_MERCHANT_INPUT, results = {@Result(name = SUCCESS, location = FOREPART
-					+ "" + JSP)})})
+					+ UPDATE_MERCHANT + JSP)})})
 	@Auth(auths = {AuthEnum.MERCHANT})
 	public String merchantAuth()
 	{
 		return SUCCESS;
 	}
 	
-	@Action(value = UPDATE_MERCHANT, results = {})
+	@Action(value = UPDATE_MERCHANT, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = REFRESH_MERCHANT
+			+ MERCHANT_MAIN)})
 	public String updateMerchant()
 	{
-		return SUCCESS;
+		if(logo != null)
+		{
+			Merchant currentMerchant = currentMerchant();
+			UserService.deleteOldPortraitPath(currentMerchant.getLogoPath());
+			fillLogoPathToMerchant(currentMerchant);
+		}
+		merchant.setPurpose(MerchantPurposeUtil.transformPurpose(purpose));
+		return super.successOrInput(merchantService.update(merchant, logo));
+	}
+	
+	private void fillLogoPathToMerchant(Merchant currentMerchant)
+	{
+		merchant.setLogoPath(new StringBuilder(UPLOAD_MERCHANT_LOGO)
+				.append(CodeUtil.md5(currentMerchant.getName()))
+				.append(logoFileName.substring(logoFileName.indexOf('.')))
+				.toString());
 	}
 	
 	@Action(value = APPLY_MERCHANT, results = {
@@ -96,10 +116,7 @@ public class MerchantAction extends BaseAction
 	@Auth(auths = {AuthEnum.NO_NEED})
 	public String applyMerchant()
 	{
-		merchant.setLogoPath(new StringBuilder("upload/merchantLogo/")
-				.append(CodeUtil.md5(merchant.getName()))
-				.append(logoFileName.substring(logoFileName.indexOf('.')))
-				.toString());
+		fillLogoPathToMerchant(merchant);
 		merchant.setPurpose(MerchantPurposeUtil.transformPurpose(purpose));
 		return super.successOrInput(merchantService.applyMerchant(merchant,
 				logo));
@@ -114,7 +131,8 @@ public class MerchantAction extends BaseAction
 	// }
 	@Action(value = MERCHANT_LOGIN, results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = MERCHANT_MAIN),
-			@Result(name = INPUT, type = REDIRECT_ACTION, location = IndexAction.INDEX)})
+			@Result(name = INPUT, type = REDIRECT_ACTION, location = IndexAction.INDEX, params = {
+					"msg", "用户名或密码错误!"})})
 	@Auth(auths = {AuthEnum.NO_NEED})
 	public String merchantLogin()
 	{
@@ -153,12 +171,18 @@ public class MerchantAction extends BaseAction
 	@Auth(auths = {AuthEnum.MERCHANT})
 	public String merchantMain()
 	{
+		/********************** CAFEBABE ***********************/
+		super.getRequestMap().put(
+				MERCHANT_NEWS,
+				merchantService.merchantNews(super.currentMerchant(), new Page(
+						10)));
+		/********************** CAFEBABE ***********************/
 		/********************** fineTu ***********************/
 		Page page = new Page(1 * EACH_PAGE_NUM + 1);
 		page.setEachPageNumber(EACH_PAGE_NUM);
 		page.setCurrentPage(1);
 		List<Club> focusClubList = merchantService.getFocusList(Club.class,
-				merchant, page);
+				(merchant = super.currentMerchant()), page);
 		if(focusClubList.size() > 9)
 		{
 			focusClubList = focusClubList.subList(0, 9);
@@ -332,19 +356,35 @@ public class MerchantAction extends BaseAction
 		}
 		Page page = new Page(EACH_PAGE_NUM, pageNum * EACH_PAGE_NUM + 1);
 		page.setCurrentPage(pageNum);
+		Page itemPage = null;
 		switch(type)
 		{
 			case (1):
+				ClubList focusClubs = new ClubList();
+				itemPage = merchantService.getFocusNum(Club.class, m, page);
+				focusClubs.setPage(itemPage);
 				List<Club> clubList = merchantService.getFocusList(Club.class,
-						m, page);
-				getRequestMap().put("focusList", clubList);
+						m, itemPage);
+				focusClubs.setClubList(clubList);
+				getRequestMap().put("focusList", focusClubs);
 				break;
 			case (2):
+				MerchantList focusMerchants = new MerchantList();
+				itemPage = merchantService.getFocusNum(Merchant.class, m, page);
+				focusMerchants.setPage(itemPage);
 				List<Merchant> merchantList = merchantService.getFocusList(
-						Merchant.class, m, page);
-				getRequestMap().put("focusList", merchantList);
+						Merchant.class, m, itemPage);
+				focusMerchants.setMerchantList(merchantList);
+				getRequestMap().put("focusList", focusMerchants);
 				break;
 		}
+		return SUCCESS;
+	}
+	
+	@Action(value = REFRESH_MERCHANT + "*", results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "{1}")})
+	public String refreshUser()
+	{
+		super.saveMerchant(merchantService.refresh(currentMerchant()));
 		return SUCCESS;
 	}
 	
@@ -361,11 +401,6 @@ public class MerchantAction extends BaseAction
 	public void setMerchant(Merchant merchant)
 	{
 		this.merchant = merchant;
-	}
-	
-	public MerchantService getMerchantService()
-	{
-		return merchantService;
 	}
 	
 	public void setMerchantService(MerchantService merchantService)

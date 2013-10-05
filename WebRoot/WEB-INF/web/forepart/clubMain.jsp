@@ -100,12 +100,22 @@
 					关注商家： <a href="clubFocus?type=2">更多</a>
 				</div>
 				<s:iterator value="#request.focusMerchantList">
+					<a href="merchant?merchant.id=<s:property value="id" />" >
 					<div class="portrait">
-						<div class="portraitImg"></div>
+						<div class="portraitImg">
+						<s:if test="logoPath==''">
+							<img src="<s:property value="portraitPath" />"
+								class="w50 h50 Clearfix" />
+						</s:if>
+						<s:else>
+							<img src="upload/portrait/auto_photo.png" class="w50 h50 Clearfix" />
+						</s:else>
+						</div>
 						<div class="userName">
 							<s:property value="name" />
 						</div>
 					</div>
+					</a>
 				</s:iterator>
 			</div>
 		</div>
@@ -116,6 +126,7 @@
 		<div class="bg_box shadow_l_3 m5 cf">
 			<s:iterator value="#request.focusClubList">
 				<div class="fl people_box">
+				<a href="clubMain?club.id=<s:property value="id" />" >
 					<s:if test="logoPath==''">
 						<img src="<s:property value="portraitPath" />"
 							class="w50 h50 Clearfix" />
@@ -125,7 +136,9 @@
 					</s:else>
 					<label class="Clearfix mb5 w50"> <s:property value="name" />
 					</label>
+					</a>
 				</div>
+				
 			</s:iterator>
 		</div>
 	</div>
