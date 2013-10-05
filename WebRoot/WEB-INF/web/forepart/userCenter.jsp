@@ -48,7 +48,7 @@
 
 			<label class="Clearfix w250 ml5 mt50">我的门客<a
 				href="myFocus?type=0&pageNum=1" class="fr">更多</a> </label>
-			<div class="l_box w240 p5 m5 cf shadow_l_10 radius_6 bg_box">
+			<div class="l_box w240 p5 m5 cf shadow_l_3 radius_6 bg_box">
 				<s:iterator value="#request.focusUserList">
 					<div class="fl p5">
 						<s:if test="portrait==''">
@@ -69,7 +69,7 @@
 
 			<label class="Clearfix w250 ml5 mt20">关注社团 <a
 				href="myFocus?type=1&pageNum=1" class="fr">更多</a> </label>
-			<div class="l_box w240 p5 m5 cf shadow_l_10 radius_6 bg_box">
+			<div class="l_box w240 p5 m5 cf shadow_l_3 radius_6 bg_box">
 				<s:iterator value="#request.focusClubList">
 					<div class="fl p5">
 						<s:if test="logoPath==null||logoPath.trim.equals('')">
@@ -89,7 +89,7 @@
 			</div>
 			<label class="Clearfix w250 ml5 mt20">关注商家 <a
 				href="myFocus?type=2&pageNum=1" class="fr">更多</a> </label>
-			<div class="l_box w240 p5 m5 cf shadow_l_10 radius_6 bg_box">
+			<div class="l_box w240 p5 m5 cf shadow_l_3 radius_6 bg_box">
 				<s:iterator value="#request.focusMerchantList">
 					<div class="fl">
 						<s:if test="logoPath==null||logoPath.trim.equals('')">
@@ -112,7 +112,7 @@
 		<div class="main w730 cf mt75">
 			<!-- 发布说说-->
 			<form action="addTalking" method="post" enctype="multipart/form-data"
-				class="userHome_box w700 m5 p10 cf shadow_l_10 radius_6">
+				class="userHome_box w700 m5 p10 cf shadow_l_3 radius_6">
 				<label class="userBox_title w pl10 pr10 h30">发状态</label>
 				<textarea class="h100 mt10 mb5 f14 p5" name="talking.text"></textarea>
 				<div class="fl w500">
@@ -133,7 +133,7 @@
 			</div>
 			<!-- END:相册-->
 			<!-- 说说 -->
-			<div class="userHome_box w700 m5 mt30 p10 cf shadow_l_10 radius_6">
+			<div class="userHome_box w700 m5 mt30 p10 cf shadow_l_3 radius_6">
 				<label class="userBox_title w pl10 pr10 h30">江湖动态</label>
 				<s:iterator value="taks" id="tak">
 					<div id="${t.id}" class="user_dongtai_div cf w700 mt10 pt10 pb15">

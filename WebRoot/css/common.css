@@ -16,6 +16,9 @@
 	.a_no				{ color: #333; }
 	.a_no:hover,
 	.a_no:visited		{ text-decoration: none; }
+	
+	.op_btn_yellow_green{ background-color: #abe16f; color: #fff; text-align: center; }
+	
 	.alertLabel			{ color: red; margin-left: 10px; }
 	
 	.single_bt1			{ display: block; line-height: 35px; background-color: #c99700; text-align: center; color: #fff; }
