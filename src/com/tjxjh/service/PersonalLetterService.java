@@ -16,6 +16,9 @@ import com.tjxjh.po.User;
 @Service
 public class PersonalLetterService extends BaseService
 {
+	private static final String COUNT_HQL = "select count(*) ";
+	private static final String RECEIVED_LETTERS_HQL = "from PersonalLetter where userByTargetUserId.id=? order by datetime desc";
+	
 	@Transactional(propagation = Propagation.REQUIRED)
 	public boolean sendLetter(PersonalLetter letter)
 	{
@@ -71,19 +74,13 @@ public class PersonalLetterService extends BaseService
 	
 	public Page receivedLettersPage(User user)
 	{
-		return dao
-				.getPageByHql(
-						"select count(*) from PersonalLetter where userBySourceUserId.id=?",
-						user.getId());
+		return dao.getPageByHql(COUNT_HQL + RECEIVED_LETTERS_HQL, user.getId());
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<PersonalLetter> receivedLetters(Page page, User user)
 	{
-		return (List<PersonalLetter>) dao
-				.executeHql(
-						page,
-						"from PersonalLetter where userByTargetUserId.id=? order by datetime desc",
-						user.getId());
+		return (List<PersonalLetter>) dao.executeHql(page,
+				RECEIVED_LETTERS_HQL, user.getId());
 	}
 }
