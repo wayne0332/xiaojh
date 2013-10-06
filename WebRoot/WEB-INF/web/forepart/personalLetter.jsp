@@ -24,10 +24,10 @@
 			<td>发件人:</td>
 			<td><s:property value="letter.userBySourceUserId.name" /></td>
 		</tr>
-		<tr>
+		<%-- <tr>
 			<td>标题:</td>
 			<td><s:property value="letter.title" /></td>
-		</tr>
+		</tr> 标题不用了 --%>
 		<tr>
 			<td>发送时间:</td>
 			<td><s:date name="letter.datetime" format="yyyy-MM-dd HH:mm:ss" />

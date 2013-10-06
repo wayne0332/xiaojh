@@ -22,8 +22,10 @@ import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.MerchantNews;
 import com.tjxjh.pojo.ClubList;
+import com.tjxjh.po.User;
 import com.tjxjh.pojo.MerchantList;
 import com.tjxjh.pojo.MerchantNewsList;
+import com.tjxjh.pojo.PageController;
 import com.tjxjh.service.ActivityService;
 import com.tjxjh.service.MerchantService;
 import com.tjxjh.service.TaklingAndMerchantNewsUpload;
@@ -59,6 +61,7 @@ public class MerchantAction extends BaseAction
 	private Merchant merchant = null;
 	private String[] purpose = null;
 	private Page page = null;
+	private PageController pageCtrl = null;
 	private File media = null;
 	private String mediaFileName = null;
 	private MerchantNews merchantNews = null;
@@ -366,6 +369,7 @@ public class MerchantAction extends BaseAction
 				List<Club> clubList = merchantService.getFocusList(Club.class,
 						m, itemPage);
 				focusClubs.setClubList(clubList);
+				pageCtrl = new PageController(itemPage.getPageNumber()*EACH_PAGE_NUM, page.getCurrentPage(), EACH_PAGE_NUM);
 				getRequestMap().put("focusList", focusClubs);
 				break;
 			case (2):
@@ -375,7 +379,8 @@ public class MerchantAction extends BaseAction
 				List<Merchant> merchantList = merchantService.getFocusList(
 						Merchant.class, m, itemPage);
 				focusMerchants.setMerchantList(merchantList);
-				getRequestMap().put("focusList", focusMerchants);
+				pageCtrl = new PageController(itemPage.getPageNumber()*EACH_PAGE_NUM, page.getCurrentPage(), EACH_PAGE_NUM);
+				getRequestMap().put("focusList",focusMerchants);
 				break;
 		}
 		return SUCCESS;
