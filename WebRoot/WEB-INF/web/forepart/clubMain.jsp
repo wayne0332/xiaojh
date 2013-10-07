@@ -82,74 +82,81 @@
 			</div>
 			<div class="clubmain_left">
 				<div class="club_box2 shadow_l_3">
-					<div>活动展示</div>
 					<s:iterator value="acs" id="ac">
-						<div style="display: inline-block; border:1px solid;width:80%;margin:20px; overflow:hidden;">
-							活动标题：
-							<s:property value="tittle" />
-							<br /> ${text}<br /> 活动举办地点：${place}<br />
-							参与人数：${participantCount} <br />
-							活动主办方：${club.name}${merchant.name} <br /> &nbsp;<a
-								href="<%=path %>/preShareTalking?talking.id=${talking.id}">分享</a>
-							<span id="zan${talking.id}"> <a href="javascript:void(0);"
-								onclick="zanTalking(${talking.id});">赞(${talking.shareDetails.praiseCount})</a>
-							</span>
-							<s:if test="actionName.equals('adminFindOneActivity')">
-								<a href="<%=path%>/deleteActivity?activity.id=${id}">删除</a>
-								<a href="preModifyActivity?activity.id=${id}">修改</a>
-							</s:if>
+						<div class="club_act_box">
+							<div class="club_act_img">
+								<img class="act_photo" alt="活动照片" src="http://y3.ifengimg.com/2013/0805/wm_9783f21b46072d9503a7bd2f8017f4b7.jpg">
+							</div>
+							<div class="club_act_info">
+								<span class="club_act_title"><s:property value="tittle" /></span>
+								<p class="club_act_p">${text}</p>
+								<span class="club_act_li1">${place}</span>
+								<span class="club_act_li1">${participantCount}人 已参与</span>
+								<span class="club_act_li2">${club.name}${merchant.name} 主办</span>
+								<span>
+									<a href="<%=path %>/preShareTalking?talking.id=${talking.id}">分享</a>
+								</span>
+							</div>
+							<div class="club_act_op">
+								<span id="zan${talking.id}">
+									<a href="javascript:void(0);" onclick="zanTalking(${talking.id});">赞(${talking.shareDetails.praiseCount})</a>
+								</span>
+								<s:if test="actionName.equals('adminFindOneActivity')">
+									<a href="<%=path%>/deleteActivity?activity.id=${id}">删除</a>
+									<a href="preModifyActivity?activity.id=${id}">修改</a>
+								</s:if>
+							</div>
 						</div>
 					</s:iterator>
 				</div>
 			</div>
-			
-			
-			<div class="club_panel fl m5 p10 bg_fff shadow_l_3">
-				<div>
-					关注商家： <a href="clubFocus?type=2">更多</a>
-				</div>
-				<s:iterator value="#request.focusMerchantList">
-					<a href="merchant?merchant.id=<s:property value="id" />" >
-					<div class="portrait">
-						<div class="portraitImg">
+		</div>
+	</div>
+	
+	<div class="left_bar fr cf mt75">
+		<label class="Clearfix w250 ml5 mt20">
+			关注社团
+			<a href="clubFocus?type=1&pageNum=1" class="fr">更多</a>
+		</label>
+		<div class="bg_box shadow_l_3 m5 cf">
+			<s:iterator value="#request.focusClubList">
+				<div class="fl people_box">
+					<a href="clubMain?club.id=<s:property value="id" />" >
 						<s:if test="logoPath==''">
-							<img src="<s:property value="portraitPath" />"
-								class="w50 h50 Clearfix" />
+							<img src="<s:property value="portraitPath" />" class="w50 h50 Clearfix" />
 						</s:if>
 						<s:else>
 							<img src="upload/portrait/auto_photo.png" class="w50 h50 Clearfix" />
 						</s:else>
-						</div>
-						<div class="userName">
+						<label class="Clearfix mb5 w50">
 							<s:property value="name" />
-						</div>
-					</div>
-					</a>
-				</s:iterator>
-			</div>
-		</div>
-	</div>
-	<div class="left_bar fr cf mt75">
-		<label class="Clearfix w250 ml5 mt20">关注社团<a
-			href="clubFocus?type=1&pageNum=1" class="fr">更多</a> </label>
-		<div class="bg_box shadow_l_3 m5 cf">
-			<s:iterator value="#request.focusClubList">
-				<div class="fl people_box">
-				<a href="clubMain?club.id=<s:property value="id" />" >
-					<s:if test="logoPath==''">
-						<img src="<s:property value="portraitPath" />"
-							class="w50 h50 Clearfix" />
-					</s:if>
-					<s:else>
-						<img src="upload/portrait/auto_photo.png" class="w50 h50 Clearfix" />
-					</s:else>
-					<label class="Clearfix mb5 w50"> <s:property value="name" />
-					</label>
+						</label>
 					</a>
 				</div>
-				
+			</s:iterator>
+		</div>
+		<label class="Clearfix w250 ml5 mt20">
+			关注商家
+			<a href="clubFocus?type=2" class="fr">更多</a>
+		</label>
+		<div class="bg_box shadow_l_3 m5 cf">
+			<s:iterator value="#request.focusMerchantList">
+				<div class="fl people_box">
+					<a href="merchant?merchant.id=<s:property value="id" />" >
+						<s:if test="logoPath==''">
+							<img src="<s:property value="portraitPath" />" class="w50 h50 Clearfix" />
+						</s:if>
+						<s:else>
+							<img src="upload/portrait/auto_photo.png" class="w50 h50 Clearfix" />
+						</s:else>
+						<label class="Clearfix mb5 w50">
+							<s:property value="name" />
+						</label>
+					</a>
+				</div>
 			</s:iterator>
 		</div>
 	</div>
+	
 </body>
 </html>

@@ -32,3 +32,13 @@
  	.clubmain_left .logoImg{ display: block; float: left; width: 100px; height: 100px; }
  	.clubmain_left .club_name{ display: block; float: left; margin-left: 8px; width: 220px; height: 100px;  font: 20px/30px "Microsoft Yahei"; color: #333; }
  	.clubmain_left .club_info{ display: block; float: left; margin-top: 15px; width: 330px; text-indent: 2em; color: #666; }
+ 	
+ 	.clubmain_left .club_act_box{ position: relative; margin: 0 0 10px 0; width: 315px; height: 200px; }
+ 	.clubmain_left .club_act_img{ position: absolute; width: 315px; height: 200px; overflow: hidden; }
+ 	.clubmain_left .act_photo{ display: block; top: 0; left: 0; width: 315px; }
+ 	.clubmain_left .club_act_info{ position: absolute; top: 0; left: 0; width: 315px; height: 200px; background-color: rgba(20,20,20,0.6); color: #fff; }
+ 	
+ 	.clubmain_left .club_act_title{ display: block; margin: 30px 8px 10px 8px; font: bold 16px/24px "Microsoft Yahei"; }
+ 	.clubmain_left .club_act_p{ display: block; margin: 0 8px 10px 8px; }
+ 	.clubmain_left .club_act_li1{ margin: 0 68px 8px 8px; color: #ddd; }
+ 	.clubmain_left .club_act_li2{ display: block; margin: 0 8px 8px 8px; color: #ddd; }
