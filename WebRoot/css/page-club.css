@@ -14,5 +14,21 @@
  	.applyClubTable textarea	{ margin-bottom: 8px; width: 400px; height: 100px; resize: none; border: 1px solid #eee; }
  	.applyClubTable_submit		{ width: 100px; height: 30px; border: none; background-color: #c99700; color: #fff; }
  	
+ /* club
+ * ---------------------------------------------------------------------------------------- */	
+ 
+ 	.club_secNav			{ margin: 5px; width: 700px; background-color: #f8f8f8; line-height: 30px; }
+ 	.club_secNav a			{ display: inline-block; margin-left: -5px; height: 30px; background-color: #f1f1f1; padding: 0 6px; color: #7a7256; }
+ 	.club_secNav a:hover	{ background-color: #e8e8e8;  }
  	
+ 	.clubList_thead			{ background-color: #f3f3f3; line-height: 35px; }
+ 	.clubList_tbody	tr		{ height: 80px; border-top: 1px solid #f3f3f3; text-align: center; }
+ 	.clubList_tbody	img		{ height: 80px; }
+ 	.club_category a		{ line-height: 35px; display: block; float: left; padding: 0 14px; margin: 4px 0 2px 3px; background-color: #fff; }
  	
+ 	.clubmain_left{ float: left; width: 360px; height: 625px; }
+ 	.club_box1{ margin: 10px 5px 0 5px; width: 330px; height: 280px; overflow: hidden; background-color: #fff; padding: 10px; }
+ 	.club_box2{ margin: 10px 5px 0 5px; width: 330px; height: 590px; overflow: hidden; background-color: #fff; padding: 10px; overflow-y: scroll; }
+ 	.clubmain_left .logoImg{ display: block; float: left; width: 100px; height: 100px; }
+ 	.clubmain_left .club_name{ display: block; float: left; margin-left: 8px; width: 220px; height: 100px;  font: 20px/30px "Microsoft Yahei"; color: #333; }
+ 	.clubmain_left .club_info{ display: block; float: left; margin-top: 15px; width: 330px; text-indent: 2em; color: #666; }
