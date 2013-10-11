@@ -65,7 +65,6 @@
 						</div></li>
 				</s:iterator>
 			</ul>
-			<s:property value="page.pageNumber" />
 			<wst:page url="receivedLetters" />
 		</div>
 	</div>
