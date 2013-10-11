@@ -106,19 +106,6 @@
  	.myActivity_box	li label{ display: inline-block; color: #777; }
  	.myActivity_img			{ overflow: hidden; height: 215px; }
 
-/* club
- * ---------------------------------------------------------------------------------------- */	
- 
- 	.club_secNav			{ margin: 5px; width: 700px; background-color: #f8f8f8; line-height: 30px; }
- 	.club_secNav a			{ display: inline-block; margin-left: -5px; height: 30px; background-color: #f1f1f1; padding: 0 6px; color: #7a7256; }
- 	.club_secNav a:hover	{  background-color: #e8e8e8;  }
- 	.club_panel				{ width: 330px; height: 350px; overflow-y: scroll; }
- 	
- 	.clubList_thead			{ background-color: #f3f3f3; line-height: 35px; }
- 	.clubList_tbody	tr		{ height: 80px; border-top: 1px solid #f3f3f3; text-align: center; }
- 	.clubList_tbody	img		{ height: 80px; }
- 	.club_category a		{ line-height: 35px; display: block; float: left; padding: 0 14px; margin: 4px 0 2px 3px; background-color: #fff; }
- 	
  
 /* friendBox
  * ---------------------------------------------------------------------------------------- */	
