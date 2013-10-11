@@ -10,7 +10,7 @@
 
 <link rel="stylesheet" type="text/css" href="css/base-min.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
-<link rel="stylesheet" type="text/css" href="css/page-user.css" />
+<link rel="stylesheet" type="text/css" href="css/page-club.css" />
 
 </head>
 
