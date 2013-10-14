@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
+<%@ taglib uri="/webSupportTag" prefix="w" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -150,12 +151,13 @@
 
 				</s:elseif>
 				<div>
-					<span><a
+					<%-- <span><a
 						href="myFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage-1" />">上一页</a>
 					</span>&nbsp; <span><a
 						href="myFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage+1" />">下一页</a>
 					</span> <span>共 <s:property
-							value="#request.focusList.page.pageNumber" />页</span>
+							value="#request.focusList.page.pageNumber" />页</span> --%>
+					<w:page url="myFocus?type=%{type}" useSingleProperty="false" pageNumberPropertyName="pageNum" value="#request.focusList.page" />
 				</div>
 			</div>
 		</div>

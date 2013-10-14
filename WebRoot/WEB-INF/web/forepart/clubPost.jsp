@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib uri="/webSupportTag" prefix="w" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -65,9 +66,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      	</div>
      	
      	<div>
-    		<span><a href="clubPostContent?postId=<s:property value="#request.clubPostContent.clubPost.id" />&pageNum=<s:property value="#request.clubPostContent.page.currentPage-1" />">上一页</a></span>&nbsp;
+     		<w:page url="clubPostContent?postId=%{#request.clubPostContent.clubPost.id}" useSingleProperty="false" pageNumberPropertyName="pageNum" value="#request.clubPostContent.page" />
+    		<%-- <span><a href="clubPostContent?postId=<s:property value="#request.clubPostContent.clubPost.id" />&pageNum=<s:property value="#request.clubPostContent.page.currentPage-1" />">上一页</a></span>&nbsp;
 			<span><a href="clubPostContent?postId=<s:property value="#request.clubPostContent.clubPost.id" />&pageNum=<s:property value="#request.clubPostContent.page.currentPage+1" />">下一页</a></span>
-			<span>共 <s:property value="#request.clubPostContent.page.pageNumber" />页</span>
+			<span>共 <s:property value="#request.clubPostContent.page.pageNumber" />页</span> --%>
     	</div>
     	
      </div>

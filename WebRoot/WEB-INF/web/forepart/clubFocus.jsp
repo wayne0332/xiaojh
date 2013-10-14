@@ -157,9 +157,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    					
 						</s:elseif>
 						<div>
-		    				<span><a href="clubFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage-1" />">上一页</a></span>&nbsp;
+		    				<%-- <span><a href="clubFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage-1" />">上一页</a></span>&nbsp;
 							<span><a href="clubFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage+1" />">下一页</a></span>
-							<span>共 <s:property value="#request.focusList.page.pageNumber" />页</span>
+							<span>共 <s:property value="#request.focusList.page.pageNumber" />页</span> --%>
+							<w:page url="clubFocus?type=%{type}" useSingleProperty="false" pageNumberPropertyName="pageNum" value="#request.focusList.page" />
 	    				</div>
 					</div>
 				</div>

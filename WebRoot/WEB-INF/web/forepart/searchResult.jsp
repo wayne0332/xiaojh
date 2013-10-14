@@ -1,6 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="/struts-tags" prefix="s" %>
-<%@ taglib prefix="wst" uri="/webSupportTag"%>
+<%@ taglib prefix="w" uri="/webSupportTag"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -210,9 +210,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     				</s:iterator>
     			</table>
 				<div id="pageController">
-					<span><a href="searchUser?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage-1" />&club.id=<s:property value="club.id"/>">上一页</a></span>&nbsp;
+					<w:page url="searchUser?searchText=%{#request.searchText}&club.id=%{club.id}" useSingleProperty="false" pageNumberPropertyName="pageNum" value="searchResult.page" />
+					<%-- <span><a href="searchUser?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage-1" />&club.id=<s:property value="club.id"/>">上一页</a></span>&nbsp;
 					<span><a href="searchUser?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage+1" />&club.id=<s:property value="club.id"/>">下一页</a></span>
-					<span>共 <s:property value="searchResult.page.pageNumber" />页</span>
+					<span>共 <s:property value="searchResult.page.pageNumber" />页</span> --%>
 					<%-- <s:if test="#request.searchResult.userList.size() != 0">
 						<s:if test="%{#request.searchResult.page.currentPage != 1}">
 							<span class="prev"> <a onclick="">首页</a> </span>
@@ -293,9 +294,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     				</s:iterator>
     			</table>
     			<div>
-					<span><a href="searchClub?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage-1" />&club.id=<s:property value="club.id"/>">上一页</a></span>&nbsp;
+    				<w:page url="searchClub?searchText=%{#request.searchText}&club.id=%{club.id}" useSingleProperty="false" pageNumberPropertyName="pageNum" value="searchResult.page" />
+					<%-- <span><a href="searchClub?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage-1" />&club.id=<s:property value="club.id"/>">上一页</a></span>&nbsp;
 					<span><a href="searchClub?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage+1" />&club.id=<s:property value="club.id"/>">下一页</a></span>
-					<span>共 <s:property value="searchResult.page.pageNumber" />页</span>
+					<span>共 <s:property value="searchResult.page.pageNumber" />页</span> --%>
+					
 				</div>
 			</s:elseif>
 			<s:elseif test="%{#request.type==2}">
@@ -356,9 +359,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			</s:iterator>
     		</table>
     		<div>
-				<span><a href="searchMerchant?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage-1" />&club.id=<s:property value="club.id"/>">上一页</a></span>&nbsp;
+    			<w:page url="searchMerchant?searchText=%{#request.searchText}&club.id=%{club.id}" useSingleProperty="false" pageNumberPropertyName="pageNum" value="searchResult.page" />
+				<%-- <span><a href="searchMerchant?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage-1" />&club.id=<s:property value="club.id"/>">上一页</a></span>&nbsp;
 				<span><a href="searchMerchant?searchText=<s:property value="#request.searchText" />&pageNum=<s:property value="searchResult.page.currentPage+1" />&club.id=<s:property value="club.id"/>">下一页</a></span>
-				<span>共 <s:property value="searchResult.page.pageNumber" />页</span>
+				<span>共 <s:property value="searchResult.page.pageNumber" />页</span> --%>
 			</div>
 			</s:elseif>
 		</div>
