@@ -27,7 +27,7 @@ import com.tjxjh.service.ActivityService;
 import com.tjxjh.service.TalkingService;
 import com.tjxjh.util.Auth;
 
-
+//已经添加拦截器
 @ParentPackage("struts-default")
 @Namespace("/")
 public class ActivityAction extends BaseAction{
@@ -136,7 +136,7 @@ public class ActivityAction extends BaseAction{
 	}
 	//用户根据社团id，商家id 查出社团发布的activity 
 	@Action(value = "activitys", results = {
-				@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
+	@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
 		public String activitys(){
 			if(merchant.getId()==null&&club.getId()==null){
 				merchant=Auth.getMerchantFromSession();
@@ -175,7 +175,7 @@ public class ActivityAction extends BaseAction{
 	//商家、社团管理人员删除所Activity
 	
 	@Action(value = "deleteActivity", results = {
-			@Result(name = SUCCESS,type = REDIRECT_ACTION, location ="activitys")})
+	@Result(name = SUCCESS,type = REDIRECT_ACTION, location ="activitys")})
 	@com.tjxjh.annotation.Auth(auths = {AuthEnum.MERCHANT,AuthEnum.CLUB_MANAGER,AuthEnum.CLUB_PROPRIETER})
 		public String deleteClubNews(){
 			user=Auth.getUserFromSession();
@@ -187,6 +187,7 @@ public class ActivityAction extends BaseAction{
 		//校江湖管理员删除所在社团的Activity
 		@Action(value = "adminDeleteActivity", results = {
 				@Result(name = SUCCESS,type = CHAIN, location ="adminActivitys")})
+		@com.tjxjh.annotation.Auth(auths = {AuthEnum.ADMIN})
 			public String adminDeleteClubNews(){
 				user=Auth.getUserFromSession();
 				activity=activityService.findByHql(user,null, activity);

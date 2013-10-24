@@ -27,7 +27,7 @@ import com.tjxjh.service.TalkingService;
 import com.tjxjh.util.Auth;
 import com.tjxjh.util.GetRequsetResponse;
 
-
+//已经添加拦截器
 @ParentPackage("struts-default")
 @Namespace("/")
 public class TalkingAction extends BaseAction

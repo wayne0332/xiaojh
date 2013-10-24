@@ -132,7 +132,7 @@ public class ClubNewsAction extends BaseAction{
 				return SUCCESS;
 				
 		}
-		//管理员删除所在社团的Clubnews
+		//社团管理员删除所在社团的Clubnews
 		@Action(value = "deleteClubNews", results = {
 		@Result(name = SUCCESS,type = REDIRECT_ACTION, location ="adminFindOneClubNews")})
 		@com.tjxjh.annotation.Auth(auths = {AuthEnum.CLUB_MANAGER,AuthEnum.CLUB_PROPRIETER})
@@ -146,16 +146,12 @@ public class ClubNewsAction extends BaseAction{
 				return SUCCESS;
 						
 		}
-		//后台管理方法
+		//校江湖管理人员删除社团信息
 		@Action(value = "adminDeleteClubNews", results = {
 		@Result(name = SUCCESS,type = REDIRECT_ACTION, location ="allClubNews", params={"pageNum","${pageNum}"})})
-		@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
+		@com.tjxjh.annotation.Auth(auths = {AuthEnum.ADMIN})
 			public String adminDeleteClubNews(){
-				user=Auth.getUserFromSession();
-				clubnews=clubNewsService.findByHql(user, clubnews);
-				if(clubnews!=null){
-					clubNewsService.delete(clubnews);
-				}
+				clubNewsService.delete(clubnews);
 				return SUCCESS;
 						
 		}
