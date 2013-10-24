@@ -46,7 +46,7 @@
 				</span>
 			</div>
 
-			<label class="Clearfix w250 ml5 mt20">线上活动 <a href="#"
+			<label class="Clearfix w250 ml5 mt20">线上活动 <a href="<%=path%>/onlineActivity?user.id=${user.id}"
 				class="fr">更多</a> </label>
 			<div class="l_box w240 p5 m5 cf shadow_l_10 radius_6 bg_box">
 				<s:iterator value="#request.onlineActs">

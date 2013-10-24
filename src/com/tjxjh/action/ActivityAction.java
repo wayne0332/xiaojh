@@ -15,6 +15,7 @@ import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
+import com.tjxjh.auth.AuthEnum;
 import com.tjxjh.enumeration.ActivityStatus;
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Activity;
@@ -70,6 +71,7 @@ public class ActivityAction extends BaseAction{
 	 */
 	@Action(value = "addActivity", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "success.jsp")})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.MERCHANT,AuthEnum.CLUB_MANAGER,AuthEnum.CLUB_PROPRIETER})
 	public String add(){
 		club=Auth.getCluFromSession ();
 		merchant=Auth.getMerchantFromSession();
@@ -100,8 +102,8 @@ public class ActivityAction extends BaseAction{
 	 */
 	@Action(value = "addActivityByadmin", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "success.jsp")})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.ADMIN})
 	public String addByAdmin(){
-		//校江湖管理人员判断
 		boolean upimg=activityService.uploadImage(activity,uploadImage, uploadImageFileName, UPLOAD_IMAGE_PATH+uploadImageFileName);
 		activityService.uploadVideo(activity,uploadVideo, uploadVideoFileName, UPLOAD_IMAGE_PATH+uploadVideoFileName);
 		if(upimg){
@@ -114,7 +116,7 @@ public class ActivityAction extends BaseAction{
 		}
 	}
 	@Action(value = "activity", results = {
-			@Result(name = SUCCESS, location = BaseAction.FOREPART + "activity.jsp")})
+	@Result(name = SUCCESS, location = BaseAction.FOREPART + "activity.jsp")})
 	public String activity(){
 		activity=activityService.findById(activity.getId());
 		return SUCCESS;
@@ -122,7 +124,8 @@ public class ActivityAction extends BaseAction{
 	}
 	//根据用户所在社团，所关注的社团，关注的商家 查出发布的activity
 	@Action(value = "relativeActivity", results = {
-			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
+	@Result(name = SUCCESS, location = BaseAction.FOREPART + "myActivity.jsp")})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String relativeActivity(){
 		user=Auth.getUserFromSession();
 		page=activityService.getRelativeActivityPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
@@ -156,6 +159,7 @@ public class ActivityAction extends BaseAction{
 	//校江湖管理人员
 	@Action(value = "adminActivitys", results = {
 			@Result(name = SUCCESS, location = BaseAction.MANAGE + "allActivitys.jsp")})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.ADMIN})
 		public String adminActivitys()
 	  	{
 			if(Auth.getUserFromSession().getStatus()==UserStatus.ADMIN){
@@ -169,8 +173,10 @@ public class ActivityAction extends BaseAction{
 				
 	  	}
 	//商家、社团管理人员删除所Activity
+	
 	@Action(value = "deleteActivity", results = {
 			@Result(name = SUCCESS,type = REDIRECT_ACTION, location ="activitys")})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.MERCHANT,AuthEnum.CLUB_MANAGER,AuthEnum.CLUB_PROPRIETER})
 		public String deleteClubNews(){
 			user=Auth.getUserFromSession();
 			merchant=Auth.getMerchantFromSession();
@@ -192,6 +198,7 @@ public class ActivityAction extends BaseAction{
 	@Action(value = "preModifyActivity", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "modifyActivity.jsp"),
 			@Result(name = "admin", location = BaseAction.MANAGE + "modifyActivity.jsp")})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.ADMIN,AuthEnum.MERCHANT,AuthEnum.CLUB_MANAGER,AuthEnum.CLUB_PROPRIETER})
 		public String preModifyActivity(){
 			user=Auth.getUserFromSession();
 			merchant=Auth.getMerchantFromSession();
@@ -205,6 +212,7 @@ public class ActivityAction extends BaseAction{
 		//商家 、社团 修改社团发布的Activity
 		@Action(value = "modifyActivity", results = {
 				@Result(name = SUCCESS, location = REDIRECT_ACTION + "activitys")})
+		@com.tjxjh.annotation.Auth(auths = {AuthEnum.ADMIN,AuthEnum.MERCHANT,AuthEnum.CLUB_MANAGER,AuthEnum.CLUB_PROPRIETER})
 			public String modifyActivity(){
 				user=Auth.getUserFromSession();
 				merchant=Auth.getMerchantFromSession();
@@ -232,6 +240,7 @@ public class ActivityAction extends BaseAction{
 		//校江湖管理人员修改社团发布的Activity
 		@Action(value = "adminModifyActivity", results = {
 				@Result(name = SUCCESS, type = REDIRECT_ACTION,location = "adminActivitys")})
+		@com.tjxjh.annotation.Auth(auths = {AuthEnum.ADMIN})
 			public String adminModifyActivity(){
 				user=Auth.getUserFromSession();
 				Activity oldactivity=new Activity();

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.opensymphony.xwork2.ActionContext;
 import com.tjxjh.enumeration.OnlineActivityStatus;
 import com.tjxjh.enumeration.TalkingUrlType;
+import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.OnlineActivity;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
@@ -61,7 +62,11 @@ public class OnlineActivityService extends BaseService{
 	@Transactional(readOnly = true, propagation=Propagation.SUPPORTS)   
 	public OnlineActivity findByHql(User user,Merchant merchant,Club club,OnlineActivity activity){
 			List<OnlineActivity> list=null;
-			String hql="from OnlineActivity oa where oa.id=? and ( 1=1 ";
+			//校江湖管理员
+			if(user.getStatus()==UserStatus.ADMIN){
+				return this.findById(activity.getId());
+			}
+			String hql="from OnlineActivity oa where oa.id=? and ( 1=3 ";//1=3永远不成立，当所有都为空时，返回null
 			if(user!=null&&user.getId()!=null){
 				hql=hql+"or oa.user.id="+user.getId();
 			}

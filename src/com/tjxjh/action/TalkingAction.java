@@ -16,9 +16,9 @@ import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
+import com.tjxjh.auth.AuthEnum;
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Talking;
-import com.tjxjh.po.TalkingComment;
 import com.tjxjh.po.User;
 import com.tjxjh.pojo.IndexTalking;
 import com.tjxjh.service.TaklingAndMerchantNewsUpload;
@@ -63,6 +63,7 @@ public class TalkingAction extends BaseAction
 	@Result(name = SUCCESS, type = REDIRECT_ACTION,location ="/userCenter"),
 	@Result(name = INPUT, location = ERROR_PAGE),
 	@Result(name = ERROR, location = ERROR_PAGE)})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String add()
 	{
 		user=Auth.getUserFromSession();
@@ -163,6 +164,7 @@ public class TalkingAction extends BaseAction
 	@Action(value = "allTalking", results = {
 			@Result(name = SUCCESS, location = BaseAction.MANAGE + "allTalking.jsp"),
 			@Result(name = INPUT, location = ERROR_PAGE)})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.ADMIN})
 			public String allTalking()
 			{
 				user=Auth.getUserFromSession();
@@ -182,6 +184,7 @@ public class TalkingAction extends BaseAction
 			@Action(value = "preShareTalking", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "shareTalking.jsp"),
 			@Result(name = INPUT, location = ERROR_PAGE)})
+			@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 			public String preShare()
 			{
 				
@@ -197,6 +200,7 @@ public class TalkingAction extends BaseAction
 			@Action(value = "shareTalking", results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION,location ="/allTalking"),
 			@Result(name = INPUT, location = ERROR_PAGE)})
+			@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 			public String shareTalking()
 			{
 				origntalking.setId(talkingid);
@@ -215,6 +219,7 @@ public class TalkingAction extends BaseAction
 	
 			@Action(value = "deleteTalking", results = {
 			})
+			@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 			public String deleteTalking()
 			{
 				PrintWriter out =GetRequsetResponse.getAjaxPrintWriter();
