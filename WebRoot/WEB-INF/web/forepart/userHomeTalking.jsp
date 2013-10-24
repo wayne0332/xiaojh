@@ -150,7 +150,9 @@
 						<!-- like end -->
 					</div>
 				</s:iterator>
-				<br> <a href="<%=path%>/allTalking" target="_self">更多</a>
+				<br> 
+				<center><a href="<%=path%>/${actionName}?user.id=${user.id}"  
+					style="font-weight:bold; color:#357B1C; font-size:12px;" target="_self">⇓更多动态</a></center>
 
 			</div>
 			<!-- END：说说 -->

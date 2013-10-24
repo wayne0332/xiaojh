@@ -18,6 +18,7 @@ import cn.cafebabe.autodao.pojo.Page;
 
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Talking;
+import com.tjxjh.po.TalkingComment;
 import com.tjxjh.po.User;
 import com.tjxjh.pojo.IndexTalking;
 import com.tjxjh.service.TaklingAndMerchantNewsUpload;
@@ -47,7 +48,7 @@ public class TalkingAction extends BaseAction
 	
 	//分页信息
 	private Page page;
-	private Integer eachPageNumber=6;
+	private Integer eachPageNumber=2;
 	private Integer currentPage=1;
 	private Integer totalPageNumber=0;
 	private String actionName="myTalking";
@@ -98,6 +99,28 @@ public class TalkingAction extends BaseAction
 		actionName="talking";
 		return SUCCESS;
 	}
+	//ajax异步加载更多
+		@Action(value = "moreTalking", results = {
+		})
+	public String moreTalking()
+	{
+		PrintWriter out =GetRequsetResponse.getAjaxPrintWriter();
+		if(user==null||user.getId()==null){
+			user=Auth.getUserFromSession();
+		}
+		page=talkingService.getMyPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
+		List<Talking> tempTalking = talkingService.findMyTalkingByHql(page,user);
+		for(Talking t:tempTalking){
+			IndexTalking it=new IndexTalking();
+			it.setTcs(talkingCommentService.findByHql(t.getId()));
+			it.setT(t);
+			taks.add(it);
+		}
+			out.print(talkingService.getTalking(taks));
+			out.flush();
+			out.close();
+			return null;
+	}
 	@Action(value = "relativeTalking", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myTalking.jsp"),
 			@Result(name = INPUT, location = ERROR_PAGE)})
@@ -116,6 +139,26 @@ public class TalkingAction extends BaseAction
 				actionName="relativeTalking";
 				return SUCCESS;
 			}
+	//ajax异步加载更多
+	@Action(value = "moreRelativeTalking", results = {
+	})
+	public String moreRelativeTalking()
+	{
+		PrintWriter out =GetRequsetResponse.getAjaxPrintWriter();
+		user=Auth.getUserFromSession();
+		page=talkingService.getRelativePageByHql(user,eachPageNumber,currentPage,totalPageNumber);
+		List<Talking> tempTalking =talkingService.findRelativeTalkingByHql(page,user);
+		for(Talking t:tempTalking){
+			IndexTalking it=new IndexTalking();
+			it.setTcs(talkingCommentService.findByHql(t.getId()));
+			it.setT(t);
+			taks.add(it);
+		}
+			out.print(talkingService.getTalking(taks));
+			out.flush();
+			out.close();
+			return null;
+	}
 	
 	@Action(value = "allTalking", results = {
 			@Result(name = SUCCESS, location = BaseAction.MANAGE + "allTalking.jsp"),
