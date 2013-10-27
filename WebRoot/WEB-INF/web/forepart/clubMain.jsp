@@ -87,13 +87,13 @@
 							<div class="club_act_img">
 								<img class="act_photo" alt="活动照片" src="http://y3.ifengimg.com/2013/0805/wm_9783f21b46072d9503a7bd2f8017f4b7.jpg">
 							</div>
-							<div class="club_act_info">
+							<div class="club_act_info none">
 								<span class="club_act_title"><s:property value="tittle" /></span>
 								<p class="club_act_p">${text}</p>
 								<span class="club_act_li1">${place}</span>
 								<span class="club_act_li1">${participantCount}人 已参与</span>
 								<span class="club_act_li2">${club.name}${merchant.name} 主办</span>
-								<span>
+								<span class="share">
 									<a href="<%=path %>/preShareTalking?talking.id=${talking.id}">分享</a>
 								</span>
 							</div>
@@ -157,6 +157,9 @@
 			</s:iterator>
 		</div>
 	</div>
+	
+	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="js/club_page_action.js"></script>
 	
 </body>
 </html>
