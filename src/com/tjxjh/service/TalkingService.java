@@ -18,7 +18,10 @@ import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.ShareDetails;
 import com.tjxjh.po.Talking;
+import com.tjxjh.po.TalkingComment;
 import com.tjxjh.po.User;
+import com.tjxjh.pojo.IndexTalking;
+import com.tjxjh.util.Auth;
 import com.tjxjh.util.DeleteSource;
 import com.tjxjh.util.GetRequsetResponse;
 import cn.cafebabe.autodao.pojo.Page;
@@ -37,7 +40,114 @@ public class TalkingService extends BaseService{
 			return false;
 		}
 	}
-	
+	public String getTalking(List<IndexTalking> taks){
+		StringBuilder temp=new StringBuilder();
+		for(IndexTalking tak:taks){
+			Talking t=tak.getT();
+			temp.append("<div id='"+t.getId()+"' class='user_dongtai_div cf w700 mt10 pt10 pb15'><div class='w60 h fl'>");
+			temp.append("<img src='"+t.getUser().getPortraitPath()+"' class='w60 h60 fl shadow_l_10 radius_6' /></div>");
+			temp.append("<div id='talking_detail_div' class='fr w610 mt5 mr15 user_talking_detail_div'>");
+			temp.append("<a href='userHome?user.id="+t.getUser().getId()+"' target='_blank' class='f16 lh150 user_name_color'>");
+			temp.append(t.getUser().getName()+"</a> <label class='fr w610 f14'>"+t.getText()+"</label>");
+			
+			if(t.getTalking()==null){
+				temp.append("<div class='cf w610 mt5 fr of_h'>");
+				if(t.getUrl()!=null&&!t.getUrl().trim().equals("")&&t.getUrlType().toString()=="PICTURE"){
+					temp.append("<img src='"+t.getUrl()+"' class='maw400 mah300' />");
+				}
+				else if(t.getUrl()!=null&&!t.getUrl().trim().equals("")&&t.getUrlType().toString()=="VIDEO"){
+					temp.append(t.getUrl().replace("400", "300").replace("480", "360"));
+				}
+				temp.append("</div>");
+			}
+			else if(t.getTalking()!=null){
+				temp.append("<div class='p10 mt5 user_talking_share_div cb'>");
+				temp.append("(<a href='userHome?user.id="+t.getTalking().getUser().getId()+"' class='f12 user_name_color'>"+t.getTalking().getUser().getName()+"</a>");
+				temp.append(t.getTalking().getText()+"<br />");
+				if(t.getTalking().getUrl()!=null&&t.getTalking().getUrlType().toString()=="PICTURE"){
+					temp.append("<img src='"+t.getTalking().getUrl()+"' class='maw400 mah300' />");
+				}else if(t.getTalking().getUrl()!=null&&t.getTalking().getUrlType().toString()=="VIDEO"){
+					temp.append(t.getTalking().getUrl().replace("400", "300").replace("480", "360"));
+				}
+
+				temp.append("</div>");
+			}
+			temp.append("</div><!-- like -->");
+			
+			temp.append("<div class='fr w610 mt5 mr15'>");
+			int tepmpid=t.getUser().getId();
+			if(tepmpid==Auth.getUserFromSession().getId()){
+				temp.append("<a href='javascript:void(0);' onclick='deleteTalking("+t.getId()+");'>删除</a>");
+				temp.append("<span id='zan"+t.getId()+"'>"); 
+				if(t.getShareDetails()!=null){
+					temp.append("<!-- like --><a href='javascript:void(0);'>赞("+t.getShareDetails().getPraiseCount()+")</a>");
+				}else{
+					temp.append("<a href='javascript:void(0);'>赞("+t.getTalking().getShareDetails().getPraiseCount()+")</a>");
+				}
+						
+				temp.append("</span>");
+				temp.append("<label>"+t.getDatetime().toString().substring(0,16)+"</label>");
+				temp.append("<a href='javascript:void(0);'>分享");
+				if(t.getShareDetails()!=null){
+					temp.append("("+t.getShareDetails().getShareCount()+")");
+				}else{
+					temp.append("("+t.getTalking().getShareDetails().getShareCount()+")");
+				}
+				temp.append("</a>");
+			}else{
+				temp.append("<span id='zan"+t.getId()+"'>");
+				if(t.getShareDetails()!=null){
+					temp.append("<!-- like --><a href='javascript:void(0);' onclick='zanTalking("+t.getId()+");'>赞("+t.getShareDetails().getPraiseCount()+")</a>");
+				}
+				else{
+					temp.append("<a href='javascript:void(0);' onclick='zanTalking("+t.getId()+");'>赞("+t.getTalking().getShareDetails().getPraiseCount()+")</a>");
+				}
+				temp.append("</span>");
+				temp.append("<label>"+t.getDatetime().toString().substring(0,16)+"</label>");
+				if(t.getTalking()==null){
+					temp.append("<a href='preShareTalking?talking.id="+t.getId()+"'>分享");
+							if(t.getShareDetails()!=null){
+								temp.append("("+t.getShareDetails().getShareCount()+")");
+							}else{
+								temp.append("("+t.getTalking().getShareDetails().getShareCount()+")");
+							}
+							temp.append("</a>");
+				}else{
+					temp.append("<a href='preShareTalking?talking.id="+t.getTalking().getId()+"&message="+t.getText()+"'>分享");
+					if(t.getShareDetails()!=null){
+						temp.append("("+t.getShareDetails().getShareCount()+")");
+					}else{
+						temp.append("("+t.getTalking().getShareDetails().getShareCount()+")");
+					}
+					temp.append("</a>");
+				}
+			}
+			temp.append("<!-- 分割线 --><!-- 说说回复 -->");
+			temp.append("<span id='tcs"+t.getId()+"'> <!-- 用于ajax动态更新说说 -->");
+			for(TalkingComment tc:tak.getTcs()){
+				temp.append("<div id='tc"+tc.getId()+"' class='user_pinglun_div w610 cb tc_detail'>");
+				temp.append("<div class='w40 h40 mt5 mr10 fl '>");
+				temp.append("<a href='userHome?user.id="+tc.getUser().getId()+"' target='_blank'>");
+				temp.append("<img src='"+tc.getUser().getPortraitPath()+"' class='w40 h40 shadow_l_10 radius_6' /> </a></div>");
+				temp.append("<div class='fl w560'><a href='userHome?user.id="+tc.getUser().getId()+"' target='_blank' class='f12 user_name_color'>");
+				temp.append(tc.getUser().getName()+"</a> :"+tc.getText()+"<br />");
+				temp.append("<div class='fl color_gray'>"+tc.getDatetime().toString().substring(5,16)+"&nbsp;&nbsp;&nbsp;</div>");
+				temp.append("<a href='javascript:void(0);' onclick=\"huifu("+t.getId()+",'"+tc.getUser().getName()+"',"+tc.getUser().getId()+");\" class='f12 user_name_color'>回复</a>");
+				int tepmpid2=tc.getUser().getId();
+				if(tepmpid2==Auth.getUserFromSession().getId()){
+					temp.append("<span class='delete_tc'> &nbsp;&nbsp;<a href='javascript:void(0);' onclick='deleteTalkingComment("+tc.getId()+");'");
+					temp.append("class='f12 user_name_color'>删除</a> </span>");
+				}
+				temp.append("</div><div class='cb'></div></div>");
+			}
+			//userid
+			temp.append("</span> <input type='hidden' id='user_id"+t.getId()+"' name='userid' value='0' />");
+			temp.append("<textarea id='pl_t"+t.getId()+"' name='talkingComment.text' class='fr mt5 textarea color_gray' style='width:610px;'></textarea>");
+			temp.append("<input type='button' class='submit fr' onclick='addTalkingComment("+t.getId()+");' value='评论' />");
+			temp.append("<!-- End:说说回复 --></div><!-- like end --></div>");
+		}
+		return temp.toString();
+	}
 	@Transactional (propagation = Propagation.REQUIRED) 
 	public Talking delete(Talking tak){
 		 tak.setStatus(TalkingStatus.DELETE);

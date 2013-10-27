@@ -15,6 +15,7 @@ import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
+import com.tjxjh.auth.AuthEnum;
 import com.tjxjh.enumeration.TalkingUrlType;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.ClubNews;
@@ -64,7 +65,8 @@ public class ClubNewsAction extends BaseAction{
 	 * @throws Exception
 	 */
 	@Action(value = "addClubNews", results = {
-			@Result(name = SUCCESS, location = BaseAction.FOREPART + "success.jsp")})
+	@Result(name = SUCCESS, location = BaseAction.FOREPART + "success.jsp")})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.CLUB_MANAGER,AuthEnum.CLUB_PROPRIETER})
 	public String add(){
 		club=Auth.getCluFromSession ();
 		//user=Auth.getUserFromSession();
@@ -82,7 +84,7 @@ public class ClubNewsAction extends BaseAction{
 		}
 	}
 	@Action(value = "allClubNews", results = {
-			@Result(name = SUCCESS,location = MANAGE+"allClubNews.jsp")})
+	@Result(name = SUCCESS,location = MANAGE+"allClubNews.jsp")})
 	public String allClubNews(){
 		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
 		page.setCurrentPage(pageNum);
@@ -97,7 +99,8 @@ public class ClubNewsAction extends BaseAction{
 	}
 	//根据用户所在社团，查出社团发布的clubnews
 	@Action(value = "myClubNews", results = {
-			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myClubNews.jsp")})
+	@Result(name = SUCCESS, location = BaseAction.FOREPART + "myClubNews.jsp")})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String findMyClubNews(){
 		user=Auth.getUserFromSession();
 		page=clubNewsService.getMyPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
@@ -108,7 +111,7 @@ public class ClubNewsAction extends BaseAction{
 	}
 	//查询某个社团的clubnews
 	@Action(value = "oneClubNews", results = {
-				@Result(name = SUCCESS, location = BaseAction.FOREPART + "myClubNews.jsp")})
+	@Result(name = SUCCESS, location = BaseAction.FOREPART + "myClubNews.jsp")})
 		public String findOneClubNews(){
 			if(club==null||club.getId()==null){
 				club=Auth.getCluFromSession ();
@@ -121,16 +124,18 @@ public class ClubNewsAction extends BaseAction{
 		}
 	//管理员查看所在社团的clubnews,可以修、删除
 		@Action(value = "adminFindOneClubNews", results = {
-					@Result(name = SUCCESS, location = BaseAction.FOREPART + "myClubNews.jsp")})
+		@Result(name = SUCCESS, location = BaseAction.FOREPART + "myClubNews.jsp")})
+		@com.tjxjh.annotation.Auth(auths = {AuthEnum.ADMIN})
 			public String adminFindOneClubNews(){
 				findOneClubNews();
 				actionName="adminFindOneClubNews";
 				return SUCCESS;
 				
 		}
-		//管理员删除所在社团的Clubnews
+		//社团管理员删除所在社团的Clubnews
 		@Action(value = "deleteClubNews", results = {
-				@Result(name = SUCCESS,type = REDIRECT_ACTION, location ="adminFindOneClubNews")})
+		@Result(name = SUCCESS,type = REDIRECT_ACTION, location ="adminFindOneClubNews")})
+		@com.tjxjh.annotation.Auth(auths = {AuthEnum.CLUB_MANAGER,AuthEnum.CLUB_PROPRIETER})
 			public String deleteClubNews(){
 				user=Auth.getUserFromSession();
 				clubnews=clubNewsService.findByHql(user, clubnews);
@@ -141,21 +146,19 @@ public class ClubNewsAction extends BaseAction{
 				return SUCCESS;
 						
 		}
-		//后台管理方法
+		//校江湖管理人员删除社团信息
 		@Action(value = "adminDeleteClubNews", results = {
-				@Result(name = SUCCESS,type = REDIRECT_ACTION, location ="allClubNews", params={"pageNum","${pageNum}"})})
+		@Result(name = SUCCESS,type = REDIRECT_ACTION, location ="allClubNews", params={"pageNum","${pageNum}"})})
+		@com.tjxjh.annotation.Auth(auths = {AuthEnum.ADMIN})
 			public String adminDeleteClubNews(){
-				user=Auth.getUserFromSession();
-				clubnews=clubNewsService.findByHql(user, clubnews);
-				if(clubnews!=null){
-					clubNewsService.delete(clubnews);
-				}
+				clubNewsService.delete(clubnews);
 				return SUCCESS;
 						
 		}
 		//管理员修改社团发布的Clubnews
 		@Action(value = "preModifyClubNews", results = {
-				@Result(name = SUCCESS, location = BaseAction.FOREPART + "modifyClubNews.jsp")})
+		@Result(name = SUCCESS, location = BaseAction.FOREPART + "modifyClubNews.jsp")})
+		@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 			public String preModifyClubNews(){
 				user=Auth.getUserFromSession();
 				clubnews=clubNewsService.findByHql(user, clubnews);
@@ -169,7 +172,8 @@ public class ClubNewsAction extends BaseAction{
 			}	
 		//管理员修改社团发布的Clubnews 说说user 应改为社团对应的user
 		@Action(value = "modifyClubNews", results = {
-				@Result(name = SUCCESS,type = REDIRECT_ACTION, location ="adminFindOneClubNews")})
+		@Result(name = SUCCESS,type = REDIRECT_ACTION, location ="adminFindOneClubNews")})
+		@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 			public String modifyClubNews(){
 			user=Auth.getUserFromSession();
 			ClubNews oldclubnews=clubNewsService.findByHql(user, clubnews);

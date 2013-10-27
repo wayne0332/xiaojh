@@ -30,8 +30,8 @@
 				<a href="<%=path%>/addOnlineActivityJsp"
 					class="single_bt1 w100 mt5 ml5 fl shadow_l_3">发表线上活动</a> <a
 					href="relativeActivity" class="single_bt2 w100 fl mt10 shadow_l_3">查看线下活动</a><br />
-				<br /> <a href="#" class="fr mr20">时间排序</a> <a href="#"
-					class="fr mr10">热度排序</a>
+				<br /> <!-- <a href="#" class="fr mr20">时间排序</a> <a href="#"
+					class="fr mr10">热度排序</a> -->
 			</div>
 
 			<s:property value="message" />

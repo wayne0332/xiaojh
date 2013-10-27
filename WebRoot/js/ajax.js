@@ -1,33 +1,43 @@
 var talkingspanid;
-function addTalking(id)
+var currentPage=2;
+var totalPageNumber=0;
+function getTalkings(id,name)
 { 
-	if(!confirm("确定删除说说?")){
-		return;
-	}
 	xmlHttp=GetXmlHttpObject();
 	if (xmlHttp==null)
 	{
 		alert ("您的浏览器不支持AJAX！");
 		return;
-	} 
-	talkingspanid=id;
-	var url="addTalking?talking.id="+id;
-	xmlHttp.open("POST",url);
-	xmlHttp.onreadystatechange=huifuStateChanged;
-	xmlHttp.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-	xmlHttp.send("talkingComment.talking.id="+talkingid+"&userid="+userid+"&talkingComment.text="+encodeURIComponent(pl_t));
+	}
+	document.getElementById("loading").style.display = "block";
+	document.getElementById("more").style.display = "none";
+	var url="";
+	currentPage= document.getElementById("currentPage").value;
+	totalPageNumber=document.getElementById("totalPageNumber").value;
+	if(name=="relativeTalking"){
+		url="moreRelativeTalking?currentPage="+currentPage+"&totalPageNumber="+totalPageNumber;
+	}else if(name=="talking"){
+		url="moreTalking?currentPage="+currentPage+"&totalPageNumber="+totalPageNumber+"&user.id="+id;
+	}
+	xmlHttp.onreadystatechange=getTalkingsChanged;
+	xmlHttp.open("GET",url,true);
+	xmlHttp.send(null);
 }
 
-function addTalkingChanged()
+function getTalkingsChanged()
 { 
 	if (xmlHttp.readyState==4)
 	{ 
 		var res=xmlHttp.responseText;
-		if(res=="true"){
-			document.getElementById(talkingspanid).style.display = "none";
+		if(res!=""){
+			document.getElementById("ajaxTalking").innerHTML = document.getElementById("ajaxTalking").innerHTML+res;
+			document.getElementById("currentPage").value=parseInt(currentPage)+1;
+			document.getElementById("totalPageNumber").value=totalPageNumber;
 		}else{
-			alert("删除失败！");
+			alert("没有数据！");
 		}
+		document.getElementById("loading").style.display = "none";
+		document.getElementById("more").style.display = "block";
 
 	}
 }

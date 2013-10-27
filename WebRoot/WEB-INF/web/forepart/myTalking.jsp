@@ -35,6 +35,7 @@
 				<br />
 			</div>
 			<div class="cf fl shadow_l_10 w700 bg_fff mt15 ml5 pl10 pr10">
+			<span id="ajaxTalking">
 				<!-- 说说 -->
 				<s:iterator value="taks" id="tak">
 					<div id="${t.id}" class="user_dongtai_div cf w700 mt10 pt10 pb15">
@@ -161,10 +162,20 @@
 						<!-- like end -->
 					</div>
 				</s:iterator>
+				</span>
 				<!-- END：说说 -->
-
+				<br> 
+				<input type="hidden" id="currentPage" value="${page.currentPage+1}"/>
+				<input type="hidden" id="totalPageNumber" value="${page.pageNumber}"/>
+				<div id="loading" style=" text-align:center;" class="mt5 none">
+					数据加载中...&nbsp;&nbsp;<img src="images/loading.gif" />
+				</div>
+				<div id="more" style=" text-align:center;"><a href="javascript:void(0);" onclick="getTalkings(${user.id},'${actionName}')" 
+					style="font-weight:bold; color:#357B1C; font-size:12px;" target="_self">⇓更多动态</a></div>
+					
+					
 			</div>
-			<ul class="w300 fl mt20">
+		<!--  	<ul class="w300 fl mt20">
 				<li class="w60 fr">共${page.pageNumber}页</li>
 				<li class="w60 fr">当前第${page.currentPage}页</li>
 				<li class="w60 fl"><a
@@ -174,7 +185,7 @@
 				<li class="w60 fl"><a
 					href="<%=path%>/${actionName}?currentPage=${page.currentPage+1}&totalPageNumber=${page.pageNumber}&user.id=${club.id}"
 					target="_self">下一页</a></li>
-			</ul>
+			</ul>-->
 		</div>
 		<ul class="left_bar fl cf mt75 pt50">
 			<li class="shadow_l_5 m15 p5"><ads:adver adsId="2" contentId="0"></ads:adver>

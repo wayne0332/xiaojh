@@ -16,6 +16,7 @@ import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
+import com.tjxjh.auth.AuthEnum;
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
@@ -26,7 +27,7 @@ import com.tjxjh.service.TalkingService;
 import com.tjxjh.util.Auth;
 import com.tjxjh.util.GetRequsetResponse;
 
-
+//已经添加拦截器
 @ParentPackage("struts-default")
 @Namespace("/")
 public class TalkingAction extends BaseAction
@@ -47,7 +48,7 @@ public class TalkingAction extends BaseAction
 	
 	//分页信息
 	private Page page;
-	private Integer eachPageNumber=6;
+	private Integer eachPageNumber=2;
 	private Integer currentPage=1;
 	private Integer totalPageNumber=0;
 	private String actionName="myTalking";
@@ -62,6 +63,7 @@ public class TalkingAction extends BaseAction
 	@Result(name = SUCCESS, type = REDIRECT_ACTION,location ="/userCenter"),
 	@Result(name = INPUT, location = ERROR_PAGE),
 	@Result(name = ERROR, location = ERROR_PAGE)})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String add()
 	{
 		user=Auth.getUserFromSession();
@@ -98,6 +100,28 @@ public class TalkingAction extends BaseAction
 		actionName="talking";
 		return SUCCESS;
 	}
+	//ajax异步加载更多
+		@Action(value = "moreTalking", results = {
+		})
+	public String moreTalking()
+	{
+		PrintWriter out =GetRequsetResponse.getAjaxPrintWriter();
+		if(user==null||user.getId()==null){
+			user=Auth.getUserFromSession();
+		}
+		page=talkingService.getMyPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
+		List<Talking> tempTalking = talkingService.findMyTalkingByHql(page,user);
+		for(Talking t:tempTalking){
+			IndexTalking it=new IndexTalking();
+			it.setTcs(talkingCommentService.findByHql(t.getId()));
+			it.setT(t);
+			taks.add(it);
+		}
+			out.print(talkingService.getTalking(taks));
+			out.flush();
+			out.close();
+			return null;
+	}
 	@Action(value = "relativeTalking", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myTalking.jsp"),
 			@Result(name = INPUT, location = ERROR_PAGE)})
@@ -116,10 +140,31 @@ public class TalkingAction extends BaseAction
 				actionName="relativeTalking";
 				return SUCCESS;
 			}
+	//ajax异步加载更多
+	@Action(value = "moreRelativeTalking", results = {
+	})
+	public String moreRelativeTalking()
+	{
+		PrintWriter out =GetRequsetResponse.getAjaxPrintWriter();
+		user=Auth.getUserFromSession();
+		page=talkingService.getRelativePageByHql(user,eachPageNumber,currentPage,totalPageNumber);
+		List<Talking> tempTalking =talkingService.findRelativeTalkingByHql(page,user);
+		for(Talking t:tempTalking){
+			IndexTalking it=new IndexTalking();
+			it.setTcs(talkingCommentService.findByHql(t.getId()));
+			it.setT(t);
+			taks.add(it);
+		}
+			out.print(talkingService.getTalking(taks));
+			out.flush();
+			out.close();
+			return null;
+	}
 	
 	@Action(value = "allTalking", results = {
 			@Result(name = SUCCESS, location = BaseAction.MANAGE + "allTalking.jsp"),
 			@Result(name = INPUT, location = ERROR_PAGE)})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.ADMIN})
 			public String allTalking()
 			{
 				user=Auth.getUserFromSession();
@@ -139,6 +184,7 @@ public class TalkingAction extends BaseAction
 			@Action(value = "preShareTalking", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "shareTalking.jsp"),
 			@Result(name = INPUT, location = ERROR_PAGE)})
+			@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 			public String preShare()
 			{
 				
@@ -154,6 +200,7 @@ public class TalkingAction extends BaseAction
 			@Action(value = "shareTalking", results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION,location ="/allTalking"),
 			@Result(name = INPUT, location = ERROR_PAGE)})
+			@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 			public String shareTalking()
 			{
 				origntalking.setId(talkingid);
@@ -172,6 +219,7 @@ public class TalkingAction extends BaseAction
 	
 			@Action(value = "deleteTalking", results = {
 			})
+			@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 			public String deleteTalking()
 			{
 				PrintWriter out =GetRequsetResponse.getAjaxPrintWriter();

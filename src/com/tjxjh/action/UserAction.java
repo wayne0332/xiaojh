@@ -419,6 +419,7 @@ public class UserAction extends BaseAction
 			it.setTcs(talkingCommentService.findByHql(t.getId()));
 			taks.add(it);
 		}
+		getRequestMap().put("actionName", "talking");//更多连接地址
 		return SUCCESS;
 	}
 	
@@ -526,6 +527,7 @@ public class UserAction extends BaseAction
 			it.setTcs(talkingCommentService.findByHql(t.getId()));
 			taks.add(it);
 		}
+		getRequestMap().put("actionName", "relativeTalking");//更多连接地址
 		return SUCCESS;
 	}
 	

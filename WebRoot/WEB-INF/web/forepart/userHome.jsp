@@ -34,6 +34,7 @@
 			</div>
 			<!-- END:相册-->
 			<jsp:include page="userHomeTalking.jsp" />
+			
 		</div>
 		<div class="clearfloat"></div>
 		<div class="footer"></div>
