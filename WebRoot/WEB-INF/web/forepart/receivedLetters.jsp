@@ -59,7 +59,8 @@
 									<s:property value="status.name" />
 								</span>
 							</div>
-						</div></li>
+						</div>
+					</li>
 				</s:iterator>
 			</ul>
 			<wst:page url="receivedLetters" />

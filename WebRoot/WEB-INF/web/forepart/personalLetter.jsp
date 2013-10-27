@@ -1,43 +1,53 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
 <head>
-<title>My JSP 'personalLetter.jsp' starting page</title>
+<title>校江湖</title>
 
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
+<link rel="stylesheet" type="text/css" href="css/base-min.css" />
+<link rel="stylesheet" type="text/css" href="css/common.css" />
+<link rel="stylesheet" type="text/css" href="css/page-user.css" />
 
 </head>
-
 <body>
-	<table>
-		<tr>
-			<td>收件人:</td>
-			<td><s:property value="letter.userByTargetUserId.name" /></td>
-		</tr>
-		<tr>
-			<td>发件人:</td>
-			<td><s:property value="letter.userBySourceUserId.name" /></td>
-		</tr>
-		<%-- <tr>
-			<td>标题:</td>
-			<td><s:property value="letter.title" /></td>
-		</tr> 标题不用了 --%>
-		<tr>
-			<td>发送时间:</td>
-			<td><s:date name="letter.datetime" format="yyyy-MM-dd HH:mm:ss" />
-			</td>
-		</tr>
-		<tr>
-			<td>内容:</td>
-			<td><s:property value="letter.text" />
-			</td>
-		</tr>
-	</table>
+	<div class="container">
+	
+		<jsp:include page="head.jsp" />
+		
+		<div class="main mt75">
+			<div class="letter_box cf">
+			
+				<div class="lette_box_left">
+					<img alt="头像" title="头像" src="images/head/head1.jpg"
+						class="logoImg shadow_l_3" />
+						<br>
+					<s:property value="letter.userBySourceUserId.name" />
+				</div>
+				
+				<div class="lette_box_right shadow_l_3">
+					<div>
+						<s:a href="personalLetter?letter.id=%{id}" class="showLetter">
+							<p class="letter_content">
+								<s:property value="letter.text" />
+							</p>
+						</s:a>
+					</div>
+					<div>
+						<span class="letter_name">
+							<span>
+								<s:date name="letter.datetime" format="MM/dd HH:mm" />
+								<s:a href="personalLetterInput?targetUser.id=%{userBySourceUserId.id}&targetUser.name=%{userBySourceUserId.name}">回复</s:a>
+								<s:a href="deleteLetter?letter.id=%{id}">删除</s:a>
+							</span>
+						</span> 
+					</div>
+				</div>
+				
+			</div>
+		</div>
+		
+	</div>
 </body>
 </html>
