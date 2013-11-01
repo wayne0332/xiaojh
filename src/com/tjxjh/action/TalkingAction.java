@@ -60,7 +60,7 @@ public class TalkingAction extends BaseAction
 	@Resource
 	private TalkingCommentService talkingCommentService = null;
 	@Action(value = "addTalking", results = {
-	@Result(name = SUCCESS, type = REDIRECT_ACTION,location ="/userCenter"),
+	@Result(name = SUCCESS, type = REDIRECT_ACTION,location ="userCenter"),
 	@Result(name = INPUT, location = ERROR_PAGE),
 	@Result(name = ERROR, location = ERROR_PAGE)})
 	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
@@ -198,7 +198,7 @@ public class TalkingAction extends BaseAction
 				
 			}
 			@Action(value = "shareTalking", results = {
-			@Result(name = SUCCESS, type = REDIRECT_ACTION,location ="/allTalking"),
+			@Result(name = SUCCESS, type = REDIRECT_ACTION,location ="allTalking"),
 			@Result(name = INPUT, location = ERROR_PAGE)})
 			@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 			public String shareTalking()
