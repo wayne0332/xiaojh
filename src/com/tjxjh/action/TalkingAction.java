@@ -187,7 +187,6 @@ public class TalkingAction extends BaseAction
 			@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 			public String preShare()
 			{
-				
 				origntalking=talkingService.preShare(talking.getId(),Auth.getUserFromSession().getId());
 				if(origntalking!=null)
 				{
