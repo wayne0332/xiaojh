@@ -101,7 +101,7 @@ public class UserAction extends BaseAction
 	
 	@Action(value = "allUser", results = {@Result(name = SUCCESS, location = MANAGE
 			+ "allUser.jsp")})
-	@Auth(type = AdminAuth.class)
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.ADMIN})
 	public String allUser()
 	{
 		Page page = new Page(pageNum * Page.getDefaultPageNumber() + 1);
@@ -250,6 +250,7 @@ public class UserAction extends BaseAction
 	@SuppressWarnings("static-access")
 	@Action(value = UPDATE_USER, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = REFRESH_USER
 			+ MAIN)})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String updateUser()
 	{
 		if(portrait != null)
@@ -372,6 +373,7 @@ public class UserAction extends BaseAction
 	 */
 	@Action(value = "photos", results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 			+ "userHomePhotos.jsp")})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String findMyPicture()
 	{
 		if(user == null || user.getId() == null)
@@ -406,6 +408,7 @@ public class UserAction extends BaseAction
 	// main :userHome
 	@Action(value = MAIN, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 			+ MAIN + JSP)})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String home()
 	{
 		initUserHome();
@@ -485,6 +488,7 @@ public class UserAction extends BaseAction
 	
 	@Action(value = CENTER, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 			+ CENTER + JSP)})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String center()
 	{
 		/************************** TT *******************************************/
@@ -533,6 +537,7 @@ public class UserAction extends BaseAction
 	
 	@Action(value = MY_INVITED, results = {@Result(name = SUCCESS, location = FOREPART
 			+ MY_INVITED + JSP)})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String myInvited()
 	{
 		super.getRequestMap().put(MY_INVITED,
@@ -549,6 +554,7 @@ public class UserAction extends BaseAction
 	
 	@Action(value = "myFocus", results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 			+ "myFocus.jsp")})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String myFocus()
 	{
 		// List<User> focusList = sessionUser.getUsersForTargetUserId();
