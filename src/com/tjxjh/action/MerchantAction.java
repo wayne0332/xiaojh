@@ -49,6 +49,7 @@ public class MerchantAction extends BaseAction
 	static final String ADD_MERCHANT_NEWS_INPUT = "addMerchantNewsInput";
 	static final String MERCHANT_NEWS = "merchantNews";
 	static final String MERCHANT_MAIN = "merchantMain";
+	static final String MERCHANT= "merchant";
 	static final String MERCHANT_LOGIN = "merchantLogin";
 	static final String CHECK_MERCHANT = "checkMerchant";
 	static final String APPLY_MERCHANT = "applyMerchant";
@@ -203,7 +204,7 @@ public class MerchantAction extends BaseAction
 	
 	// 商家主页
 	@Action(value = "merchant", results = {@Result(name = SUCCESS, location = FOREPART
-			+ MERCHANT_MAIN + JSP)})
+			+ MERCHANT + JSP)})
 	public String merchant()
 	{
 		merchant = merchantService.merchantById(merchant);

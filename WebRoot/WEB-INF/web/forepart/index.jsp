@@ -23,7 +23,7 @@
 <body>
 	<div class="container cf">
 		<jsp:include page="head.jsp" />
-		<div class="cityMap w mt75 mb50 fl">
+		<div class="cityMap mt75 mb50 fl">
 			<button class="index_Abt circle_100 mt50 shadow_l_5 fl hov"
 				id="advToMap"
 				<s:if test="#session.user == null && #session.merchant == null">style="display: none;"</s:if>>切换到地图</button>
@@ -179,7 +179,8 @@
 									<img src="${titleImgPath}" class="w40 h50" />
 								</div>
 								<div class="fl  ml5">
-									标题：<a href="activity?activity.id=${id}">${tittle}</a><br />发布时间：${datetime}&nbsp;参与人数：${participantCount}
+									标题：<a href="activity?activity.id=${id}">${tittle}</a><a href="merchant?merchant.id=${merchant.id}" target="_blank">${merchant.name}</a><br />
+									发布时间：${datetime}&nbsp;参与人数：${participantCount}
 								</div>
 							</div>
 						</s:iterator>

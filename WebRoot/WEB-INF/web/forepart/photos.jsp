@@ -35,8 +35,8 @@
 		</s:if>
 		<s:iterator value="pics">
 			<span style="display: inline-block;"> <a
-				href="<%=path%><s:property  value="path.replace('st_', '')" />"
-				target="_blank"><img src="<%=path%>/${path}" /> </a> <br />
+				href="<s:property  value="path.replace('st_', '')" />"
+				target="_blank"><img src="${path}" /> </a> <br />
 				${name}&nbsp; 
 				<s:if test="actionName.equals('relativePicture')">
      			From:<a href="userHome?user.id=${user.id}">${user.name}</a>
@@ -44,7 +44,7 @@
 			</span>
 		</s:iterator>
 
-		<br /> 当当前第${page.currentPage}页&nbsp;共${page.pageNumber}页 <a
+		<br /> 当前第${page.currentPage}页&nbsp;共${page.pageNumber}页 <a
 			href="<%=path%>/${actionName}?currentPage=${page.currentPage-1}&totalPageNumber=${page.pageNumber}"
 			target="_self">上一页</a>&nbsp; <a
 			href="<%=path%>/${actionName}?currentPage=${page.currentPage+1}&totalPageNumber=${page.pageNumber}"

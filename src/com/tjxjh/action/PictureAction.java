@@ -14,6 +14,7 @@ import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
+import com.tjxjh.auth.AuthEnum;
 import com.tjxjh.po.Picture;
 import com.tjxjh.po.User;
 import com.tjxjh.service.PictureService;
@@ -51,6 +52,7 @@ public class PictureAction extends BaseAction{
 	 */
 	@Action(value = "addPicture", results = {
 			@Result(name = SUCCESS,  type = REDIRECT_ACTION,location = "photos")})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String addPicture(){
 		String imagePath =UPLOAD_IMAGE_PATH+uploadImageFileName;//上传图片相对地址
 		boolean flage=false;
@@ -85,6 +87,7 @@ public class PictureAction extends BaseAction{
 	 */
 	@Action(value = "deletePicture", results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION,location = "photos")})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER,AuthEnum.ADMIN})
 	public String deletePicture(){
 			user=Auth.getUserFromSession();
 			picture=pictureService.findByHql(new Object[]{user.getId(),picture.getId()});
@@ -121,6 +124,7 @@ public class PictureAction extends BaseAction{
 	 */
 	@Action(value = "relativePicture", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "photos.jsp")})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String findRelativePicture(){
 		page=pictureService.getRelativeByHql(eachPageNumber,currentPage,totalPageNumber);
 		pics=pictureService.findRelativePictureByHql(page);
@@ -135,6 +139,7 @@ public class PictureAction extends BaseAction{
 	
 	@Action(value = "preUpdatePicture", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "renamePhoto.jsp")})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String preUpdate(){
 		user=Auth.getUserFromSession();
 		picture=pictureService.findByHql(new Object[]{user.getId(),picture.getId()});
@@ -153,6 +158,7 @@ public class PictureAction extends BaseAction{
 	
 	@Action(value = "updatePicture", results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION,location = "photos")})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String update(){
 		user=Auth.getUserFromSession();
 		Picture temppicture=pictureService.findByHql(new Object[]{user.getId(),picture.getId()});
