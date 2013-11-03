@@ -1,25 +1,190 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
 <%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
-    <title>My JSP 'searchAll.jsp' starting page</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
+<head>
+<base href="<%=basePath%>" />
+
+<title>校江湖 - 好友</title>
+
+<link rel="stylesheet" type="text/css" href="css/base-min.css" />
+<link rel="stylesheet" type="text/css" href="css/common.css" />
+<link rel="stylesheet" type="text/css" href="css/page-user.css" />
+
+</head>
+
+</head>
+<body>
+
+	<div class="container cf zoom">
+		<jsp:include page="head.jsp" />
+
+		<div class="left_bar mt75">
+			<div class="my_info w240 h90 p5 m5 shadow_l_10 bg_box">
+				<img src="images/head/head1.jpg"
+					class="fl mt5 ml10 circle_80 shadow_l_5" />
+				<ul class="fl w135 p5 pl10 text_r">
+					<li class="w135 text_l f14"><a href="updateUserInput"><s:property
+								value="#session.user.name" /> </a></li>
+					<li><s:property value="#session.user.grade" />
+					</li>
+
+					<li><s:property value="#session.user.grade % 2000" />级</li>
+					<li><s:property
+							value="#application.schools[#session.user.school.id].name" /></li>
+					<!-- <li>凤凰社</li> -->
+				</ul>
+			</div>
+		</div>
+
+		<div class="main cf mt75">
+			<div class="friendList cf">
+
+				<div>
+					<span>朋友</span>
+					<a href="searchUser?searchText=<s:property value="#request.searchText" />&pageNum=1&club.id=<s:property value="club.id" />">更多结果</a>
+				</div>
+				
+				<div class="cf">
+					<s:iterator value="#request.searchResult.userList">
+	
+						<div class="friendBox shadow_l_3 school_${school.id }">
+							<s:if test="portrait==''">
+								<a href="userHome?user.id=${id}"><img
+									src="images/head/head1.jpg" class="fl logoImg" /> </a>
+							</s:if>
+							<s:else>
+								<a href="userHome?user.id=${id}"><img
+									src="images/head/head1.jpg" class="fl logoImg" /> </a>
+							</s:else>
+							<ul class="frd_box_info">
+								<li class="frd_name"><s:property value="name" />
+								</li>
+								<li><s:property value="school.name" />
+								</li>
+								<li><s:property value="grade" />&nbsp;<s:property value="sex" />
+								</li>
+							</ul>
+							<a class="send_msg clear_a op_btn_yellow_green hov" href="personalLetterInput?targetUser.id=%{id}&targetUser.name=%{name}">发私信</a>
+							<s:if test="%{#session.user.id!=id}">
+								<span class="no_focus">
+									<s:if test="%{#request.userMap[id]==null}">
+										<a class="hov" id="<s:property value="id" />" onclick="focusUser(<s:property value="id" />)">取消关注</a>
+									</s:if>
+									<s:else>
+										已关注
+									</s:else>
+								</span>
+							</s:if>
+						</div>
+	
+					</s:iterator>
+				</div>
+				
+				<div>
+					<span>社团</span>
+					<a href="searchUser?searchText=<s:property value="#request.searchText" />&pageNum=1&club.id=<s:property value="club.id" />">更多结果</a>
+				</div>
+				
+				<div class="cf">
+					<s:iterator value="#request.searchResult.clubList">
+	
+						<div class="schoolBox shadow_l_3">
+							<s:if test="portrait==''">
+								<a href="javascript:;"><img src="<s:property value="logoPath" />" class="fl logoImg" /></a>
+							</s:if>
+							<s:else>
+								<a href="javascript:;"><img src="upload/portrait/auto_photo.png" class="fl logoImg" /></a>
+							</s:else>
+							<ul class="frd_box_info">
+								<li class="frd_name"><s:property value="name" /></li>
+								<li><s:property value="school.name" /></li>
+								<li><s:property value="briefIntroduction" /></li>
+							</ul>
+							<span class="send_msg clear_a op_btn_yellow_green"><s:property value="memberNumber" />人</span>
+							<s:if test="%{#session.user.id!=id}">
+								<span class="no_focus">
+									<s:if test="%{#session.user!=null}">
+										<s:if test="%{id in #request.checkListC}">
+											<a id="uc_<s:property value="id" />" disabled="disabled">已关注</a>
+										</s:if>
+										<s:else>
+											<a id="uc_<s:property value="id" />" onclick="focusClub(<s:property value="id" />)" >关注</a>
+										</s:else>
+									</s:if>
+									<s:elseif test="%{#session.merchant!=null}">
+										<s:if test="%{id in #request.checkListC}">
+											<a id="mc_<s:property value="id" />" disabled="disabled">已关注</a>
+										</s:if>
+										<s:else>
+											<a id="mc_<s:property value="id" />" onclick="merchantFocusClub(<s:property value="id" />)">关注</a>
+										</s:else>
+									</s:elseif>
+								</span>
+							</s:if>
+						</div>
+	
+					</s:iterator>
+				</div>
+				
+				<div>
+					<span>商家</span>
+					<a href="searchMerchant?searchText=<s:property value="searchText" />&pageNum=1&club.id=<s:property value="club.id" />">更多结果</a>
+				</div>
+				
+				<div class="cf">
+					<s:iterator value="#request.searchResult.merchantList">
+	
+						<div class="schoolBox shadow_l_3">
+							<s:if test="portrait==''">
+								<a href="javascript:;"><img src="<s:property value="logoPath" />" class="fl logoImg" /></a>
+							</s:if>
+							<s:else>
+								<a href="javascript:;"><img src="upload/portrait/auto_photo.png" class="fl logoImg" /></a>
+							</s:else>
+							<ul class="frd_box_info">
+								<li class="frd_name"><s:property value="name" /></li>
+								<li><s:property value="type" /></li>
+								<li><s:property value="business" /></li>
+								<li><s:property value="connectorName" /></li>
+								<li><s:property value="connectorPhone" /></li>
+							</ul>
+							<span class="send_msg clear_a op_btn_yellow_green"><s:property value="memberNumber" />人</span>
+							<s:if test="%{#session.user.id!=id}">
+								<span class="no_focus">
+									<s:if test="%{#session.user!=null}">
+										<s:if test="%{id in #request.checkListC}">
+											<a id="uc_<s:property value="id" />" disabled="disabled">已关注</a>
+										</s:if>
+										<s:else>
+											<a id="uc_<s:property value="id" />" onclick="focusClub(<s:property value="id" />)" >关注</a>
+										</s:else>
+									</s:if>
+									<s:elseif test="%{#session.merchant!=null}">
+										<s:if test="%{id in #request.checkListC}">
+											<a id="mc_<s:property value="id" />" disabled="disabled">已关注</a>
+										</s:if>
+										<s:else>
+											<a id="mc_<s:property value="id" />" onclick="merchantFocusClub(<s:property value="id" />)">关注</a>
+										</s:else>
+									</s:elseif>
+								</span>
+							</s:if>
+						</div>
+	
+					</s:iterator>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
 	<script type="text/javascript">
 	function focusUser(userId) {
@@ -114,154 +279,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		, "xml");
 	};
 	</script>
-  </head>
-	<body>
-    	<div>
-    		<div>
-    			<div>"<s:property value="#request.searchText" />" 的搜索结果</div>
-    			<table>
-    				<tr>
-    					<td colspan="8">找人：</td>
-    					<td><a href="searchUser?searchText=<s:property value="#request.searchText" />&pageNum=1&club.id=<s:property value="club.id" />">更多结果</a></td>
-    				</tr>
-    				<s:iterator value="#request.searchResult.userList">
-    				<tr>	
-    					<td>
-    						<a href="userHome?user.id=<s:property value="id" />" ><s:property value="name" /></a>
-    					</td>
-    					<td>
-    						<s:property value="sex" />
-    					</td>
-    					<td>
-    						<s:property value="school.name" />
-    					</td>
-    					<td>
-    						<s:property value="profession" />
-    					</td>
-    					<td>
-    						<s:property value="grade" />
-    					</td>
-    					<td>
-    						<s:property value="signature" />
-    					</td>
-    					<s:if test="%{#session.user.id!=id}">
-    					<td>
-    						
-    							<s:if test="%{#request.userMap[id]==null}">
-		    						<input id="<s:property value="id" />" type="button" value="关注" onclick="focusUser(<s:property value="id" />)"/>
-		    					</s:if>
-		    					<s:else>
-		    						<input id="<s:property value="id" />" type="button" disabled="disabled" value="已关注"/>
-		    					</s:else>
-    					</td>
-    					<td>
-    						<s:a href="personalLetterInput?targetUser.id=%{id}&targetUser.name=%{name}" >发私信</s:a>
-    					</td>
-    					</s:if>
-    				</tr>
-    				</s:iterator>
-    			</table>
-    		</div>
-    	</div>
-    	<div>
-    		<div>
-    			<table>
-    				<tr>
-    					<td colspan="7">找社团：</td>
-    					<td><a href="searchClub?searchText=<s:property value="searchText" />&pageNum=1&club.id=<s:property value="club.id" />">更多结果</a></td>
-    				</tr>
-    				<s:iterator value="#request.searchResult.clubList" >
-    				<tr>	
-    					<td>
-    						<s:a href="clubMain?club.id=%{id}"><s:property value="name" /></s:a>
-    					</td>
-    					<td>
-    						<s:property value="school.name" />
-    					</td>
-    					<td>
-    						<s:property value="type" />
-    					</td>
-    					<td>
-    						<s:property value="briefIntroduction" />
-    					</td>
-    					<td>
-    						<s:property value="user.name" />
-    					</td>
-    					<td>
-    						<s:property value="memberNumber" />
-    					</td>
-    					<td>
-    					<s:if test="%{#session.user!=null}" >
-    						<s:if test="%{id in #request.checkListC}">
-		    					<input id="uc_<s:property value="id" />" type="button" disabled="disabled" value="已关注"/>
-		    				</s:if>
-		    				<s:else>
-		    					<input id="uc_<s:property value="id" />" type="button" value="关注" onclick="focusClub(<s:property value="id" />)"/>
-		    				</s:else>
-    					</s:if>	
-		    			<s:elseif test="%{#session.merchant!=null}">
-	    					<s:if test="%{id in #request.checkListC}">
-		    					<input id="mc_<s:property value="id" />" type="button" disabled="disabled" value="已关注"/>
-		    				</s:if>
-		    				<s:else>
-		    					<input id="mc_<s:property value="id" />" type="button" value="关注" onclick="merchantFocusClub(<s:property value="id" />)"/>
-		    				</s:else>
-    					</s:elseif>
-    					</td>
-    				</tr>
-    				</s:iterator>
-    			</table>
-    		</div>
-    	</div>
-    	<div>
-    		<table>
-    			<tr>
-    				<td colspan="7">找商家：</td>
-    				<td>
-    					<a href="searchMerchant?searchText=<s:property value="searchText" />&pageNum=1&club.id=<s:property value="club.id" />">更多结果</a>
-    				</td>
-    			</tr>
-    			<s:iterator value="#request.searchResult.merchantList" >
-    			<tr>	
-    				<td>
-    					<a href="merchant?merchant.id=<s:property value="id" />" ><s:property value="name" /></a>
-    				</td>
-    				<td>
-    					<s:property value="type" />
-    				</td>
-    				<td>
-    					<s:property value="business" />
-    				</td>
-    				<td>
-    					<s:property value="connectorName" />
-    				</td>
-    				<td>
-    					<s:property value="connectorPhone" />
-    				</td>
-    				<td>
-    					<s:property value="popularity" />
-    				</td>
-    				<td>
-    				<s:if test="%{#session.user!=null}" >	    				
-	    				<s:if test="%{id in #request.checkListM}">
-		    				<input id="um_<s:property value="id" />" type="button" disabled="disabled" value="已关注"/>
-		    			</s:if>
-		    			<s:else>
-		    				<input id="um_<s:property value="id" />" type="button" value="关注" onclick="focusMerchant(<s:property value="id" />)"/>
-		    			</s:else>
-    				</s:if>
-    				<s:elseif test="%{#session.merchant!=null}">
-    					<s:if test="%{id in #request.checkListM}">
-	    					<input id="mm_<s:property value="id" />" type="button" disabled="disabled" value="已关注"/>
-	    				</s:if>
-	    				<s:else>
-	    					<input id="mm_<s:property value="id" />" type="button" value="关注" onclick="merchantFocusMerchant(<s:property value="id" />)"/>
-	    				</s:else>
-    				</s:elseif>
-    				</td>
-    			</tr>
-    			</s:iterator>
-    		</table>
-    	</div>
-	</body>
+</body>
 </html>
