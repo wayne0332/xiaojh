@@ -8,7 +8,7 @@
 			+ path + "/";
 %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <base href="<%=basePath%>" />
@@ -58,95 +58,70 @@
 
 						<div class="friendBox shadow_l_3 school_${school.id }">
 							<s:if test="portrait==''">
-								<a href="userHome?user.id=${id}"><img
-									src="images/head/head1.jpg" class="fl logoImg" /> </a>
+								<a href="userHome?user.id=${id}"><img src="images/head/head1.jpg" class="fl logoImg" /> </a>
 							</s:if>
 							<s:else>
-								<a href="userHome?user.id=${id}"><img
-									src="images/head/head1.jpg" class="fl logoImg" /> </a>
+								<a href="userHome?user.id=${id}"><img src="images/head/head1.jpg" class="fl logoImg" /> </a>
 							</s:else>
 							<ul class="frd_box_info">
 								<li class="frd_name"><s:property value="name" /></li>
 								<li><s:property value="school.name" /></li>
 								<li><s:property value="grade" /></li>
 							</ul>
-							<a class="send_msg clear_a op_btn_yellow_green hov"
-								href="personalLetterInput?targetUser.id=${id }&targetUser.name=${name}">发私信</a>
-							<span class="no_focus"><a class="hov"
-								id="<s:property value="id" />"
-								onclick="cancelFocus(<s:property value="id" />,0)">取消关注</a>
+							<a class="send_msg clear_a op_btn_yellow_green hov" href="personalLetterInput?targetUser.id=${id }&targetUser.name=${name}">发私信</a>
+							<span class="no_focus">
+								<a class="hov" id="<s:property value="id" />" onclick="cancelFocus(<s:property value="id" />,0)">取消关注</a>
 							</span>
-
 						</div>
+						
 					</s:iterator>
 				</s:if>
 				<s:elseif test="type==1">
 					<s:iterator value="#request.focusList.clubList">
-						<div class="listItem">
-							<div class="portrait_big">
-								<s:if test="logoPath==''">
-									<img src="<s:property value="logoPath" />" width="40px" />
-								</s:if>
-								<s:else>
-									<img src="upload/portrait/auto_photo.png" width="40px" />
-								</s:else>
-							</div>
-							<div class="userItem">
-								<div class="infoItem">
-									<s:property value="name" />
-								</div>
-								<div>
-									<s:property value="school.name" />
-								</div>
-								<div>
-									<s:property value="briefIntroduction" />
-								</div>
-								<div>
-									<s:property value="user.name" />
-								</div>
-								<div>
-									<s:property value="memberNumber" />
-								</div>
-							</div>
-							<input id="<s:property value="id" />" type="button" value="取消关注"
-								onclick="cancelFocus(<s:property value="id" />,1)" />
+					
+						<div class="schoolBox shadow_l_3 school_${school.id }">
+							<s:if test="portrait==''">
+								<a href="javascript:;"><img src="<s:property value="logoPath" />" class="fl logoImg" /></a>
+							</s:if>
+							<s:else>
+								<a href="javascript:;"><img src="upload/portrait/auto_photo.png" class="fl logoImg" /></a>
+							</s:else>
+							<ul class="frd_box_info">
+								<li class="frd_name"><s:property value="name" /></li>
+								<li><s:property value="school.name" /></li>
+								<li><s:property value="briefIntroduction" /></li>
+							</ul>
+							<span class="send_msg clear_a op_btn_yellow_green"><s:property value="memberNumber" />人</span>
+							<span class="no_focus">
+								<a class="hov" id="<s:property value="id" />" onclick="cancelFocus(<s:property value="id" />,1)">取消关注</a>
+							</span>
 						</div>
+						
 					</s:iterator>
 				</s:elseif>
 				<s:elseif test="type==2">
 					<s:iterator value="#request.focusList.merchantList">
-						<div class="listItem">
-							<div class="portrait_big">
-								<s:if test="portrait==''">
-									<img src="images/head/head1.jpg" class="fl logoImg" />
-								</s:if>
-								<s:else>
-									<img src="images/head/head1.jpg" class="fl logoImg" />
-								</s:else>
-							</div>
-							<div class="userItem">
-								<div class="infoItem">
-									<s:property value="name" />
-								</div>
-								<div>
-									<s:property value="type" />
-								</div>
-								<div>
-									<s:property value="business" />
-								</div>
-								<div>
-									<s:property value="connectorName" />
-								</div>
-								<div>
-									<s:property value="connectorPhone" />
-								</div>
-								<div>
-									<s:property value="popularity" />
-								</div>
-							</div>
-							<input id="<s:property value="id" />" type="button" value="取消关注"
-								onclick="cancelFocus(<s:property value="id" />,2)" />
+					
+						<div class="schoolBox shadow_l_3">
+							<s:if test="portrait==''">
+								<a href="javascript:;"><img src="images/head/head1.jpg" class="fl logoImg" /></a>
+							</s:if>
+							<s:else>
+								<a href="javascript:;"><img src="images/head/head1.jpg" class="fl logoImg" /></a>
+							</s:else>
+							<ul class="frd_box_info">
+								<li class="frd_name"><s:property value="name" /></li>
+								<li><s:property value="type" /></li>
+								<li><s:property value="business" /></li>
+								<li><s:property value="connectorName" /></li>
+								<li><s:property value="connectorPhone" /></li>
+							</ul>
+							<span class="send_msg clear_a op_btn_yellow_green">人气：<s:property value="popularity" /></span>
+							<span class="no_focus">
+								<a class="hov" id="<s:property value="id" />" onclick="cancelFocus(<s:property value="id" />,2)">取消关注</a>
+							</span>
 						</div>
+						
 					</s:iterator>
 
 				</s:elseif>
