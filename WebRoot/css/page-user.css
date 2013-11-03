@@ -136,7 +136,7 @@
  * ---------------------------------------------------------------------------------------- */	
  	
  	.letter_list{ margin: 5px 10px 0 20px; color: #666; }
- 	.letter_box{ margin: 0 0 30px 0; }
+ 	.letter_box{ margin: 0 0 25px 0; }
  	.letter_box .lette_box_left{ float: left; margin: 2px 0 3px 0; }
  	.letter_box .lette_box_right{ float: left; margin: 2px 0 3px 10px; width: 600px; background-color: #fff; }
  	.letter_box .letter_name{ display: block; float: left; width: 565px; height: 26px; line-height: 26px; background-color: #fcfcfc; text-indent: 10px; color: #333; }
@@ -144,3 +144,5 @@
  	.letter_box .letter_content{ margin: 10px; }
  	
  	.sendToFrd{ float: right; margin: 10px 13px 0 0; height: 30px; line-height: 30px; padding: 0 15px; }
+ 	
+ 	

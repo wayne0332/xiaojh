@@ -13,7 +13,7 @@
 <head>
 <base href="<%=basePath%>" />
 
-<title>校江湖 - 好友</title>
+<title>校江湖 </title>
 
 <link rel="stylesheet" type="text/css" href="css/base-min.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />

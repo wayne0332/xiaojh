@@ -1,49 +1,54 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
 <head>
-<title>My JSP 'personalLetter.jsp' starting page</title>
 
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
+<title>校江湖</title>
+
+<link rel="stylesheet" type="text/css" href="css/base-min.css" />
+<link rel="stylesheet" type="text/css" href="css/common.css" />
+<link rel="stylesheet" type="text/css" href="css/page-club.css" />
 
 </head>
 
 <body>
-	<form action="sendLetter" method="post">
-		<table>
-			<tr>
-				<td>收件人:</td>
-				<td><s:property value="targetUser.name" />
-				</td>
-			</tr>
-			<tr>
-				<td>发件人:</td>
-				<td><s:property value="#session.user.name" />
-				</td>
-			</tr>
-			<!-- <tr>
-				<td>标题:</td>
-				<td><input type="text" name="letter.title"></td>
-			</tr> -->
-			<tr>
-				<td>内容:</td>
-				<td><textarea rows="10" cols="30" name="letter.text"></textarea>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2"><s:hidden name="letter.userByTargetUserId.id"
-						value="%{targetUser.id}" /> <s:hidden
-						name="letter.userBySourceUserId.id" value="%{#session.user.id}" />
-					<input type="hidden" name="letter.title"> <input
-					type="submit" value="提交"></td>
-			</tr>
-		</table>
-	</form>
+
+	<div class="container cf zoom">
+		<jsp:include page="head.jsp" />
+		
+		<form action="sendLetter" method="post" enctype="multipart/form-data">
+			<table class="applyClubTable shadow_l_5">
+				<thead>
+					<tr><th colspan="2">发私信</th></tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class=""><label>收件人：</label> </th>
+						<td class=""><label><s:property value="targetUser.name" /></label></td>
+					</tr>
+					<tr>
+						<th><label>发件人：</label></th>
+						<td><label><s:property value="#session.user.name" /></label></td>
+					</tr>
+					<tr>
+						<th><label>内容：</label></th>
+						<td><textarea rows="10" cols="30" name="letter.text"></textarea></td>
+					</tr>
+					<tr>
+						<th></th>
+						<td>
+							<s:hidden name="letter.userByTargetUserId.id" value="%{targetUser.id}" />
+							<s:hidden name="letter.userBySourceUserId.id" value="%{#session.user.id}" />
+							<input type="hidden" name="letter.title">
+							<input type="submit" class="applyClubTable_submit shadow_l_5 hov" value="发送">
+						</td>
+					</tr>
+					<tr></tr>
+				</tbody>
+			</table>
+		</form>
+	</div>
 </body>
 </html>

@@ -6,14 +6,14 @@
 			+ path + "/";
 %>
 <%@taglib prefix="s" uri="/struts-tags"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <title>校江湖 - 活动</title>
 
 <link rel="stylesheet" type="text/css" href="css/base-min.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
-<link rel="stylesheet" type="text/css" href="css/page-user.css" />
+<link rel="stylesheet" type="text/css" href="css/page-club.css" />
 
 </head>
 
@@ -24,28 +24,48 @@
 
 		<!-- 提示信息 -->
 		<s:property value="message" />
-
-		<form action="addOnlineActivity" method="post"
-			enctype="multipart/form-data" class="w600 shadow_l_5 mt100 bc bg_box">
-			<ul class="input_list">
-				<li>发布线上活动</li>
-				<li><label>活动标题:</label></li>
-				<li><input type="text" name="onlineactivity.tittle" class="input_list_text" />
-				</li>
-				<li></li>
-				<li></li>
-			</ul>
-
-			新闻内容：
-			<textarea id="editor" name="onlineactivity.text" id="ncontent"
-				style="width:100%;height:400px;"></textarea>
-			<br> 活动封面图片链接:<input type="text"
-				name="onlineactivity.titleImgPath" /><br> 活动视频连接:<input
-					type="text" name="onlineactivity.videoUrl" /><br> 上传活动封面图片:<input
-						type="file" name="uploadImage" /><br> 上传活动视频:<input
-							type="file" name="uploadVideo" /><br> <input type="hidden"
-								name="club.id" value="${club.id}"> <br> <input
-										type="submit" value="提交" />
+		<form action="addOnlineActivity" method="post" enctype="multipart/form-data">
+			<table class="applyClubTable shadow_l_5">
+				<thead>
+					<tr>
+						<th colspan="2">发布线上活动</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class=""><label>活动名称：</label> </th>
+						<td class=""><label><input type="text" name="onlineactivity.tittle"/></label> </td>
+					</tr>
+					<tr>
+						<th><label>活动内容：</label></th>
+						<td><textarea id="editor" name="onlineactivity.text" id="ncontent"></textarea></td>
+					</tr>
+					<tr>
+						<th><label>宣传照片链接：</label></th>
+						<td><label><input type="text" name="onlineactivity.titleImgPath" /></label></td>
+					</tr>
+					<tr>
+						<th><label>相关视频链接：</label></th>
+						<td><label><input type="text" name="onlineactivity.videoUrl" /></label></td>
+					</tr>
+					<tr>
+						<th><label>宣传照片上传：</label></th>
+						<td><input type="file" name="uploadImage" /></td>
+					</tr>
+					<tr>
+						<th><label>相关视频上传：</label></th>
+						<td><input type="file" name="uploadVideo" /></td>
+					</tr>
+					<tr>
+						<th></th>
+						<td>
+							<s:hidden name="user.id" value="%{#session.user.id}" />
+							<input type="submit" class="applyClubTable_submit shadow_l_5 hov" value="发布">
+						</td>
+					</tr>
+					<tr></tr>
+				</tbody>
+			</table>
 		</form>
 
 	</div>

@@ -7,14 +7,14 @@
 %>
 <%@taglib prefix="s" uri="/struts-tags"%>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-<title>校江湖 - 活动</title>
+<title>校江湖 - 社团</title>
 
 <link rel="stylesheet" type="text/css" href="css/base-min.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
-<link rel="stylesheet" type="text/css" href="css/page-user.css" />
+<link rel="stylesheet" type="text/css" href="css/page-club.css" />
 
 </head>
 
@@ -24,19 +24,58 @@
 		<!-- 提示信息 -->
 		<s:property value="message" />
 		<br />
-
 		<form action="addActivity" method="post" enctype="multipart/form-data">
-			活动标题:<input type="text" name="activity.tittle" /><br> 新闻内容：
-			<textarea id="editor" name="activity.text" id="ncontent"
-				style="width:100%;height:400px;"></textarea>
-			<br> 活动封面图片链接:<input type="text" name="activity.titleImgPath" /><br>
-			活动视频连接:<input type="text" name="activity.videoUrl" /><br>
-			活动预算资金：<input type="text" name="activity.budget" />元<br> 活动组织：<input
-				type="text" name="activity.organizer" /><br> 活动举办地点：<input
-				type="text" name="activity.place" /><br> 上传活动封面图片:<input
-				type="file" name="uploadImage" /><br> 上传活动视频:<input
-				type="file" name="uploadVideo" /><br> <br> <input
-				type="submit" value="提交" />
+			<table class="applyClubTable shadow_l_5">
+				<thead>
+					<tr>
+						<th colspan="2">发布活动</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class=""><label>活动名称：</label>
+						</th>
+						<td class=""><label><input type="text" name="activity.tittle" /></label>
+						</td>
+					</tr>
+					<tr>
+						<th><label>新闻内容</label></th>
+						<td><textarea id="editor" name="activity.text" id="ncontent" class="mr10"></textarea></td>
+					</tr>
+					<tr>
+						<th><label>宣传照片链接：</label></th>
+						<td><label><input type="text" name="activity.titleImgPath" /></label></td>
+					</tr>
+					<tr>
+						<th><label>相关视频链接：</label></th>
+						<td><label><input type="text" name="activity.videoUrl" /></label></td>
+					</tr>
+					<tr>
+						<th><label>组织者：</label></th>
+						<td><label><input type="text" name="activity.organizer" /></td>
+					</tr>
+					<tr>
+						<th><label>举办地点：</label></th>
+						<td><label><input type="text" name="activity.place" /></td>
+					</tr>
+					<tr>
+						<th><label>宣传照片上传：</label></th>
+						<td><input type="file" name="uploadImage" /></td>
+					</tr>
+					<tr>
+						<th><label>相关视频上传：</label></th>
+						<td><input type="file" name="uploadVideo" /></td>
+					</tr>
+					<tr>
+						<th></th>
+						<td>
+							<s:hidden name="user.id" value="%{#session.user.id}" />
+							<input type="submit" class="applyClubTable_submit shadow_l_5 hov" value="发布">
+						</td>
+					</tr>
+					<tr></tr>
+				</tbody>
+			</table>
 		</form>
 	</div>
 
