@@ -1,74 +1,103 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html>
 <html>
 <head>
-<title>My JSP 'updateUser.jsp' starting page</title>
+<title>校江湖 - 社团</title>
 
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-<script type="text/javascript" src="My97DatePicker/WdatePicker.js"></script>
 <link rel="stylesheet" type="text/css" href="css/base-min.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
-<link rel="stylesheet" type="text/css" href="css/page-user.css" />
-<script type="text/javascript" src="js/ajax.js"></script>
+<link rel="stylesheet" type="text/css" href="css/page-club.css" />
 
 </head>
 
 <body>
 	<div class="container cf zoom">
 		<jsp:include page="head.jsp" />
-		<div class="left_bar w270 cf mt75">
-			<jsp:include page="userMessage.jsp" />
-		</div>
-		<div class="main w730 cf mt75">
-			<a href="changeUserPasswordInput">修改密码</a>
-			<form action="updateUser" method="post" enctype="multipart/form-data">
-				name:
-				<s:property value="#session.user.name" />
-				<br> school:
-				<s:property
-					value="#application.schools[#session.user.school.id].name" />
-				<br> email:
-				<s:property value="#session.user.email" />
-				<br> sex:
-				<s:property value="#session.user.sex.name" />
-				<br>grade:
-				<s:property value="#session.user.grade" />
-				<br>
-				<hr>
-				real_name:
-				<s:textfield type="text" name="user.realName"
-					value="%{#session.user.realName}" />
-				<br> subject:
-				<s:textfield type="text" name="user.subject"
-					value="%{#session.user.subject}" />
-				<br> profession:
-				<s:textfield type="text" name="user.profession"
-					value="%{#session.user.profession}" />
-				<br> birthday: <input type="text" name="user.birthday"
-					onFocus="WdatePicker({isShowClear:false,readOnly:true})"
-					class="Wdate" onClick="WdatePicker()"
-					value="<s:date name="#session.user.birthday" format="yyyy-MM-dd"/>" />
-				<br> phone:
-				<s:textfield type="text" name="user.phone"
-					value="%{#session.user.phone}" />
-				<br> qq:
-				<s:textfield type="text" name="user.qq" value="%{#session.user.qq}" />
-				<br> portrait:
-				<s:if
-					test="#session.user.portraitPath != null && #session.user.portraitPath != ''">
-					<img src="<s:property value="#session.user.portraitPath"/>">
-					<br> 重新上传头像:</s:if>
-				<input type="file" name="portrait"><br>
-				<s:hidden name="user.id" value="%{#session.user.id}" />
-				<input type="submit" value="submit">
-			</form>
-		</div>
+		
+		<form action="updateUser" method="post" enctype="multipart/form-data">
+			<table class="applyClubTable shadow_l_5">
+				<thead>
+					<tr>
+						<th colspan="2">修改个人信息</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th class=""><label>昵称：</label>
+						</th>
+						<td class=""><label><s:property value="#session.user.name" /></label>
+						</td>
+					</tr>
+					<tr>
+						<th><label></label></th>
+						<td><a href="changeUserPasswordInput">修改密码</a></td>
+					</tr>
+					<tr>
+						<th><label>学校：</label></th>
+						<td><label><s:property value="#application.schools[#session.user.school.id].name" /></label></td>
+					</tr>
+					<tr>
+						<th><label>邮箱：</label></th>
+						<td><label><s:property value="#session.user.email" /></label></td>
+					</tr>
+					<tr>
+						<th><label>性别：</label></th>
+						<td><label><s:property value="#session.user.sex.name" /></label></td>
+					</tr>
+					<tr style="border-bottom:1px solid #ddd;">
+						<th><label>年级：</label></th>
+						<td><label><s:property value="#session.user.grade" /></label></td>
+					</tr>
+					<tr>
+						<th><label>真实姓名：</label></th>
+						<td><label><s:textfield type="text" name="user.realName" value="%{#session.user.realName}" /></label></td>
+					</tr>
+					<tr>
+						<th><label>学院：</label></th>
+						<td><label><s:textfield type="text" name="user.profession" value="%{#session.user.profession}" /></label></td>
+					</tr>
+					<tr>
+						<th><label>专业：</label></th>
+						<td><label><s:textfield type="text" name="user.subject" value="%{#session.user.subject}" /></label></td>
+					</tr>
+					<tr>
+						<th><label>生日：</label></th>
+						<td><label><input type="text" name="user.birthday" onFocus="WdatePicker({isShowClear:false,readOnly:true})" class="Wdate" onClick="WdatePicker()" value="<s:date name="#session.user.birthday" format="yyyy-MM-dd"/>" /></td>
+					</tr>
+					<tr>
+						<th><label>手机：</label></th>
+						<td><label><s:textfield type="text" name="user.phone" value="%{#session.user.phone}" /></td>
+					</tr>
+					<tr>
+						<th><label>QQ：</label></th>
+						<td><label><s:textfield type="text" name="user.qq" value="%{#session.user.qq}" /></td>
+					</tr>
+					<tr>
+						<th><label>头像：</label>
+						</th>
+						<td><img src="<s:property value="#session.user.portraitPath"/>"></td>
+					</tr>
+					<tr>
+						<th><label>新头像：</label>
+						</th>
+						<td><input type="file" name="portrait"></td>
+					</tr>
+					<tr>
+						<th></th>
+						<td>
+							<s:hidden name="user.id" value="%{#session.user.id}" />
+							<input type="submit" class="applyClubTable_submit shadow_l_5 hov" value="提交">
+						</td>
+					</tr>
+					<tr></tr>
+				</tbody>
+			</table>
+		</form>
 	</div>
+
+	<script type="text/javascript" src="js/ajax.js"></script>
+	<script type="text/javascript" src="My97DatePicker/WdatePicker.js"></script>
 </body>
 </html>
