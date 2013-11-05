@@ -63,7 +63,7 @@ public class TalkingService extends BaseService{
 			}
 			else if(t.getTalking()!=null){
 				temp.append("<div class='p10 mt5 user_talking_share_div cb'>");
-				temp.append("(<a href='userHome?user.id="+t.getTalking().getUser().getId()+"' class='f12 user_name_color'>"+t.getTalking().getUser().getName()+"</a>");
+				temp.append("<a href='userHome?user.id="+t.getTalking().getUser().getId()+"' class='f12 user_name_color'>"+t.getTalking().getUser().getName()+"</a>");
 				temp.append(t.getTalking().getText()+"<br />");
 				if(t.getTalking().getUrl()!=null&&t.getTalking().getUrlType().toString()=="PICTURE"){
 					temp.append("<img src='"+t.getTalking().getUrl()+"' class='maw400 mah300' />");
