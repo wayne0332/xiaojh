@@ -43,6 +43,7 @@ public class TalkingService extends BaseService{
 	public String getTalking(List<IndexTalking> taks){
 		StringBuilder temp=new StringBuilder();
 		for(IndexTalking tak:taks){
+			try{
 			Talking t=tak.getT();
 			temp.append("<div id='"+t.getId()+"' class='user_dongtai_div cf w700 mt10 pt10 pb15'><div class='w60 h fl'>");
 			temp.append("<img src='"+t.getUser().getPortraitPath()+"' class='w60 h60 fl shadow_l_10 radius_6' /></div>");
@@ -145,6 +146,9 @@ public class TalkingService extends BaseService{
 			temp.append("<textarea id='pl_t"+t.getId()+"' name='talkingComment.text' class='fr mt5 textarea color_gray' style='width:610px;'></textarea>");
 			temp.append("<input type='button' class='submit fr' onclick='addTalkingComment("+t.getId()+");' value='评论' />");
 			temp.append("<!-- End:说说回复 --></div><!-- like end --></div>");
+			}catch(Exception e){
+				continue;
+			}
 		}
 		return temp.toString();
 	}
