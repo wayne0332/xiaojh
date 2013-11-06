@@ -31,7 +31,7 @@
 				<li><a href="index" class="a_bt">主页</a></li>
 				<li><a href="userCenter" class="a_bt">个人中心</a></li>
 				<li><a href="myClubs" class="a_bt">我的社团</a></li>
-				<li><a href="#" class="a_bt">店铺</a></li>
+				<li><a href="merchants" class="a_bt">店铺</a></li>
 				<li><a href="relativeActivity" class="a_bt">线下活动</a></li>
 				<li><a href="relativeOnlineActivity" class="a_bt">线上活动</a></li>
 				<li><a href="relativeTalking" class="a_bt">说说</a></li>

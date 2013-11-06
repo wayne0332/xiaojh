@@ -151,12 +151,25 @@ public class MerchantAction extends BaseAction
 			return INPUT;
 		}
 	}
-	
+	//后台管理
 	@Action(value = "allMerchant", results = {@Result(name = SUCCESS, location = MANAGE
 			+ "allMerchant.jsp")})
 	@Auth(auths = {AuthEnum.ADMIN})
 	public String allMerchant()
 	{
+		getMerchants();//分页获取所有商家信息
+		return SUCCESS;
+	}
+	//前端用户
+	@Action(value = "merchants", results = {@Result(name = SUCCESS, location = FOREPART
+			+ "merchants.jsp")})
+	public String merchants()
+	{
+		getMerchants();//分页获取所有商家信息
+		return SUCCESS;
+	}
+
+	private void getMerchants() {
 		Page page = new Page(pageNum * Page.getDefaultPageNumber() + 1);
 		page.setCurrentPage(pageNum);
 		MerchantList merchantList = new MerchantList();
@@ -167,7 +180,6 @@ public class MerchantAction extends BaseAction
 		}
 		merchantList.setPage(merchantService.merchantNum(page));
 		getRequestMap().put("merchantList", merchantList);
-		return SUCCESS;
 	}
 	
 	@Action(value = MERCHANT_MAIN, results = {@Result(name = SUCCESS, location = FOREPART
