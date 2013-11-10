@@ -185,10 +185,13 @@ public class TalkingAction extends BaseAction
 	
 			@Action(value = "preShareTalking", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "shareTalking.jsp"),
-			@Result(name = INPUT, location = ERROR_PAGE)})
+			@Result(name = INPUT,type = REDIRECT_ACTION, location="index")})
 			@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 			public String preShare()
 			{
+				if(Auth.getUserFromSession()==null||Auth.getUserFromSession().getId()==null){
+					return INPUT;
+				}
 				origntalking=talkingService.preShare(talking.getId(),Auth.getUserFromSession().getId());
 				if(origntalking!=null)
 				{
@@ -199,7 +202,7 @@ public class TalkingAction extends BaseAction
 				
 			}
 			@Action(value = "shareTalking", results = {
-			@Result(name = SUCCESS, type = REDIRECT_ACTION,location ="allTalking"),
+			@Result(name = SUCCESS, type = REDIRECT_ACTION,location ="talking"),
 			@Result(name = INPUT, location = ERROR_PAGE)})
 			@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 			public String shareTalking()
