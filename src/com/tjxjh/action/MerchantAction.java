@@ -335,18 +335,10 @@ public class MerchantAction extends BaseAction
 	@Result(name = INPUT, type = REDIRECT_ACTION, location = MERCHANT_NEWS)})
 	public String merchantNewsDetails()
 	{
-		if(merchant!=null&&merchant.getId()!=null){
-			merchant=merchantService.merchantById(merchant);
-		}else if(super.currentMerchant()!=null){
-			merchant=super.currentMerchant();
-		}else{
-			return INPUT;
-		}
 		if(isMerchantNewsEmpty())
 		{
 			return INPUT;
 		}
-		merchantNews.setMerchant(merchant);
 		merchantNews = merchantService.merchantNewsDetails(merchantNews);
 		return super.successOrInput(merchantNews != null);
 	}
