@@ -30,7 +30,7 @@
 			<!-- 导航-->
 			<div class="userHome_box w700 m5 p10 cf shadow_l_10 radius_6">
 				<a href="<%=path%>/photos?user.id=${user.id}" ><label>相册</label> </a> <a href="javascript:void(0)"><label>说说</label>
-				</a> <a href="#"><label>活动</label> </a>
+				</a> <a href="onlineActivity?user.id=${user.id}"><label>活动</label> </a>
 			</div>
 			<!-- END:相册-->
 			<jsp:include page="userHomeTalking.jsp" />
