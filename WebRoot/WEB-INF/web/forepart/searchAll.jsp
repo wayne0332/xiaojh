@@ -72,7 +72,7 @@
 								<li><s:property value="grade" />&nbsp;<s:property value="sex" />
 								</li>
 							</ul>
-							<a class="send_msg clear_a op_btn_yellow_green hov" href="personalLetterInput?targetUser.id=%{id}&targetUser.name=%{name}">发私信</a>
+							<a class="send_msg clear_a op_btn_yellow_green hov" href="personalLetterInput?targetUser.id=${id}&targetUser.name=${name}">发私信</a>
 							<s:if test="%{#session.user.id!=id}">
 								<span class="no_focus">
 									<s:if test="%{#request.userMap[id]==null}">
