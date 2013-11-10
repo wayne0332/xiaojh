@@ -123,8 +123,9 @@ public class TalkingAction extends BaseAction
 			return null;
 	}
 	@Action(value = "relativeTalking", results = {
-			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myTalking.jsp"),
-			@Result(name = INPUT, location = ERROR_PAGE)})
+	@Result(name = SUCCESS, location = BaseAction.FOREPART + "myTalking.jsp"),
+	@Result(name = INPUT, location = ERROR_PAGE)})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 			public String relativeTalking()
 			{
 				//根据user id查找未删除的说说
@@ -143,6 +144,7 @@ public class TalkingAction extends BaseAction
 	//ajax异步加载更多
 	@Action(value = "moreRelativeTalking", results = {
 	})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String moreRelativeTalking()
 	{
 		PrintWriter out =GetRequsetResponse.getAjaxPrintWriter();
@@ -162,8 +164,8 @@ public class TalkingAction extends BaseAction
 	}
 	
 	@Action(value = "allTalking", results = {
-			@Result(name = SUCCESS, location = BaseAction.MANAGE + "allTalking.jsp"),
-			@Result(name = INPUT, location = ERROR_PAGE)})
+	@Result(name = SUCCESS, location = BaseAction.MANAGE + "allTalking.jsp"),
+	@Result(name = INPUT, location = ERROR_PAGE)})
 	@com.tjxjh.annotation.Auth(auths = {AuthEnum.ADMIN})
 			public String allTalking()
 			{
@@ -205,6 +207,10 @@ public class TalkingAction extends BaseAction
 				origntalking.setId(talkingid);
 				talking.setTalking(origntalking);
 				user=Auth.getUserFromSession();
+				if(user==null){
+					message="分享失败";
+					return SUCCESS;
+				}
 				talking.setUser(user);
 				if(talkingService.add(talking))
 				{
