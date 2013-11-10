@@ -71,7 +71,7 @@
 				<s:iterator value="clubs" id="ac">
 					<img src="${logoPath}" width="80px" height="80px" />
 					<br />
-					<a href="#">${name}</a>
+					<a href="clubMain?club.id=${id }">${name}</a>
 					<br /> 帮主:${user.name}<br />
 							帮众:${memberNumber}<br /> 简介：${briefIntroduction}<br /> 类型：<s:property
 						value="type.name" />

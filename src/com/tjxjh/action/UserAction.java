@@ -45,6 +45,7 @@ import com.tjxjh.util.CodeUtil;
 @Namespace("/")
 public class UserAction extends BaseAction
 {
+	static final String MY_FOCUS = "myFocus";
 	public static final String RESET_USER_PASSWORD_INPUT = "resetUserPasswordInput";
 	static final String RESET_USER_PASSWORD = "resetUserPassword";
 	static final String FIND_USER_PASSWORD_INPUT = "findUserPasswordInput";
@@ -552,7 +553,7 @@ public class UserAction extends BaseAction
 		return SUCCESS;
 	}
 	
-	@Action(value = "myFocus", results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
+	@Action(value = MY_FOCUS, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 			+ "myFocus.jsp")})
 	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String myFocus()

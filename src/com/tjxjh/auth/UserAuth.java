@@ -16,7 +16,7 @@ import com.tjxjh.po.User;
 import com.tjxjh.service.ClubService;
 import com.tjxjh.util.StringUtil;
 
-class UserAuth implements Auth
+class UserAuth  implements Auth
 {
 	UserAuth()
 	{}
