@@ -330,17 +330,23 @@ public class MerchantAction extends BaseAction
 	}
 	
 	@Action(value = MERCHANT_NEWS_DETAILS, results = {
-			@Result(name = SUCCESS, location = FOREPART + MERCHANT_NEWS_DETAILS
+	@Result(name = SUCCESS, location = FOREPART + MERCHANT_NEWS_DETAILS
 					+ JSP),
-			@Result(name = INPUT, type = REDIRECT_ACTION, location = MERCHANT_NEWS)})
-	@Auth(auths = {AuthEnum.MERCHANT})
+	@Result(name = INPUT, type = REDIRECT_ACTION, location = MERCHANT_NEWS)})
 	public String merchantNewsDetails()
 	{
+		if(merchant!=null&&merchant.getId()!=null){
+			merchant=merchantService.merchantById(merchant);
+		}else if(super.currentMerchant()!=null){
+			merchant=super.currentMerchant();
+		}else{
+			return INPUT;
+		}
 		if(isMerchantNewsEmpty())
 		{
 			return INPUT;
 		}
-		merchantNews.setMerchant(super.currentMerchant());
+		merchantNews.setMerchant(merchant);
 		merchantNews = merchantService.merchantNewsDetails(merchantNews);
 		return super.successOrInput(merchantNews != null);
 	}
