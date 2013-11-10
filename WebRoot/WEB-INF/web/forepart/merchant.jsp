@@ -61,8 +61,7 @@
 					</div>
 				</s:iterator>
 			</div>
-			商家新闻<br>
-				
+			商家新闻<br>			
 				<s:iterator value="#request.merchantNews" status="status">
 						<s:a href="merchantNewsDetails?merchantNews.id=%{id}">
 								<s:property value="tittle" />
@@ -70,7 +69,8 @@
 						<s:date name="datetime" format="yyyy-MM-dd hh:mm:ss" />
 						
 				</s:iterator>
-				
+				<br>
+			<a href="newsOfMerchant?merchant.id=${merchant.id}">更多新闻</a>
 			<br>商家活动<br>
 			<s:iterator value="acs" id="ac">
 						<div
@@ -91,24 +91,18 @@
 								<li><label>活动状态： </label>
 								<s:property value="status.name" />
 								</li>
-								<li><label>参与人数：</label>${participantCount}</li>
+								
 								<li><label>活动热度：</label>${heat}</li>
 								<li><label>分享次数：</label>${talking.shareDetails.shareCount}</li>
 								<li><a
 									href="/preShareTalking?talking.id=${talking.id}">分享</a>
 									<span id="zan${talking.id}"> <a href="javascript:void(0);"
 										onclick="zanTalking(${talking.id});">赞(${talking.shareDetails.praiseCount})</a>
-								</span><a href="#">我要参与</a></li>
+								</span></li>
 							</ul>
 						</div>
 					</s:iterator><br>
-					
-						共${page.pageNumber}页   当前第${page.currentPage}页
-						<a href="/${actionName}?condition=${condition}&currentPage=${page.currentPage-1}&totalPageNumber=${page.pageNumber}&club.id=${club.id}&merchant.id=${merchant.id}"
-							target="_self">上一页</a>
-						<a
-							href="/${actionName}?condition=${condition}&currentPage=${page.currentPage+1}&totalPageNumber=${page.pageNumber}&club.id=${club.id}&merchant.id=${merchant.id}"
-							target="_self">下一页</a>
+					<a href="activitys?merchant.id=${merchant.id}">更多活动</a>
 			</div>
 	</div>
 </body>
