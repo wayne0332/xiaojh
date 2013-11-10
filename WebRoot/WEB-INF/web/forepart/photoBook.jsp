@@ -17,16 +17,17 @@
 <div id="content" class="photoBox ml10">
 
 	<div class="span-17 column rounded">
+		<%int i=1; %>
 		<s:iterator value="pics" status="index">
-			<div class="span-6 column rotated">
-			<a id="image1" class="cms-editable polaroid" href="#pic-<s:property value="#index.index"/>"
-				rel="lightbox" title="first image"> <img src="${path}" alt="image" /> </a>
+			<div class="span-6 column rotated <%if (i%3==0) {%>last<% }i++;%>">
+			<a id="image<s:property value="#index.index+1"/>" class="cms-editable polaroid" href="#pic-<s:property value="#index.index+1"/>"
+				rel="lightbox" title="${name}"> <img src="${path}" width="240px" height="160px" alt="image" /> </a>
 		</div>
 		</s:iterator>
 		
 		
 		<s:iterator value="pics" status="index">
-			<div id="pic-<s:property value="#index.index"/>">
+			<div id="pic-<s:property value="#index.index+1"/>">
 				<img src="<s:property  value="path.replace('st_', '')"/>" alt="image" />
 			</div>
 		</s:iterator>
@@ -34,4 +35,3 @@
 	</div>
 
 </div>
-

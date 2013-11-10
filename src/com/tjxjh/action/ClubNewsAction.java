@@ -27,7 +27,7 @@ import com.tjxjh.service.TalkingService;
 import com.tjxjh.util.Auth;
 
 
-@ParentPackage("struts-default")
+@ParentPackage("myPackage")
 @Namespace("/")
 public class ClubNewsAction extends BaseAction{
 	protected final static String UPLOAD_IMAGE_PATH="/upload/images/";
