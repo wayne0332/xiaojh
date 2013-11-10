@@ -288,7 +288,7 @@ public class MerchantAction extends BaseAction
 			+ "newsOfMerchant" + JSP)})
 	public String merchantnews()
 	{
-		if(merchant==null||merchant.getId()!=null){
+		if(merchant==null||merchant.getId()==null){
 			return null;
 		}
 		if(page == null)
