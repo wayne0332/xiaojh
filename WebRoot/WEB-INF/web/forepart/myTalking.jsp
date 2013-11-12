@@ -167,7 +167,7 @@
 				<br> 
 				<input type="hidden" id="currentPage" value="${page.currentPage+1}"/>
 				<input type="hidden" id="totalPageNumber" value="${page.pageNumber}"/>
-				<div id="loading" style=" text-align:center;" class="mt5 none">
+				<div id="talkingloading" style=" text-align:center;" class="mt5 none">
 					数据加载中...&nbsp;&nbsp;<img src="images/loading.gif" />
 				</div>
 				<div id="more" style=" text-align:center;"><a href="javascript:void(0);" onclick="getTalkings(${user.id},'${actionName}')" 

@@ -44,7 +44,7 @@ public class IndexAction extends BaseAction
 	private CommonService commonService = null;
 	// 分页
 	Page page = null;
-	private Integer eachPageNumber = 4;
+	private Integer eachPageNumber = 8;
 	private Integer currentPage = 1;
 	private Integer totalPageNumber = 0;
 	List<Club> clubs = null;

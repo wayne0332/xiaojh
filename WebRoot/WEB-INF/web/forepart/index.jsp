@@ -137,11 +137,15 @@
 
 		<div class="index_sideCol w135 mt5 cf fl">
 			<img src="images/icon/shetuan_icon.png" class="w70 ml5" /><br />
-			<s:iterator value="ics" id="cs">
-				<img src="${club.logoPath}" title="${club.name}"
-					onmouseover="clubmouseOver(${club.id})" onmouseout="mouseOut();"
-					class="logoImg logoImgcursor mt10 ml5 shadow_l_10 radius_6" />
-			</s:iterator>
+			
+				<s:iterator value="ics" id="cs">
+				<a href="clubMain?club.id=${club.id}" target="_blank">
+					<img src="${club.logoPath}" title="${club.name}"
+						onmouseover="clubmouseOver(${club.id})" onmouseout="mouseOut();"
+						class="logoImg logoImgcursor mt10 ml5 shadow_l_10 radius_6" />
+				</a>
+				</s:iterator>
+			
 		</div>
 
 		<div class="w730 fl mt75">
@@ -195,10 +199,12 @@
 		<div class="index_sideCol w135 mt5 cf fr">
 			<img src="images/icon/dianpu_icon.png" class="w70 fr mr5" /><br />
 			<s:iterator value="ims" id="im">
-				<img src="${merchant.logoPath}"
+				<a href="merchant?merchant.id=${merchant.id}" target="_blank">
+					<img src="${merchant.logoPath}"
 					onmouseover="merchantmouseOver(${merchant.id})"
 					onmouseout="mouseOut();" title="${merchant.name}"
 					class="logoImg logoImgcursor mt10 ml5 shadow_l_10 radius_6" />
+				</a>
 			</s:iterator>
 		</div>
 
