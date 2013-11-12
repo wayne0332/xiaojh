@@ -48,7 +48,7 @@ public class TalkingAction extends BaseAction
 	
 	//分页信息
 	private Page page;
-	private Integer eachPageNumber=10;
+	private Integer eachPageNumber=8;
 	private Integer currentPage=1;
 	private Integer totalPageNumber=0;
 	private String actionName="myTalking";
