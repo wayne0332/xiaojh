@@ -22,7 +22,7 @@
 		<jsp:include page="head.jsp" />
 
 		<div class="main fl cf mt75">
-			<s:if test="#request.clubMember != null">
+			<s:if test="#session.user != null">
 				<div class="club_secNav w pl5 pr5 shadow_l_3 clear_sub">
 					<a
 						href="clubPostList?club.id=<s:property value="club.id" />&pageNum=1">进入贴吧</a>
