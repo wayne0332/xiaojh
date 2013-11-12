@@ -92,9 +92,17 @@
 									src="http://y3.ifengimg.com/2013/0805/wm_9783f21b46072d9503a7bd2f8017f4b7.jpg">
 							</div>
 							<div class="club_act_info none">
-								<span class="club_act_title"><s:property value="tittle" />
+								<span class="club_act_title">
+									<a href="activity?activity.id=${id}" target="_blank"><s:property value="tittle" /></a>
 								</span>
-								<p class="club_act_p">${text}</p>
+								 <p class="club_act_p">
+									 <s:if test="text>50">
+									 	<s:property value="text.substring(0,50)"/>...
+									 </s:if>
+									 <s:else>
+										 ${text}
+									 </s:else>
+								  </p>
 								<span class="club_act_li1">${place}</span> <span
 									class="club_act_li1">${participantCount}人 已参与</span> <span
 									class="club_act_li2">${club.name}${merchant.name} 主办</span> <span
