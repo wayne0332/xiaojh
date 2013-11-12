@@ -28,7 +28,7 @@ import com.tjxjh.util.Auth;
 import com.tjxjh.util.GetRequsetResponse;
 
 //已经添加拦截器
-@ParentPackage("struts-default")
+@ParentPackage("myPackage")
 @Namespace("/")
 public class TalkingAction extends BaseAction
 {
@@ -48,7 +48,7 @@ public class TalkingAction extends BaseAction
 	
 	//分页信息
 	private Page page;
-	private Integer eachPageNumber=2;
+	private Integer eachPageNumber=8;
 	private Integer currentPage=1;
 	private Integer totalPageNumber=0;
 	private String actionName="myTalking";
@@ -123,8 +123,9 @@ public class TalkingAction extends BaseAction
 			return null;
 	}
 	@Action(value = "relativeTalking", results = {
-			@Result(name = SUCCESS, location = BaseAction.FOREPART + "myTalking.jsp"),
-			@Result(name = INPUT, location = ERROR_PAGE)})
+	@Result(name = SUCCESS, location = BaseAction.FOREPART + "myTalking.jsp"),
+	@Result(name = INPUT, location = ERROR_PAGE)})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 			public String relativeTalking()
 			{
 				//根据user id查找未删除的说说
@@ -143,6 +144,7 @@ public class TalkingAction extends BaseAction
 	//ajax异步加载更多
 	@Action(value = "moreRelativeTalking", results = {
 	})
+	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String moreRelativeTalking()
 	{
 		PrintWriter out =GetRequsetResponse.getAjaxPrintWriter();
@@ -162,8 +164,8 @@ public class TalkingAction extends BaseAction
 	}
 	
 	@Action(value = "allTalking", results = {
-			@Result(name = SUCCESS, location = BaseAction.MANAGE + "allTalking.jsp"),
-			@Result(name = INPUT, location = ERROR_PAGE)})
+	@Result(name = SUCCESS, location = BaseAction.MANAGE + "allTalking.jsp"),
+	@Result(name = INPUT, location = ERROR_PAGE)})
 	@com.tjxjh.annotation.Auth(auths = {AuthEnum.ADMIN})
 			public String allTalking()
 			{
@@ -183,10 +185,13 @@ public class TalkingAction extends BaseAction
 	
 			@Action(value = "preShareTalking", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "shareTalking.jsp"),
-			@Result(name = INPUT, location = ERROR_PAGE)})
+			@Result(name = INPUT,type = REDIRECT_ACTION, location="index")})
 			@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 			public String preShare()
 			{
+				if(Auth.getUserFromSession()==null||Auth.getUserFromSession().getId()==null){
+					return INPUT;
+				}
 				origntalking=talkingService.preShare(talking.getId(),Auth.getUserFromSession().getId());
 				if(origntalking!=null)
 				{
@@ -197,7 +202,7 @@ public class TalkingAction extends BaseAction
 				
 			}
 			@Action(value = "shareTalking", results = {
-			@Result(name = SUCCESS, type = REDIRECT_ACTION,location ="allTalking"),
+			@Result(name = SUCCESS, type = REDIRECT_ACTION,location ="talking"),
 			@Result(name = INPUT, location = ERROR_PAGE)})
 			@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 			public String shareTalking()
@@ -205,6 +210,10 @@ public class TalkingAction extends BaseAction
 				origntalking.setId(talkingid);
 				talking.setTalking(origntalking);
 				user=Auth.getUserFromSession();
+				if(user==null){
+					message="分享失败";
+					return SUCCESS;
+				}
 				talking.setUser(user);
 				if(talkingService.add(talking))
 				{

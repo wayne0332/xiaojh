@@ -125,6 +125,14 @@
 				<button type="submit" onclick="return loading();" class="fr">发布</button>
 			</form>
 			<!--END： 发布说说-->
+			<!-- 导航-->
+			<div class="userHome_box w700 m5 p10 cf shadow_l_10 radius_6">
+				<a href="javascript:void(0)" ><label>上传相册</label> </a>
+				<form action="addPicture" method= "post" enctype="multipart/form-data" style="display:inline;">
+ 					选择照片：<input type = "file" name="uploadImage"/>
+ 					<input type="submit" value="上传照片"/>
+ 				</form><s:property value="message" />
+			</div>
 			<!-- 相册-->
 			<div class="w700 m5 p10 cf radius_6">
 				<label>最新相册</label>

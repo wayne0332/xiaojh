@@ -9,7 +9,7 @@ function getTalkings(id,name)
 		alert ("您的浏览器不支持AJAX！");
 		return;
 	}
-	document.getElementById("loading").style.display = "block";
+	document.getElementById("talkingloading").style.display = "block";
 	document.getElementById("more").style.display = "none";
 	var url="";
 	currentPage= document.getElementById("currentPage").value;
@@ -36,7 +36,7 @@ function getTalkingsChanged()
 		}else{
 			alert("没有数据！");
 		}
-		document.getElementById("loading").style.display = "none";
+		document.getElementById("talkingloading").style.display = "none";
 		document.getElementById("more").style.display = "block";
 
 	}

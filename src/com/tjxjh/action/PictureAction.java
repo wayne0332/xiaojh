@@ -24,7 +24,7 @@ import com.tjxjh.util.FileUtil;
 import com.tjxjh.util.ImageCutAndZoom;
 
 
-@ParentPackage("struts-default")
+@ParentPackage("myPackage")
 @Namespace("/")
 public class PictureAction extends BaseAction{
 	protected final static String UPLOAD_IMAGE_PATH="/upload/images/";

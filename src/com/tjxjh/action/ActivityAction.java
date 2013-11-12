@@ -28,7 +28,7 @@ import com.tjxjh.service.TalkingService;
 import com.tjxjh.util.Auth;
 
 //已经添加拦截器
-@ParentPackage("struts-default")
+@ParentPackage("myPackage")
 @Namespace("/")
 public class ActivityAction extends BaseAction{
 	protected final static String UPLOAD_IMAGE_PATH="/upload/images/";
