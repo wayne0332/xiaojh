@@ -39,7 +39,7 @@
 							<span>
 								<s:date name="letter.datetime" format="MM/dd HH:mm" />
 								<s:a href="personalLetterInput?targetUser.id=%{userBySourceUserId.id}&targetUser.name=%{userBySourceUserId.name}">回复</s:a>
-								<s:a href="deleteLetter?letter.id=%{id}">删除</s:a>
+								<s:a href="deleteLetter?letter.id=%{letter.id}">删除</s:a>
 							</span>
 						</span> 
 					</div>

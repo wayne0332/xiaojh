@@ -151,12 +151,25 @@ public class MerchantAction extends BaseAction
 			return INPUT;
 		}
 	}
-	
+	//后台管理
 	@Action(value = "allMerchant", results = {@Result(name = SUCCESS, location = MANAGE
 			+ "allMerchant.jsp")})
 	@Auth(auths = {AuthEnum.ADMIN})
 	public String allMerchant()
 	{
+		getMerchants();//分页获取所有商家信息
+		return SUCCESS;
+	}
+	//前端用户
+	@Action(value = "merchants", results = {@Result(name = SUCCESS, location = FOREPART
+			+ "merchants.jsp")})
+	public String merchants()
+	{
+		getMerchants();//分页获取所有商家信息
+		return SUCCESS;
+	}
+
+	private void getMerchants() {
 		Page page = new Page(pageNum * Page.getDefaultPageNumber() + 1);
 		page.setCurrentPage(pageNum);
 		MerchantList merchantList = new MerchantList();
@@ -167,7 +180,6 @@ public class MerchantAction extends BaseAction
 		}
 		merchantList.setPage(merchantService.merchantNum(page));
 		getRequestMap().put("merchantList", merchantList);
-		return SUCCESS;
 	}
 	
 	@Action(value = MERCHANT_MAIN, results = {@Result(name = SUCCESS, location = FOREPART
@@ -271,6 +283,22 @@ public class MerchantAction extends BaseAction
 				merchantService.merchantNews(super.currentMerchant(), page));
 		return SUCCESS;
 	}
+	//游客、用户查看商家新闻
+	@Action(value = "newsOfMerchant", results = {@Result(name = SUCCESS, location = FOREPART
+			+ "newsOfMerchant" + JSP)})
+	public String merchantnews()
+	{
+		if(merchant==null||merchant.getId()==null){
+			return null;
+		}
+		if(page == null)
+		{
+			page = merchantService.merchantNewsPage(merchant);
+		}
+		super.getRequestMap().put("newsOfMerchant",
+				merchantService.merchantNews(merchant, page));
+		return SUCCESS;
+	}
 	
 	@Action(value = ADD_MERCHANT_NEWS, results = {
 			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = MERCHANT_NEWS),
@@ -302,17 +330,15 @@ public class MerchantAction extends BaseAction
 	}
 	
 	@Action(value = MERCHANT_NEWS_DETAILS, results = {
-			@Result(name = SUCCESS, location = FOREPART + MERCHANT_NEWS_DETAILS
+	@Result(name = SUCCESS, location = FOREPART + MERCHANT_NEWS_DETAILS
 					+ JSP),
-			@Result(name = INPUT, type = REDIRECT_ACTION, location = MERCHANT_NEWS)})
-	@Auth(auths = {AuthEnum.MERCHANT})
+	@Result(name = INPUT, type = REDIRECT_ACTION, location = MERCHANT_NEWS)})
 	public String merchantNewsDetails()
 	{
 		if(isMerchantNewsEmpty())
 		{
 			return INPUT;
 		}
-		merchantNews.setMerchant(super.currentMerchant());
 		merchantNews = merchantService.merchantNewsDetails(merchantNews);
 		return super.successOrInput(merchantNews != null);
 	}

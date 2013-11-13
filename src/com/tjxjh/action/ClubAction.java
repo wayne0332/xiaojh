@@ -156,7 +156,7 @@ public class ClubAction extends BaseAction
 	@Action(value = CLUB_MAIN, results = {
 			@Result(name = SUCCESS, location = FOREPART + CLUB_MAIN + JSP),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = UserAction.MAIN)})
-	@Auth(auths = {AuthEnum.AUTO_CLUB_MEMBER, AuthEnum.MERCHANT})
+	@Auth(auths = {AuthEnum.AUTO_CLUB_MEMBER, AuthEnum.MERCHANT, AuthEnum.NO_NEED})
 	public String clubMain()
 	{
 		if(isClubEmpty())
@@ -276,7 +276,7 @@ public class ClubAction extends BaseAction
 	
 	@Action(value = USER_ADD_CLUB, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = CLUB_MAIN, params = {
 			"club.id", "${club.id}"})})
-	@Auth(auths = {AuthEnum.CLUB_MANAGER})
+	@Auth(auths = {AuthEnum.USER})
 	public String userAddClub()
 	{
 		if(isClubEmpty())

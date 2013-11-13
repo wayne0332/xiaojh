@@ -25,6 +25,7 @@
 	
 			<div class="userHome_box w700 m5 mt30 p10 cf shadow_l_10 radius_6">
 				<label class="userBox_title w pl10 pr10 h30">江湖动态</label>
+				<span id="ajaxTalking">
 				<s:iterator value="taks" id="tak">
 					<div id="${t.id}" class="user_dongtai_div cf w700 mt10 pt10 pb15">
 						<div class="w60 h fl">
@@ -77,15 +78,15 @@
 								<a href="javascript:void(0);" onclick="deleteTalking(${t.id});">删除</a>
 								<span id="zan${t.id}"> <s:if test="t.shareDetails!=null">
 										<!-- like -->
-										<a href="javascript:void(0);">赞(${t.shareDetails.praiseCount})</a>
+										<a><font style='color:#999999;'>赞(${t.shareDetails.praiseCount})</font></a>
 									</s:if> <s:else>
-										<a href="javascript:void(0);">赞(${t.talking.shareDetails.praiseCount})</a>
+										<a><font style='color:#999999;'>赞(${t.talking.shareDetails.praiseCount})</font></a>
 									</s:else> </span>
 								<label><s:property
 										value="t.datetime.toString().substring(0,16)" /> </label>
-								<a href="javascript:void(0);">分享<s:if
-										test="t.shareDetails!=null">(${t.shareDetails.shareCount})</s:if>
-									<s:else>(${t.talking.shareDetails.shareCount})</s:else> </a>
+								<a><font style='color:#999999;'>分享<s:if
+										test="t.shareDetails!=null">(${t.shareDetails.shareCount})</font></a></s:if>
+									<s:else>(${t.talking.shareDetails.shareCount})</font></a></s:else>
 							</s:if>
 							<s:else>
 								<span id="zan${t.id}"> <s:if test="t.shareDetails!=null">
@@ -150,10 +151,16 @@
 						<!-- like end -->
 					</div>
 				</s:iterator>
+				</span>
+				<!-- END：说说 -->
 				<br> 
-				<center><a href="<%=path%>/${actionName}?user.id=${user.id}"  
-					style="font-weight:bold; color:#357B1C; font-size:12px;" target="_self">⇓更多动态</a></center>
-
+				<input type="hidden" id="currentPage" value="${page.currentPage+1}"/>
+				<input type="hidden" id="totalPageNumber" value="${page.pageNumber}"/>
+				<div id="talkingloading" style=" text-align:center;" class="mt5 none">
+					数据加载中...&nbsp;&nbsp;<img src="images/loading.gif" />
+				</div>
+				<div id="more" style=" text-align:center;"><a href="javascript:void(0);" onclick="getTalkings(${user.id},'${actionName}')" 
+					style="font-weight:bold; color:#357B1C; font-size:12px;" target="_self">⇓更多动态</a></div>
 			</div>
 			<!-- END：说说 -->
 	<script type="text/javascript">

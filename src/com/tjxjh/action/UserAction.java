@@ -45,6 +45,7 @@ import com.tjxjh.util.CodeUtil;
 @Namespace("/")
 public class UserAction extends BaseAction
 {
+	static final String MY_FOCUS = "myFocus";
 	public static final String RESET_USER_PASSWORD_INPUT = "resetUserPasswordInput";
 	static final String RESET_USER_PASSWORD = "resetUserPassword";
 	static final String FIND_USER_PASSWORD_INPUT = "findUserPasswordInput";
@@ -69,7 +70,7 @@ public class UserAction extends BaseAction
 	private static final long serialVersionUID = 7096555953593277984L;
 	// 分页信息
 	private Page page;
-	private Integer eachPageNumber = 10;
+	private Integer eachPageNumber = 8;
 	private Integer currentPage = 1;
 	private Integer totalPageNumber = 0;
 	// talking
@@ -413,7 +414,7 @@ public class UserAction extends BaseAction
 	{
 		initUserHome();
 		/************************** 指定用户说说说说 *******************************************/
-		page = talkingService.getMyPageByHql(user, 10, currentPage, 1);
+		page = talkingService.getMyPageByHql(user, eachPageNumber, currentPage, 1);
 		List<Talking> temp = talkingService.findMyTalkingByHql(page, user);
 		for(Talking t : temp)
 		{
@@ -552,7 +553,7 @@ public class UserAction extends BaseAction
 		return SUCCESS;
 	}
 	
-	@Action(value = "myFocus", results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
+	@Action(value = MY_FOCUS, results = {@Result(name = SUCCESS, location = BaseAction.FOREPART
 			+ "myFocus.jsp")})
 	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String myFocus()

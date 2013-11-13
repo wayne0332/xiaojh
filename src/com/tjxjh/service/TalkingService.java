@@ -62,11 +62,11 @@ public class TalkingService extends BaseService{
 			}
 			else if(t.getTalking()!=null){
 				temp.append("<div class='p10 mt5 user_talking_share_div cb'>");
-				temp.append("(<a href='userHome?user.id="+t.getTalking().getUser().getId()+"' class='f12 user_name_color'>"+t.getTalking().getUser().getName()+"</a>");
+				temp.append("<a href='userHome?user.id="+t.getTalking().getUser().getId()+"' class='f12 user_name_color'>"+t.getTalking().getUser().getName()+"</a>");
 				temp.append(t.getTalking().getText()+"<br />");
-				if(t.getTalking().getUrl()!=null&&t.getTalking().getUrlType().toString()=="PICTURE"){
+				if(t.getTalking().getUrl()!=null&&!t.getTalking().getUrl().trim().equals("")&&t.getTalking().getUrlType().toString()=="PICTURE"){
 					temp.append("<img src='"+t.getTalking().getUrl()+"' class='maw400 mah300' />");
-				}else if(t.getTalking().getUrl()!=null&&t.getTalking().getUrlType().toString()=="VIDEO"){
+				}else if(t.getTalking().getUrl()!=null&&!t.getTalking().getUrl().trim().equals("")&&t.getTalking().getUrlType().toString()=="VIDEO"){
 					temp.append(t.getTalking().getUrl().replace("400", "300").replace("480", "360"));
 				}
 
@@ -80,20 +80,19 @@ public class TalkingService extends BaseService{
 				temp.append("<a href='javascript:void(0);' onclick='deleteTalking("+t.getId()+");'>删除</a>");
 				temp.append("<span id='zan"+t.getId()+"'>"); 
 				if(t.getShareDetails()!=null){
-					temp.append("<!-- like --><a href='javascript:void(0);'>赞("+t.getShareDetails().getPraiseCount()+")</a>");
+					temp.append("<!-- like --><a><font style='color:#999999;'>赞("+t.getShareDetails().getPraiseCount()+")</font></a>");
 				}else{
-					temp.append("<a href='javascript:void(0);'>赞("+t.getTalking().getShareDetails().getPraiseCount()+")</a>");
+					temp.append("<a><font style='color:#999999;'>赞("+t.getTalking().getShareDetails().getPraiseCount()+")</font></a>");
 				}
 						
 				temp.append("</span>");
 				temp.append("<label>"+t.getDatetime().toString().substring(0,16)+"</label>");
-				temp.append("<a href='javascript:void(0);'>分享");
+				temp.append("<a><font style='color:#999999;'>分享");
 				if(t.getShareDetails()!=null){
-					temp.append("("+t.getShareDetails().getShareCount()+")");
+					temp.append("("+t.getShareDetails().getShareCount()+")</font></a>");
 				}else{
-					temp.append("("+t.getTalking().getShareDetails().getShareCount()+")");
+					temp.append("("+t.getTalking().getShareDetails().getShareCount()+")</font></a>");
 				}
-				temp.append("</a>");
 			}else{
 				temp.append("<span id='zan"+t.getId()+"'>");
 				if(t.getShareDetails()!=null){
