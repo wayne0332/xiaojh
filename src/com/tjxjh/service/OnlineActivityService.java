@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.struts2.ServletActionContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,6 +18,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.tjxjh.enumeration.OnlineActivityStatus;
 import com.tjxjh.enumeration.TalkingUrlType;
 import com.tjxjh.enumeration.UserStatus;
+import com.tjxjh.po.Activity;
 import com.tjxjh.po.OnlineActivity;
 import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
@@ -22,6 +26,7 @@ import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
 import com.tjxjh.util.DeleteSource;
 import com.tjxjh.util.FileUtil;
+import com.tjxjh.util.GetRequsetResponse;
 import com.tjxjh.util.ImageCutAndZoom;
 
 import cn.cafebabe.autodao.pojo.Page;
@@ -356,7 +361,50 @@ public class OnlineActivityService extends BaseService{
 //	public void setTalkingService(TalkingService talkingService) {
 //		this.talkingService = talkingService;
 //	}
+	public Integer getCanyuCookie(OnlineActivity a){
+		HttpServletRequest request=GetRequsetResponse.getRequest();
+		Cookie allCookie[]= request.getCookies();
 
+		if(allCookie!=null&&allCookie.length!=0)
+		 {
+		     for(int i=0;i<allCookie.length;i++)
+		     {
+		          String keyname= allCookie[i].getName();
+		          if(("onlinecanyu"+a.getId()).equals(keyname))
+		          {
+					  return -1;
+		          }
+		         
+		      }
+		 }
+		return 0;
+	}
+	public void deleteCnayuCookie(OnlineActivity tak){
+		HttpServletRequest request=GetRequsetResponse.getRequest();
+		Cookie allCookie[]= request.getCookies();
+		
+		if(allCookie!=null&&allCookie.length!=0)
+		 {
+		     for(int i=0;i<allCookie.length;i++)
+		     {
+		          String keyname= allCookie[i].getName();
+		          if(("onlinecanyu"+tak.getId()).equals(keyname))
+		          {
+		        	  HttpServletResponse response=GetRequsetResponse.getResponse();
+		        	  allCookie[i].setValue(null);
+		        	  allCookie[i].setMaxAge(0);
+		        	  response.addCookie(allCookie[i]);
+		          }
+		         
+		      }
+		 }
+	}
+	public void addCanyuCookie(OnlineActivity tak){
+		Cookie myCookie=new Cookie("onlinecanyu"+tak.getId(),"onlinecanyu"+tak.getId());
+		myCookie.setMaxAge(60*60*24*7);
+		HttpServletResponse response=GetRequsetResponse.getResponse();
+		response.addCookie(myCookie);
+	}
 
 	public TalkingService getTalkingService() {
 		return talkingService;

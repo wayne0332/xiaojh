@@ -58,7 +58,10 @@
 							href="<%=path %>/preShareTalking?talking.id=${talking.id}">分享</a>
 							<span id="zan${talking.id}"> <a href="javascript:void(0);"
 								onclick="zanTalking(${talking.id});">赞(${talking.shareDetails.praiseCount})</a>
-						</span><a href="#">我要参与</a></li>
+						<span id="onlinecanyu${id}"> 
+						<a href="javascript:void(0);" onclick="onlinecanyu(${id});">
+							我要参与(${participantCount})</a>
+						</span>
 						<s:if test="actionName.equals('userOnlineActivity')">
 							<a href="preModifyOnlineActivity?onlineactivity.id=${id}">删除</a>
 							<a href="deleteOnlineActivity?onlineactivity.id=${id}">修改</a>

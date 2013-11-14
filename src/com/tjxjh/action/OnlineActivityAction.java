@@ -1,6 +1,7 @@
 package com.tjxjh.action;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import com.tjxjh.service.MerchantService;
 import com.tjxjh.service.OnlineActivityService;
 import com.tjxjh.service.TalkingService;
 import com.tjxjh.util.Auth;
+import com.tjxjh.util.GetRequsetResponse;
 
 //已经添加拦截器
 @ParentPackage("myPackage")
@@ -216,7 +218,43 @@ public class OnlineActivityAction extends BaseAction{
 	private void pageAndoacs() {
 		page=onlineActivityService.getOneOnlineActivityPageByHql(eachPageNumber,currentPage,totalPageNumber,club,merchant,user);
 		oacs=onlineActivityService.findOneClubOnlineActivityByHql(page,club,merchant,user);
-	}	
+	}
+	@Action(value = "onlineCanyu", results = {
+	})
+	public String canyu()
+	{
+		PrintWriter out =GetRequsetResponse.getAjaxPrintWriter();
+		if(onlineActivityService.getCanyuCookie(onlineactivity)==-1){
+			out.print(-1);
+			out.flush();
+			out.close();
+			return null;
+		}
+		onlineactivity=onlineActivityService.findById(onlineactivity.getId());
+		int temp=onlineactivity.getParticipantCount()+1;
+		onlineactivity.setParticipantCount(temp);
+		onlineActivityService.update(onlineactivity,"id");
+		onlineActivityService.addCanyuCookie(onlineactivity);
+		out.print(temp);
+		out.flush();
+		out.close();
+		return null;
+	}
+	@Action(value = "deleteOnlineCanyu", results = {
+	})
+	public String deleteCanyu()
+	{
+		PrintWriter out =GetRequsetResponse.getAjaxPrintWriter();
+		onlineactivity=onlineActivityService.findById(onlineactivity.getId());
+		int temp=onlineactivity.getParticipantCount()-1;
+		onlineactivity.setParticipantCount(temp);
+		onlineActivityService.update(onlineactivity,"id");
+		onlineActivityService.deleteCnayuCookie(onlineactivity);
+		out.print(temp);
+		out.flush();
+		out.close();
+		return null;
+	}
 	public File getUploadImage() {
 		return uploadImage;
 	}

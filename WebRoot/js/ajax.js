@@ -72,6 +72,76 @@ function deleteTalkingChanged()
 
 	}
 }
+/***************************线上活动参与***********************************/
+var onlinecanyuid;
+var onlineactivityid;
+function onlinecanyu(id)
+{ 
+	xmlHttp=GetXmlHttpObject();
+	if (xmlHttp==null)
+	{
+		alert ("您的浏览器不支持AJAX！");
+		return;
+	} 
+	
+	onlinecanyuid="onlinecanyu"+id;
+	onlineactivityid=id;
+	var url="onlineCanyu?onlineactivity.id="+id;
+	xmlHttp.onreadystatechange=onlinecanyuChanged;
+	xmlHttp.open("GET",url,true);
+	xmlHttp.send(null);
+}
+
+function onlinecanyuChanged()
+{ 
+	if (xmlHttp.readyState==4)
+	{ 
+		var res=xmlHttp.responseText;
+		if(res=="-1"){
+			alert ("你已点击过！");
+		}
+		else if(res!="-2"){
+			document.getElementById(onlinecanyuid).innerHTML="<a href='javascript:void(0);' onclick='deleteOnlineCanyu("+
+			onlineactivityid+");' style='text-decoration:none;'>取消参与("+res+")</a>";
+		}else{
+			alert("网络忙，请稍后再试！");
+		}
+
+	}
+}
+function deleteOnlineCanyu(id)
+{ 
+	xmlHttp=GetXmlHttpObject();
+	if (xmlHttp==null)
+	{
+		alert ("您的浏览器不支持AJAX！");
+		return;
+	} 
+	
+	onlinecanyuid="onlinecanyu"+id;
+	onlineactivityid=id;
+	var url="deleteOnlineCanyu?onlineactivity.id="+id;
+	xmlHttp.onreadystatechange=deleteOnlineCanyuChanged;
+	xmlHttp.open("GET",url,true);
+	xmlHttp.send(null);
+}
+
+function deleteOnlineCanyuChanged()
+{ 
+	if (xmlHttp.readyState==4)
+	{ 
+		var res=xmlHttp.responseText;
+		if(res!="-2"){
+			document.getElementById(onlinecanyuid).innerHTML="<a href='javascript:void(0);' onclick='onlinecanyu("+
+			onlineactivityid+");' style='text-decoration:none;'>我要参与("+res+")</a>";
+		}else{
+			alert("网络忙，请稍后再试！");
+		}
+
+	}
+}
+
+/**************************END:参与********************************/
 /***************************参与***********************************/
 var canyuid;
 var activityid;
