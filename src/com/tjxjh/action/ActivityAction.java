@@ -285,13 +285,14 @@ public class ActivityAction extends BaseAction{
 				return null;
 			}
 			activity=activityService.findById(activity.getId());
-			activity.setParticipantCount(activity.getParticipantCount()+1);
+			int temp=activity.getParticipantCount()+1;
+			activity.setParticipantCount(temp);
 			activityService.update(activity);
 			activityService.addCanyuCookie(activity);
-				out.print(activity.getParticipantCount());
-				out.flush();
-				out.close();
-				return null;
+			out.print(temp);
+			out.flush();
+			out.close();
+			return null;
 		}
 		@Action(value = "deleteCanyu", results = {
 		})
@@ -299,12 +300,13 @@ public class ActivityAction extends BaseAction{
 		{
 			PrintWriter out =GetRequsetResponse.getAjaxPrintWriter();
 			activity=activityService.findById(activity.getId());
-			activity.setParticipantCount(activity.getParticipantCount()-1);
+			int temp=activity.getParticipantCount()-1;
+			activity.setParticipantCount(temp);
 			activityService.update(activity);
 			activityService.deleteCnayuCookie(activity);
-				out.print(activity.getParticipantCount());
-				out.flush();
-				out.close();
+			out.print(temp);
+			out.flush();
+			out.close();
 				return null;
 		}
 	public File getUploadImage() {

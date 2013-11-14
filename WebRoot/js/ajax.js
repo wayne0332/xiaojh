@@ -118,7 +118,7 @@ function deleteCanyu(id)
 		return;
 	} 
 	
-	canyuid="zan"+id;
+	canyuid="canyu"+id;
 	activityid=id;
 	var url="deleteCanyu?activity.id="+id;
 	xmlHttp.onreadystatechange=deleteCanyuChanged;
@@ -132,7 +132,7 @@ function deleteCanyuChanged()
 	{ 
 		var res=xmlHttp.responseText;
 		if(res!="-2"){
-			document.getElementById(zanspanid).innerHTML="<a href='javascript:void(0);' onclick='canyu("+
+			document.getElementById(canyuid).innerHTML="<a href='javascript:void(0);' onclick='canyu("+
 			activityid+");' style='text-decoration:none;'>我要参与("+res+")</a>";
 		}else{
 			alert("网络忙，请稍后再试！");
