@@ -287,7 +287,7 @@ public class ActivityAction extends BaseAction{
 			activity=activityService.findById(activity.getId());
 			int temp=activity.getParticipantCount()+1;
 			activity.setParticipantCount(temp);
-			activityService.update(activity);
+			activityService.update(activity,"id");
 			activityService.addCanyuCookie(activity);
 			out.print(temp);
 			out.flush();
@@ -302,12 +302,12 @@ public class ActivityAction extends BaseAction{
 			activity=activityService.findById(activity.getId());
 			int temp=activity.getParticipantCount()-1;
 			activity.setParticipantCount(temp);
-			activityService.update(activity);
+			activityService.update(activity,"id");
 			activityService.deleteCnayuCookie(activity);
 			out.print(temp);
 			out.flush();
 			out.close();
-				return null;
+			return null;
 		}
 	public File getUploadImage() {
 		return uploadImage;
