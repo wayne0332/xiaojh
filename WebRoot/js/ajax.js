@@ -72,6 +72,76 @@ function deleteTalkingChanged()
 
 	}
 }
+/***************************参与***********************************/
+var canyuid;
+var activityid;
+function canyu(id)
+{ 
+	xmlHttp=GetXmlHttpObject();
+	if (xmlHttp==null)
+	{
+		alert ("您的浏览器不支持AJAX！");
+		return;
+	} 
+	
+	canyuid="canyu"+id;
+	activityid=id;
+	var url="canyu?activity.id="+id;
+	xmlHttp.onreadystatechange=canyuChanged;
+	xmlHttp.open("GET",url,true);
+	xmlHttp.send(null);
+}
+
+function canyuChanged()
+{ 
+	if (xmlHttp.readyState==4)
+	{ 
+		var res=xmlHttp.responseText;
+		if(res=="-1"){
+			alert ("你已点击过！");
+		}
+		else if(res!="-2"){
+			document.getElementById(canyuid).innerHTML="<a href='javascript:void(0);' onclick='deleteCanyu("+
+			activityid+");' style='text-decoration:none;'>取消参与("+res+")</a>";
+		}else{
+			alert("网络忙，请稍后再试！");
+		}
+
+	}
+}
+function deleteCanyu(id)
+{ 
+	xmlHttp=GetXmlHttpObject();
+	if (xmlHttp==null)
+	{
+		alert ("您的浏览器不支持AJAX！");
+		return;
+	} 
+	
+	canyuid="zan"+id;
+	activityid=id;
+	var url="deleteCanyu?activity.id="+id;
+	xmlHttp.onreadystatechange=deleteCanyuChanged;
+	xmlHttp.open("GET",url,true);
+	xmlHttp.send(null);
+}
+
+function deleteCanyuChanged()
+{ 
+	if (xmlHttp.readyState==4)
+	{ 
+		var res=xmlHttp.responseText;
+		if(res!="-2"){
+			document.getElementById(zanspanid).innerHTML="<a href='javascript:void(0);' onclick='canyu("+
+			activityid+");' style='text-decoration:none;'>我要参与("+res+")</a>";
+		}else{
+			alert("网络忙，请稍后再试！");
+		}
+
+	}
+}
+
+/**************************END:参与********************************/
 var zanspanid;
 var talkingid;
 function zanTalking(id)

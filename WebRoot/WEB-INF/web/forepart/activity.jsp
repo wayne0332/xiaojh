@@ -44,6 +44,10 @@
 			href="javascript:void(0);"
 			onclick="zanTalking(${activity.talking.id});">赞(${activity.talking.shareDetails.praiseCount})</a>
 		</span>
+		<span id="canyu${activity.id}"> <a
+			href="javascript:void(0);"
+			onclick="canyu(${activity.id});">我要参与(${activity.participantCount})</a>
+		</span>
 	</div>
 </body>
 </html>

@@ -4,7 +4,10 @@ import java.io.File;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.struts2.ServletActionContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -20,6 +23,7 @@ import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
 import com.tjxjh.util.DeleteSource;
 import com.tjxjh.util.FileUtil;
+import com.tjxjh.util.GetRequsetResponse;
 import com.tjxjh.util.ImageCutAndZoom;
 
 import cn.cafebabe.autodao.pojo.Page;
@@ -448,6 +452,51 @@ public class ActivityService extends BaseService{
 			return null;
 		}
 	}
+	public Integer getCanyuCookie(Activity a){
+		HttpServletRequest request=GetRequsetResponse.getRequest();
+		Cookie allCookie[]= request.getCookies();
+
+		if(allCookie!=null&&allCookie.length!=0)
+		 {
+		     for(int i=0;i<allCookie.length;i++)
+		     {
+		          String keyname= allCookie[i].getName();
+		          if(("canyu"+a.getId()).equals(keyname))
+		          {
+					  return -1;
+		          }
+		         
+		      }
+		 }
+		return 0;
+	}
+	public void deleteCnayuCookie(Activity tak){
+		HttpServletRequest request=GetRequsetResponse.getRequest();
+		Cookie allCookie[]= request.getCookies();
+		
+		if(allCookie!=null&&allCookie.length!=0)
+		 {
+		     for(int i=0;i<allCookie.length;i++)
+		     {
+		          String keyname= allCookie[i].getName();
+		          if(("canyu"+tak.getId()).equals(keyname))
+		          {
+		        	  HttpServletResponse response=GetRequsetResponse.getResponse();
+		        	  allCookie[i].setValue(null);
+		        	  allCookie[i].setMaxAge(0);
+		        	  response.addCookie(allCookie[i]);
+		          }
+		         
+		      }
+		 }
+	}
+	public void addCanyuCookie(Activity tak){
+		Cookie myCookie=new Cookie("canyu"+tak.getId(),"canyu"+tak.getId());
+		myCookie.setMaxAge(60*60*24*7);
+		HttpServletResponse response=GetRequsetResponse.getResponse();
+		response.addCookie(myCookie);
+	}
+	
 	public TalkingService getTalkingService() {
 		return talkingService;
 	}
