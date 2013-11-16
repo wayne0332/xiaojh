@@ -27,25 +27,49 @@
 		<jsp:include page="head.jsp" />
 
 		<div class="left_bar mt75">
-			<div class="my_info w240 h90 p5 m5 shadow_l_10 bg_box">
-				<img src="images/head/head1.jpg"
-					class="fl mt5 ml10 circle_80 shadow_l_5" />
-				<ul class="fl w135 p5 pl10 text_r">
-					<li class="w135 text_l f14"><a href="updateUserInput"><s:property
-								value="#session.user.name" /> </a></li>
-					<li><s:property value="#session.user.grade" />
-					</li>
-
-					<li><s:property value="#session.user.grade % 2000" />级</li>
-					<li><s:property
-							value="#application.schools[#session.user.school.id].name" /></li>
-					<!-- <li>凤凰社</li> -->
-				</ul>
-			</div>
+			<s:if test="#session.user != null">
+				<div class="my_info w240 h90 p5 m5 shadow_l_3 bg_box">
+					<img src="<s:property value="#session.user.portraitPath"/>"
+						class="fl mt5 ml10 circle_80 shadow_l_5" />
+					<ul class="fl w135 p5 pl10 text_r">
+						<li class="w135 text_l f14"><a href="updateUserInput"><s:property
+									value="#session.user.name" /> </a></li>
+						<li><s:property value="#session.user.grade" />
+						</li>
+						<li><s:property
+								value="#application.schools[#session.user.school.id].name" />
+						</li>
+					</ul>
+				</div>
+				<a class="sendToFrd op_btn_yellow_green hov clear_a"
+					href="myFocus?type=0&pageNum=1">给小伙伴发信息</a>
+			</s:if>
+			<s:else>
+				<div class="my_info w240 h90 p5 m5 shadow_l_3 bg_box">
+					<img src="<s:property value="#session.merchant.logoPath"/>"
+						class="fl mt5 ml10 circle_80 shadow_l_5" />
+					<ul class="fl w135 p5 pl10 text_r">
+						<li class="w135 text_l f14"><a href="updateMerchantInput"><s:property
+									value="#session.merchant.name" /> </a></li>
+						<li><s:property value="#session.merchant.type.name" />
+						</li>
+						<li><s:property
+								value="#session.merchant.business.name" />
+						</li>
+					</ul>
+				</div>
+			</s:else>
 		</div>
 
 		<div class="main cf mt75">
 			<div class="friendList cf">
+				<div>
+				<form action="searchAll" method="post" class="cf frd_form shadow_l_3">
+						<input name="searchText" type="text" class="frd_inputText" /> <input class="frd_submit hov" type="submit"
+							value="找" />
+				</form>
+			</div>
+
 
 				<div>
 					<span>朋友</span>
@@ -156,7 +180,8 @@
 								<li><s:property value="connectorName" /></li>
 								<li><s:property value="connectorPhone" /></li>
 							</ul>
-							<span class="send_msg clear_a op_btn_yellow_green"><s:property value="memberNumber" />人</span>
+							<%-- <span class="send_msg clear_a op_btn_yellow_green"><s:property value="memberNumber" />人</span> --%><!-- 人是什么玩意= =! -->
+							<a class="send_msg clear_a op_btn_yellow_green hov" href="personalLetterInput?targetUser.id=${user.id}&targetUser.name=${user.name}">发私信</a>
 							<s:if test="%{#session.user.id!=id}">
 								<span class="no_focus">
 									<s:if test="%{#session.user!=null}">

@@ -5,15 +5,15 @@
 					<li class="letter_box cf">
 						<div class="lette_box_right shadow_l_3">
 							<div>
-								<s:a href="personalLetter?letter.id=%{id}" class="showLetter">
-									<p class="letter_content">
+								<%-- <s:a href="personalLetter?letter.id=%{id}" class="showLetter"> --%>
+									<!-- <p class="letter_content"> -->
 										<s:property value="title" />
 										<s:date name="datetime" format="MM/dd HH:mm" />
-									</p>
-								</s:a>
+									<!-- </p> -->
+								<%-- </s:a> --%>
 								<p class="m10"><s:property value="text" /></p>
 							</div>
-							<div>
+							<%-- <div>
 								<span class="letter_name">
 									<span>
 										<s:a href="deleteLetter?letter.id=%{id}">删除</s:a>
@@ -22,7 +22,7 @@
 								<span class="letter_state">
 									<s:property value="status.name" />
 								</span>
-							</div>
+							</div> --%>
 						</div>
 					</li>
 				</s:iterator>

@@ -3,6 +3,8 @@ package com.tjxjh.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import cn.cafebabe.autodao.pojo.Page;
 import cn.cafebabe.websupport.service.BaseService;
@@ -16,6 +18,14 @@ public class AnnouncementService extends BaseService
 	private static final String CLUB_ANNOUNCEMENT_HQL = "from Announcement where club.id in (select club.id from ClubMember where user.id=?)",
 			ALLOW_CLUB_NULL_HQL = " or club.id=null",
 			ANNOUNCEMENT_ORDER_HQL = " order by datetime desc";
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public User clearUserAnnouncementCount(User user)
+	{
+		user = dao.findById(User.class, user.getId());
+		user.setAnnouncementCount(0);
+		return user;
+	}
 	
 	public Page clubAnnouncementsPage(User user, boolean canClubNull)
 	{

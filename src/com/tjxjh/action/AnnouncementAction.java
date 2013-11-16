@@ -74,6 +74,7 @@ public class AnnouncementAction extends BaseAction
 	@Auth(type = UserWithClubMemberAuth.class)
 	public String myAnnouncements()
 	{
+		saveUser(announcementService.clearUserAnnouncementCount(currentUser()));
 		if(page == null)
 		{
 			page = announcementService.clubAnnouncementsPage(

@@ -53,6 +53,12 @@
 			</s:else>
 		</div>
 		<div class="main mt75">
+			<div>
+				<form action="searchAll" method="post" class="cf frd_form shadow_l_3">
+						<input name="searchText" type="text" class="frd_inputText" /> <input class="frd_submit hov" type="submit"
+							value="找" />
+				</form>
+			</div>
 			<ul class="letter_list">
 				<s:iterator value="#request.receivedLetters" status="status">
 					<li class="letter_box cf">
