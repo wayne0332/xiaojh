@@ -9,11 +9,13 @@ import org.apache.struts2.convention.annotation.Result;
 
 import cn.cafebabe.autodao.pojo.Page;
 
+import com.tjxjh.annotation.Auth;
+import com.tjxjh.auth.AuthEnum;
 import com.tjxjh.po.PersonalLetter;
 import com.tjxjh.po.User;
 import com.tjxjh.service.PersonalLetterService;
 
-@ParentPackage("struts-default")
+@ParentPackage("myPackage")
 @Namespace("/")
 public class PersonalLetterAction extends BaseAction
 {
@@ -32,6 +34,7 @@ public class PersonalLetterAction extends BaseAction
 			@Result(name = SUCCESS, location = BaseAction.FOREPART
 					+ SEND_LETTER + JSP),
 			@Result(name = INPUT, location = FOREPART + "error_500.jsp")})
+	@Auth(auths = {AuthEnum.USER, AuthEnum.MERCHANT})
 	public String personalLetterInput()
 	{
 		try
@@ -57,21 +60,34 @@ public class PersonalLetterAction extends BaseAction
 	}
 	
 	@Action(value = SEND_LETTER, results = {
-			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = UserAction.MY_FOCUS , params={"type","0"}),
+			@Result(name = SUCCESS, type = REDIRECT_ACTION, location = "${#request.location}", params = {
+					"type", "0"}),
 			@Result(name = INPUT, type = REDIRECT_ACTION, location = PERSONAL_LETTER_INPUT)})
+	@Auth(auths = {AuthEnum.USER, AuthEnum.MERCHANT})
 	public String sendLetter()
 	{
+		String location = null;
+		if(currentUser() != null)
+		{
+			location = UserAction.MY_FOCUS;
+		}
+		else
+		{
+			location = PersonalLetterAction.RECEIVED_LETTERS;
+		}
+		getRequestMap().put("location", location);
 		return super.successOrInput(personalLetterService.sendLetter(letter));
 	}
 	
 	@Action(value = RECEIVED_LETTERS, results = {@Result(name = SUCCESS, location = FOREPART
 			+ "receivedLetters.jsp")})
+	@Auth(auths = {AuthEnum.USER, AuthEnum.MERCHANT})
 	public String receivedLetters()
 	{
 		// super.getRequestMap().put("noReadCount",
 		// currentUser().getReceiveLetterCount());
 		User currentUser = personalLetterService
-				.clearReceivedLettersCount(super.currentUser());
+				.clearReceivedLettersCount(currentUserOrMerchant());
 		if(page == null)
 		{
 			page = personalLetterService.receivedLettersPage(currentUser);
@@ -83,17 +99,19 @@ public class PersonalLetterAction extends BaseAction
 	
 	@Action(value = PERSONAL_LETTER, results = {@Result(name = SUCCESS, location = FOREPART
 			+ PERSONAL_LETTER + JSP)})
+	@Auth(auths = {AuthEnum.USER, AuthEnum.MERCHANT})
 	public String personalLetter()
 	{
 		letter = personalLetterService.psersonalLetter(letter,
-				super.currentUser());
+				currentUserOrMerchant());
 		return SUCCESS;
 	}
 	
 	@Action(value = DELETE_LETTER, results = {@Result(name = SUCCESS, type = REDIRECT_ACTION, location = RECEIVED_LETTERS)})
+	@Auth(auths = {AuthEnum.USER, AuthEnum.MERCHANT})
 	public String deleteLetter()
 	{
-		personalLetterService.delete(letter, super.currentUser());
+		personalLetterService.delete(letter, super.currentUserOrMerchant());
 		return SUCCESS;
 	}
 	

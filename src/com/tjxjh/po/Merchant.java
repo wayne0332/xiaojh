@@ -310,7 +310,7 @@ public class Merchant implements java.io.Serializable,Comparable<Merchant>
 		this.popularity = popularity;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id", nullable = false)
 	public User getUser()
 	{
