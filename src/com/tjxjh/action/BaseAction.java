@@ -21,7 +21,6 @@ public class BaseAction extends BaseStruts2Action
 	protected void saveUser(User user)
 	{
 		super.getSessionMap().put(USER, user);
-		throw new RuntimeException();
 	}
 	
 	protected void clearSession()
