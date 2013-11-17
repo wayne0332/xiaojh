@@ -28,18 +28,18 @@
 				
 				<div class="lette_box_right shadow_l_3">
 					<div>
-						<s:a href="personalLetter?letter.id=%{id}" class="showLetter">
+						<a href="personalLetter?letter.id=${letter.id }" class="showLetter">
 							<p class="letter_content">
 								<s:property value="letter.text" />
 							</p>
-						</s:a>
+						</a>
 					</div>
 					<div>
 						<span class="letter_name">
 							<span>
 								<s:date name="letter.datetime" format="MM/dd HH:mm" />
-								<s:a href="personalLetterInput?targetUser.id=%{userBySourceUserId.id}&targetUser.name=%{userBySourceUserId.name}">回复</s:a>
-								<s:a href="deleteLetter?letter.id=%{letter.id}">删除</s:a>
+								<a href="personalLetterInput?targetUser.id=${letter.userBySourceUserId.id}&targetUser.name=${letter.userBySourceUserId.name}">回复</a>
+								<a href="deleteLetter?letter.id=${letter.id}">删除</a>
 							</span>
 						</span> 
 					</div>

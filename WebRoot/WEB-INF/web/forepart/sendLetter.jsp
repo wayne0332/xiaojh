@@ -17,32 +17,46 @@
 
 	<div class="container cf zoom">
 		<jsp:include page="head.jsp" />
-		
+
 		<form action="sendLetter" method="post" enctype="multipart/form-data">
 			<table class="applyClubTable shadow_l_5">
 				<thead>
-					<tr><th colspan="2">发私信</th></tr>
+					<tr>
+						<th colspan="2">发私信</th>
+					</tr>
 				</thead>
 				<tbody>
 					<tr>
-						<th class=""><label>收件人：</label> </th>
-						<td class=""><label><s:property value="targetUser.name" /></label></td>
+						<th class=""><label>收件人：</label>
+						</th>
+						<td class=""><label><s:property
+									value="targetUser.name" /> </label></td>
 					</tr>
 					<tr>
 						<th><label>发件人：</label></th>
-						<td><label><s:property value="#session.user.name" /></label></td>
+						<td><label> <s:if test="#session.user.name != null">
+									<s:property value="#session.user.name" />
+								</s:if> <s:else>
+									<s:property value="#session.merchant.name" />
+								</s:else> </label></td>
 					</tr>
 					<tr>
 						<th><label>内容：</label></th>
-						<td><textarea rows="10" cols="30" name="letter.text"></textarea></td>
+						<td><textarea rows="10" cols="30" name="letter.text"></textarea>
+						</td>
 					</tr>
 					<tr>
 						<th></th>
-						<td>
-							<s:hidden name="letter.userByTargetUserId.id" value="%{targetUser.id}" />
-							<s:hidden name="letter.userBySourceUserId.id" value="%{#session.user.id}" />
-							<input type="hidden" name="letter.title">
-							<input type="submit" class="applyClubTable_submit shadow_l_5 hov" value="发送">
+						<td><s:hidden name="letter.userByTargetUserId.id"
+								value="%{targetUser.id}" /> <s:if test="#session.user != null">
+								<s:hidden name="letter.userBySourceUserId.id"
+									value="%{#session.user.id}" />
+							</s:if> <s:else>
+								<s:hidden name="letter.userBySourceUserId.id"
+									value="%{#session.merchant.user.id}" />
+							</s:else> <input type="hidden" name="letter.title"> <input
+							type="submit" class="applyClubTable_submit shadow_l_5 hov"
+							value="发送">
 						</td>
 					</tr>
 					<tr></tr>

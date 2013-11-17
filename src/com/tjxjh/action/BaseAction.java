@@ -49,4 +49,18 @@ public class BaseAction extends BaseStruts2Action
 	{
 		return (ClubMember) super.getRequestMap().get(CLUB_MEMBER);
 	}
+	
+	protected User currentUserOrMerchant()
+	{
+		User currentUser = currentUser();
+		if(currentUser == null)
+		{
+			currentUser = currentMerchant().getUser();
+		}
+		if(currentUser == null)
+		{
+			throw new RuntimeException("用户未登陆");
+		}
+		return currentUser;
+	}
 }

@@ -29,10 +29,15 @@
 			</interceptor-stack>
 		</interceptors>
 		<default-interceptor-ref name="myInterceptors" />
+		
 		<global-results>
 			<result name="login" type="redirectAction">index</result>
 			<result name="main" type="redirectAction">index</result>
 			<result name="adminLogin" type="redirectAction">index</result>
+			<result name="error">/WEB-INF/web/forepart/error_500.jsp</result>
 		</global-results>
+		<global-exception-mappings>
+			<exception-mapping result="error" exception="java.lang.Exception"/>
+		</global-exception-mappings>
 	</package>
 </struts>

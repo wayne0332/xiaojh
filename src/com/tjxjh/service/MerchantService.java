@@ -139,7 +139,7 @@ public class MerchantService extends BaseService
 		{
 			Assert.notNull(merchant.getName(), "商家登陆名不能为空");
 			return (Merchant) super.getFistObjectOfList(dao.executeHql(
-					"from Merchant where name=? and user.password=?",
+					"from Merchant user where name=? and user.password=?",
 					merchant.getName(), CodeUtil.md5(merchant.getPassword())));
 			// return super.login(md5Password(merchant));
 		}

@@ -1,6 +1,7 @@
 package com.tjxjh.action;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import com.tjxjh.po.User;
 import com.tjxjh.service.ActivityService;
 import com.tjxjh.service.TalkingService;
 import com.tjxjh.util.Auth;
+import com.tjxjh.util.GetRequsetResponse;
 
 //已经添加拦截器
 @ParentPackage("myPackage")
@@ -271,6 +273,42 @@ public class ActivityAction extends BaseAction{
 				activityService.update(activity);
 				return SUCCESS;
 			}	
+		@Action(value = "canyu", results = {
+		})
+		public String canyu()
+		{
+			PrintWriter out =GetRequsetResponse.getAjaxPrintWriter();
+			if(activityService.getCanyuCookie(activity)==-1){
+				out.print(-1);
+				out.flush();
+				out.close();
+				return null;
+			}
+			activity=activityService.findById(activity.getId());
+			int temp=activity.getParticipantCount()+1;
+			activity.setParticipantCount(temp);
+			activityService.update(activity,"id");
+			activityService.addCanyuCookie(activity);
+			out.print(temp);
+			out.flush();
+			out.close();
+			return null;
+		}
+		@Action(value = "deleteCanyu", results = {
+		})
+		public String deleteCanyu()
+		{
+			PrintWriter out =GetRequsetResponse.getAjaxPrintWriter();
+			activity=activityService.findById(activity.getId());
+			int temp=activity.getParticipantCount()-1;
+			activity.setParticipantCount(temp);
+			activityService.update(activity,"id");
+			activityService.deleteCnayuCookie(activity);
+			out.print(temp);
+			out.flush();
+			out.close();
+			return null;
+		}
 	public File getUploadImage() {
 		return uploadImage;
 	}

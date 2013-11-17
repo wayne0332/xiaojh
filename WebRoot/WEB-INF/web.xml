@@ -7,6 +7,10 @@
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/noFound.html</location>
+	</error-page>
 
 	<filter>
 		<filter-name>openSessionInViewFilter</filter-name>
@@ -52,15 +56,9 @@
 		<servlet-name>CheckEmailServlet</servlet-name>
 		<servlet-class>com.tjxjh.servlet.CheckEmailServlet</servlet-class>
 	</servlet>
-	<!-- 这两个东西不用了   
-  <servlet>
-    <servlet-name>CheckClubServlet</servlet-name>
-    <servlet-class>com.tjxjh.servlet.CheckClubServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>ShowImg</servlet-name>
-    <servlet-class>com.tjxjh.servlet.ShowImg</servlet-class>
-  </servlet>-->
+	<!-- 这两个东西不用了 <servlet> <servlet-name>CheckClubServlet</servlet-name> <servlet-class>com.tjxjh.servlet.CheckClubServlet</servlet-class> 
+		</servlet> <servlet> <servlet-name>ShowImg</servlet-name> <servlet-class>com.tjxjh.servlet.ShowImg</servlet-class> 
+		</servlet> -->
 
 
 
@@ -72,13 +70,8 @@
 		<servlet-name>CheckEmailServlet</servlet-name>
 		<url-pattern>/hadEmailRegister.html</url-pattern>
 	</servlet-mapping>
-<!-- 这两个东西不用了   
-<servlet-mapping>
-    <servlet-name>CheckClubServlet</servlet-name>
-    <url-pattern>/hadClub.html</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>ShowImg</servlet-name>
-    <url-pattern>/showImg.html</url-pattern>
-  </servlet-mapping> -->
+	<!-- 这两个东西不用了 <servlet-mapping> <servlet-name>CheckClubServlet</servlet-name> 
+		<url-pattern>/hadClub.html</url-pattern> </servlet-mapping> <servlet-mapping> 
+		<servlet-name>ShowImg</servlet-name> <url-pattern>/showImg.html</url-pattern> 
+		</servlet-mapping> -->
 </web-app>
