@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib uri="/webSupportTag" prefix="w" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -39,9 +40,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	</s:iterator>
     		<tr>
     			<td colspan="7" >
-    				<span><a href="allClubNews?pageNum=<s:property value="#request.clubNewsList.page.currentPage-1" />">上一页</a></span>&nbsp;
+    				<w:page url="allClubNews"  value="#request.clubNewsList.page" />
+    				<!-- <span><a href="allClubNews?pageNum=<s:property value="#request.clubNewsList.page.currentPage-1" />">上一页</a></span>&nbsp;
 					<span><a href="allClubNews?pageNum=<s:property value="#request.clubNewsList.page.currentPage+1" />">下一页</a></span>
-					<span>共 <s:property value="#request.clubNewsList.page.pageNumber" />页</span>
+					<span>共 <s:property value="#request.clubNewsList.page.pageNumber" />页</span> -->
     			</td>
     		</tr>
     	</table>

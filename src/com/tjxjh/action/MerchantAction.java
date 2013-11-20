@@ -61,13 +61,13 @@ public class MerchantAction extends BaseAction
 	private ActivityService activityService = null;
 	private Merchant merchant = null;
 	private String[] purpose = null;
-	private Page page = null;
+	private Page page = new Page();
 	private PageController pageCtrl = null;
 	private File media = null;
 	private String mediaFileName = null;
 	private MerchantNews merchantNews = null;
 	private int type;
-	private int pageNum;
+	//private int pageNum;
 	protected File logo = null;
 	protected String logoFileName = null;
 	private List<Activity> acs = new ArrayList<Activity>();
@@ -154,7 +154,7 @@ public class MerchantAction extends BaseAction
 	//后台管理
 	@Action(value = "allMerchant", results = {@Result(name = SUCCESS, location = MANAGE
 			+ "allMerchant.jsp")})
-	@Auth(auths = {AuthEnum.ADMIN})
+	//@Auth(auths = {AuthEnum.ADMIN})
 	public String allMerchant()
 	{
 		getMerchants();//分页获取所有商家信息
@@ -170,15 +170,14 @@ public class MerchantAction extends BaseAction
 	}
 
 	private void getMerchants() {
-		Page page = new Page(pageNum * Page.getDefaultPageNumber() + 1);
-		page.setCurrentPage(pageNum);
 		MerchantList merchantList = new MerchantList();
+		merchantList.setPage(merchantService.merchantNum(page));
 		merchantList.setMerchantList(merchantService.allMerchant(page));
 		for(Merchant m : merchantList.getMerchantList())
 		{
 			m.getActivities().size();
 		}
-		merchantList.setPage(merchantService.merchantNum(page));
+		
 		getRequestMap().put("merchantList", merchantList);
 	}
 	
@@ -255,8 +254,6 @@ public class MerchantAction extends BaseAction
 	@Auth(auths = {AuthEnum.ADMIN})
 	public String allMerchantNews()
 	{
-		Page page = new Page(pageNum * Page.getDefaultPageNumber() + 1);
-		page.setCurrentPage(pageNum);
 		MerchantNewsList merchantNewsList = new MerchantNewsList();
 		merchantNewsList.setMerchantNewsList(merchantService
 				.allMerchantNews(page));
@@ -384,9 +381,7 @@ public class MerchantAction extends BaseAction
 		{
 			m = (Merchant) getSessionMap().get("merchant");
 		}
-		Page page = new Page(EACH_PAGE_NUM, pageNum * EACH_PAGE_NUM + 1);
-		page.setCurrentPage(pageNum);
-		Page itemPage = null;
+		Page itemPage = page;
 		switch(type)
 		{
 			case (1):
@@ -488,16 +483,6 @@ public class MerchantAction extends BaseAction
 	public void setType(int type)
 	{
 		this.type = type;
-	}
-	
-	public int getPageNum()
-	{
-		return pageNum;
-	}
-	
-	public void setPageNum(int pageNum)
-	{
-		this.pageNum = pageNum;
 	}
 	
 	public String getMediaFileName()

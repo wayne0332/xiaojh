@@ -7,6 +7,7 @@
 %>
 <%@taglib prefix="s" uri="/struts-tags"%>
 <%@taglib prefix="ads" uri="fineTu/ads"%>
+<%@ taglib uri="/webSupportTag" prefix="w" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
@@ -36,7 +37,7 @@
 
 			<s:property value="message" />
 
-			<s:iterator value="oacs" id="oac">
+			<s:iterator value="#request.onlineActivityList.oacs" id="oac">
 				<div
 					class="myActivity_box w700 mt15 ml5 p10 cf fl shadow_l_10 bg_fff">
 					<!--  活动 封面： -->
@@ -71,15 +72,8 @@
 			</s:iterator>
 
 			<ul class="w300 fl mt20">
-				<li class="w60 fr">共${page.pageNumber}页</li>
-				<li class="w60 fr">当前第${page.currentPage}页</li>
-				<li class="w60 fl"><a
-					href="<%=path%>/${actionName}?condition=${condition}&currentPage=${page.currentPage-1}&totalPageNumber=${page.pageNumber}&club.id=${club.id}&merchant.id=${merchant.id}"
-					target="_self">上一页</a>
-				</li>
-				<li class="w60 fl"><a
-					href="<%=path%>/${actionName}?condition=${condition}&currentPage=${page.currentPage+1}&totalPageNumber=${page.pageNumber}&club.id=${club.id}&merchant.id=${merchant.id}"
-					target="_self">下一页</a></li>
+				<w:page url="%{actionName}?condition=%{condition}&user.id=%{user.id}&club.id=%{club.id}&merchant.id=%{merchant.id}"  value="#request.onlineActivityList.page" />
+			
 			</ul>
 		</div>
 		<ul class="left_bar fl cf mt75 pt50">

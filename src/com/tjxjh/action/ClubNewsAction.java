@@ -48,11 +48,11 @@ public class ClubNewsAction extends BaseAction{
 	@Resource
 	private TalkingService talkingService = null;
 	private String message;//提示信息
-	private Page page;
+	private Page page=new Page();
 	private int pageNum;
 	private Integer eachPageNumber=8;
-	private Integer currentPage=1;
-	private Integer totalPageNumber=0;
+	//private Integer currentPage=1;
+	//private Integer totalPageNumber=0;
 	User user=new User();
 	private String actionName;
 	/**
@@ -86,8 +86,7 @@ public class ClubNewsAction extends BaseAction{
 	@Action(value = "allClubNews", results = {
 	@Result(name = SUCCESS,location = MANAGE+"allClubNews.jsp")})
 	public String allClubNews(){
-		Page page = new Page(pageNum*Page.getDefaultPageNumber()+1);
-		page.setCurrentPage(pageNum);
+		
 		ClubNewsList clubNewsList = new ClubNewsList();
 		clubNewsList.setClubNewsList(clubNewsService.allClubNews(page));
 		clubNewsList.setPage(clubNewsService.clubNewsNum(page));
@@ -103,8 +102,13 @@ public class ClubNewsAction extends BaseAction{
 	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String findMyClubNews(){
 		user=Auth.getUserFromSession();
-		page=clubNewsService.getMyPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
+		ClubNewsList clubNewsList=new ClubNewsList();
+		page=clubNewsService.getMyPageByHql(user,eachPageNumber,page.getCurrentPage(),page.getPageNumber());
 		cns=clubNewsService.findMyClubNewsByHql(page,user);
+		clubNewsList.setPage(page);
+		clubNewsList.setClubNewsList(cns);
+		
+		getRequestMap().put("clubNewsList",clubNewsList);
 		actionName="myClubNews";
 		return SUCCESS;
 		
@@ -116,8 +120,12 @@ public class ClubNewsAction extends BaseAction{
 			if(club==null||club.getId()==null){
 				club=Auth.getCluFromSession ();
 			}
-			page=clubNewsService.getOneClubPageByHql(eachPageNumber,currentPage,club,totalPageNumber);
+			ClubNewsList clubNewsList=new ClubNewsList();
+			page=clubNewsService.getOneClubPageByHql(eachPageNumber,page.getCurrentPage(),club,page.getPageNumber());
 			cns=clubNewsService.findOneClubNewsByHql(page,club);
+			clubNewsList.setPage(page);
+			clubNewsList.setClubNewsList(cns);
+			getRequestMap().put("clubNewsList",clubNewsList);
 			actionName="oneClubNews";
 			return SUCCESS;
 			
@@ -262,18 +270,6 @@ public class ClubNewsAction extends BaseAction{
 	}
 	public void setEachPageNumber(Integer eachPageNumber) {
 		this.eachPageNumber = eachPageNumber;
-	}
-	public Integer getCurrentPage() {
-		return currentPage;
-	}
-	public void setCurrentPage(Integer currentPage) {
-		this.currentPage = currentPage;
-	}
-	public Integer getTotalPageNumber() {
-		return totalPageNumber;
-	}
-	public void setTotalPageNumber(Integer totalPageNumber) {
-		this.totalPageNumber = totalPageNumber;
 	}
 
 	public File getUploadVideo() {

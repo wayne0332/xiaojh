@@ -22,6 +22,7 @@ import com.tjxjh.po.Merchant;
 import com.tjxjh.po.OnlineActivity;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
+import com.tjxjh.pojo.OnlineActivityList;
 import com.tjxjh.service.ClubService;
 import com.tjxjh.service.MerchantService;
 import com.tjxjh.service.OnlineActivityService;
@@ -57,10 +58,9 @@ public class OnlineActivityAction extends BaseAction{
 	private ClubService ClubService=null;
 	private String message;//提示信息
 	
-	private Page page;
+	private Page page=new Page();
 	private Integer eachPageNumber=4;
-	private Integer currentPage=1;
-	private Integer totalPageNumber=0;
+	
 	User user=new User();
 	private String actionName;
 	/**
@@ -123,8 +123,12 @@ public class OnlineActivityAction extends BaseAction{
 		@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 		public String findRelativeOnlineActivity(){
 			user=Auth.getUserFromSession();
-			page=onlineActivityService.getRelativeOnlineActivityPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
+			OnlineActivityList onlineActivityList=new OnlineActivityList();
+			page=onlineActivityService.getRelativeOnlineActivityPageByHql(user,eachPageNumber,page.getCurrentPage(),page.getPageNumber());
 			oacs=onlineActivityService.findRelativeOnlineActivityByHql(page,user);
+			onlineActivityList.setPage(page);
+			onlineActivityList.setOacs(oacs);
+			getRequestMap().put("onlineActivityList", onlineActivityList);
 			actionName="relativeOnlineActivity";
 			return SUCCESS;	
 		}		
@@ -216,8 +220,13 @@ public class OnlineActivityAction extends BaseAction{
 	    	
 		
 	private void pageAndoacs() {
-		page=onlineActivityService.getOneOnlineActivityPageByHql(eachPageNumber,currentPage,totalPageNumber,club,merchant,user);
+		OnlineActivityList onlineActivityList=new OnlineActivityList();
+		page=onlineActivityService.getOneOnlineActivityPageByHql(eachPageNumber,page.getCurrentPage(),page.getPageNumber(),club,merchant,user);
 		oacs=onlineActivityService.findOneClubOnlineActivityByHql(page,club,merchant,user);
+		
+		onlineActivityList.setPage(page);
+		onlineActivityList.setOacs(oacs);
+		getRequestMap().put("onlineActivityList", onlineActivityList);
 	}
 	@Action(value = "onlineCanyu", results = {
 	})
@@ -321,18 +330,7 @@ public class OnlineActivityAction extends BaseAction{
 	public void setEachPageNumber(Integer eachPageNumber) {
 		this.eachPageNumber = eachPageNumber;
 	}
-	public Integer getCurrentPage() {
-		return currentPage;
-	}
-	public void setCurrentPage(Integer currentPage) {
-		this.currentPage = currentPage;
-	}
-	public Integer getTotalPageNumber() {
-		return totalPageNumber;
-	}
-	public void setTotalPageNumber(Integer totalPageNumber) {
-		this.totalPageNumber = totalPageNumber;
-	}
+	
 	public User getUser() {
 		return user;
 	}

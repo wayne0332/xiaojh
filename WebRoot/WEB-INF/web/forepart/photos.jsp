@@ -7,6 +7,7 @@
 %>
 <%@taglib prefix="s" uri="/struts-tags"%>
 <!-- <%@ taglib prefix="sd" uri="/struts-dojo-tags" %> -->
+<%@ taglib uri="/webSupportTag" prefix="w" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
@@ -33,7 +34,7 @@
 				window.location = "<%=path%>/${actionName}?currentPage=${page.currentPage-1}&totalPageNumber=${page.pageNumber}";
 			</script>
 		</s:if>
-		<s:iterator value="pics">
+		<s:iterator value="#request.pictureList.pics">
 			<span style="display: inline-block;"> <a
 				href="<s:property  value="path.replace('st_', '')" />"
 				target="_blank"><img src="${path}" /> </a> <br />
@@ -44,11 +45,9 @@
 			</span>
 		</s:iterator>
 
-		<br /> 当前第${page.currentPage}页&nbsp;共${page.pageNumber}页 <a
-			href="<%=path%>/${actionName}?currentPage=${page.currentPage-1}&totalPageNumber=${page.pageNumber}"
-			target="_self">上一页</a>&nbsp; <a
-			href="<%=path%>/${actionName}?currentPage=${page.currentPage+1}&totalPageNumber=${page.pageNumber}"
-			target="_self">下一页</a>
+		<br />
+		<w:page url="%{actionName}"  value="#request.pictureList.page" />
+		
 	</div>
 
 </body>

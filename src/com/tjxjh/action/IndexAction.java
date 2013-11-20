@@ -16,6 +16,7 @@ import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.School;
 import com.tjxjh.po.User;
+import com.tjxjh.pojo.ClubList;
 import com.tjxjh.pojo.IndexClub;
 import com.tjxjh.pojo.IndexMerchant;
 import com.tjxjh.service.ActivityService;
@@ -43,10 +44,10 @@ public class IndexAction extends BaseAction
 	@Resource
 	private CommonService commonService = null;
 	// 分页
-	Page page = null;
-	private Integer eachPageNumber = 8;
-	private Integer currentPage = 1;
-	private Integer totalPageNumber = 0;
+	Page page = new Page();
+	private Integer eachPageNumber = 2;
+	//private Integer currentPage = 1;
+	//private Integer totalPageNumber = 0;
 	List<Club> clubs = null;
 	List<IndexClub> ics = new ArrayList<IndexClub>();
 	List<IndexMerchant> ims = new ArrayList<IndexMerchant>();
@@ -87,18 +88,22 @@ public class IndexAction extends BaseAction
 			school = user.getSchool();
 		}
 		school = commonService.school(school.getId());
+		ClubList clubList=new ClubList();
 		if(clubType != null && !clubType.trim().equals(""))
 		{
 			page = clubService.findSchoolClubPageByType(eachPageNumber,
-					currentPage, totalPageNumber, school, clubType);
+					page.getCurrentPage(), page.getPageNumber(), school, clubType);
 			clubs = clubService.findSchoolClubByType(school, clubType, page);
 		}
 		else
 		{
 			page = clubService.findSchoolClubPageByHet(eachPageNumber,
-					currentPage, totalPageNumber, school);
+					page.getCurrentPage(), page.getPageNumber(), school);
 			clubs = clubService.findSchoolHeatClubByHql(school, page);
 		}
+		clubList.setClubList(clubs);
+		clubList.setPage(page);
+		getRequestMap().put("clubList",clubList);
 		return SUCCESS;
 	}
 	
@@ -230,25 +235,5 @@ public class IndexAction extends BaseAction
 	public void setEachPageNumber(Integer eachPageNumber)
 	{
 		this.eachPageNumber = eachPageNumber;
-	}
-	
-	public Integer getCurrentPage()
-	{
-		return currentPage;
-	}
-	
-	public void setCurrentPage(Integer currentPage)
-	{
-		this.currentPage = currentPage;
-	}
-	
-	public Integer getTotalPageNumber()
-	{
-		return totalPageNumber;
-	}
-	
-	public void setTotalPageNumber(Integer totalPageNumber)
-	{
-		this.totalPageNumber = totalPageNumber;
 	}
 }

@@ -31,6 +31,7 @@ import com.tjxjh.po.User;
 import com.tjxjh.pojo.ClubList;
 import com.tjxjh.pojo.IndexTalking;
 import com.tjxjh.pojo.MerchantList;
+import com.tjxjh.pojo.PictureList;
 import com.tjxjh.pojo.UserList;
 import com.tjxjh.service.ClubService;
 import com.tjxjh.service.MailService;
@@ -69,10 +70,10 @@ public class UserAction extends BaseAction
 	public final static String PORTRAIT_FOLDER = "upload/portrait/";
 	private static final long serialVersionUID = 7096555953593277984L;
 	// 分页信息
-	private Page page;
+	private Page page=new Page();
 	private Integer eachPageNumber = 8;
-	private Integer currentPage = 1;
-	private Integer totalPageNumber = 0;
+	//private Integer currentPage = 1;
+	//private Integer totalPageNumber = 0;
 	// talking
 	private List<IndexTalking> taks = new ArrayList<IndexTalking>();
 	private String message = "";
@@ -99,6 +100,7 @@ public class UserAction extends BaseAction
 	protected String portraitFileName = null, code = null;
 	private Integer type = null;
 	private int pageNum;
+	private String actionName;
 	
 	@Action(value = "allUser", results = {@Result(name = SUCCESS, location = MANAGE
 			+ "allUser.jsp")})
@@ -400,9 +402,14 @@ public class UserAction extends BaseAction
 				getRequestMap().put("my", "no");
 			}
 		}
-		page = pictureService.getMyPageByHql(user, eachPageNumber, currentPage,
-				totalPageNumber);
+		PictureList pictureList=new PictureList();
+		page = pictureService.getMyPageByHql(user, eachPageNumber, page.getCurrentPage(),
+				page.getPageNumber());
 		pics = pictureService.findMyPictureByHql(page, user);
+		pictureList.setPage(page);
+		pictureList.setPics(pics);
+		getRequestMap().put("pictureList", pictureList);
+		actionName="photos";
 		return SUCCESS;
 	}
 	
@@ -414,7 +421,7 @@ public class UserAction extends BaseAction
 	{
 		initUserHome();
 		/************************** 指定用户说说说说 *******************************************/
-		page = talkingService.getMyPageByHql(user, eachPageNumber, currentPage, 1);
+		page = talkingService.getMyPageByHql(user, eachPageNumber, page.getCurrentPage(), 1);
 		List<Talking> temp = talkingService.findMyTalkingByHql(page, user);
 		for(Talking t : temp)
 		{

@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
+<%@ taglib uri="/webSupportTag" prefix="w" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -40,14 +41,14 @@
 			<!-- 说说 -->
 			<div class="userHome_box w700 m5 mt30 p10 cf shadow_l_10 radius_6">
 				<label class="userBox_title w pl10 pr10 h30">相册</label>
-				<!-- 删除相片导致相册页数与真实页数不一致 ，将当总页数减一，并跳转至上一页-->
-				<s:if test="pics.size()==0&&currentPage!=1">
+				<!-- 删除相片导致相册页数与真实页数不一致 ，将当总页数减一，并跳转至上一页
+				<s:if test="#request.pictureList.pics.size()==0&&page.currentPage!=1">
 					<script>　
 		     			alert("已经是最后一页"); 
 						window.location = "<%=path%>/${actionName}?currentPage=${page.currentPage-1}&totalPageNumber=${page.pageNumber}";
 					</script>
-				</s:if>
-				<s:iterator value="pics">
+				</s:if>-->
+				<s:iterator value="#request.pictureList.pics">
 					<span style="display: inline-block;"> <a
 						href="<s:property  value="path.replace('st_', '')" />"
 						target="_blank"><img src="${path}" /> </a> <br />
@@ -61,12 +62,8 @@
 						</s:elseif> </span>
 				</s:iterator>
 
-				<br /> 当当前第${page.currentPage}页&nbsp;共${page.pageNumber}页 <a
-					href="<%=path%>/${actionName}?currentPage=${page.currentPage-1}&totalPageNumber=${page.pageNumber}"
-					target="_self">上一页</a>&nbsp; <a
-					href="<%=path%>/${actionName}?currentPage=${page.currentPage+1}&totalPageNumber=${page.pageNumber}"
-					target="_self">下一页</a>
-
+				<br /> 
+				<w:page url="%{actionName}"  value="#request.pictureList.page" />
 			</div>
 		</div>
 		

@@ -24,12 +24,14 @@ import com.tjxjh.po.Club;
 import com.tjxjh.po.Merchant;
 import com.tjxjh.po.Talking;
 import com.tjxjh.po.User;
+import com.tjxjh.pojo.ActivityList;
+import com.tjxjh.pojo.PageController;
 import com.tjxjh.service.ActivityService;
 import com.tjxjh.service.TalkingService;
 import com.tjxjh.util.Auth;
 import com.tjxjh.util.GetRequsetResponse;
 
-//已经添加拦截器
+//已经添加拦截器,已经需该分页
 @ParentPackage("myPackage")
 @Namespace("/")
 public class ActivityAction extends BaseAction{
@@ -55,10 +57,10 @@ public class ActivityAction extends BaseAction{
 	private String message;//提示信息
 	 //活动排序条件
 	private String condition="datetime";
-	private Page page;
+	private Page page=new Page();
 	private Integer eachPageNumber=4;
-	private Integer currentPage=1;
-	private Integer totalPageNumber=0;
+	//private Integer currentPage=1;
+	//private Integer totalPageNumber=0;
 	User user=new User();
 	private String actionName;
 	private Integer flage=0;//flage=0表示查看所有所动，1表示查看尚未审核活动，2是查看已经审核的活动，3查看已经拒绝的活动
@@ -130,8 +132,14 @@ public class ActivityAction extends BaseAction{
 	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String relativeActivity(){
 		user=Auth.getUserFromSession();
-		page=activityService.getRelativeActivityPageByHql(user,eachPageNumber,currentPage,totalPageNumber);
+		ActivityList activityList=new ActivityList(); 
+		page=activityService.getRelativeActivityPageByHql(user,eachPageNumber,page.getCurrentPage(),page.getPageNumber());
+		activityList.setPage(page);
 		acs=activityService.findRelativeActivityByHql(page,user,condition);
+		activityList.setAcs(acs);
+		
+		getRequestMap().put("activityList",activityList);
+		
 		actionName="relativeActivity";
 		return SUCCESS;
 		
@@ -148,8 +156,13 @@ public class ActivityAction extends BaseAction{
 				flage=2;
 			}
 			if(merchant!=null||club!=null){
-				page=activityService.getOneClubPageByHql(eachPageNumber,currentPage,totalPageNumber,club,merchant,flage);
+				ActivityList activityList=new ActivityList(); 
+				page=activityService.getOneClubPageByHql(eachPageNumber,page.getCurrentPage(),page.getPageNumber(),club,merchant,flage);
+				activityList.setPage(page);
 				acs=activityService.getOneClubActivityByHql(page,club,merchant,condition,flage);
+				activityList.setAcs(acs);
+				
+				getRequestMap().put("activityList",activityList);
 				if(allowDelete.equals("yes")){
 					merchant=null;club=null;
 				}
@@ -165,10 +178,15 @@ public class ActivityAction extends BaseAction{
 		public String adminActivitys()
 	  	{
 			if(Auth.getUserFromSession().getStatus()==UserStatus.ADMIN){
+				ActivityList activityList=new ActivityList();
 				page=activityService.
-						getOneClubPageByHql(eachPageNumber,currentPage,totalPageNumber,club,merchant,flage);
+						getOneClubPageByHql(eachPageNumber,page.getCurrentPage(),page.getPageNumber(),club,merchant,flage);
 				acs=activityService.
 						getOneClubActivityByHql(page,club,merchant,condition,flage);
+				activityList.setPage(page);
+				activityList.setAcs(acs);
+				
+				getRequestMap().put("activityList",activityList);
 			}
 			actionName="adminActivitys";
 			return SUCCESS;
@@ -394,18 +412,7 @@ public class ActivityAction extends BaseAction{
 	public void setEachPageNumber(Integer eachPageNumber) {
 		this.eachPageNumber = eachPageNumber;
 	}
-	public Integer getCurrentPage() {
-		return currentPage;
-	}
-	public void setCurrentPage(Integer currentPage) {
-		this.currentPage = currentPage;
-	}
-	public Integer getTotalPageNumber() {
-		return totalPageNumber;
-	}
-	public void setTotalPageNumber(Integer totalPageNumber) {
-		this.totalPageNumber = totalPageNumber;
-	}
+	
 	public User getUser() {
 		return user;
 	}

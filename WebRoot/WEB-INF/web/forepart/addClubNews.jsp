@@ -33,19 +33,19 @@
 				<tbody>
 					<tr>
 						<th class=""><label>新闻名称：</label> </th>
-						<td class=""><label><input type="text" name="onlineactivity.tittle"/></label> </td>
+						<td class=""><label><input type="text" name="clubnews.tittle"/></label> </td>
 					</tr>
 					<tr>
 						<th><label>新闻内容：</label></th>
-						<td><textarea id="editor" name="onlineactivity.text" id="ncontent"></textarea></td>
+						<td><textarea id="editor" name="clubnews.text" id="ncontent"></textarea></td>
 					</tr>
 					<tr>
 						<th><label>新闻照片链接：</label></th>
-						<td><label><input type="text" name="onlineactivity.titleImgPath" /></label></td>
+						<td><label><input type="text" name="clubnews.titleImgPath" /></label></td>
 					</tr>
 					<tr>
 						<th><label>相关视频链接：</label></th>
-						<td><label><input type="text" name="onlineactivity.videoUrl" /></label></td>
+						<td><label><input type="text" name="clubnews.videoUrl" /></label></td>
 					</tr>
 					<tr>
 						<th><label>新闻照片上传：</label></th>
