@@ -484,11 +484,11 @@ public class UserAction extends BaseAction
 		}
 		getRequestMap().put("focusMerchantList", focusMerchantList);
 		/************************** 指定用户相册 *******************************************/
-		page = pictureService.getMyPageByHql(user, 1, currentPage, 1);
+		page = pictureService.getMyPageByHql(user, 1, 1, 1);
 		pics = pictureService.findMyPictureByHql(page, user);
 		/*************************** 指定用户线上活动 *****************************************/
 		page = onlineActivityService.getOneOnlineActivityPageByHql(4,
-				currentPage, 1, null, null, user);
+				1, 1, null, null, user);
 		onlineActs = onlineActivityService.findOneClubOnlineActivityByHql(page,
 				null, null, user);
 		getRequestMap().put("onlineActs", onlineActs);
@@ -524,12 +524,12 @@ public class UserAction extends BaseAction
 		// super.getRequestMap().put("allUsers", userService.allUsers());
 		user = (User) getSessionMap().get("user");
 		/************************** 相册 *******************************************/
-		page = pictureService.getRelativeByHql(eachPageNumber, currentPage,
-				totalPageNumber);
+		page = pictureService.getRelativeByHql(eachPageNumber, 1,
+				0);
 		pics = pictureService.findRelativePictureByHql(page);
 		/************************* 相关说说 *******************************************/
 		page = talkingService.getRelativePageByHql(user, eachPageNumber,
-				currentPage, 1);
+				1, 1);
 		List<Talking> temp = talkingService
 				.findRelativeTalkingByHql(page, user);
 		for(Talking t : temp)
@@ -709,26 +709,6 @@ public class UserAction extends BaseAction
 	public void setEachPageNumber(Integer eachPageNumber)
 	{
 		this.eachPageNumber = eachPageNumber;
-	}
-	
-	public Integer getCurrentPage()
-	{
-		return currentPage;
-	}
-	
-	public void setCurrentPage(Integer currentPage)
-	{
-		this.currentPage = currentPage;
-	}
-	
-	public Integer getTotalPageNumber()
-	{
-		return totalPageNumber;
-	}
-	
-	public void setTotalPageNumber(Integer totalPageNumber)
-	{
-		this.totalPageNumber = totalPageNumber;
 	}
 	
 	public List<IndexTalking> getTaks()
