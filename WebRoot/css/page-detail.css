@@ -1,0 +1,17 @@
+.dt_body		{ margin:0 0 0 -10px; padding-top:70px; }
+.dt_sidebar		{ float:left; margin:0 0 0 10px; width:290px; }
+.dt_main		{ float:left; margin:0 0 0 10px; width:700px; }
+.card			{ margin-bottom:10px; background-color: #fff; padding:10px 0; }
+
+.dt_main h1					{ display: block; margin:0 10px 10px 10px; font:32px/36px "Microsoft Yahei"; }
+.dt_main .content .coverImg			{ margin:0 10px; }
+.dt_main .content .coverImg > img	{ display:block; width:100%; }
+.dt_main .content .video	{ margin:0 10px 10px 10px; }
+.dt_main .content embed		{ width:100%; }
+
+.dt_sidebar	.acti-info li	{ margin:0 10px; }
+.dt_sidebar	.status			{ display: block; height:30px; line-height:30px; text-align:center; color:#fff; font-size:14px; text-shadow:1px 1px 0px #bbb; }
+.dt_sidebar	.ongoing		{ background-color:#00ff80; }
+.dt_sidebar .at-school,.dt_sidebar .join-count	{ display: block; margin:6px 0 4px 0; float:left; width:132px; height:30px; line-height:30px; text-align:center; color:#666; background-color:#eee; }
+.dt_sidebar .at-school		{ margin-right:6px; }
+.dt_sidebar .acti-info label{ color:#999; }

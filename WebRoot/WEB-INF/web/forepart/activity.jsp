@@ -7,7 +7,7 @@
 %>
 <%@taglib prefix="s" uri="/struts-tags"%>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 
@@ -17,37 +17,50 @@
 
 <link rel="stylesheet" type="text/css" href="css/base-min.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
-<link rel="stylesheet" type="text/css" href="css/page-user.css" />
+<link rel="stylesheet" type="text/css" href="css/page-detail.css" />
 
 <script type="text/javascript" src="js/ajax.js"></script>
 
 </head>
 <body>
-	<div class="div">
-		活动标题：
-		<s:property value="activity.tittle" />
-		<br> 活动 封面：<br> <img src="${activity.titleImgPath}" /><br>
-			${activity.text}
-		<br> ${activity.videoUrl}
-		<br> 活动预算资金：${activity.budget}元
-		<br> 活动组织者：${activity.organizer}
-		<br> 活动举办地点：${activity.place}
-		<br> 参与人数：${activity.participantCount}
-		<br> 活动状态：
-		<s:property value="activity.status.name" />
-		<br> 活动主办方：${activity.club.name}${activity.merchant.name}
-		<br> 来自：${activity.club.name}${activity.merchant.name}&nbsp;
-			${activity.datetime}&nbsp;
-			分享次数：${activity.talking.shareDetails.shareCount} &nbsp;
-		<a href="<%=path %>/preShareTalking?talking.id=${activity.talking.id}">分享</a>
-		<span id="zan${activity.talking.id}"> <a
-			href="javascript:void(0);"
-			onclick="zanTalking(${activity.talking.id});">赞(${activity.talking.shareDetails.praiseCount})</a>
-		</span>
-		<span id="canyu${activity.id}"> <a
-			href="javascript:void(0);"
-			onclick="canyu(${activity.id});">我要参与(${activity.participantCount})</a>
-		</span>
-	</div>
+	<div class="container">
+		<jsp:include page="head.jsp" />
+		
+		<div class="dt_body clearfix">
+			<div class="dt_main">
+				<div class="content card shadow_l_3">
+				
+					<h1><s:property value="activity.tittle" /></h1>
+					
+					<div class="video">${activity.videoUrl}</div>
+					
+					<div class="coverImg">
+						<img src="${activity.titleImgPath}" />
+					</div>
+					
+				</div>
+			</div>
+			<div class="dt_sidebar">
+				<ul class="acti-info card shadow_l_3">
+					<li><span class="status ongoing"><s:property value="activity.status.name" /></span></li>
+					<li class="clearfix">
+						<span class="at-school">${activity.place}</span>
+						<span class="join-count">${activity.participantCount}&nbsp;人参与</span>
+					</li>
+					<li>${activity.text}</li>
+					<li><label>预算：</label>${activity.budget}元</li>
+					<li><label>主办方：</label>${activity.club.name}&nbsp;${activity.merchant.name}</li>
+					<li><label>来自：</label>${activity.club.name}&nbsp;${activity.merchant.name}</li>
+					<li><div class="mt10 tr">${activity.datetime}</div></li>
+					<li class="tr">
+						<a href="<%=path %>/preShareTalking?talking.id=${activity.talking.id}">分享(${activity.talking.shareDetails.shareCount})</a>
+						<span id="zan${activity.talking.id}"><a href="javascript:void(0);" onclick="zanTalking(${activity.talking.id});">赞(${activity.talking.shareDetails.praiseCount})</a></span>
+						<span id="canyu${activity.id}"><a href="javascript:void(0);" onclick="canyu(${activity.id});">我要参与(${activity.participantCount})</a></span>
+					</li>
+				</ul>
+			</div>
+		</div>
+	
+	</div>	
 </body>
 </html>
