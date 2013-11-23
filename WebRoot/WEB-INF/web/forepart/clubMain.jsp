@@ -63,7 +63,9 @@
 				<div class="club_box1 shadow_l_3">
 					<div>
 						<img src="<s:property value="club.logoPath" />" class="logoImg" />
-						<span class="club_name"> <s:property value="club.name" />
+						<span class="club_name"> <p><s:property value="club.name" /></p>
+						<p>人气:<s:property value="club.hot()" /></p>
+						<p>知名度:${club.popularity }</p>
 						</span>
 					</div>
 					<p class="club_info">

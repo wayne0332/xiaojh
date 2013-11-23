@@ -187,7 +187,7 @@ public class Club implements java.io.Serializable,Comparable<Club>
 	@Column(name = "liveness", nullable = false, insertable = false)
 	public Integer getLiveness()
 	{
-		return this.liveness;
+		return liveness;
 	}
 	
 	public void setLiveness(Integer liveness)
@@ -380,5 +380,10 @@ public class Club implements java.io.Serializable,Comparable<Club>
 	public int compareTo(Club o) {
 		// TODO Auto-generated method stub
 		return o.getId()-this.getId();
+	}
+	
+	public Integer hot()
+	{
+		return this.liveness + this.clubMembers.size() + this.clubsForTargetClubId.size();
 	}
 }

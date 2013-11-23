@@ -19,7 +19,7 @@ import com.tjxjh.po.User;
 import com.tjxjh.service.ClubService;
 import com.tjxjh.util.StringUtil;
 
-public class AuthInterceptor extends AbstractInterceptor
+public class AuthInterceptor extends BaseInterceptor
 {
 	private static final long serialVersionUID = -1636166010472122647L;
 	// 我擦 init方法压根就取不到ServletContext 只能在listener里面往这里塞了
@@ -62,27 +62,9 @@ public class AuthInterceptor extends AbstractInterceptor
 		return ai.invoke();
 	}
 	
-	static Map<String, Object> getSessionMap()
-	{
-		return ActionContext.getContext().getSession();
-	}
-	
-	static Map<String, Object> getApplicationMap()
-	{
-		return ActionContext.getContext().getApplication();
-	}
-	
-	@SuppressWarnings("unchecked")
-	static Map<String, Object> getRequestMap()
-	{
-		return (Map<String, Object>) ActionContext.getContext().get("request");
-	}
-	
 	static ClubService getClubService(ActionInvocation ai)
 	{
-		return SpringUtil.springContext(
-				ServletActionContext.getServletContext()).getBean(
-				ClubService.class);
+		return getService(ClubService.class);
 	}
 	
 	public static class BaseAuth
