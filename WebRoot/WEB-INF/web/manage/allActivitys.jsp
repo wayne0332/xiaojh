@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib uri="/webSupportTag" prefix="w" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -33,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<td>活动热度：</td>
     			<td>操作：</td>
     		</tr>
-    		<s:iterator value="acs" id="ac">
+    		<s:iterator value="#request.activityList.acs" id="ac">
     		<tr>
     			<td><a href="activity?activity.id=${id}">${tittle}</a></td>
     			<td>${organizer}</td>
@@ -53,10 +54,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		</s:iterator>
     		<tr>
     			<td colspan="7" >
-    				<span>共${page.pageNumber}页</span><span>当前第${page.currentPage}页</span>
+    				<w:page url="%{actionName}?condition=%{condition}&club.id=%{club.id}&merchant.id=%{merchant.id}&&flage=%{flage}"  value="#request.activityList.page" />
+    				<!-- <span>共${page.pageNumber}页</span><span>当前第${page.currentPage}页</span>
     				<span><a href="${actionName}?condition=${condition}&currentPage=${page.currentPage-1}&totalPageNumber=${page.pageNumber}&flage=${flage}">上一页</a></span>&nbsp;
 					<span><a href="${actionName}?condition=${condition}&currentPage=${page.currentPage+1}&totalPageNumber=${page.pageNumber}&flage=${flage}">下一页</a></span>&nbsp;
-					
+					 -->
     			</td>
     		</tr>
     	</table>

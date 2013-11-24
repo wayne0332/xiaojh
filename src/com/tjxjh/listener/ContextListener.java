@@ -3,12 +3,14 @@ package com.tjxjh.listener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import cn.cafebabe.websupport.util.SpringUtil;
 
+import com.tjxjh.action.ClubAction;
 import com.tjxjh.enumeration.Sex;
 import com.tjxjh.enumeration.UserStatus;
 import com.tjxjh.interceptor.AuthInterceptor;
@@ -46,6 +48,9 @@ public class ContextListener implements ServletContextListener
 		// 在KeywordService里注册拦截器
 		KeywordInterceptor.registerService(SpringUtil.springContext(
 				context.getServletContext()).getBean(KeywordService.class));
+		// 记录访问过社团的用户的id
+		context.getServletContext().setAttribute(ClubAction.CLUB_VISITOR,
+				new HashMap<Integer, Set<String>>());
 	}
 	
 	private Map<Integer, School> schoolsMap(List<School> schools)

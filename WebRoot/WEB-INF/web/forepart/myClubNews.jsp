@@ -4,7 +4,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <%@taglib prefix="s" uri="/struts-tags" %>
- 
+<%@ taglib uri="/webSupportTag" prefix="w" %> 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -18,7 +18,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      	<!-- 提示信息 -->
      	<a href="<%=path %>/addClubNewsJsp">发表社团信息</a>
      	<s:property value="message"/><br/>
-     	<s:iterator value="cns" id="cn">
+     	<s:iterator value="#request.clubNewsList.clubNewsList" id="cn">
      	<div style="display: inline-block; border:1px solid;width:80%;margin:20px; overflow:hidden;">
      			 标题：<s:property value="tittle"/><br>
      			 封面：<br>
@@ -38,9 +38,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
      	</div>
      	</s:iterator>
      	<br>
-     	当前第${page.currentPage}页&nbsp;共${page.pageNumber}页
+     	<w:page url="%{actionName}?club.id=%{club.id}"  value="#request.clubNewsList.page" />
+     	<!-- 当前第${page.currentPage}页&nbsp;共${page.pageNumber}页
      	<a href="<%=path%>/${actionName}?currentPage=${page.currentPage-1}&totalPageNumber=${page.pageNumber}" target="_self">上一页</a>&nbsp; 
      	<a href="<%=path%>/${actionName}?currentPage=${page.currentPage+1}&totalPageNumber=${page.pageNumber}" target="_self">下一页</a>
+     	 -->
      </div>
   </body>
 </html>

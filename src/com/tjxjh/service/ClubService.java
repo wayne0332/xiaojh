@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.cafebabe.autodao.pojo.Page;
 import cn.cafebabe.websupport.service.BaseService;
 
+import com.tjxjh.annotation.AddClubPopularity;
 import com.tjxjh.enumeration.ClubMemberRole;
 import com.tjxjh.enumeration.ClubMemberSource;
 import com.tjxjh.enumeration.ClubMemberStatus;
@@ -650,5 +651,16 @@ public class ClubService extends BaseService
 	{
 		UserService.savePortrait(club.getLogoPath(), logo, 280);
 		super.update(club, "id");
+	}
+	
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void addPopularity(Club club, int count)
+	{
+		count = count < AddClubPopularity.MIN_COUNT ? AddClubPopularity.MIN_COUNT
+				: count > AddClubPopularity.MAX_COUNT ? AddClubPopularity.MAX_COUNT
+						: count;
+		dao.executeUpdateHql(
+				"update Club set popularity=popularity+1 where id=?",
+				club.getId());
 	}
 }

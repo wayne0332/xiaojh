@@ -17,6 +17,7 @@ import cn.cafebabe.autodao.pojo.Page;
 import com.tjxjh.auth.AuthEnum;
 import com.tjxjh.po.Picture;
 import com.tjxjh.po.User;
+import com.tjxjh.pojo.PictureList;
 import com.tjxjh.service.PictureService;
 import com.tjxjh.service.UserService;
 import com.tjxjh.util.Auth;
@@ -35,10 +36,8 @@ public class PictureAction extends BaseAction{
 	private PictureService pictureService = null;
 	private Picture picture=new Picture();
 	private String message;//提示信息
-	private Page page;
-	private Integer eachPageNumber=12;
-	private Integer currentPage=1;
-	private Integer totalPageNumber=0;
+	private Page page=new Page();
+	private Integer eachPageNumber=2;
 	User user=new User();
 	private String actionName;
 	private List<Picture> pics=new ArrayList<Picture>();
@@ -110,8 +109,12 @@ public class PictureAction extends BaseAction{
 	@Action(value = "findAllPicture", results = {
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "photos.jsp")})
 	public String findAllPicture(){
-		page=pictureService.getAllPageByHql(eachPageNumber,currentPage,totalPageNumber);
+		PictureList pictureList=new PictureList();
+		page=pictureService.getAllPageByHql(eachPageNumber,page.getCurrentPage(),page.getPageNumber());
 		pics=pictureService.findAllPictureByHql(page);
+		pictureList.setPage(page);
+		pictureList.setPics(pics);
+		getRequestMap().put("pictureList", pictureList);
 		actionName="findAllPicture";
 		return SUCCESS;
 	}
@@ -126,8 +129,12 @@ public class PictureAction extends BaseAction{
 			@Result(name = SUCCESS, location = BaseAction.FOREPART + "photos.jsp")})
 	@com.tjxjh.annotation.Auth(auths = {AuthEnum.USER})
 	public String findRelativePicture(){
-		page=pictureService.getRelativeByHql(eachPageNumber,currentPage,totalPageNumber);
+		PictureList pictureList=new PictureList();
+		page=pictureService.getRelativeByHql(eachPageNumber,page.getCurrentPage(),page.getPageNumber());
 		pics=pictureService.findRelativePictureByHql(page);
+		pictureList.setPage(page);
+		pictureList.setPics(pics);
+		getRequestMap().put("pictureList", pictureList);
 		actionName="relativePicture";
 		return SUCCESS;
 	}
@@ -217,18 +224,7 @@ public class PictureAction extends BaseAction{
 	public void setEachPageNumber(Integer eachPageNumber) {
 		this.eachPageNumber = eachPageNumber;
 	}
-	public Integer getCurrentPage() {
-		return currentPage;
-	}
-	public void setCurrentPage(Integer currentPage) {
-		this.currentPage = currentPage;
-	}
-	public Integer getTotalPageNumber() {
-		return totalPageNumber;
-	}
-	public void setTotalPageNumber(Integer totalPageNumber) {
-		this.totalPageNumber = totalPageNumber;
-	}
+	
 	public List<Picture> getPics() {
 		return pics;
 	}

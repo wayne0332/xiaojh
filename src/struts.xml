@@ -20,16 +20,19 @@
 	<package name="myPackage" extends="struts-default">
 		<interceptors>
 			<interceptor name="authInterceptor" class="com.tjxjh.interceptor.AuthInterceptor" />
-			<interceptor name="keywordnterceptor"
+			<interceptor name="keywordInterceptor"
 				class="com.tjxjh.interceptor.KeywordInterceptor" />
+			<interceptor name="clubPopularityInterceptor"
+				class="com.tjxjh.interceptor.ClubPopularityInterceptor" />
 			<interceptor-stack name="myInterceptors">
 				<interceptor-ref name="authInterceptor" />
-				<interceptor-ref name="keywordnterceptor" />
+				<interceptor-ref name="clubPopularityInterceptor" />
+				<interceptor-ref name="keywordInterceptor" />
 				<interceptor-ref name="defaultStack" />
 			</interceptor-stack>
 		</interceptors>
 		<default-interceptor-ref name="myInterceptors" />
-		
+
 		<global-results>
 			<result name="login" type="redirectAction">index</result>
 			<result name="main" type="redirectAction">index</result>
@@ -37,7 +40,7 @@
 			<result name="error">/WEB-INF/web/forepart/error_500.jsp</result>
 		</global-results>
 		<global-exception-mappings>
-			<exception-mapping result="error" exception="java.lang.Exception"/>
+			<exception-mapping result="error" exception="java.lang.Exception" />
 		</global-exception-mappings>
 	</package>
 </struts>

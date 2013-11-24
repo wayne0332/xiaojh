@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib uri="/webSupportTag" prefix="w" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -108,9 +109,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	</s:iterator>
     		<tr>
     			<td colspan="7" >
-    				<span><a href="allMerchant?pageNum=<s:property value="#request.merchantList.page.currentPage-1" />">上一页</a></span>&nbsp;
-					<span><a href="allMerchant?pageNum=<s:property value="#request.merchantList.page.currentPage+1" />">下一页</a></span>
-					<span>共 <s:property value="#request.merchantList.page.pageNumber" />页</span>
+    				<w:page url="allMerchant"  value="#request.merchantList.page" />
     			</td>
     		</tr>
     	</table>

@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ taglib uri="/struts-tags" prefix="s"%>
+<%@ taglib uri="/webSupportTag" prefix="w" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -74,7 +75,7 @@
 					value="@com.tjxjh.enumeration.ClubType@getChineseName(clubType)" />
 				<br />
 				<s:if test="clubs != null && clubs.size > 0">
-					<s:iterator value="clubs" id="ac">
+					<s:iterator value="#request.clubList.clubList" id="ac">
 						<img src="${logoPath}" width="80px" height="80px" />
 						<br />
 						<a href="clubMain?club.id=${id }">${name}</a>
@@ -89,11 +90,14 @@
 				<s:else>
 					<span>暂无此类社团</span>
 				</s:else>
-				<br /> 当前第${page.currentPage}页&nbsp;共${page.pageNumber}页 <a
+				<br /> 
+				<w:page url="school?school.id=%{school.id}&clubType=%{clubType}"  value="#request.clubList.page" />
+				
+			<!--	当前第${page.currentPage}页&nbsp;共${page.pageNumber}页 <a
 					href="<%=path%>/school?school.id=${school.id}&clubType=${clubType}&currentPage=${page.currentPage-1}&totalPageNumber=${page.pageNumber}"
 					target="_self">上一页</a>&nbsp; <a
 					href="<%=path%>/school?school.id=${school.id}&clubType=${clubType}&currentPage=${page.currentPage+1}&totalPageNumber=${page.pageNumber}"
-					target="_self">下一页</a>
+					target="_self">下一页</a>  -->
 			</div>
 		</div>
 	</div>
