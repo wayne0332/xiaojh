@@ -1,27 +1,22 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<!DOCTYPE html">
 <html>
 <head>
-<title>My JSP 'merchantMain.jsp' starting page</title>
+
+<title>校江湖 - 个人主页</title>
+
 <link rel="stylesheet" type="text/css" href="css/base-min.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
 <link rel="stylesheet" type="text/css" href="css/page-user.css" />
-
-<link rel="stylesheet" type="text/css" href="css/index_black.css" />
-
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-
 </head>
 
 <body>
 	<div class="container cf">
 		<jsp:include page="head.jsp" />
+		
 		<div class="cityMap mt75 mb50">
 			<div style="border:1px;">
 				商家名称：${merchant.name}&nbsp;&nbsp;<a
