@@ -18,7 +18,6 @@
 <link rel="stylesheet" type="text/css" href="css/base-min.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
 <link rel="stylesheet" type="text/css" href="css/page-user.css" />
-
 </head>
 <body>
 
@@ -126,13 +125,7 @@
 
 				</s:elseif>
 				<div>
-					<%-- <span><a
-						href="myFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage-1" />">上一页</a>
-					</span>&nbsp; <span><a
-						href="myFocus?type=<s:property value="type" />&pageNum=<s:property value="#request.focusList.page.currentPage+1" />">下一页</a>
-					</span> <span>共 <s:property
-							value="#request.focusList.page.pageNumber" />页</span> --%>
-					<w:page url="myFocus?type=%{type}" useSingleProperty="false" pageNumberPropertyName="pageNum" value="#request.focusList.page" />
+					 <w:page url="myFocus?type=%{type}" value="#request.focusList.page" />
 				</div>
 			</div>
 		</div>
