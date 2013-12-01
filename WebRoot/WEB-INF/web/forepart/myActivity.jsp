@@ -18,6 +18,7 @@
 <link rel="stylesheet" type="text/css" href="css/base-min.css" />
 <link rel="stylesheet" type="text/css" href="css/common.css" />
 <link rel="stylesheet" type="text/css" href="css/page-user.css" />
+<script type="text/javascript" src="js/ajax.js"></script>
 
 </head>
 
@@ -63,7 +64,8 @@
 							href="<%=path %>/preShareTalking?talking.id=${talking.id}">分享</a>
 							<span id="zan${talking.id}"> <a href="javascript:void(0);"
 								onclick="zanTalking(${talking.id});">赞(${talking.shareDetails.praiseCount})</a>
-						</span><a href="#">我要参与</a></li>
+						</span>
+						<span id="canyu${id}"><a href="javascript:void(0);" onclick="canyu(${id});">我要参与(${participantCount})</a></span></li>
 						<s:if test="allowDelete.equals('yes')">
 							<a href="<%=path%>/deleteActivity?activity.id=${id}">删除</a>
 							<a href="preModifyActivity?activity.id=${id}">修改</a>
