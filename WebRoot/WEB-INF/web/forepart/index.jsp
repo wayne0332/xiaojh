@@ -7,7 +7,7 @@
 			+ request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
 %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <title>校江湖</title>
@@ -134,81 +134,83 @@
 			</div>
 		</div>
 
+		<div class="clearfix">
+			<div class="index_sideCol w135 mt5 cf fl">
+				<img src="images/icon/shetuan_icon.png" class="w70 ml5" /><br />
 
-		<div class="index_sideCol w135 mt5 cf fl">
-			<img src="images/icon/shetuan_icon.png" class="w70 ml5" /><br />
-			
 				<s:iterator value="ics" id="cs">
-				<a href="clubMain?club.id=${club.id}" target="_blank">
-					<img src="${club.logoPath}" title="${club.name}"
+					<a href="clubMain?club.id=${club.id}" target="_blank"> <img
+						src="${club.logoPath}" title="${club.name}"
 						onmouseover="clubmouseOver(${club.id})" onmouseout="mouseOut();"
-						class="logoImg logoImgcursor mt10 ml5 shadow_l_10 radius_6" />
-				</a>
+						class="logoImg logoImgcursor mt10 ml5 shadow_l_10 radius_6" /> </a>
 				</s:iterator>
-			
-		</div>
 
-		<div class="w730 fl mt75">
-			<!-- 社团活动 -->
-			<label class="activity_title mt5 ml10 pl5 fl shadow_n_5b">社团动向</label>
-			<div class="index_update_panel">
-				<s:iterator value="ics" status="cs">
-					<div id="clubactivity${club.id}"
-						style="<s:if test="#cs.getIndex()!=0">display:none;</s:if>">
-						<s:iterator value="acs" status="child">
-							<div
-								class="index_activityBox cf m7 ml10 mr10 bg_fff shadow_l_5 radius_6">
-								<div class="fl">
-									<img src="${titleImgPath}" class="w40 h50" />
+			</div>
+
+			<div class="w730 fl mt75">
+				<!-- 社团活动 -->
+				<label class="activity_title mt5 ml10 pl5 fl shadow_n_5b">社团动向</label>
+				<div class="index_update_panel">
+					<s:iterator value="ics" status="cs">
+						<div id="clubactivity${club.id}"
+							style="<s:if test="#cs.getIndex()!=0">display:none;</s:if>">
+							<s:iterator value="acs" status="child">
+								<div
+									class="index_activityBox cf m7 ml10 mr10 bg_fff shadow_l_5 radius_6">
+									<div class="fl">
+										<img src="${titleImgPath}" class="w40 h50" />
+									</div>
+									<div class="fl">
+										标题：<a href="activity?activity.id=${id}">${tittle}</a><br />发布时间：${datetime}&nbsp;参与人数：${participantCount}
+									</div>
 								</div>
-								<div class="fl">
-									标题：<a href="activity?activity.id=${id}">${tittle}</a><br />发布时间：${datetime}&nbsp;参与人数：${participantCount}
+							</s:iterator>
+						</div>
+					</s:iterator>
+				</div>
+				<!-- End:社团活动 -->
+				<!-- 商家活动 -->
+				<label class="activity_title mt5 ml10 pr5 fl shadow_n_5b text_r">商家动向</label>
+				<div class="index_update_panel">
+					<s:iterator value="ims" status="ms">
+						<div id="merchantactivity${merchant.id}"
+							style="<s:if test="#ms.getIndex()!=0">display:none;</s:if>">
+							<s:iterator value="acs" status="child">
+								<div
+									class="index_activityBox cf m7 ml10 mr10 bg_fff shadow_l_5 radius_6">
+									<div class="fr">
+										<img src="${titleImgPath}" class="w40 h50" />
+									</div>
+									<div class="fl  ml5">
+										标题：<a href="activity?activity.id=${id}">${tittle}</a><a
+											href="merchant?merchant.id=${merchant.id}" target="_blank">${merchant.name}</a><br />
+										发布时间：${datetime}&nbsp;参与人数：${participantCount}
+									</div>
 								</div>
-							</div>
-						</s:iterator>
-					</div>
+							</s:iterator>
+						</div>
+					</s:iterator>
+				</div>
+				<!-- End:商家活动 -->
+
+
+			</div>
+
+			<div class="index_sideCol w135 mt5 cf fr">
+				<img src="images/icon/dianpu_icon.png" class="w70 fr mr5" /><br />
+				<s:iterator value="ims" id="im">
+					<a href="merchant?merchant.id=${merchant.id}" target="_blank">
+						<img src="${merchant.logoPath}"
+						onmouseover="merchantmouseOver(${merchant.id})"
+						onmouseout="mouseOut();" title="${merchant.name}"
+						class="logoImg logoImgcursor mt10 ml5 shadow_l_10 radius_6" /> </a>
 				</s:iterator>
 			</div>
-			<!-- End:社团活动 -->
-			<!-- 商家活动 -->
-			<label class="activity_title mt5 ml10 pr5 fl shadow_n_5b text_r">商家动向</label>
-			<div class="index_update_panel">
-				<s:iterator value="ims" status="ms">
-					<div id="merchantactivity${merchant.id}"
-						style="<s:if test="#ms.getIndex()!=0">display:none;</s:if>">
-						<s:iterator value="acs" status="child">
-							<div
-								class="index_activityBox cf m7 ml10 mr10 bg_fff shadow_l_5 radius_6">
-								<div class="fr">
-									<img src="${titleImgPath}" class="w40 h50" />
-								</div>
-								<div class="fl  ml5">
-									标题：<a href="activity?activity.id=${id}">${tittle}</a><a href="merchant?merchant.id=${merchant.id}" target="_blank">${merchant.name}</a><br />
-									发布时间：${datetime}&nbsp;参与人数：${participantCount}
-								</div>
-							</div>
-						</s:iterator>
-					</div>
-				</s:iterator>
-			</div>
-			<!-- End:商家活动 -->
-
-
 		</div>
-
-		<div class="index_sideCol w135 mt5 cf fr">
-			<img src="images/icon/dianpu_icon.png" class="w70 fr mr5" /><br />
-			<s:iterator value="ims" id="im">
-				<a href="merchant?merchant.id=${merchant.id}" target="_blank">
-					<img src="${merchant.logoPath}"
-					onmouseover="merchantmouseOver(${merchant.id})"
-					onmouseout="mouseOut();" title="${merchant.name}"
-					class="logoImg logoImgcursor mt10 ml5 shadow_l_10 radius_6" />
-				</a>
-			</s:iterator>
-		</div>
-
 	</div>
+
+
+	<jsp:include page="footer.jsp" />
 
 	<script type="text/javascript">
 		var coid=${ics[0].club.id};
