@@ -48,7 +48,7 @@
 					</tr>
 					<tr>
 						<th><label>Logo：</label></th>
-						<td><input type="file" name="logo">
+						<td><input type="file" name="logo" required>
 						</td>
 					</tr>
 					<tr>

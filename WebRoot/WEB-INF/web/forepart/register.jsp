@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="wst" uri="/webSupportTag"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 
@@ -59,7 +59,7 @@
 						class="input_text" />
 					</li>
 					<li><span>头像:</span> <input type="file" name="portrait"
-						class="input_file" />
+						class="input_file" required />
 					</li>
 					<li><span>电话:</span> <input type="text" name="user.phone"
 						class="input_text" />

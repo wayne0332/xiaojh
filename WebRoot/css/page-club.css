@@ -47,3 +47,9 @@
  	.club_act_info				{ position: relative; }
  	.club_act_info .share		{ display: block; position: absolute; bottom: 0px; width: 100%; height: 30px; line-height: 30px; background-color: rgba(0,0,0,0.5); text-indent: 10px; }
  	.club_act_info .share a		{ color: #fff; }
+ 	
+ 	/* */
+ 	
+ 	.h2_title				{ font-size:24px; float:left; }
+ 	.fatie					{ line-height:24px; display:block; float:left; width:70px; height:24px; background-color:#c99700; color:#fff; text-align:center; margin:6px 0 30px 30px; }
+ 	.tiezi_ul > li			{ line-height:28px; border-top:1px dashed #ddd; }
