@@ -7,17 +7,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
-    <title>My JSP 'addClubPost.jsp' starting page</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<title>My JSP 'success.jsp' starting page</title>
+<head>
+<title>校江湖 - 社团</title>
+
+<link rel="stylesheet" type="text/css" href="css/base-min.css" />
+<link rel="stylesheet" type="text/css" href="css/common.css" />
+<link rel="stylesheet" type="text/css" href="css/page-club.css" />
 	<script type="text/javascript" src="<%=path %>/editor/kindeditor.js"></script>
 	<script type="text/javascript" src="<%=path %>/editor/lang/zh_CN.js"></script>
 	<script type="text/javascript" src="<%=path %>/js/jquery-1.8.1.min.js"></script>
@@ -64,14 +59,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
 	<body>
-    	<div class="div">
-	     	<!-- 提示信息 -->
-	     	<s:property value="message"/><br/>
-		 	<form action="addClubPost?club.id=<s:property value="club.id" />" method="post" enctype="multipart/form-data">
-		 		标题:<input type="text" name="post.tittle"/><br>
-		     	帖子内容：<textarea id="editor" name="post.text" id="ncontent" style="width:100%;height:400px;"></textarea><br>
-		     	<input type="submit" value="提交"/>
-	     	</form>
-	     </div>
-	</body>
+	<div class="container clearfix">
+		<jsp:include page="head.jsp" />
+		</div>
+		<div class="clearfix">1</div>
+	<div class="div w700 mt30 bc clearfix">
+		<!-- 提示信息 -->
+		<s:property value="message" />
+		<br />
+		<h2 class="h2_title">发布帖子</h2><br><br><br>
+		<form action="addClubPost?club.id=<s:property value="club.id" />"
+			method="post" enctype="multipart/form-data">
+			标题:<input type="text" name="post.tittle" /><br> 帖子内容：
+			<textarea id="editor" name="post.text" id="ncontent"
+				style="width:100%;height:400px;"></textarea>
+			<br> <input type="submit" value="提交" class="applyClubTable_submit shadow_l_5 hov" />
+		</form>
+	</div>
+</body>
 </html>

@@ -25,12 +25,11 @@
 						class="fl mt5 ml10 circle_80 shadow_l_5" />
 					<ul class="fl w135 p5 pl10 text_r">
 						<li class="w135 text_l f14"><a href="updateUserInput"><s:property
-									value="#session.user.name" /> </a></li>
-						<li><s:property value="#session.user.grade" />
+									value="#session.user.name" /> </a>
 						</li>
+						<li><s:property value="#session.user.grade" /></li>
 						<li><s:property
-								value="#application.schools[#session.user.school.id].name" />
-						</li>
+								value="#application.schools[#session.user.school.id].name" /></li>
 					</ul>
 				</div>
 				<a class="sendToFrd op_btn_yellow_green hov clear_a"
@@ -42,21 +41,20 @@
 						class="fl mt5 ml10 circle_80 shadow_l_5" />
 					<ul class="fl w135 p5 pl10 text_r">
 						<li class="w135 text_l f14"><a href="updateMerchantInput"><s:property
-									value="#session.merchant.name" /> </a></li>
-						<li><s:property value="#session.merchant.type.name" />
+									value="#session.merchant.name" /> </a>
 						</li>
-						<li><s:property
-								value="#session.merchant.business.name" />
-						</li>
+						<li><s:property value="#session.merchant.type.name" /></li>
+						<li><s:property value="#session.merchant.business.name" /></li>
 					</ul>
 				</div>
 			</s:else>
 		</div>
 		<div class="main mt75">
-			<div>
-				<form action="searchAll" method="post" class="cf frd_form shadow_l_3">
-						<input name="searchText" type="text" class="frd_inputText" /> <input class="frd_submit hov" type="submit"
-							value="找" />
+			<div class="friendList">
+				<form action="searchAll" method="post"
+					class="cf frd_form shadow_l_3">
+					<input name="searchText" type="text" class="frd_inputText" /> <input
+						class="frd_submit hov" type="submit" value="找" />
 				</form>
 			</div>
 			<ul class="letter_list">
@@ -83,7 +81,8 @@
 									class="letter_state"> <s:property value="status.name" />
 								</span>
 							</div>
-						</div></li>
+						</div>
+					</li>
 				</s:iterator>
 			</ul>
 			<wst:page url="receivedLetters" />

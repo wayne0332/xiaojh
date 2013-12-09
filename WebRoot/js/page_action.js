@@ -9,16 +9,16 @@ $(function() {
 	mapToAdv.click(function() {
 		mapPanel.fadeOut(300);
 		mapBar.hide(300);
-		advPanel.delay(350).fadeIn(500);
+		advPanel.delay(300).fadeIn(500);
 		mapToAdv.fadeOut(300);
-		advToMap.delay(350).show(300);
+		advToMap.delay(300).show(300);
 	});
 	advToMap.click(function() {
-		mapPanel.delay(350).fadeIn(300);
-		mapBar.delay(350).fadeIn(300);
+		mapPanel.delay(300).fadeIn(300);
+		mapBar.delay(300).fadeIn(300);
 		advPanel.hide(300);
 		advToMap.fadeOut(300);
-		mapToAdv.delay(350).show(300);
+		mapToAdv.delay(300).show(300);
 	});
 });
 

@@ -50,11 +50,11 @@
 					</tr>
 					<tr>
 						<th><label>宣传照片上传：</label></th>
-						<td><input type="file" name="uploadImage" /></td>
+						<td><input type="file" name="uploadImage" required /></td>
 					</tr>
 					<tr>
 						<th><label>相关视频上传：</label></th>
-						<td><input type="file" name="uploadVideo" /></td>
+						<td><input type="file" name="uploadVideo" required /></td>
 					</tr>
 					<tr>
 						<th></th>
