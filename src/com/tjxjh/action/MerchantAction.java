@@ -49,7 +49,7 @@ public class MerchantAction extends BaseAction
 	static final String ADD_MERCHANT_NEWS_INPUT = "addMerchantNewsInput";
 	static final String MERCHANT_NEWS = "merchantNews";
 	static final String MERCHANT_MAIN = "merchantMain";
-	static final String MERCHANT= "merchant";
+	static final String MERCHANT = "merchant";
 	static final String MERCHANT_LOGIN = "merchantLogin";
 	static final String CHECK_MERCHANT = "checkMerchant";
 	static final String APPLY_MERCHANT = "applyMerchant";
@@ -61,13 +61,13 @@ public class MerchantAction extends BaseAction
 	private ActivityService activityService = null;
 	private Merchant merchant = null;
 	private String[] purpose = null;
-	private Page page = new Page();
+	private Page page = null;
 	private PageController pageCtrl = null;
 	private File media = null;
 	private String mediaFileName = null;
 	private MerchantNews merchantNews = null;
 	private int type;
-	//private int pageNum;
+	// private int pageNum;
 	protected File logo = null;
 	protected String logoFileName = null;
 	private List<Activity> acs = new ArrayList<Activity>();
@@ -151,25 +151,32 @@ public class MerchantAction extends BaseAction
 			return INPUT;
 		}
 	}
-	//后台管理
+	
+	// 后台管理
 	@Action(value = "allMerchant", results = {@Result(name = SUCCESS, location = MANAGE
 			+ "allMerchant.jsp")})
-	//@Auth(auths = {AuthEnum.ADMIN})
+	// @Auth(auths = {AuthEnum.ADMIN})
 	public String allMerchant()
 	{
-		getMerchants();//分页获取所有商家信息
+		getMerchants();// 分页获取所有商家信息
 		return SUCCESS;
 	}
-	//前端用户
+	
+	// 前端用户
 	@Action(value = "merchants", results = {@Result(name = SUCCESS, location = FOREPART
 			+ "merchants.jsp")})
 	public String merchants()
 	{
-		getMerchants();//分页获取所有商家信息
+		getMerchants();// 分页获取所有商家信息
 		return SUCCESS;
 	}
-
-	private void getMerchants() {
+	
+	private void getMerchants()
+	{
+		if(page == null)
+		{
+			page = new Page();
+		}
 		MerchantList merchantList = new MerchantList();
 		merchantList.setPage(merchantService.merchantNum(page));
 		merchantList.setMerchantList(merchantService.allMerchant(page));
@@ -177,7 +184,6 @@ public class MerchantAction extends BaseAction
 		{
 			m.getActivities().size();
 		}
-		
 		getRequestMap().put("merchantList", merchantList);
 	}
 	
@@ -192,29 +198,14 @@ public class MerchantAction extends BaseAction
 				merchantService.merchantNews(super.currentMerchant(), new Page(
 						10)));
 		/********************** CAFEBABE ***********************/
-		/********************** fineTu ***********************/
-		Page page = new Page(1 * EACH_PAGE_NUM + 1);
-		page.setEachPageNumber(EACH_PAGE_NUM);
-		page.setCurrentPage(1);
-		List<Club> focusClubList = merchantService.getFocusList(Club.class,
-				(merchant = super.currentMerchant()), page);
-		if(focusClubList.size() > 9)
-		{
-			focusClubList = focusClubList.subList(0, 9);
-		}
-		getRequestMap().put("focusClubList", focusClubList);
-		List<Club> focusMerchantList = merchantService.getFocusList(
-				Merchant.class, merchant, page);
-		if(focusMerchantList.size() > 9)
-		{
-			focusMerchantList = focusMerchantList.subList(0, 9);
-		}
-		getRequestMap().put("focusMerchantList", focusMerchantList);
+		//商家自己看的主页需要的信息再这放,什么人都能看的公共的数据放下面个方法吧...
+		merchant = super.currentMerchant();	//特殊代码...
+		merchant();
 		return SUCCESS;
 	}
 	
-	// 商家主页
-	@Action(value = "merchant", results = {@Result(name = SUCCESS, location = FOREPART
+	// 商家主页(其他人看的)
+	@Action(value = MERCHANT, results = {@Result(name = SUCCESS, location = FOREPART
 			+ MERCHANT + JSP)})
 	public String merchant()
 	{
@@ -254,6 +245,10 @@ public class MerchantAction extends BaseAction
 	@Auth(auths = {AuthEnum.ADMIN})
 	public String allMerchantNews()
 	{
+		if(page == null)
+		{
+			page = new Page();
+		}
 		MerchantNewsList merchantNewsList = new MerchantNewsList();
 		merchantNewsList.setMerchantNewsList(merchantService
 				.allMerchantNews(page));
@@ -280,12 +275,14 @@ public class MerchantAction extends BaseAction
 				merchantService.merchantNews(super.currentMerchant(), page));
 		return SUCCESS;
 	}
-	//游客、用户查看商家新闻
+	
+	// 游客、用户查看商家新闻
 	@Action(value = "newsOfMerchant", results = {@Result(name = SUCCESS, location = FOREPART
 			+ "newsOfMerchant" + JSP)})
 	public String merchantnews()
 	{
-		if(merchant==null||merchant.getId()==null){
+		if(merchant == null || merchant.getId() == null)
+		{
 			return null;
 		}
 		if(page == null)
@@ -327,9 +324,9 @@ public class MerchantAction extends BaseAction
 	}
 	
 	@Action(value = MERCHANT_NEWS_DETAILS, results = {
-	@Result(name = SUCCESS, location = FOREPART + MERCHANT_NEWS_DETAILS
+			@Result(name = SUCCESS, location = FOREPART + MERCHANT_NEWS_DETAILS
 					+ JSP),
-	@Result(name = INPUT, type = REDIRECT_ACTION, location = MERCHANT_NEWS)})
+			@Result(name = INPUT, type = REDIRECT_ACTION, location = MERCHANT_NEWS)})
 	public String merchantNewsDetails()
 	{
 		if(isMerchantNewsEmpty())
@@ -381,7 +378,7 @@ public class MerchantAction extends BaseAction
 		{
 			m = (Merchant) getSessionMap().get("merchant");
 		}
-		Page itemPage = page;
+		Page itemPage = page == null ? new Page() : page;
 		switch(type)
 		{
 			case (1):
@@ -391,7 +388,8 @@ public class MerchantAction extends BaseAction
 				List<Club> clubList = merchantService.getFocusList(Club.class,
 						m, itemPage);
 				focusClubs.setClubList(clubList);
-				pageCtrl = new PageController(itemPage.getPageNumber()*EACH_PAGE_NUM, page.getCurrentPage(), EACH_PAGE_NUM);
+				pageCtrl = new PageController(itemPage.getPageNumber()
+						* EACH_PAGE_NUM, page.getCurrentPage(), EACH_PAGE_NUM);
 				getRequestMap().put("focusList", focusClubs);
 				break;
 			case (2):
@@ -401,8 +399,9 @@ public class MerchantAction extends BaseAction
 				List<Merchant> merchantList = merchantService.getFocusList(
 						Merchant.class, m, itemPage);
 				focusMerchants.setMerchantList(merchantList);
-				pageCtrl = new PageController(itemPage.getPageNumber()*EACH_PAGE_NUM, page.getCurrentPage(), EACH_PAGE_NUM);
-				getRequestMap().put("focusList",focusMerchants);
+				pageCtrl = new PageController(itemPage.getPageNumber()
+						* EACH_PAGE_NUM, page.getCurrentPage(), EACH_PAGE_NUM);
+				getRequestMap().put("focusList", focusMerchants);
 				break;
 		}
 		return SUCCESS;

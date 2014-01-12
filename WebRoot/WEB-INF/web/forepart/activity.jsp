@@ -53,9 +53,11 @@
 					<li><label>来自：</label>${activity.club.name}&nbsp;${activity.merchant.name}</li>
 					<li><div class="mt10 tr">${activity.datetime}</div></li>
 					<li class="tr">
-						<a href="<%=path %>/preShareTalking?talking.id=${activity.talking.id}">分享(${activity.talking.shareDetails.shareCount})</a>
-						<span id="zan${activity.talking.id}"><a href="javascript:void(0);" onclick="zanTalking(${activity.talking.id});">赞(${activity.talking.shareDetails.praiseCount})</a></span>
-						<span id="canyu${activity.id}"><a href="javascript:void(0);" onclick="canyu(${activity.id});">我要参与(${activity.participantCount})</a></span>
+						<s:if test="#session.user != null">
+							<a href="<%=path %>/preShareTalking?talking.id=${activity.talking.id}">分享(${activity.talking.shareDetails.shareCount})</a>
+							<span id="zan${activity.talking.id}"><a href="javascript:void(0);" onclick="zanTalking(${activity.talking.id});">赞(${activity.talking.shareDetails.praiseCount})</a></span>
+							<span id="canyu${activity.id}"><a href="javascript:void(0);" onclick="canyu(${activity.id});">我要参与(${activity.participantCount})</a></span>
+						</s:if>
 					</li>
 				</ul>
 			</div>

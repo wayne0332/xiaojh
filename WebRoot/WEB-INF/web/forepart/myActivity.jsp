@@ -60,12 +60,16 @@
 						<li><label>参与人数：</label>${participantCount}</li>
 						<li><label>活动热度：</label>${heat}</li>
 						<li><label>分享次数：</label>${talking.shareDetails.shareCount}</li>
-						<li class="fr"><a
-							href="<%=path %>/preShareTalking?talking.id=${talking.id}">分享</a>
-							<span id="zan${talking.id}"> <a href="javascript:void(0);"
-								onclick="zanTalking(${talking.id});">赞(${talking.shareDetails.praiseCount})</a>
-						</span>
-						<span id="canyu${id}"><a href="javascript:void(0);" onclick="canyu(${id});">我要参与(${participantCount})</a></span></li>
+						<li class="fr">
+							<s:if test="#session.user != null">
+								<a
+									href="<%=path %>/preShareTalking?talking.id=${talking.id}">分享</a>
+									<span id="zan${talking.id}"> <a href="javascript:void(0);"
+										onclick="zanTalking(${talking.id});">赞(${talking.shareDetails.praiseCount})</a>
+									</span>
+									<span id="canyu${id}"><a href="javascript:void(0);" onclick="canyu(${id});">我要参与(${participantCount})</a></span>
+							</s:if>
+						</li>
 						<s:if test="allowDelete.equals('yes')">
 							<a href="<%=path%>/deleteActivity?activity.id=${id}">删除</a>
 							<a href="preModifyActivity?activity.id=${id}">修改</a>

@@ -99,7 +99,8 @@ public class TaklingAndMerchantNewsUpload
 		}
 		else
 		{
-			if(talking.getUrl() != null && !talking.getUrl().equals(""))
+			if(talking != null && talking.getUrl() != null
+					&& !talking.getUrl().equals(""))
 			{
 				TalkingUrlType type = FileUtil.testFileType(talking.getUrl());
 				if(type != null)
@@ -113,7 +114,8 @@ public class TaklingAndMerchantNewsUpload
 					return false;
 				}
 			}
-			else if(merchantNews!=null&&StringUtil.isNotEmpty(merchantNews.getUrl()))
+			else if(merchantNews != null
+					&& StringUtil.isNotEmpty(merchantNews.getUrl()))
 			{
 				TalkingUrlType type = FileUtil.testFileType(talking.getUrl());
 				if(type != null)
